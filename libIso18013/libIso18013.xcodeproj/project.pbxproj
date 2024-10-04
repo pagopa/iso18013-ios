@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A405EEE2CAFDA050069998C /* DocumentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A405EED2CAFD9FF0069998C /* DocumentError.swift */; };
+		3A405EF12CAFDACC0069998C /* DeviceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A405EF02CAFDAC70069998C /* DeviceResponse.swift */; };
+		3A652A262CAE97C700B0D6E4 /* DeviceResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A652A252CAE97C600B0D6E4 /* DeviceResponseTests.swift */; };
+		3A652A282CAE99B800B0D6E4 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A652A272CAE99B700B0D6E4 /* TestData.swift */; };
+		3A652A2A2CAE9B3400B0D6E4 /* DrivingPrivilegesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A652A292CAE9B3300B0D6E4 /* DrivingPrivilegesTests.swift */; };
+		3A652A922CAEA49A00B0D6E4 /* CBOREncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A652A912CAEA49700B0D6E4 /* CBOREncodableTests.swift */; };
 		3D14E5472CABE5C200E15A46 /* libIso18013.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D14E53C2CABE5C100E15A46 /* libIso18013.framework */; };
 		3D14E6462CAD8C0A00E15A46 /* libIso18013.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D14E6422CAD8C0A00E15A46 /* libIso18013.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3D14E6472CAD8C0A00E15A46 /* libIso18013.docc in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6432CAD8C0A00E15A46 /* libIso18013.docc */; };
@@ -44,6 +50,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A405EED2CAFD9FF0069998C /* DocumentError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentError.swift; sourceTree = "<group>"; };
+		3A405EF02CAFDAC70069998C /* DeviceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceResponse.swift; sourceTree = "<group>"; };
+		3A652A252CAE97C600B0D6E4 /* DeviceResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceResponseTests.swift; sourceTree = "<group>"; };
+		3A652A272CAE99B700B0D6E4 /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
+		3A652A292CAE9B3300B0D6E4 /* DrivingPrivilegesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingPrivilegesTests.swift; sourceTree = "<group>"; };
+		3A652A912CAEA49700B0D6E4 /* CBOREncodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBOREncodableTests.swift; sourceTree = "<group>"; };
 		3D14E53C2CABE5C100E15A46 /* libIso18013.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libIso18013.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D14E5462CABE5C200E15A46 /* libIso18013Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = libIso18013Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D14E6422CAD8C0A00E15A46 /* libIso18013.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libIso18013.h; sourceTree = "<group>"; };
@@ -90,6 +102,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A405EEF2CAFDABC0069998C /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				3A405EF02CAFDAC70069998C /* DeviceResponse.swift */,
+			);
+			path = Device;
+			sourceTree = "<group>";
+		};
+		3A405EF22CAFDE330069998C /* Documents */ = {
+			isa = PBXGroup;
+			children = (
+				3A652A272CAE99B700B0D6E4 /* TestData.swift */,
+			);
+			path = Documents;
+			sourceTree = "<group>";
+		};
 		3D14E5322CABE5C100E15A46 = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +143,7 @@
 				3D14E6642CAD8F2900E15A46 /* CBOR */,
 				3D14E68E2CAD97C900E15A46 /* Extensions */,
 				3D14E66D2CAD907800E15A46 /* Errors */,
+				3A405EEF2CAFDABC0069998C /* Device */,
 				3D14E64C2CAD8C1100E15A46 /* Document */,
 				3D14E6422CAD8C0A00E15A46 /* libIso18013.h */,
 				3D14E6432CAD8C0A00E15A46 /* libIso18013.docc */,
@@ -125,6 +154,10 @@
 		3D14E64A2CAD8C0E00E15A46 /* libIso18013Tests */ = {
 			isa = PBXGroup;
 			children = (
+				3A405EF22CAFDE330069998C /* Documents */,
+				3A652A912CAEA49700B0D6E4 /* CBOREncodableTests.swift */,
+				3A652A292CAE9B3300B0D6E4 /* DrivingPrivilegesTests.swift */,
+				3A652A252CAE97C600B0D6E4 /* DeviceResponseTests.swift */,
 				3D14E6492CAD8C0E00E15A46 /* libIso18013Tests.swift */,
 			);
 			path = libIso18013Tests;
@@ -156,6 +189,7 @@
 		3D14E66D2CAD907800E15A46 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
+				3A405EED2CAFD9FF0069998C /* DocumentError.swift */,
 				3D14E66E2CAD907F00E15A46 /* Errors.swift */,
 			);
 			path = Errors;
@@ -314,11 +348,13 @@
 				3D14E6802CAD933600E15A46 /* DrivingPrivileges.swift in Sources */,
 				3D14E6472CAD8C0A00E15A46 /* libIso18013.docc in Sources */,
 				3D14E6882CAD944200E15A46 /* IssuerNameSpaces.swift in Sources */,
+				3A405EEE2CAFDA050069998C /* DocumentError.swift in Sources */,
 				3D14E6482CAD8C0A00E15A46 /* LibIso18013Utils.swift in Sources */,
 				3D14E68A2CAD947B00E15A46 /* IssuerSignedItem.swift in Sources */,
 				3D14E6722CAD915600E15A46 /* Dictionary+.swift in Sources */,
 				3D14E66C2CAD903500E15A46 /* Data+.swift in Sources */,
 				3D14E6522CAD8C9900E15A46 /* Document.swift in Sources */,
+				3A405EF12CAFDACC0069998C /* DeviceResponse.swift in Sources */,
 				3D14E67A2CAD929300E15A46 /* CBOR+.swift in Sources */,
 				3D14E6612CAD8EB800E15A46 /* CBORDecodable.swift in Sources */,
 				3D14E6842CAD937000E15A46 /* DrivingPrivilegeCode.swift in Sources */,
@@ -329,7 +365,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A652A282CAE99B800B0D6E4 /* TestData.swift in Sources */,
+				3A652A922CAEA49A00B0D6E4 /* CBOREncodableTests.swift in Sources */,
 				3D14E64B2CAD8C0E00E15A46 /* libIso18013Tests.swift in Sources */,
+				3A652A2A2CAE9B3400B0D6E4 /* DrivingPrivilegesTests.swift in Sources */,
+				3A652A262CAE97C700B0D6E4 /* DeviceResponseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
