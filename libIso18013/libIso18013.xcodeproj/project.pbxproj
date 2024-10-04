@@ -7,7 +7,52 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A405EEE2CAFDA050069998C /* DocumentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A405EED2CAFD9FF0069998C /* DocumentError.swift */; };
+		3A405EF12CAFDACC0069998C /* DeviceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A405EF02CAFDAC70069998C /* DeviceResponse.swift */; };
+		3A652A262CAE97C700B0D6E4 /* DeviceResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A652A252CAE97C600B0D6E4 /* DeviceResponseTests.swift */; };
+		3A652A282CAE99B800B0D6E4 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A652A272CAE99B700B0D6E4 /* TestData.swift */; };
+		3A652A2A2CAE9B3400B0D6E4 /* DrivingPrivilegesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A652A292CAE9B3300B0D6E4 /* DrivingPrivilegesTests.swift */; };
+		3A652A922CAEA49A00B0D6E4 /* CBOREncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A652A912CAEA49700B0D6E4 /* CBOREncodableTests.swift */; };
 		3D14E5472CABE5C200E15A46 /* libIso18013.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D14E53C2CABE5C100E15A46 /* libIso18013.framework */; };
+		3D14E6462CAD8C0A00E15A46 /* libIso18013.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D14E6422CAD8C0A00E15A46 /* libIso18013.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3D14E6472CAD8C0A00E15A46 /* libIso18013.docc in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6432CAD8C0A00E15A46 /* libIso18013.docc */; };
+		3D14E6482CAD8C0A00E15A46 /* LibIso18013Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6442CAD8C0A00E15A46 /* LibIso18013Utils.swift */; };
+		3D14E64B2CAD8C0E00E15A46 /* libIso18013Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6492CAD8C0E00E15A46 /* libIso18013Tests.swift */; };
+		3D14E64E2CAD8C3B00E15A46 /* NameValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E64D2CAD8C3B00E15A46 /* NameValue.swift */; };
+		3D14E6502CAD8C5600E15A46 /* MdocDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E64F2CAD8C5600E15A46 /* MdocDataType.swift */; };
+		3D14E6522CAD8C9900E15A46 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6512CAD8C9900E15A46 /* Document.swift */; };
+		3D14E6552CAD8CE700E15A46 /* SwiftCBOR in Frameworks */ = {isa = PBXBuildFile; productRef = 3D14E6542CAD8CE700E15A46 /* SwiftCBOR */; };
+		3D14E6572CAD8D4E00E15A46 /* IssuerSigned.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6562CAD8D4E00E15A46 /* IssuerSigned.swift */; };
+		3D14E6612CAD8EB800E15A46 /* CBORDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6602CAD8EB800E15A46 /* CBORDecodable.swift */; };
+		3D14E6632CAD8F1200E15A46 /* CBOREncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6622CAD8F1200E15A46 /* CBOREncodable.swift */; };
+		3D14E66C2CAD903500E15A46 /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E66B2CAD903500E15A46 /* Data+.swift */; };
+		3D14E66F2CAD907F00E15A46 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E66E2CAD907F00E15A46 /* Errors.swift */; };
+		3D14E6722CAD915600E15A46 /* Dictionary+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6712CAD915600E15A46 /* Dictionary+.swift */; };
+		3D14E6742CAD918900E15A46 /* OrderedDictionary+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6732CAD918900E15A46 /* OrderedDictionary+.swift */; };
+		3D14E67A2CAD929300E15A46 /* CBOR+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6792CAD929300E15A46 /* CBOR+.swift */; };
+		3D14E67D2CAD92DD00E15A46 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E67C2CAD92DD00E15A46 /* String+.swift */; };
+		3D14E6802CAD933600E15A46 /* DrivingPrivileges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E67F2CAD933600E15A46 /* DrivingPrivileges.swift */; };
+		3D14E6822CAD935500E15A46 /* DrivingPrivilege.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6812CAD935500E15A46 /* DrivingPrivilege.swift */; };
+		3D14E6842CAD937000E15A46 /* DrivingPrivilegeCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6832CAD937000E15A46 /* DrivingPrivilegeCode.swift */; };
+		3D14E6882CAD944200E15A46 /* IssuerNameSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6872CAD944200E15A46 /* IssuerNameSpaces.swift */; };
+		3D14E68A2CAD947B00E15A46 /* IssuerSignedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6892CAD947B00E15A46 /* IssuerSignedItem.swift */; };
+		3D14E68D2CAD974B00E15A46 /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E68C2CAD974B00E15A46 /* Array+.swift */; };
+		3D14E6962CAE98F300E15A46 /* MobileSecurityObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6952CAE98F300E15A46 /* MobileSecurityObject.swift */; };
+		3D14E6982CAE991B00E15A46 /* DigestAlgorithmKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6972CAE991B00E15A46 /* DigestAlgorithmKind.swift */; };
+		3D14E69A2CAE993500E15A46 /* ValueDigests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6992CAE993500E15A46 /* ValueDigests.swift */; };
+		3D14E69C2CAE995000E15A46 /* DigestIDs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E69B2CAE995000E15A46 /* DigestIDs.swift */; };
+		3D14E69F2CAE998200E15A46 /* CoseTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E69E2CAE998200E15A46 /* CoseTag.swift */; };
+		3D14E6A12CAE99D100E15A46 /* ECCurveName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6A02CAE99D100E15A46 /* ECCurveName.swift */; };
+		3D14E6A32CAE99DC00E15A46 /* ECCurveType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6A22CAE99DC00E15A46 /* ECCurveType.swift */; };
+		3D14E6A52CAE99FB00E15A46 /* CoseKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6A42CAE99FB00E15A46 /* CoseKey.swift */; };
+		3D14E6A72CAE9A1000E15A46 /* CoseKeyPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6A62CAE9A1000E15A46 /* CoseKeyPrivate.swift */; };
+		3D14E6A92CAE9AE600E15A46 /* ValidityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6A82CAE9AE600E15A46 /* ValidityInfo.swift */; };
+		3D14E6AB2CAE9B1200E15A46 /* DeviceKeyInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6AA2CAE9B1200E15A46 /* DeviceKeyInfo.swift */; };
+		3D14E6AD2CAE9B2600E15A46 /* KeyAuthorizations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6AC2CAE9B2600E15A46 /* KeyAuthorizations.swift */; };
+		3D14E6AF2CAEA56C00E15A46 /* IssuerAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6AE2CAEA56C00E15A46 /* IssuerAuth.swift */; };
+		3D14E6B12CAEA59800E15A46 /* Cose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6B02CAEA59800E15A46 /* Cose.swift */; };
+		3D14E6C62CAFD31900E15A46 /* SecCertificate+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6C52CAFD31900E15A46 /* SecCertificate+.swift */; };
+		3D14E6C92CAFE94000E15A46 /* DeviceDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6C82CAFE94000E15A46 /* DeviceDocument.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -21,41 +66,60 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A405EED2CAFD9FF0069998C /* DocumentError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentError.swift; sourceTree = "<group>"; };
+		3A405EF02CAFDAC70069998C /* DeviceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceResponse.swift; sourceTree = "<group>"; };
+		3A652A252CAE97C600B0D6E4 /* DeviceResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceResponseTests.swift; sourceTree = "<group>"; };
+		3A652A272CAE99B700B0D6E4 /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
+		3A652A292CAE9B3300B0D6E4 /* DrivingPrivilegesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingPrivilegesTests.swift; sourceTree = "<group>"; };
+		3A652A912CAEA49700B0D6E4 /* CBOREncodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBOREncodableTests.swift; sourceTree = "<group>"; };
 		3D14E53C2CABE5C100E15A46 /* libIso18013.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libIso18013.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D14E5462CABE5C200E15A46 /* libIso18013Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = libIso18013Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D14E6422CAD8C0A00E15A46 /* libIso18013.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libIso18013.h; sourceTree = "<group>"; };
+		3D14E6432CAD8C0A00E15A46 /* libIso18013.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = libIso18013.docc; sourceTree = "<group>"; };
+		3D14E6442CAD8C0A00E15A46 /* LibIso18013Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013Utils.swift; sourceTree = "<group>"; };
+		3D14E6492CAD8C0E00E15A46 /* libIso18013Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = libIso18013Tests.swift; sourceTree = "<group>"; };
+		3D14E64D2CAD8C3B00E15A46 /* NameValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameValue.swift; sourceTree = "<group>"; };
+		3D14E64F2CAD8C5600E15A46 /* MdocDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdocDataType.swift; sourceTree = "<group>"; };
+		3D14E6512CAD8C9900E15A46 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		3D14E6562CAD8D4E00E15A46 /* IssuerSigned.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuerSigned.swift; sourceTree = "<group>"; };
+		3D14E6602CAD8EB800E15A46 /* CBORDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBORDecodable.swift; sourceTree = "<group>"; };
+		3D14E6622CAD8F1200E15A46 /* CBOREncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBOREncodable.swift; sourceTree = "<group>"; };
+		3D14E66B2CAD903500E15A46 /* Data+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
+		3D14E66E2CAD907F00E15A46 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		3D14E6712CAD915600E15A46 /* Dictionary+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+.swift"; sourceTree = "<group>"; };
+		3D14E6732CAD918900E15A46 /* OrderedDictionary+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OrderedDictionary+.swift"; sourceTree = "<group>"; };
+		3D14E6792CAD929300E15A46 /* CBOR+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CBOR+.swift"; sourceTree = "<group>"; };
+		3D14E67C2CAD92DD00E15A46 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		3D14E67F2CAD933600E15A46 /* DrivingPrivileges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingPrivileges.swift; sourceTree = "<group>"; };
+		3D14E6812CAD935500E15A46 /* DrivingPrivilege.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingPrivilege.swift; sourceTree = "<group>"; };
+		3D14E6832CAD937000E15A46 /* DrivingPrivilegeCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingPrivilegeCode.swift; sourceTree = "<group>"; };
+		3D14E6872CAD944200E15A46 /* IssuerNameSpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuerNameSpaces.swift; sourceTree = "<group>"; };
+		3D14E6892CAD947B00E15A46 /* IssuerSignedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuerSignedItem.swift; sourceTree = "<group>"; };
+		3D14E68C2CAD974B00E15A46 /* Array+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
+		3D14E6952CAE98F300E15A46 /* MobileSecurityObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileSecurityObject.swift; sourceTree = "<group>"; };
+		3D14E6972CAE991B00E15A46 /* DigestAlgorithmKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigestAlgorithmKind.swift; sourceTree = "<group>"; };
+		3D14E6992CAE993500E15A46 /* ValueDigests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueDigests.swift; sourceTree = "<group>"; };
+		3D14E69B2CAE995000E15A46 /* DigestIDs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigestIDs.swift; sourceTree = "<group>"; };
+		3D14E69E2CAE998200E15A46 /* CoseTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoseTag.swift; sourceTree = "<group>"; };
+		3D14E6A02CAE99D100E15A46 /* ECCurveName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECCurveName.swift; sourceTree = "<group>"; };
+		3D14E6A22CAE99DC00E15A46 /* ECCurveType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECCurveType.swift; sourceTree = "<group>"; };
+		3D14E6A42CAE99FB00E15A46 /* CoseKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoseKey.swift; sourceTree = "<group>"; };
+		3D14E6A62CAE9A1000E15A46 /* CoseKeyPrivate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoseKeyPrivate.swift; sourceTree = "<group>"; };
+		3D14E6A82CAE9AE600E15A46 /* ValidityInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidityInfo.swift; sourceTree = "<group>"; };
+		3D14E6AA2CAE9B1200E15A46 /* DeviceKeyInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceKeyInfo.swift; sourceTree = "<group>"; };
+		3D14E6AC2CAE9B2600E15A46 /* KeyAuthorizations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyAuthorizations.swift; sourceTree = "<group>"; };
+		3D14E6AE2CAEA56C00E15A46 /* IssuerAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuerAuth.swift; sourceTree = "<group>"; };
+		3D14E6B02CAEA59800E15A46 /* Cose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cose.swift; sourceTree = "<group>"; };
+		3D14E6C52CAFD31900E15A46 /* SecCertificate+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SecCertificate+.swift"; sourceTree = "<group>"; };
+		3D14E6C82CAFE94000E15A46 /* DeviceDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDocument.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		3D14E54E2CABE5C200E15A46 /* Exceptions for "libIso18013" folder in "libIso18013" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			publicHeaders = (
-				libIso18013.h,
-			);
-			target = 3D14E53B2CABE5C100E15A46 /* libIso18013 */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		3D14E53E2CABE5C100E15A46 /* libIso18013 */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				3D14E54E2CABE5C200E15A46 /* Exceptions for "libIso18013" folder in "libIso18013" target */,
-			);
-			path = libIso18013;
-			sourceTree = "<group>";
-		};
-		3D14E54A2CABE5C200E15A46 /* libIso18013Tests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = libIso18013Tests;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		3D14E5392CABE5C100E15A46 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D14E6552CAD8CE700E15A46 /* SwiftCBOR in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,11 +134,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A405EEF2CAFDABC0069998C /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				3A405EF02CAFDAC70069998C /* DeviceResponse.swift */,
+			);
+			path = Device;
+			sourceTree = "<group>";
+		};
+		3A405EF22CAFDE330069998C /* Documents */ = {
+			isa = PBXGroup;
+			children = (
+				3A652A272CAE99B700B0D6E4 /* TestData.swift */,
+			);
+			path = Documents;
+			sourceTree = "<group>";
+		};
 		3D14E5322CABE5C100E15A46 = {
 			isa = PBXGroup;
 			children = (
-				3D14E53E2CABE5C100E15A46 /* libIso18013 */,
-				3D14E54A2CABE5C200E15A46 /* libIso18013Tests */,
+				3D14E6452CAD8C0A00E15A46 /* libIso18013 */,
+				3D14E64A2CAD8C0E00E15A46 /* libIso18013Tests */,
 				3D14E53D2CABE5C100E15A46 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,6 +168,128 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3D14E6452CAD8C0A00E15A46 /* libIso18013 */ = {
+			isa = PBXGroup;
+			children = (
+				3D14E6C72CAFE92E00E15A46 /* DeviceDocument */,
+				3D14E6442CAD8C0A00E15A46 /* LibIso18013Utils.swift */,
+				3D14E6642CAD8F2900E15A46 /* CBOR */,
+				3D14E68E2CAD97C900E15A46 /* Extensions */,
+				3D14E66D2CAD907800E15A46 /* Errors */,
+				3A405EEF2CAFDABC0069998C /* Device */,
+				3D14E64C2CAD8C1100E15A46 /* Document */,
+				3D14E6422CAD8C0A00E15A46 /* libIso18013.h */,
+				3D14E6432CAD8C0A00E15A46 /* libIso18013.docc */,
+			);
+			path = libIso18013;
+			sourceTree = "<group>";
+		};
+		3D14E64A2CAD8C0E00E15A46 /* libIso18013Tests */ = {
+			isa = PBXGroup;
+			children = (
+				3A405EF22CAFDE330069998C /* Documents */,
+				3A652A912CAEA49700B0D6E4 /* CBOREncodableTests.swift */,
+				3A652A292CAE9B3300B0D6E4 /* DrivingPrivilegesTests.swift */,
+				3A652A252CAE97C600B0D6E4 /* DeviceResponseTests.swift */,
+				3D14E6492CAD8C0E00E15A46 /* libIso18013Tests.swift */,
+			);
+			path = libIso18013Tests;
+			sourceTree = "<group>";
+		};
+		3D14E64C2CAD8C1100E15A46 /* Document */ = {
+			isa = PBXGroup;
+			children = (
+				3D14E6512CAD8C9900E15A46 /* Document.swift */,
+				3D14E6562CAD8D4E00E15A46 /* IssuerSigned.swift */,
+				3D14E6AE2CAEA56C00E15A46 /* IssuerAuth.swift */,
+				3D14E6892CAD947B00E15A46 /* IssuerSignedItem.swift */,
+				3D14E6872CAD944200E15A46 /* IssuerNameSpaces.swift */,
+				3D14E64D2CAD8C3B00E15A46 /* NameValue.swift */,
+				3D14E6942CAE98B000E15A46 /* Security */,
+				3D14E67E2CAD932D00E15A46 /* DrivingPrivileges */,
+				3D14E64F2CAD8C5600E15A46 /* MdocDataType.swift */,
+			);
+			path = Document;
+			sourceTree = "<group>";
+		};
+		3D14E6642CAD8F2900E15A46 /* CBOR */ = {
+			isa = PBXGroup;
+			children = (
+				3D14E6602CAD8EB800E15A46 /* CBORDecodable.swift */,
+				3D14E6622CAD8F1200E15A46 /* CBOREncodable.swift */,
+			);
+			path = CBOR;
+			sourceTree = "<group>";
+		};
+		3D14E66D2CAD907800E15A46 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				3A405EED2CAFD9FF0069998C /* DocumentError.swift */,
+				3D14E66E2CAD907F00E15A46 /* Errors.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		3D14E67E2CAD932D00E15A46 /* DrivingPrivileges */ = {
+			isa = PBXGroup;
+			children = (
+				3D14E6832CAD937000E15A46 /* DrivingPrivilegeCode.swift */,
+				3D14E6812CAD935500E15A46 /* DrivingPrivilege.swift */,
+				3D14E67F2CAD933600E15A46 /* DrivingPrivileges.swift */,
+			);
+			path = DrivingPrivileges;
+			sourceTree = "<group>";
+		};
+		3D14E68E2CAD97C900E15A46 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3D14E6C52CAFD31900E15A46 /* SecCertificate+.swift */,
+				3D14E66B2CAD903500E15A46 /* Data+.swift */,
+				3D14E6792CAD929300E15A46 /* CBOR+.swift */,
+				3D14E6732CAD918900E15A46 /* OrderedDictionary+.swift */,
+				3D14E67C2CAD92DD00E15A46 /* String+.swift */,
+				3D14E6712CAD915600E15A46 /* Dictionary+.swift */,
+				3D14E68C2CAD974B00E15A46 /* Array+.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3D14E6942CAE98B000E15A46 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				3D14E6AC2CAE9B2600E15A46 /* KeyAuthorizations.swift */,
+				3D14E6AA2CAE9B1200E15A46 /* DeviceKeyInfo.swift */,
+				3D14E6A82CAE9AE600E15A46 /* ValidityInfo.swift */,
+				3D14E69D2CAE997C00E15A46 /* Cose */,
+				3D14E69B2CAE995000E15A46 /* DigestIDs.swift */,
+				3D14E6992CAE993500E15A46 /* ValueDigests.swift */,
+				3D14E6972CAE991B00E15A46 /* DigestAlgorithmKind.swift */,
+				3D14E6952CAE98F300E15A46 /* MobileSecurityObject.swift */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
+		3D14E69D2CAE997C00E15A46 /* Cose */ = {
+			isa = PBXGroup;
+			children = (
+				3D14E6B02CAEA59800E15A46 /* Cose.swift */,
+				3D14E6A62CAE9A1000E15A46 /* CoseKeyPrivate.swift */,
+				3D14E6A42CAE99FB00E15A46 /* CoseKey.swift */,
+				3D14E6A22CAE99DC00E15A46 /* ECCurveType.swift */,
+				3D14E6A02CAE99D100E15A46 /* ECCurveName.swift */,
+				3D14E69E2CAE998200E15A46 /* CoseTag.swift */,
+			);
+			path = Cose;
+			sourceTree = "<group>";
+		};
+		3D14E6C72CAFE92E00E15A46 /* DeviceDocument */ = {
+			isa = PBXGroup;
+			children = (
+				3D14E6C82CAFE94000E15A46 /* DeviceDocument.swift */,
+			);
+			path = DeviceDocument;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -95,6 +297,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D14E6462CAD8C0A00E15A46 /* libIso18013.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,11 +317,9 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				3D14E53E2CABE5C100E15A46 /* libIso18013 */,
-			);
 			name = libIso18013;
 			packageProductDependencies = (
+				3D14E6542CAD8CE700E15A46 /* SwiftCBOR */,
 			);
 			productName = libIso18013;
 			productReference = 3D14E53C2CABE5C100E15A46 /* libIso18013.framework */;
@@ -136,9 +337,6 @@
 			);
 			dependencies = (
 				3D14E5492CABE5C200E15A46 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				3D14E54A2CABE5C200E15A46 /* libIso18013Tests */,
 			);
 			name = libIso18013Tests;
 			packageProductDependencies = (
@@ -174,6 +372,9 @@
 			);
 			mainGroup = 3D14E5322CABE5C100E15A46;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3D14E6532CAD8CE700E15A46 /* XCRemoteSwiftPackageReference "SwiftCBOR" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3D14E53D2CABE5C100E15A46 /* Products */;
 			projectDirPath = "";
@@ -207,6 +408,44 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D14E69F2CAE998200E15A46 /* CoseTag.swift in Sources */,
+				3D14E6502CAD8C5600E15A46 /* MdocDataType.swift in Sources */,
+				3D14E6632CAD8F1200E15A46 /* CBOREncodable.swift in Sources */,
+				3D14E64E2CAD8C3B00E15A46 /* NameValue.swift in Sources */,
+				3D14E6962CAE98F300E15A46 /* MobileSecurityObject.swift in Sources */,
+				3D14E6B12CAEA59800E15A46 /* Cose.swift in Sources */,
+				3D14E6C92CAFE94000E15A46 /* DeviceDocument.swift in Sources */,
+				3D14E6822CAD935500E15A46 /* DrivingPrivilege.swift in Sources */,
+				3D14E68D2CAD974B00E15A46 /* Array+.swift in Sources */,
+				3D14E66F2CAD907F00E15A46 /* Errors.swift in Sources */,
+				3D14E6AB2CAE9B1200E15A46 /* DeviceKeyInfo.swift in Sources */,
+				3D14E6572CAD8D4E00E15A46 /* IssuerSigned.swift in Sources */,
+				3D14E6742CAD918900E15A46 /* OrderedDictionary+.swift in Sources */,
+				3D14E67D2CAD92DD00E15A46 /* String+.swift in Sources */,
+				3D14E6802CAD933600E15A46 /* DrivingPrivileges.swift in Sources */,
+				3D14E6472CAD8C0A00E15A46 /* libIso18013.docc in Sources */,
+				3D14E6A72CAE9A1000E15A46 /* CoseKeyPrivate.swift in Sources */,
+				3D14E6882CAD944200E15A46 /* IssuerNameSpaces.swift in Sources */,
+				3A405EEE2CAFDA050069998C /* DocumentError.swift in Sources */,
+				3D14E6A92CAE9AE600E15A46 /* ValidityInfo.swift in Sources */,
+				3D14E69A2CAE993500E15A46 /* ValueDigests.swift in Sources */,
+				3D14E6A52CAE99FB00E15A46 /* CoseKey.swift in Sources */,
+				3D14E6982CAE991B00E15A46 /* DigestAlgorithmKind.swift in Sources */,
+				3D14E6482CAD8C0A00E15A46 /* LibIso18013Utils.swift in Sources */,
+				3D14E68A2CAD947B00E15A46 /* IssuerSignedItem.swift in Sources */,
+				3D14E6722CAD915600E15A46 /* Dictionary+.swift in Sources */,
+				3D14E69C2CAE995000E15A46 /* DigestIDs.swift in Sources */,
+				3D14E66C2CAD903500E15A46 /* Data+.swift in Sources */,
+				3D14E6522CAD8C9900E15A46 /* Document.swift in Sources */,
+				3A405EF12CAFDACC0069998C /* DeviceResponse.swift in Sources */,
+				3D14E6A12CAE99D100E15A46 /* ECCurveName.swift in Sources */,
+				3D14E6A32CAE99DC00E15A46 /* ECCurveType.swift in Sources */,
+				3D14E67A2CAD929300E15A46 /* CBOR+.swift in Sources */,
+				3D14E6C62CAFD31900E15A46 /* SecCertificate+.swift in Sources */,
+				3D14E6AF2CAEA56C00E15A46 /* IssuerAuth.swift in Sources */,
+				3D14E6612CAD8EB800E15A46 /* CBORDecodable.swift in Sources */,
+				3D14E6842CAD937000E15A46 /* DrivingPrivilegeCode.swift in Sources */,
+				3D14E6AD2CAE9B2600E15A46 /* KeyAuthorizations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +453,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A652A282CAE99B800B0D6E4 /* TestData.swift in Sources */,
+				3A652A922CAEA49A00B0D6E4 /* CBOREncodableTests.swift in Sources */,
+				3D14E64B2CAD8C0E00E15A46 /* libIso18013Tests.swift in Sources */,
+				3A652A2A2CAE9B3400B0D6E4 /* DrivingPrivilegesTests.swift in Sources */,
+				3A652A262CAE97C700B0D6E4 /* DeviceResponseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,6 +722,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3D14E6532CAD8CE700E15A46 /* XCRemoteSwiftPackageReference "SwiftCBOR" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/niscy-eudiw/SwiftCBOR.git";
+			requirement = {
+				kind = exactVersion;
+				version = 0.5.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3D14E6542CAD8CE700E15A46 /* SwiftCBOR */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3D14E6532CAD8CE700E15A46 /* XCRemoteSwiftPackageReference "SwiftCBOR" */;
+			productName = SwiftCBOR;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3D14E5332CABE5C100E15A46 /* Project object */;
 }
