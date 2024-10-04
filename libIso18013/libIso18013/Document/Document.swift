@@ -26,7 +26,6 @@ public struct Document {
     enum Keys: String {
         case docType
         case issuerSigned
-        case deviceSigned
         case errors
     }
     
@@ -67,6 +66,11 @@ extension Document: CBORDecodable {
         }
         self.issuerSigned = issuerSigned
         
+        //MARK: VALIDATE SIGNATURE?
+//    guard self.issuerSigned.validateSignature() else {
+//      return nil
+//    }
+
         // Extract the optional errors from the CBOR map
         if let cborErrors = cborMap[Keys.errors],
            let errors = Errors(cbor: cborErrors) {

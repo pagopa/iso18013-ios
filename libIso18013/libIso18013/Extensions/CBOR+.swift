@@ -311,3 +311,21 @@ extension CBOR {
         return self.unwrap() as? T
     }
 }
+
+extension CBOR {
+  public func toCose() -> (CBOR.Tag, [CBOR])? {
+    guard let rawCose =  self.unwrap() as? (CBOR.Tag, CBOR),
+        let cosePayload = rawCose.1.asList() else {
+      return nil
+    }
+    return (rawCose.0, cosePayload)
+  }
+  
+  public func decodeBytestring() -> CBOR? {
+    guard let bytestring = self.asBytes(),
+        let decoded = try? CBORDecoder(input: bytestring).decodeItem() else {
+      return nil
+    }
+    return decoded
+  }
+}

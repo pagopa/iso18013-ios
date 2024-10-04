@@ -26,13 +26,14 @@ extension IssuerNameSpaces: CBORDecodable {
       return nil
     }
     
-    var nameSpaces = [String: [IssuerSignedItem]]()
-    
-    for (key,value) in cborMap {
-      guard case let .utf8String(nameSpace) = key,
-            case let .array(cborItems) = value else {
-        continue
+    let nameSpaces = cborMap.reduce(into: [String: [IssuerSignedItem]](), {
+      result, keyPair in
+      
+      guard case let .utf8String(nameSpace) = keyPair.key,
+            case let .array(cborItems) = keyPair.value else {
+        return
       }
+      
       let items = cborItems.compactMap { cborItem -> IssuerSignedItem? in
         guard case let .tagged(itemTag, itemDataCbor) = cborItem,
               itemTag == .encodedCBORDataItem,
@@ -42,8 +43,9 @@ extension IssuerNameSpaces: CBORDecodable {
         }
         return issuerSignedItem
       }
-      nameSpaces[nameSpace] = items
-    }
+      
+      result[nameSpace] = items
+    })
     
     guard nameSpaces.count > 0 else {
       return nil

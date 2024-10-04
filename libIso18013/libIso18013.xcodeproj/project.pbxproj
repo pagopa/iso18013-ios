@@ -37,6 +37,22 @@
 		3D14E6882CAD944200E15A46 /* IssuerNameSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6872CAD944200E15A46 /* IssuerNameSpaces.swift */; };
 		3D14E68A2CAD947B00E15A46 /* IssuerSignedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6892CAD947B00E15A46 /* IssuerSignedItem.swift */; };
 		3D14E68D2CAD974B00E15A46 /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E68C2CAD974B00E15A46 /* Array+.swift */; };
+		3D14E6962CAE98F300E15A46 /* MobileSecurityObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6952CAE98F300E15A46 /* MobileSecurityObject.swift */; };
+		3D14E6982CAE991B00E15A46 /* DigestAlgorithmKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6972CAE991B00E15A46 /* DigestAlgorithmKind.swift */; };
+		3D14E69A2CAE993500E15A46 /* ValueDigests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6992CAE993500E15A46 /* ValueDigests.swift */; };
+		3D14E69C2CAE995000E15A46 /* DigestIDs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E69B2CAE995000E15A46 /* DigestIDs.swift */; };
+		3D14E69F2CAE998200E15A46 /* CoseTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E69E2CAE998200E15A46 /* CoseTag.swift */; };
+		3D14E6A12CAE99D100E15A46 /* ECCurveName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6A02CAE99D100E15A46 /* ECCurveName.swift */; };
+		3D14E6A32CAE99DC00E15A46 /* ECCurveType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6A22CAE99DC00E15A46 /* ECCurveType.swift */; };
+		3D14E6A52CAE99FB00E15A46 /* CoseKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6A42CAE99FB00E15A46 /* CoseKey.swift */; };
+		3D14E6A72CAE9A1000E15A46 /* CoseKeyPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6A62CAE9A1000E15A46 /* CoseKeyPrivate.swift */; };
+		3D14E6A92CAE9AE600E15A46 /* ValidityInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6A82CAE9AE600E15A46 /* ValidityInfo.swift */; };
+		3D14E6AB2CAE9B1200E15A46 /* DeviceKeyInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6AA2CAE9B1200E15A46 /* DeviceKeyInfo.swift */; };
+		3D14E6AD2CAE9B2600E15A46 /* KeyAuthorizations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6AC2CAE9B2600E15A46 /* KeyAuthorizations.swift */; };
+		3D14E6AF2CAEA56C00E15A46 /* IssuerAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6AE2CAEA56C00E15A46 /* IssuerAuth.swift */; };
+		3D14E6B12CAEA59800E15A46 /* Cose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6B02CAEA59800E15A46 /* Cose.swift */; };
+		3D14E6C62CAFD31900E15A46 /* SecCertificate+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6C52CAFD31900E15A46 /* SecCertificate+.swift */; };
+		3D14E6C92CAFE94000E15A46 /* DeviceDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6C82CAFE94000E15A46 /* DeviceDocument.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +96,22 @@
 		3D14E6872CAD944200E15A46 /* IssuerNameSpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuerNameSpaces.swift; sourceTree = "<group>"; };
 		3D14E6892CAD947B00E15A46 /* IssuerSignedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuerSignedItem.swift; sourceTree = "<group>"; };
 		3D14E68C2CAD974B00E15A46 /* Array+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
+		3D14E6952CAE98F300E15A46 /* MobileSecurityObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileSecurityObject.swift; sourceTree = "<group>"; };
+		3D14E6972CAE991B00E15A46 /* DigestAlgorithmKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigestAlgorithmKind.swift; sourceTree = "<group>"; };
+		3D14E6992CAE993500E15A46 /* ValueDigests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueDigests.swift; sourceTree = "<group>"; };
+		3D14E69B2CAE995000E15A46 /* DigestIDs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigestIDs.swift; sourceTree = "<group>"; };
+		3D14E69E2CAE998200E15A46 /* CoseTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoseTag.swift; sourceTree = "<group>"; };
+		3D14E6A02CAE99D100E15A46 /* ECCurveName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECCurveName.swift; sourceTree = "<group>"; };
+		3D14E6A22CAE99DC00E15A46 /* ECCurveType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECCurveType.swift; sourceTree = "<group>"; };
+		3D14E6A42CAE99FB00E15A46 /* CoseKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoseKey.swift; sourceTree = "<group>"; };
+		3D14E6A62CAE9A1000E15A46 /* CoseKeyPrivate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoseKeyPrivate.swift; sourceTree = "<group>"; };
+		3D14E6A82CAE9AE600E15A46 /* ValidityInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidityInfo.swift; sourceTree = "<group>"; };
+		3D14E6AA2CAE9B1200E15A46 /* DeviceKeyInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceKeyInfo.swift; sourceTree = "<group>"; };
+		3D14E6AC2CAE9B2600E15A46 /* KeyAuthorizations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyAuthorizations.swift; sourceTree = "<group>"; };
+		3D14E6AE2CAEA56C00E15A46 /* IssuerAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuerAuth.swift; sourceTree = "<group>"; };
+		3D14E6B02CAEA59800E15A46 /* Cose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cose.swift; sourceTree = "<group>"; };
+		3D14E6C52CAFD31900E15A46 /* SecCertificate+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SecCertificate+.swift"; sourceTree = "<group>"; };
+		3D14E6C82CAFE94000E15A46 /* DeviceDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDocument.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +171,7 @@
 		3D14E6452CAD8C0A00E15A46 /* libIso18013 */ = {
 			isa = PBXGroup;
 			children = (
+				3D14E6C72CAFE92E00E15A46 /* DeviceDocument */,
 				3D14E6442CAD8C0A00E15A46 /* LibIso18013Utils.swift */,
 				3D14E6642CAD8F2900E15A46 /* CBOR */,
 				3D14E68E2CAD97C900E15A46 /* Extensions */,
@@ -166,13 +199,15 @@
 		3D14E64C2CAD8C1100E15A46 /* Document */ = {
 			isa = PBXGroup;
 			children = (
+				3D14E6512CAD8C9900E15A46 /* Document.swift */,
+				3D14E6562CAD8D4E00E15A46 /* IssuerSigned.swift */,
+				3D14E6AE2CAEA56C00E15A46 /* IssuerAuth.swift */,
 				3D14E6892CAD947B00E15A46 /* IssuerSignedItem.swift */,
 				3D14E6872CAD944200E15A46 /* IssuerNameSpaces.swift */,
-				3D14E67E2CAD932D00E15A46 /* DrivingPrivileges */,
-				3D14E6562CAD8D4E00E15A46 /* IssuerSigned.swift */,
-				3D14E6512CAD8C9900E15A46 /* Document.swift */,
-				3D14E64F2CAD8C5600E15A46 /* MdocDataType.swift */,
 				3D14E64D2CAD8C3B00E15A46 /* NameValue.swift */,
+				3D14E6942CAE98B000E15A46 /* Security */,
+				3D14E67E2CAD932D00E15A46 /* DrivingPrivileges */,
+				3D14E64F2CAD8C5600E15A46 /* MdocDataType.swift */,
 			);
 			path = Document;
 			sourceTree = "<group>";
@@ -208,6 +243,7 @@
 		3D14E68E2CAD97C900E15A46 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				3D14E6C52CAFD31900E15A46 /* SecCertificate+.swift */,
 				3D14E66B2CAD903500E15A46 /* Data+.swift */,
 				3D14E6792CAD929300E15A46 /* CBOR+.swift */,
 				3D14E6732CAD918900E15A46 /* OrderedDictionary+.swift */,
@@ -216,6 +252,42 @@
 				3D14E68C2CAD974B00E15A46 /* Array+.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3D14E6942CAE98B000E15A46 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				3D14E6AC2CAE9B2600E15A46 /* KeyAuthorizations.swift */,
+				3D14E6AA2CAE9B1200E15A46 /* DeviceKeyInfo.swift */,
+				3D14E6A82CAE9AE600E15A46 /* ValidityInfo.swift */,
+				3D14E69D2CAE997C00E15A46 /* Cose */,
+				3D14E69B2CAE995000E15A46 /* DigestIDs.swift */,
+				3D14E6992CAE993500E15A46 /* ValueDigests.swift */,
+				3D14E6972CAE991B00E15A46 /* DigestAlgorithmKind.swift */,
+				3D14E6952CAE98F300E15A46 /* MobileSecurityObject.swift */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
+		3D14E69D2CAE997C00E15A46 /* Cose */ = {
+			isa = PBXGroup;
+			children = (
+				3D14E6B02CAEA59800E15A46 /* Cose.swift */,
+				3D14E6A62CAE9A1000E15A46 /* CoseKeyPrivate.swift */,
+				3D14E6A42CAE99FB00E15A46 /* CoseKey.swift */,
+				3D14E6A22CAE99DC00E15A46 /* ECCurveType.swift */,
+				3D14E6A02CAE99D100E15A46 /* ECCurveName.swift */,
+				3D14E69E2CAE998200E15A46 /* CoseTag.swift */,
+			);
+			path = Cose;
+			sourceTree = "<group>";
+		};
+		3D14E6C72CAFE92E00E15A46 /* DeviceDocument */ = {
+			isa = PBXGroup;
+			children = (
+				3D14E6C82CAFE94000E15A46 /* DeviceDocument.swift */,
+			);
+			path = DeviceDocument;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -336,28 +408,44 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D14E69F2CAE998200E15A46 /* CoseTag.swift in Sources */,
 				3D14E6502CAD8C5600E15A46 /* MdocDataType.swift in Sources */,
 				3D14E6632CAD8F1200E15A46 /* CBOREncodable.swift in Sources */,
 				3D14E64E2CAD8C3B00E15A46 /* NameValue.swift in Sources */,
+				3D14E6962CAE98F300E15A46 /* MobileSecurityObject.swift in Sources */,
+				3D14E6B12CAEA59800E15A46 /* Cose.swift in Sources */,
+				3D14E6C92CAFE94000E15A46 /* DeviceDocument.swift in Sources */,
 				3D14E6822CAD935500E15A46 /* DrivingPrivilege.swift in Sources */,
 				3D14E68D2CAD974B00E15A46 /* Array+.swift in Sources */,
 				3D14E66F2CAD907F00E15A46 /* Errors.swift in Sources */,
+				3D14E6AB2CAE9B1200E15A46 /* DeviceKeyInfo.swift in Sources */,
 				3D14E6572CAD8D4E00E15A46 /* IssuerSigned.swift in Sources */,
 				3D14E6742CAD918900E15A46 /* OrderedDictionary+.swift in Sources */,
 				3D14E67D2CAD92DD00E15A46 /* String+.swift in Sources */,
 				3D14E6802CAD933600E15A46 /* DrivingPrivileges.swift in Sources */,
 				3D14E6472CAD8C0A00E15A46 /* libIso18013.docc in Sources */,
+				3D14E6A72CAE9A1000E15A46 /* CoseKeyPrivate.swift in Sources */,
 				3D14E6882CAD944200E15A46 /* IssuerNameSpaces.swift in Sources */,
 				3A405EEE2CAFDA050069998C /* DocumentError.swift in Sources */,
+				3D14E6A92CAE9AE600E15A46 /* ValidityInfo.swift in Sources */,
+				3D14E69A2CAE993500E15A46 /* ValueDigests.swift in Sources */,
+				3D14E6A52CAE99FB00E15A46 /* CoseKey.swift in Sources */,
+				3D14E6982CAE991B00E15A46 /* DigestAlgorithmKind.swift in Sources */,
 				3D14E6482CAD8C0A00E15A46 /* LibIso18013Utils.swift in Sources */,
 				3D14E68A2CAD947B00E15A46 /* IssuerSignedItem.swift in Sources */,
 				3D14E6722CAD915600E15A46 /* Dictionary+.swift in Sources */,
+				3D14E69C2CAE995000E15A46 /* DigestIDs.swift in Sources */,
 				3D14E66C2CAD903500E15A46 /* Data+.swift in Sources */,
 				3D14E6522CAD8C9900E15A46 /* Document.swift in Sources */,
 				3A405EF12CAFDACC0069998C /* DeviceResponse.swift in Sources */,
+				3D14E6A12CAE99D100E15A46 /* ECCurveName.swift in Sources */,
+				3D14E6A32CAE99DC00E15A46 /* ECCurveType.swift in Sources */,
 				3D14E67A2CAD929300E15A46 /* CBOR+.swift in Sources */,
+				3D14E6C62CAFD31900E15A46 /* SecCertificate+.swift in Sources */,
+				3D14E6AF2CAEA56C00E15A46 /* IssuerAuth.swift in Sources */,
 				3D14E6612CAD8EB800E15A46 /* CBORDecodable.swift in Sources */,
 				3D14E6842CAD937000E15A46 /* DrivingPrivilegeCode.swift in Sources */,
+				3D14E6AD2CAE9B2600E15A46 /* KeyAuthorizations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

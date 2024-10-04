@@ -12,21 +12,21 @@ import OrderedCollections
 
 // Struct representing IssuerSigned, containing optional IssuerNameSpaces
 public struct IssuerSigned {
-    
-    // Optional IssuerNameSpaces associated with the issuer
-    public let issuerNameSpaces: IssuerNameSpaces?
-    
-    // Enum defining keys for CBOR encoding/decoding
-    enum Keys: String {
-        case nameSpaces
-        case issuerAuth
-    }
-    
-    // Initializer for IssuerSigned
-    // - Parameter issuerNameSpaces: Optional IssuerNameSpaces associated with the issuer
-    public init(issuerNameSpaces: IssuerNameSpaces?) {
-        self.issuerNameSpaces = issuerNameSpaces
-    }
+  public let issuerNameSpaces: IssuerNameSpaces?
+  public let issuerAuth: IssuerAuth?
+  
+  enum Keys: String {
+    case nameSpaces
+    case issuerAuth
+  }
+  
+  // Initializer for IssuerSigned
+  // - Parameter issuerNameSpaces: Optional IssuerNameSpaces associated with the issuer
+  // - Parameter issuerAuth: Optional IssuerAuth associated with the issuer
+  public init(issuerNameSpaces: IssuerNameSpaces?, issuerAuth: IssuerAuth?) {
+    self.issuerNameSpaces = issuerNameSpaces
+    self.issuerAuth = issuerAuth
+  }
 }
 
 // Extension to make IssuerSigned conform to CBORDecodable
@@ -46,6 +46,14 @@ extension IssuerSigned: CBORDecodable {
         } else {
             issuerNameSpaces = nil
         }
+
+        if let issuerAuthCbor = cborMap[Keys.issuerAuth],
+          let issuerAuth = IssuerAuth(cbor: issuerAuthCbor) {
+      self.issuerAuth = issuerAuth
+    }
+    else {
+      self.issuerAuth = nil
+    }
     }
 }
 
@@ -63,7 +71,41 @@ extension IssuerSigned: CBOREncodable {
             cbor[.utf8String(Keys.nameSpaces.rawValue)] = issuerNameSpaces.toCBOR(options: options)
         }
         
+        //Encode IssuerAuth if exists
+         if let issuerAuth = issuerAuth {
+      cbor[.utf8String(Keys.issuerAuth.rawValue)] = issuerAuth.toCBOR(options: options)
+    }
+    
+    return .map(cbor)
+
         // Return the encoded CBOR map
         return .map(cbor)
     }
 }
+    
+extension IssuerSigned {
+  public func validateSignature() -> Bool {
+    
+    guard let issuerAuthCertificateAuthoritiesPublicKeys = self.issuerAuth?.issuerAuthCertificateAuthorities.compactMap({
+      return SecCertificateCreateWithData(nil, Data($0) as CFData)?.getPublicKey()
+    }) else {
+      return false
+    }
+    
+    guard let issuerAuthCose = Cose(type: .sign1, cbor: self.issuerAuth.toCBOR(options: CBOROptions())) else {
+      return false
+    }
+    
+    
+    for issuerAuthCertificateAuthoritiesPublicKey in issuerAuthCertificateAuthoritiesPublicKeys {
+      let isValidSignature = try? issuerAuthCose.validateCoseSign1(publicKey_x963: issuerAuthCertificateAuthoritiesPublicKey)
+      if (isValidSignature == true) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+}
+
+
