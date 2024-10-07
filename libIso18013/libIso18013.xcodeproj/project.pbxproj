@@ -53,6 +53,7 @@
 		3D14E6B12CAEA59800E15A46 /* Cose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6B02CAEA59800E15A46 /* Cose.swift */; };
 		3D14E6C62CAFD31900E15A46 /* SecCertificate+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6C52CAFD31900E15A46 /* SecCertificate+.swift */; };
 		3D14E6C92CAFE94000E15A46 /* DeviceDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6C82CAFE94000E15A46 /* DeviceDocument.swift */; };
+		3D14E6EA2CB42CAA00E15A46 /* CoseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6E92CB42CA600E15A46 /* CoseTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,7 @@
 		3D14E6B02CAEA59800E15A46 /* Cose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cose.swift; sourceTree = "<group>"; };
 		3D14E6C52CAFD31900E15A46 /* SecCertificate+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SecCertificate+.swift"; sourceTree = "<group>"; };
 		3D14E6C82CAFE94000E15A46 /* DeviceDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceDocument.swift; sourceTree = "<group>"; };
+		3D14E6E92CB42CA600E15A46 /* CoseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoseTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +189,7 @@
 		3D14E64A2CAD8C0E00E15A46 /* libIso18013Tests */ = {
 			isa = PBXGroup;
 			children = (
+				3D14E6E92CB42CA600E15A46 /* CoseTests.swift */,
 				3A405EF22CAFDE330069998C /* Documents */,
 				3A652A912CAEA49700B0D6E4 /* CBOREncodableTests.swift */,
 				3A652A292CAE9B3300B0D6E4 /* DrivingPrivilegesTests.swift */,
@@ -456,6 +459,7 @@
 				3A652A282CAE99B800B0D6E4 /* TestData.swift in Sources */,
 				3A652A922CAEA49A00B0D6E4 /* CBOREncodableTests.swift in Sources */,
 				3D14E64B2CAD8C0E00E15A46 /* libIso18013Tests.swift in Sources */,
+				3D14E6EA2CB42CAA00E15A46 /* CoseTests.swift in Sources */,
 				3A652A2A2CAE9B3400B0D6E4 /* DrivingPrivilegesTests.swift in Sources */,
 				3A652A262CAE97C700B0D6E4 /* DeviceResponseTests.swift in Sources */,
 			);
