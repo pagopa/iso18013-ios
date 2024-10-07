@@ -41,4 +41,27 @@ final class libIso18013_exampleUITestsLaunchTests: XCTestCase {
         let image = app.images["InfoBoxViewSubtitleImage"]
         XCTAssertTrue(image.exists)
     }
+    
+    func testCustomTextFieldTypingAndClearButton() throws {
+        // Assicurati che la CustomTextField sia visibile
+        let textField = app.textFields["Inserisci testo..."]
+        XCTAssertTrue(textField.exists)
+        
+        // Inserisci del testo nella CustomTextField
+        textField.tap()
+        textField.typeText("Prova di testo")
+        
+        // Verifica se il testo è stato inserito correttamente
+        XCTAssertEqual(textField.value as? String, "Prova di testo")
+        
+        // Assicurati che il tasto di cancellazione sia visibile
+        let clearButton = app.buttons["xmark.circle.fill"]
+        XCTAssertTrue(clearButton.exists)
+        
+        // Clicca sul tasto di cancellazione per svuotare il campo di testo
+        clearButton.tap()
+        
+        // Verifica se il testo è stato correttamente cancellato
+        XCTAssertEqual(textField.label, "")
+    }
 }
