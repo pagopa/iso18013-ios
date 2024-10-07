@@ -1,0 +1,25 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '16.0'
+
+#install! 'cocoapods',
+  #generate_multiple_pod_projects: true,
+  #share_schemes_for_development_pods: true
+
+target 'libIso18013-example' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for libIso18013-example
+
+  pod 'libIso18013', :git => 'git@github.com:pagopa/iso18013-ios.git', :branch => 'feature/app-test'
+
+  target 'libIso18013-exampleTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'libIso18013-exampleUITests' do
+    # Pods for testing
+  end
+
+end
