@@ -21,6 +21,8 @@ struct ContentView: View {
             VStack(spacing: 8) {
                 CustomTextField(placeholder: "Inserisci testo...", text: $inputText)
                 CustomButton(title: "Verifica documento", action: {
+                    displayImages = []
+                    displayStrings = []
                     document = LibIso18013Utils.shared.decodeDocument(base64Encoded: inputText)
                     guard let document else { return }
                     if let nameSpaces = ManageNameSpaces.getSignedItems(document.issuerSigned, document.docType) {
@@ -34,11 +36,22 @@ struct ContentView: View {
                 ScrollView {
                     ForEach(displayImages, id: \.name) { nameValue in
                         InfoBoxView(title: nameValue.name,
+                                    docType: .bytes,
                                     subtitle: .image(nameValue.image.toImage()))
                     }
                     ForEach(displayStrings, id: \.name) { nameValue in
-                        InfoBoxView(title: nameValue.name,
-                                    subtitle: .text(nameValue.value))
+                        if nameValue.mdocDataType == .array,
+                           let children = nameValue.children {
+                            ForEach(children, id: \.name) { element in
+                                InfoBoxView(title: nameValue.name,
+                                            docType: nameValue.mdocDataType ?? .string,
+                                            subtitle: .dictionary(element))
+                            }
+                        } else {
+                            InfoBoxView(title: nameValue.name,
+                                        docType: nameValue.mdocDataType ?? .string,
+                                        subtitle: .text(nameValue.value))
+                        }
                     }
                 }
                 Spacer()

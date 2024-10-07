@@ -6,25 +6,33 @@
 //
 
 import SwiftUI
+import libIso18013
 
 struct InfoBoxView: View {
     
     let title: String
+    let docType: MdocDataType
     let subtitle: SubtitleType
     
     enum SubtitleType {
         case text(String)
         case image(Image)
+        case dictionary(NameValue)
     }
     
     var body: some View {
         GroupBox {
             HStack {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(title)
-                        .font(.subheadline)
-                        .accessibilityIdentifier("InfoBoxViewTitle")
-                    
+                    HStack {
+                        Text(title)
+                            .font(.subheadline)
+                            .accessibilityIdentifier("InfoBoxViewTitle")
+                        Spacer()
+                        Text(docType.rawValue)
+                            .font(.subheadline)
+                            .accessibilityIdentifier("InfoBoxViewDocType")
+                    }
                     switch subtitle {
                         case .text(let text):
                             Text(text)
@@ -36,6 +44,14 @@ struct InfoBoxView: View {
                                 .scaledToFit()
                                 .frame(height: 50)
                                 .accessibilityIdentifier("InfoBoxViewSubtitleImage")
+                        case .dictionary(let dict):
+                            if let children = dict.children {
+                                ForEach(children, id: \.name) { element in
+                                    InfoBoxView(title: element.name,
+                                                docType: element.mdocDataType ?? .string,
+                                                subtitle: .text(element.value))
+                                }
+                            }
                     }
                 }
                 Spacer()
@@ -48,9 +64,11 @@ struct InfoBoxView: View {
 
 #Preview {
     InfoBoxView(title: "Nome",
+                docType: .string,
                 subtitle: .text("Alessandro"))
 
     InfoBoxView(title: "Foto",
+                docType: .bytes,
                 subtitle: .image(Image(systemName: "star")))
 
 }
