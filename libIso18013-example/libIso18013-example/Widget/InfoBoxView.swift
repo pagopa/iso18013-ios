@@ -42,7 +42,7 @@ struct InfoBoxView: View {
             }
         }
         .cornerRadius(6)
-        .padding()
+        .padding(.horizontal)
     }
 }
 

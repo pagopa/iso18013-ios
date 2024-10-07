@@ -1,0 +1,22 @@
+PODS:
+  - libIso18013 (0.0.1)
+
+DEPENDENCIES:
+  - "libIso18013 (from `git@github.com:pagopa/iso18013-ios.git`, branch `develop`)"
+
+EXTERNAL SOURCES:
+  libIso18013:
+    :branch: develop
+    :git: "git@github.com:pagopa/iso18013-ios.git"
+
+CHECKOUT OPTIONS:
+  libIso18013:
+    :commit: a4110f9a392f871857a951f0af50a17a9683846d
+    :git: "git@github.com:pagopa/iso18013-ios.git"
+
+SPEC CHECKSUMS:
+  libIso18013: 7bf74c8dc6f9203d66334767cfbec115ee8bfb66
+
+PODFILE CHECKSUM: 1e057a12f04a16dc5e92d9302e4b594bd27150b9
+
+COCOAPODS: 1.15.2

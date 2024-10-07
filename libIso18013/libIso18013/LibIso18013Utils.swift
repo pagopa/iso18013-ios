@@ -25,7 +25,9 @@ public protocol LibIso18013UtilsProtocol {
 
 
 public class LibIso18013Utils : LibIso18013UtilsProtocol {
-  
+
+  public static let shared = LibIso18013Utils()
+    
   public func decodeDeviceDocument(documentData: Data, privateKeyBase64Encoded: String) -> DeviceDocument? {
     guard let document = decodeDocument(data: documentData),
           let devicePrivateKey = CoseKeyPrivate(base64: privateKeyBase64Encoded),
