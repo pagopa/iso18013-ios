@@ -20,6 +20,7 @@
 		3AEC7E052CB3E00600606D7E /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7E042CB3E00200606D7E /* CustomButton.swift */; };
 		3AEC7E082CB40EEE00606D7E /* Data+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7E072CB40EEA00606D7E /* Data+Image.swift */; };
 		3AEC7E0A2CB40F8100606D7E /* ManageNameSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7E092CB40F7300606D7E /* ManageNameSpaces.swift */; };
+		3D14E76C2CB53B0B00E15A46 /* Cose1SignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E76B2CB53B0B00E15A46 /* Cose1SignView.swift */; };
 		42CE7942CB367C800FA4C03A /* Pods_libIso18013_example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC6D0B920C92C6A9C6CA5524 /* Pods_libIso18013_example.framework */; };
 		65F151D0CFBD13B1E8F1FA6C /* Pods_libIso18013_example_libIso18013_exampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A0CD0986AE53652A5D0E72E /* Pods_libIso18013_example_libIso18013_exampleUITests.framework */; };
 		7044FD2D9ADE26D4BDC978D6 /* Pods_libIso18013_exampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6C5B23A9BC1ABBB1D35CD82 /* Pods_libIso18013_exampleTests.framework */; };
@@ -61,6 +62,7 @@
 		3AEC7E042CB3E00200606D7E /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		3AEC7E072CB40EEA00606D7E /* Data+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Image.swift"; sourceTree = "<group>"; };
 		3AEC7E092CB40F7300606D7E /* ManageNameSpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageNameSpaces.swift; sourceTree = "<group>"; };
+		3D14E76B2CB53B0B00E15A46 /* Cose1SignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cose1SignView.swift; sourceTree = "<group>"; };
 		4395484D94A46B2016D30064 /* Pods-libIso18013-example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-libIso18013-example.debug.xcconfig"; path = "Target Support Files/Pods-libIso18013-example/Pods-libIso18013-example.debug.xcconfig"; sourceTree = "<group>"; };
 		675F6A55AF3FC7DE2D6310E4 /* Pods-libIso18013-exampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-libIso18013-exampleTests.debug.xcconfig"; path = "Target Support Files/Pods-libIso18013-exampleTests/Pods-libIso18013-exampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6B0D38FB4F85B709EC751885 /* Pods-libIso18013-example-libIso18013-exampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-libIso18013-example-libIso18013-exampleUITests.release.xcconfig"; path = "Target Support Files/Pods-libIso18013-example-libIso18013-exampleUITests/Pods-libIso18013-example-libIso18013-exampleUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		3A84D58D2CB3D3270017D76E /* libIso18013-example */ = {
 			isa = PBXGroup;
 			children = (
+				3D14E76A2CB53B0500E15A46 /* Screens */,
 				3AEC7E062CB40EDF00606D7E /* Helper */,
 				3AEC7E012CB3D80C00606D7E /* Constants */,
 				3A84D5862CB3D3270017D76E /* Preview Content */,
@@ -196,6 +199,14 @@
 				3AEC7E072CB40EEA00606D7E /* Data+Image.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		3D14E76A2CB53B0500E15A46 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				3D14E76B2CB53B0B00E15A46 /* Cose1SignView.swift */,
+			);
+			path = Screens;
 			sourceTree = "<group>";
 		};
 		6E9CC8B6DC06E71A45D478E0 /* Pods */ = {
@@ -457,6 +468,7 @@
 				3AEC7E082CB40EEE00606D7E /* Data+Image.swift in Sources */,
 				3AEC7E002CB3D73F00606D7E /* mdl.swift in Sources */,
 				3AEC7E032CB3DD3200606D7E /* CustomTextField.swift in Sources */,
+				3D14E76C2CB53B0B00E15A46 /* Cose1SignView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
