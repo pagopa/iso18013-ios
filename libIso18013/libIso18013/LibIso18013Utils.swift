@@ -41,10 +41,14 @@ public class LibIso18013Utils : LibIso18013UtilsProtocol {
     // - Returns: A DeviceDocument object if decoding succeeds
     public func decodeDeviceDocument(documentData: Data, privateKeyBase64Encoded: String) throws -> DeviceDocument {
         let document = try decodeDocument(data: documentData)
-        guard let devicePrivateKey = CoseKeyPrivate(base64: privateKeyBase64Encoded),
-              isDevicePrivateKeyOfDocument(document: document, privateKey: devicePrivateKey) else {
+        guard let devicePrivateKey = CoseKeyPrivate(base64: privateKeyBase64Encoded) else {
             throw ErrorHandler.documentDecodingFailedError
         }
+        
+        guard isDevicePrivateKeyOfDocument(document: document, privateKey: devicePrivateKey) else {
+            throw ErrorHandler.invalidPrivateKeyError
+        }
+        
         return DeviceDocument(document: document, devicePrivateKey: devicePrivateKey)
     }
     
@@ -56,10 +60,14 @@ public class LibIso18013Utils : LibIso18013UtilsProtocol {
     // - Returns: A DeviceDocument object if decoding succeeds
     public func decodeDeviceDocument(documentBase64Encoded: String, privateKeyBase64Encoded: String) throws -> DeviceDocument {
         let document = try decodeDocument(base64Encoded: documentBase64Encoded)
-        guard let devicePrivateKey = CoseKeyPrivate(base64: privateKeyBase64Encoded),
-              isDevicePrivateKeyOfDocument(document: document, privateKey: devicePrivateKey) else {
+        guard let devicePrivateKey = CoseKeyPrivate(base64: privateKeyBase64Encoded) else {
             throw ErrorHandler.documentDecodingFailedError
         }
+        
+        guard isDevicePrivateKeyOfDocument(document: document, privateKey: devicePrivateKey) else {
+            throw ErrorHandler.invalidPrivateKeyError
+        }
+        
         return DeviceDocument(document: document, devicePrivateKey: devicePrivateKey)
     }
     

@@ -15,8 +15,11 @@ enum ErrorHandler: Error {
                 return "Invalid base64 encoding"
             case .documentDecodingFailedError:
                 return "Document decoding failed"
+            case .invalidPrivateKeyError:
+                return "Invalid private key"
         }
     }
     case invalidBase64EncodingError
     case documentDecodingFailedError
+    case invalidPrivateKeyError
 }
