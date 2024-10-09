@@ -12,9 +12,11 @@ import SwiftCBOR
 struct ContentView: View {
     
     @State private var document: Document?
+    @State private var error: ErrorHandler?
+    @State private var showAlert = false
     @State private var inputText = MDL.inputBase64
-    @State var displayStrings = [NameValue]()
-    @State var displayImages = [NameImage]()
+    @State private var displayStrings: [NameValue] = [NameValue]()
+    @State private var displayImages: [NameImage] = [NameImage]()
     
     var body: some View {
         NavigationView {
@@ -23,10 +25,15 @@ struct ContentView: View {
                 CustomButton(title: "Verifica documento", action: {
                     displayImages = []
                     displayStrings = []
-                    document = LibIso18013Utils.shared.decodeDocument(base64Encoded: inputText)
-                    guard let document else { return }
-                    if let nameSpaces = ManageNameSpaces.getSignedItems(document.issuerSigned, document.docType) {
-                        ManageNameSpaces.extractDisplayStrings(nameSpaces, &displayStrings, &displayImages)
+                    do {
+                        document = try LibIso18013Utils.shared.decodeDocument(base64Encoded: inputText)
+                        guard let document else { return }
+                        if let nameSpaces = ManageNameSpaces.getSignedItems(document.issuerSigned, document.docType) {
+                            ManageNameSpaces.extractDisplayStrings(nameSpaces, &displayStrings, &displayImages)
+                        }
+                    } catch {
+                        self.error = error
+                        self.showAlert = true
                     }
                 })
                 
@@ -58,6 +65,13 @@ struct ContentView: View {
             }
             .padding(.top)
             .navigationTitle("MDL Example")
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Error"),
+                    message: Text(error?.localizedDescription ?? "Unknown error"),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
         }
     }
 }

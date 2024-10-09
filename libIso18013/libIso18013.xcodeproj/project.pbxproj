@@ -13,6 +13,7 @@
 		3A652A282CAE99B800B0D6E4 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A652A272CAE99B700B0D6E4 /* TestData.swift */; };
 		3A652A2A2CAE9B3400B0D6E4 /* DrivingPrivilegesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A652A292CAE9B3300B0D6E4 /* DrivingPrivilegesTests.swift */; };
 		3A652A922CAEA49A00B0D6E4 /* CBOREncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A652A912CAEA49700B0D6E4 /* CBOREncodableTests.swift */; };
+		3AEC7E7C2CB58B8700606D7E /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7E7B2CB58B8600606D7E /* ErrorHandler.swift */; };
 		3D14E5472CABE5C200E15A46 /* libIso18013.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D14E53C2CABE5C100E15A46 /* libIso18013.framework */; };
 		3D14E6462CAD8C0A00E15A46 /* libIso18013.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D14E6422CAD8C0A00E15A46 /* libIso18013.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3D14E6472CAD8C0A00E15A46 /* libIso18013.docc in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6432CAD8C0A00E15A46 /* libIso18013.docc */; };
@@ -73,6 +74,7 @@
 		3A652A272CAE99B700B0D6E4 /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		3A652A292CAE9B3300B0D6E4 /* DrivingPrivilegesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingPrivilegesTests.swift; sourceTree = "<group>"; };
 		3A652A912CAEA49700B0D6E4 /* CBOREncodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBOREncodableTests.swift; sourceTree = "<group>"; };
+		3AEC7E7B2CB58B8600606D7E /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		3D14E53C2CABE5C100E15A46 /* libIso18013.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libIso18013.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D14E5462CABE5C200E15A46 /* libIso18013Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = libIso18013Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D14E6422CAD8C0A00E15A46 /* libIso18013.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libIso18013.h; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 		3D14E66D2CAD907800E15A46 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
+				3AEC7E7B2CB58B8600606D7E /* ErrorHandler.swift */,
 				3A405EED2CAFD9FF0069998C /* DocumentError.swift */,
 				3D14E66E2CAD907F00E15A46 /* Errors.swift */,
 			);
@@ -447,6 +450,7 @@
 				3D14E6C62CAFD31900E15A46 /* SecCertificate+.swift in Sources */,
 				3D14E6AF2CAEA56C00E15A46 /* IssuerAuth.swift in Sources */,
 				3D14E6612CAD8EB800E15A46 /* CBORDecodable.swift in Sources */,
+				3AEC7E7C2CB58B8700606D7E /* ErrorHandler.swift in Sources */,
 				3D14E6842CAD937000E15A46 /* DrivingPrivilegeCode.swift in Sources */,
 				3D14E6AD2CAE9B2600E15A46 /* KeyAuthorizations.swift in Sources */,
 			);
