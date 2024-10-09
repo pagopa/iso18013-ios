@@ -2,21 +2,21 @@ PODS:
   - libIso18013 (0.0.1)
 
 DEPENDENCIES:
-  - "libIso18013 (from `git@github.com:pagopa/iso18013-ios.git`, branch `feature/error-handling`)"
+  - "libIso18013 (from `git@github.com:pagopa/iso18013-ios.git`, branch `develop`)"
 
 EXTERNAL SOURCES:
   libIso18013:
-    :branch: feature/error-handling
+    :branch: develop
     :git: "git@github.com:pagopa/iso18013-ios.git"
 
 CHECKOUT OPTIONS:
   libIso18013:
-    :commit: 18339d4b1524778ba541626bd89e5890e1cec8c2
+    :commit: 181b59287c3cb035ba0a50ce529d5d4de148efca
     :git: "git@github.com:pagopa/iso18013-ios.git"
 
 SPEC CHECKSUMS:
   libIso18013: 7bf74c8dc6f9203d66334767cfbec115ee8bfb66
 
-PODFILE CHECKSUM: a55f86acd577439ffd55e17ba18d33d4dbc56c4d
+PODFILE CHECKSUM: 1e057a12f04a16dc5e92d9302e4b594bd27150b9
 
 COCOAPODS: 1.15.2
