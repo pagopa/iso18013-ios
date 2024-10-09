@@ -8,8 +8,8 @@
 import Foundation
 
 // Error handling class to centralize error messages
-enum ErrorHandler: Error {
-    var localizedDescription: String {
+public enum ErrorHandler: Error {
+    public var localizedDescription: String {
         switch self {
             case .invalidBase64EncodingError:
                 return "Invalid base64 encoding"
