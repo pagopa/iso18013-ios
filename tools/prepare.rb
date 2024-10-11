@@ -11,5 +11,5 @@ def integrate_spms(projects, spms)
 
 
 projects = ["libIso18013"]
-spms = ["https://github.com/niscy-eudiw/SwiftCBOR.git --product SwiftCBOR --version-kind exact --version-value 0.5.7"]
+spms = ["https://github.com/niscy-eudiw/SwiftCBOR.git --product SwiftCBOR --version-kind exact --version-value 0.5.7", "https://github.com/kishikawakatsumi/KeychainAccess.git --product KeychainAccess --version-kind uptomaj --version-value 4.2.2"]
 integrate_spms(projects, spms)

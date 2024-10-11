@@ -12,7 +12,7 @@ import SwiftCBOR
 struct ContentView: View {
     
     @State private var document: Document?
-    @State private var error: ErrorHandler?
+    @State private var error: Error?
     @State private var showAlert = false
     @State private var inputText = MDL.inputBase64
     @State private var displayStrings: [NameValue] = [NameValue]()

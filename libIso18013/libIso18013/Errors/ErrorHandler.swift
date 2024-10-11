@@ -15,11 +15,27 @@ public enum ErrorHandler: Error {
                 return "Invalid base64 encoding"
             case .documentDecodingFailedError:
                 return "Document decoding failed"
-            case .invalidPrivateKeyError:
-                return "Invalid private key"
+            case .invalidDeviceKeyError:
+                return "Invalid device key"
+                
+            case .secureEnclaveNotSupported:
+                return "Secure Enclave not supported on this device"
+            case .secureEnclaveNotSupportedAlgorithm(let algorithm):
+                return "\(algorithm) not supported with Secure Enclave"
+            case .documentWithIdentifierNotFound:
+                return "No stored document found with this identifier"
+            case .documentMustBeUnsigned:
+                return "Document must be unsigned"
         }
     }
     case invalidBase64EncodingError
     case documentDecodingFailedError
-    case invalidPrivateKeyError
+    case invalidDeviceKeyError
+    
+    case secureEnclaveNotSupported
+    case secureEnclaveNotSupportedAlgorithm(algorithm: ECCurveName)
+    //DAO
+    case documentWithIdentifierNotFound
+    case documentMustBeUnsigned
+    
 }

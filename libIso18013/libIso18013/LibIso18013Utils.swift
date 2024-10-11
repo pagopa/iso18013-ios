@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CryptoKit
 
 // Protocol definition for LibIso18013UtilsProtocol
 public protocol LibIso18013UtilsProtocol {
@@ -26,12 +27,42 @@ public protocol LibIso18013UtilsProtocol {
     
     // Checks if the given private key (base64 encoded) corresponds to the document
     func isDevicePrivateKeyOfDocument(document: Document, privateKeyBase64Encoded: String) -> Bool
+    
+    // Create a new secure private key with requested parameters
+    func createSecurePrivateKey(curve: ECCurveName, forceSecureEnclave: Bool) throws -> CoseKeyPrivate
 }
 
 
 public class LibIso18013Utils : LibIso18013UtilsProtocol {
     
     public static let shared = LibIso18013Utils()
+    
+    // Create a secure private key
+    // - Parameters:
+    //   - curve: Elliptic Curve Name
+    //   - forceSecureEnclave: A boolean indicating if secure enclave must be used
+    // - Throws: An error if forceSecureEnclave is enabled and secure enclave is not available or if specified curve is not available in secure enclave
+    // - Returns: A CoseKeyPrivate object if creation succeeds
+    public func createSecurePrivateKey(curve: ECCurveName = .p256, forceSecureEnclave: Bool = true) throws -> CoseKeyPrivate {
+        if forceSecureEnclave {
+            if !SecureEnclave.isAvailable {
+                throw ErrorHandler.secureEnclaveNotSupported
+            }
+            
+            if curve != .p256 {
+                throw ErrorHandler.secureEnclaveNotSupportedAlgorithm(algorithm: curve)
+            }
+            
+            let se256 = try SecureEnclave.P256.KeyAgreement.PrivateKey()
+            
+            return CoseKeyPrivate(
+                publicKeyx963Data: se256.publicKey.x963Representation,
+                secureEnclaveKeyID: se256.dataRepresentation)
+        }
+        
+        //if force is disabled and secure enclave is not available use normal key generation
+        return CoseKeyPrivate(crv: curve)
+    }
     
     // Decodes a device document from raw Data and private key
     // - Parameters:
@@ -41,15 +72,24 @@ public class LibIso18013Utils : LibIso18013UtilsProtocol {
     // - Returns: A DeviceDocument object if decoding succeeds
     public func decodeDeviceDocument(documentData: Data, privateKeyBase64Encoded: String) throws -> DeviceDocument {
         let document = try decodeDocument(data: documentData)
-        guard let devicePrivateKey = CoseKeyPrivate(base64: privateKeyBase64Encoded) else {
+        guard let devicePrivateKeyData = Data(base64Encoded: privateKeyBase64Encoded) else {
             throw ErrorHandler.documentDecodingFailedError
         }
         
+        let devicePrivateKey = CoseKeyPrivate(privateKeyx963Data: devicePrivateKeyData)
+        
         guard isDevicePrivateKeyOfDocument(document: document, privateKey: devicePrivateKey) else {
-            throw ErrorHandler.invalidPrivateKeyError
+            throw ErrorHandler.invalidDeviceKeyError
         }
         
-        return DeviceDocument(document: document, devicePrivateKey: devicePrivateKey)
+        return DeviceDocument(
+            state: .issued,
+            createdAt: Date(),
+            deviceKey: devicePrivateKey,
+            docType: document.docType,
+            name: document.docType,
+            identifier: UUID().uuidString,
+            document: document);
     }
     
     // Decodes a device document from a base64-encoded string and private key
@@ -65,10 +105,17 @@ public class LibIso18013Utils : LibIso18013UtilsProtocol {
         }
         
         guard isDevicePrivateKeyOfDocument(document: document, privateKey: devicePrivateKey) else {
-            throw ErrorHandler.invalidPrivateKeyError
+            throw ErrorHandler.invalidDeviceKeyError
         }
         
-        return DeviceDocument(document: document, devicePrivateKey: devicePrivateKey)
+        return DeviceDocument(
+            state: .issued,
+            createdAt: Date(),
+            deviceKey: devicePrivateKey,
+            docType: document.docType,
+            name: document.docType,
+            identifier: UUID().uuidString,
+            document: document);
     }
     
     // Checks if the provided private key corresponds to the device key in the document
@@ -83,7 +130,7 @@ public class LibIso18013Utils : LibIso18013UtilsProtocol {
         
         let devicePublicKey = privateKey.key
         
-        return devicePublicKeyInDocument.getx963Representation() == devicePublicKey.getx963Representation()
+        return devicePublicKeyInDocument.getx963Representation().base64EncodedData() == devicePublicKey.getx963Representation().base64EncodedData()
     }
     
     // Checks if the provided base64-encoded private key corresponds to the device key in the document
@@ -98,7 +145,7 @@ public class LibIso18013Utils : LibIso18013UtilsProtocol {
         
         return isDevicePrivateKeyOfDocument(document: document, privateKey: devicePrivateKey)
     }
-
+    
     
     // Decodes a document from a base64-encoded string
     // - Parameter base64Encoded: A string containing the base64-encoded document data
