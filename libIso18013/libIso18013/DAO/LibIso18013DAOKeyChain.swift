@@ -1,25 +1,33 @@
 //
-//  LibIso18013DAOMemory.swift
+//  LibIso18013DAOKeyChain.swift
 //  libIso18013
 //
 //  Created by Antonio on 11/10/24.
 //
+import KeychainAccess
+import SwiftCBOR
 
 
-public class LibIso18013DAOMemory : LibIso18013DAOProtocol {
+public class LibIso18013DAOKeyChain : LibIso18013DAOProtocol {
     
     public init() {
-        self._documents = []
     }
     
-    //TODO: should check thread safety with a lock
-    var _documents : [DeviceDocument] = []
+    private lazy var keyChain: Keychain = {
+        Keychain()
+    }()
     
     public func getAllDocuments(state: DeviceDocumentState?) -> [DeviceDocumentProtocol] {
+        
+        let documents = keyChain.allKeys().compactMap({
+            identifier in
+            return try? getDocumentByIdentifier(identifier: identifier)
+        })
+        
         guard let state = state else {
-            return _documents
+            return documents
         }
-        return _documents.filter({$0.state == state})
+        return documents.filter({$0.state == state})
     }
     
     public func getAllMdlDocuments(state: DeviceDocumentState?) -> [DeviceDocumentProtocol] {
@@ -35,7 +43,12 @@ public class LibIso18013DAOMemory : LibIso18013DAOProtocol {
     }
     
     public func getDocumentByIdentifier(identifier: String) throws -> DeviceDocumentProtocol {
-        guard let document = _documents.first(where: {$0.identifier == identifier}) else {
+        return try _getDocumentByIdentifier(identifier: identifier)
+    }
+    
+    private func _getDocumentByIdentifier(identifier: String) throws -> DeviceDocument {
+        guard let documentData = keyChain[data: identifier],
+              let document = DeviceDocument(data: documentData.bytes) else {
             throw ErrorHandler.documentWithIdentifierNotFound
         }
         
@@ -43,11 +56,11 @@ public class LibIso18013DAOMemory : LibIso18013DAOProtocol {
     }
     
     public func deleteDocument(identifier: String) throws -> Bool {
-        guard let documentIndex = _documents.firstIndex(where: {$0.identifier == identifier}) else {
+        guard let _ = keyChain[data: identifier] else {
             throw ErrorHandler.documentWithIdentifierNotFound
         }
         
-        _documents.remove(at: documentIndex)
+        try keyChain.remove(identifier)
         
         return true
     }
@@ -69,17 +82,15 @@ public class LibIso18013DAOMemory : LibIso18013DAOProtocol {
             identifier: UUID().uuidString,
             document: nil)
         
-        _documents.append(document)
+        try keyChain.set(Data(document.encode(options: CBOROptions())), key: document.identifier)
         
         return document
     }
     
     public func storeDocument(identifier: String, documentData: Data) throws -> String {
-        guard let documentIndex = _documents.firstIndex(where: {$0.identifier == identifier}) else {
-            throw ErrorHandler.documentWithIdentifierNotFound
-        }
         
-        let storedDocument = _documents[documentIndex]
+        let storedDocument = (try _getDocumentByIdentifier(identifier: identifier) as DeviceDocument)
+        
         
         if storedDocument.state != .unsigned {
             throw ErrorHandler.documentMustBeUnsigned
@@ -88,7 +99,7 @@ public class LibIso18013DAOMemory : LibIso18013DAOProtocol {
         guard let issuerSigned = IssuerSigned(data: documentData.bytes) else {
             throw ErrorHandler.documentDecodingFailedError
         }
-         
+        
         let document = Document(docType: storedDocument.docType, issuerSigned: issuerSigned)
         
         guard LibIso18013Utils.shared.isDevicePrivateKeyOfDocument(
@@ -97,7 +108,9 @@ public class LibIso18013DAOMemory : LibIso18013DAOProtocol {
             throw ErrorHandler.invalidDeviceKeyError
         }
         
-        _documents[documentIndex] = storedDocument.issued(document: document)
+        let issuedDocument = storedDocument.issued(document: document)
+        
+        try keyChain.set(Data(issuedDocument.encode(options: CBOROptions())), key: storedDocument.identifier)
         
         return identifier
     }

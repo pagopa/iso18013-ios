@@ -52,7 +52,9 @@ public class LibIso18013Utils : LibIso18013UtilsProtocol {
             if curve != .p256 {
                 throw ErrorHandler.secureEnclaveNotSupportedAlgorithm(algorithm: curve)
             }
-            
+        }
+        
+        if SecureEnclave.isAvailable && curve == .p256 {
             let se256 = try SecureEnclave.P256.KeyAgreement.PrivateKey()
             
             return CoseKeyPrivate(

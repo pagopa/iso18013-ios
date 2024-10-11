@@ -19,6 +19,14 @@ final class LibIso18013DAOTests: XCTestCase {
         doTestStoreDocument(dao: LibIso18013DAOMemory())
     }
     
+    func testCreateDocumentKeyChain() {
+        doTestCreateDocument(dao: LibIso18013DAOKeyChain())
+    }
+    
+    func testStoreDocumentKeyChain() {
+        doTestStoreDocument(dao: LibIso18013DAOKeyChain())
+    }
+    
     func doTestCreateDocument(dao: LibIso18013DAOProtocol) {
         let documentName = "Patente"
         
@@ -29,26 +37,27 @@ final class LibIso18013DAOTests: XCTestCase {
                 curve: .p256,
                 forceSecureEnclave: true)
             
-            assert(unsigned.document == nil)
-            assert(unsigned.docType == DocType.mDL.rawValue)
-            assert(unsigned.name == documentName)
+            XCTAssert(unsigned.document == nil)
+            XCTAssert(unsigned.docType == DocType.mDL.rawValue)
+            XCTAssert(unsigned.name == documentName)
         }
         catch  {
-            print(error.localizedDescription)
-            assert(false)
+            XCTFail(error.localizedDescription)
         }
     }
     
     func doTestStoreDocument(dao: LibIso18013DAOProtocol) {
         let documentName = "Patente"
         guard let documentData = Data(base64Encoded: DocumentTestData.issuerSignedDocument1) else {
-            assert(false)
+            XCTFail("document data must be valid")
+            return
         }
         
         do {
             
             guard let deviceKey = CoseKeyPrivate(base64: DocumentTestData.devicePrivateKey) else {
-                assert(false)
+                XCTFail("device key must be valid")
+                return
             }
             
             let unsigned = try dao.createDocument(docType: DocType.mDL.rawValue, documentName: documentName, deviceKey: deviceKey)
@@ -58,15 +67,14 @@ final class LibIso18013DAOTests: XCTestCase {
             let issued = try dao.getDocumentByIdentifier(identifier: issuedIdentifier)
             
             
-            assert(unsigned.document == nil)
-            assert(unsigned.docType == issued.docType)
-            assert(unsigned.name == issued.name)
-            assert(issued.document != nil)
+            XCTAssert(unsigned.document == nil)
+            XCTAssert(unsigned.docType == issued.docType)
+            XCTAssert(unsigned.name == issued.name)
+            XCTAssert(issued.document != nil)
             
         }
         catch  {
-            print(error.localizedDescription)
-            assert(false)
+            XCTFail(error.localizedDescription)
         }
     }
 }

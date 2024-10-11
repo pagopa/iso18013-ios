@@ -15,11 +15,10 @@ final class LibIso18013UtilsTests: XCTestCase {
     func testDecodeDocument() {
         do {
             let document = try LibIso18013Utils.shared.decodeDocument(base64Encoded: DocumentTestData.document1)
-            assert(document.docType == DocType.euPid.rawValue)
+            XCTAssert(document.docType == DocType.euPid.rawValue)
         }
         catch {
-            print(error.localizedDescription)
-            assert(false)
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -29,11 +28,10 @@ final class LibIso18013UtilsTests: XCTestCase {
                 documentBase64Encoded: DocumentTestData.document1,
                 privateKeyBase64Encoded: DocumentTestData.devicePrivateKey)
             
-            assert(document.docType == DocType.euPid.rawValue)
+            XCTAssert(document.docType == DocType.euPid.rawValue)
         }
         catch {
-            print(error.localizedDescription)
-            assert(false)
+            XCTFail(error.localizedDescription)
         }
     }
     
@@ -41,17 +39,17 @@ final class LibIso18013UtilsTests: XCTestCase {
         do {
             let wrongKey = try LibIso18013Utils.shared.createSecurePrivateKey()
            
-            assert(true)
+            XCTAssert(true)
             
             let _ = try LibIso18013Utils.shared.decodeDeviceDocument(
                 documentBase64Encoded: DocumentTestData.document1,
                 privateKeyBase64Encoded: wrongKey.base64Encoded(options: CBOROptions()))
             
-            assert(false)
+            XCTFail("must throw an error")
         }
         catch {
             print(error.localizedDescription)
-            assert(true)
+            XCTAssert(true)
         }
     }
 }

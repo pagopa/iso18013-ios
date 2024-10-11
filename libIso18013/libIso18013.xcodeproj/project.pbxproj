@@ -61,6 +61,7 @@
 		3D179CB22CB907A30061DFDC /* LibIso18013UtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D179CB12CB9079C0061DFDC /* LibIso18013UtilsTests.swift */; };
 		3D179CB52CB924DA0061DFDC /* LibIso18013DAOMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D179CB42CB924D90061DFDC /* LibIso18013DAOMemory.swift */; };
 		3D179CBA2CB95A370061DFDC /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 3D179CB92CB95A370061DFDC /* KeychainAccess */; };
+		3D179CBC2CB95EEB0061DFDC /* LibIso18013DAOKeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D179CBB2CB95EDE0061DFDC /* LibIso18013DAOKeyChain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +128,7 @@
 		3D179CAF2CB9074A0061DFDC /* DocumentTestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTestData.swift; sourceTree = "<group>"; };
 		3D179CB12CB9079C0061DFDC /* LibIso18013UtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013UtilsTests.swift; sourceTree = "<group>"; };
 		3D179CB42CB924D90061DFDC /* LibIso18013DAOMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013DAOMemory.swift; sourceTree = "<group>"; };
+		3D179CBB2CB95EDE0061DFDC /* LibIso18013DAOKeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013DAOKeyChain.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -316,6 +318,7 @@
 		3D179CB32CB924CF0061DFDC /* DAO */ = {
 			isa = PBXGroup;
 			children = (
+				3D179CBB2CB95EDE0061DFDC /* LibIso18013DAOKeyChain.swift */,
 				3D179CB42CB924D90061DFDC /* LibIso18013DAOMemory.swift */,
 			);
 			path = DAO;
@@ -469,6 +472,7 @@
 				3D14E68A2CAD947B00E15A46 /* IssuerSignedItem.swift in Sources */,
 				3D14E6722CAD915600E15A46 /* Dictionary+.swift in Sources */,
 				3D14E69C2CAE995000E15A46 /* DigestIDs.swift in Sources */,
+				3D179CBC2CB95EEB0061DFDC /* LibIso18013DAOKeyChain.swift in Sources */,
 				3D14E66C2CAD903500E15A46 /* Data+.swift in Sources */,
 				3D14E6522CAD8C9900E15A46 /* Document.swift in Sources */,
 				3A405EF12CAFDACC0069998C /* DeviceResponse.swift in Sources */,

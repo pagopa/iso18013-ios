@@ -136,7 +136,8 @@ extension CoseKeyPrivate: CBOREncodable {
              1: .unsignedInt(key.kty.rawValue),  // Key type identifier
              -2: .byteString(key.x),             // X coordinate as byte string
              -3: .byteString(key.y),             // Y coordinate as byte string
-             -4: .byteString(d) //D as byte string
+             -4: .byteString(d), //D as byte string
+             -5: .byteString(secureEnclaveKeyID?.bytes ?? [])
         ]
         return cbor
     }
@@ -148,10 +149,26 @@ extension CoseKeyPrivate: CBORDecodable {
     public init?(cbor obj: CBOR) {
         
         guard let coseKey = CoseKey(cbor: obj),
-              let cd = obj[-4],
-              case let CBOR.byteString(rd) = cd else {
+              let coseKeyPrivateDataCBOR = obj[-4],
+              case let CBOR.byteString(coseKeyPrivateDataValue) = coseKeyPrivateDataCBOR
+        else {
             return nil
         }
-        self.init(key: coseKey, d: rd)
+        
+        if coseKeyPrivateDataValue.isEmpty {
+            guard let coseKeySecureEnclaveKeyIdCBOR = obj[-5] else {
+                return nil
+            }
+            guard case let CBOR.byteString(coseKeySecureEnclaveKeyIdValue) = coseKeySecureEnclaveKeyIdCBOR else {
+                return nil
+            }
+            
+            self.init(publicKeyx963Data: coseKey.getx963Representation(), secureEnclaveKeyID: Data(coseKeySecureEnclaveKeyIdValue))
+        }
+        else {
+            self.init(key: coseKey, d: coseKeyPrivateDataValue)
+        }
+        
+       
     }
 }

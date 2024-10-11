@@ -12,9 +12,23 @@ import libIso18013
 struct Cose1SignView : View {
     @State var privateKey: String = ""
     @State var publicKey: String = ""
+    @State var deviceKey: CoseKeyPrivate? = nil
     @State var input: String = ""
     @State var output: String = ""
     @State var verified: Bool? = nil
+    
+    func setKeyPair(coseKey: CoseKeyPrivate) {
+        if coseKey.secureEnclaveKeyID == nil {
+            privateKey = coseKey.getx963Representation().base64EncodedString()
+        }
+        else {
+            privateKey = "Secure Enclave Key"
+        }
+        
+        publicKey = coseKey.key.getx963Representation().base64EncodedString()
+        
+        self.deviceKey = coseKey
+    }
     
     var body: some View {
         NavigationView {
@@ -23,8 +37,6 @@ struct Cose1SignView : View {
                     GroupBox(content: {
                         GroupBox(content: {
                             CustomTextField(placeholder: "Chiave Privata", text: $privateKey)
-                            
-                            
                         }, label: {
                             Text("Privata")
                         })
@@ -36,8 +48,12 @@ struct Cose1SignView : View {
                         })
                         CustomButton(title: "Nuova coppia", action: {
                             let cosePrivateKey = CoseKeyPrivate(crv: .p256)
-                            self.privateKey = cosePrivateKey.getx963Representation().base64EncodedString()
-                            self.publicKey = cosePrivateKey.key.getx963Representation().base64EncodedString()
+                            
+                            deviceKey = cosePrivateKey
+                            
+                            setKeyPair(coseKey: cosePrivateKey)
+//                            self.privateKey = cosePrivateKey.getx963Representation().base64EncodedString()
+//                            self.publicKey = cosePrivateKey.key.getx963Representation().base64EncodedString()
                         })
                     }, label: {
                         Text("Coppia di chiavi")
@@ -45,7 +61,10 @@ struct Cose1SignView : View {
                     GroupBox(content: {
                         CustomTextField(placeholder: "Input", text: $input)
                         CustomButton(title: "Firma Input", action: {
-                            let cosePrivateKey = CoseKeyPrivate(privateKeyx963Data: Data(base64Encoded: privateKey)!)
+                            guard let cosePrivateKey = self.deviceKey else {
+                                return
+                            }
+//                            let cosePrivateKey = CoseKeyPrivate(privateKeyx963Data: Data(base64Encoded: privateKey)!)
                             
                             let payload = input.data(using: .utf8)!
                             
@@ -80,6 +99,10 @@ struct Cose1SignView : View {
                 }
                 .padding(.top)
                 .navigationTitle("COSE Example")
+            }.onAppear {
+                if let deviceKey = self.deviceKey {
+                    self.setKeyPair(coseKey: deviceKey)
+                }
             }
         }
     }

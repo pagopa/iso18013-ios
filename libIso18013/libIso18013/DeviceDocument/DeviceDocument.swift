@@ -5,6 +5,8 @@
 //  Created by Antonio on 04/10/24.
 //
 
+import SwiftCBOR
+
 public struct DeviceDocument : DeviceDocumentProtocol {
     public let state: DeviceDocumentState
     public let createdAt: Date
@@ -26,15 +28,91 @@ public struct DeviceDocument : DeviceDocumentProtocol {
     }
 }
 
+extension DeviceDocument : CBOREncodable {
+    public func toCBOR(options: SwiftCBOR.CBOROptions) -> SwiftCBOR.CBOR {
+        
+        let documentValue: CBOR = document == nil ?
+            .null :
+            .byteString(document!.encode(options: CBOROptions()))
+        
+        let cbor: CBOR = [
+            -1: .utf8String(state.rawValue),
+             -2: .date(createdAt),
+             -3: .byteString(deviceKey.encode(options: options)),
+             -4: .utf8String(docType),
+             -5: .utf8String(name),
+             -6: .utf8String(identifier),
+             -7: documentValue
+        ]
+        return cbor
+    }
+}
+
+extension DeviceDocument : CBORDecodable {
+    public init?(cbor: SwiftCBOR.CBOR) {
+        guard let stateCBOR = cbor[-1],
+              let createdAtCBOR = cbor[-2],
+              let deviceKeyCBOR = cbor[-3],
+              let docTypeCBOR = cbor[-4],
+              let nameCBOR = cbor[-5],
+              let identifierCBOR = cbor[-6],
+              let documentCBOR = cbor[-7] else {
+            return nil
+        }
+        
+        guard case let CBOR.utf8String(stateValue) = stateCBOR,
+              case let CBOR.date(createdAtValue) = createdAtCBOR,
+              case let CBOR.byteString(deviceKeyValue) = deviceKeyCBOR,
+              case let CBOR.utf8String(docTypeValue) = docTypeCBOR,
+              case let CBOR.utf8String(nameValue) = nameCBOR,
+              case let CBOR.utf8String(identifierValue) = identifierCBOR
+        else {
+            return nil
+        }
+        
+        guard let state = DeviceDocumentState(rawValue: stateValue) else {
+            return nil
+        }
+        
+        guard let deviceKey = CoseKeyPrivate(data: deviceKeyValue) else {
+            return nil
+        }
+        
+        
+        
+        if case let CBOR.byteString(documentValue) = documentCBOR {
+            guard let document = Document(data: documentValue) else {
+                return nil
+            }
+            self.document = document
+        }
+        else if case CBOR.null = documentCBOR {
+            self.document = nil
+        }
+        else {
+            return nil
+        }
+        
+        self.state = state
+        self.createdAt = createdAtValue
+        self.docType = docTypeValue
+        self.name = nameValue
+        self.identifier = identifierValue
+        self.deviceKey = deviceKey
+    }
+    
+    
+}
+
 public enum DocType : String {
     case euPid = "eu.europa.ec.eudi.pid.1"
     case mDL = "org.iso.18013.5.1.mDL"
 }
 
-public enum DeviceDocumentState {
-    case unsigned
-    case deferred
-    case issued
+public enum DeviceDocumentState : String {
+    case unsigned = "UNSIGNED"
+    case deferred = "DEFERRED"
+    case issued = "ISSUED"
 }
 
 public protocol DeviceDocumentProtocol {
