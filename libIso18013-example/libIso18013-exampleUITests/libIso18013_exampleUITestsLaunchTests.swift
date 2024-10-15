@@ -64,4 +64,5 @@ final class libIso18013_exampleUITestsLaunchTests: XCTestCase {
         // Verifica se il testo è stato correttamente cancellato
         XCTAssertEqual(textField.label, "")
     }
+    
 }

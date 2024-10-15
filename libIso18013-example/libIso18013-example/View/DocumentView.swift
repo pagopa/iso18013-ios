@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  DocumentView.swift
 //  libIso18013-example
 //
 //  Created by Martina D'urso on 06/10/24.
@@ -9,10 +9,10 @@ import SwiftUI
 import libIso18013
 import SwiftCBOR
 
-struct ContentView: View {
+struct DocumentView: View {
     
     @State private var document: Document?
-    @State private var error: ErrorHandler?
+    @State private var error: Error?
     @State private var showAlert = false
     @State private var inputText = MDL.inputBase64
     @State private var displayStrings: [NameValue] = [NameValue]()
@@ -77,6 +77,6 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    DocumentView()
 }
 
