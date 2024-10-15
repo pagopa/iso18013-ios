@@ -2,21 +2,21 @@ PODS:
   - libIso18013 (0.0.1)
 
 DEPENDENCIES:
-  - libIso18013 (from `/Users/username/repos/digitouch/pagopa/iso18013-ios/.git`, branch `feature/document-dao`)
+  - "libIso18013 (from `git@github.com:pagopa/iso18013-ios.git`, branch `develop`)"
 
 EXTERNAL SOURCES:
   libIso18013:
-    :branch: feature/document-dao
-    :git: "/Users/username/repos/digitouch/pagopa/iso18013-ios/.git"
+    :branch: develop
+    :git: "git@github.com:pagopa/iso18013-ios.git"
 
 CHECKOUT OPTIONS:
   libIso18013:
-    :commit: 3f7b56cfdfdd8f5db3fecad911dd931038975e67
-    :git: "/Users/username/repos/digitouch/pagopa/iso18013-ios/.git"
+    :commit: fcaee78ed9a4689840b3abbe31cf0c4e6f3440ed
+    :git: "git@github.com:pagopa/iso18013-ios.git"
 
 SPEC CHECKSUMS:
   libIso18013: ce816083a29d08ca3ec350de13acd47e647cfc7e
 
-PODFILE CHECKSUM: b33217b76120ed99fbc24c55c62c7e111e2e4fb9
+PODFILE CHECKSUM: 1e057a12f04a16dc5e92d9302e4b594bd27150b9
 
 COCOAPODS: 1.15.2

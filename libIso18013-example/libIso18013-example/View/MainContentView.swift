@@ -12,6 +12,7 @@ enum SelectedView {
     case viewOne
     case viewTwo
     case viewThree
+    case viewFour
 }
 
 struct MainContentView: View {
@@ -32,6 +33,8 @@ struct MainContentView: View {
                         case .none:
                             Text("Seleziona una vista dal menu")
                                 .padding()
+                        case .viewFour:
+                            DocumentDAOView()
                     }
                     Spacer()
                 }
@@ -87,6 +90,13 @@ struct SideMenu: View {
                         isMenuOpen = false
                     }) {
                         rowView(isSelected: selectedView == .viewThree, imageName: "key", title: "View Three")
+                    }
+                    
+                    Button(action: {
+                        selectedView = .viewFour
+                        isMenuOpen = false
+                    }) {
+                        rowView(isSelected: selectedView == .viewFour, imageName: "key", title: "View Four")
                     }
                     
                     Spacer()

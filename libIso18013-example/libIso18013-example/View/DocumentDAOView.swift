@@ -8,7 +8,6 @@
 import SwiftUI
 import libIso18013
 
-
 struct DocumentDAOView : View {
     
     var dao: LibIso18013DAOProtocol = LibIso18013DAOKeyChain()
