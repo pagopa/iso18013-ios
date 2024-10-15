@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
 
   spec.name         = "libIso18013"
   spec.version      = "0.0.1"
-  spec.summary      = "ISO 18013 sets global standards for driving licenses, covering both physical cards and mobile formats. It ensures security, interoperability, and consistent design for international recognition."
+  spec.summary      = "ISO 18013 sets global standards for driving licenses, covering both physical cards and mobile formats."
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -64,7 +64,6 @@ Pod::Spec.new do |spec|
   # spec.tvos.deployment_target = "9.0"
   # spec.visionos.deployment_target = "1.0"
 
-
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
   #  Specify the location from where the source should be retrieved.
@@ -85,7 +84,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.source_files = 'libIso18013/**/*', "tools.zip"
-  spec.exclude_files = 'libIso18013/libIso18013Tests/*'
+  spec.exclude_files = 'libIso18013/libIso18013Tests/*', 'libIso18013/libIso18013.xcodeproj/xcuserdata/**/*'
 
   spec.pod_target_xcconfig = { 
     'SWIFT_INCLUDE_PATHS' => '$(inherited) ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)',
