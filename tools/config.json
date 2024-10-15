@@ -1,0 +1,18 @@
+{
+    "packages": [
+        {
+            "spmUrl": "https://github.com/niscy-eudiw/SwiftCBOR.git",
+            "product": "SwiftCBOR",
+            "versionKind": "exact",
+            "versionValue": "0.5.7",
+            "targetName": ""
+        },
+        {
+            "spmUrl": "https://github.com/kishikawakatsumi/KeychainAccess.git",
+            "product": "KeychainAccess",
+            "versionKind": "uptomaj",
+            "versionValue": "4.2.2",
+            "targetName": ""
+        }
+    ]
+}
