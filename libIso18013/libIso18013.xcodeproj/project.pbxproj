@@ -16,10 +16,8 @@
 		3A868AFC2CBE948100B35976 /* CoseKeyExchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868AED2CBE948100B35976 /* CoseKeyExchange.swift */; };
 		3A868AFE2CBE948100B35976 /* DeviceEngagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868AEF2CBE948100B35976 /* DeviceEngagement.swift */; };
 		3A868AFF2CBE948100B35976 /* DeviceRetrievalMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868AF02CBE948100B35976 /* DeviceRetrievalMethod.swift */; };
-		3A868B012CBE948100B35976 /* InputCorrectionLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868AF22CBE948100B35976 /* InputCorrectionLevel.swift */; };
 		3A868B052CBE948100B35976 /* Security.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868AF62CBE948100B35976 /* Security.swift */; };
 		3A868B132CBE9B7700B35976 /* UInt32+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868B122CBE9B7700B35976 /* UInt32+.swift */; };
-		3A868B562CBFB6A500B35976 /* QRCodeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868B552CBFB6A500B35976 /* QRCodeTest.swift */; };
 		3A868B592CBFC32800B35976 /* LibIso18013Proximity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868B582CBFC32100B35976 /* LibIso18013Proximity.swift */; };
 		3AEC7E7C2CB58B8700606D7E /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7E7B2CB58B8600606D7E /* ErrorHandler.swift */; };
 		3D14E5472CABE5C200E15A46 /* libIso18013.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D14E53C2CABE5C100E15A46 /* libIso18013.framework */; };
@@ -92,10 +90,8 @@
 		3A868AED2CBE948100B35976 /* CoseKeyExchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoseKeyExchange.swift; sourceTree = "<group>"; };
 		3A868AEF2CBE948100B35976 /* DeviceEngagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceEngagement.swift; sourceTree = "<group>"; };
 		3A868AF02CBE948100B35976 /* DeviceRetrievalMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRetrievalMethod.swift; sourceTree = "<group>"; };
-		3A868AF22CBE948100B35976 /* InputCorrectionLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputCorrectionLevel.swift; sourceTree = "<group>"; };
 		3A868AF62CBE948100B35976 /* Security.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Security.swift; sourceTree = "<group>"; };
 		3A868B122CBE9B7700B35976 /* UInt32+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt32+.swift"; sourceTree = "<group>"; };
-		3A868B552CBFB6A500B35976 /* QRCodeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeTest.swift; sourceTree = "<group>"; };
 		3A868B582CBFC32100B35976 /* LibIso18013Proximity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013Proximity.swift; sourceTree = "<group>"; };
 		3AEC7E7B2CB58B8600606D7E /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		3D14E53C2CABE5C100E15A46 /* libIso18013.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libIso18013.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,9 +186,7 @@
 			children = (
 				3A868AEF2CBE948100B35976 /* DeviceEngagement.swift */,
 				3A868AF02CBE948100B35976 /* DeviceRetrievalMethod.swift */,
-				3A868AF22CBE948100B35976 /* InputCorrectionLevel.swift */,
 				3A868AF62CBE948100B35976 /* Security.swift */,
-				3A868B552CBFB6A500B35976 /* QRCodeTest.swift */,
 			);
 			path = QRCodeEngagement;
 			sourceTree = "<group>";
@@ -510,13 +504,11 @@
 				3A868B132CBE9B7700B35976 /* UInt32+.swift in Sources */,
 				3A868AFE2CBE948100B35976 /* DeviceEngagement.swift in Sources */,
 				3A868AFF2CBE948100B35976 /* DeviceRetrievalMethod.swift in Sources */,
-				3A868B012CBE948100B35976 /* InputCorrectionLevel.swift in Sources */,
 				3A868B052CBE948100B35976 /* Security.swift in Sources */,
 				3D14E6A52CAE99FB00E15A46 /* CoseKey.swift in Sources */,
 				3D14E6982CAE991B00E15A46 /* DigestAlgorithmKind.swift in Sources */,
 				3D14E6482CAD8C0A00E15A46 /* LibIso18013Utils.swift in Sources */,
 				3D14E68A2CAD947B00E15A46 /* IssuerSignedItem.swift in Sources */,
-				3A868B562CBFB6A500B35976 /* QRCodeTest.swift in Sources */,
 				3A868B592CBFC32800B35976 /* LibIso18013Proximity.swift in Sources */,
 				3D14E6722CAD915600E15A46 /* Dictionary+.swift in Sources */,
 				3D14E69C2CAE995000E15A46 /* DigestIDs.swift in Sources */,
