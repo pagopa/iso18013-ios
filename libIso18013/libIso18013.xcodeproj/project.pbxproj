@@ -19,6 +19,7 @@
 		3A868B052CBE948100B35976 /* Security.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868AF62CBE948100B35976 /* Security.swift */; };
 		3A868B132CBE9B7700B35976 /* UInt32+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868B122CBE9B7700B35976 /* UInt32+.swift */; };
 		3A868B592CBFC32800B35976 /* LibIso18013Proximity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868B582CBFC32100B35976 /* LibIso18013Proximity.swift */; };
+		3ADB28F42CC106920087018A /* DeviceEngagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB28F32CC106800087018A /* DeviceEngagementTests.swift */; };
 		3AEC7E7C2CB58B8700606D7E /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7E7B2CB58B8600606D7E /* ErrorHandler.swift */; };
 		3D14E5472CABE5C200E15A46 /* libIso18013.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D14E53C2CABE5C100E15A46 /* libIso18013.framework */; };
 		3D14E6462CAD8C0A00E15A46 /* libIso18013.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D14E6422CAD8C0A00E15A46 /* libIso18013.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -93,6 +94,7 @@
 		3A868AF62CBE948100B35976 /* Security.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Security.swift; sourceTree = "<group>"; };
 		3A868B122CBE9B7700B35976 /* UInt32+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt32+.swift"; sourceTree = "<group>"; };
 		3A868B582CBFC32100B35976 /* LibIso18013Proximity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013Proximity.swift; sourceTree = "<group>"; };
+		3ADB28F32CC106800087018A /* DeviceEngagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceEngagementTests.swift; sourceTree = "<group>"; };
 		3AEC7E7B2CB58B8600606D7E /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		3D14E53C2CABE5C100E15A46 /* libIso18013.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libIso18013.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D14E5462CABE5C200E15A46 /* libIso18013Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = libIso18013Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -240,6 +242,7 @@
 		3D14E64A2CAD8C0E00E15A46 /* libIso18013Tests */ = {
 			isa = PBXGroup;
 			children = (
+				3ADB28F32CC106800087018A /* DeviceEngagementTests.swift */,
 				3D179CB12CB9079C0061DFDC /* LibIso18013UtilsTests.swift */,
 				3D179CAD2CB82CBF0061DFDC /* LibIso18013DAOTests.swift */,
 				3D14E6E92CB42CA600E15A46 /* CoseTests.swift */,
@@ -539,6 +542,7 @@
 				3D179CB02CB9074A0061DFDC /* DocumentTestData.swift in Sources */,
 				3D14E64B2CAD8C0E00E15A46 /* libIso18013Tests.swift in Sources */,
 				3D14E6EA2CB42CAA00E15A46 /* CoseTests.swift in Sources */,
+				3ADB28F42CC106920087018A /* DeviceEngagementTests.swift in Sources */,
 				3A652A2A2CAE9B3400B0D6E4 /* DrivingPrivilegesTests.swift in Sources */,
 				3A652A262CAE97C700B0D6E4 /* DeviceResponseTests.swift in Sources */,
 				3D179CAE2CB82CCA0061DFDC /* LibIso18013DAOTests.swift in Sources */,

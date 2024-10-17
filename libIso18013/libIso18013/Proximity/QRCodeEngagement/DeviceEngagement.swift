@@ -10,62 +10,62 @@ import Foundation
 import SwiftCBOR
 import CryptoKit
 
-/// Struttura per rappresentare l'engagement del dispositivo
+// Struct to represent device engagement
 public struct DeviceEngagement {
-    // Versione dell'implementazione
+    // Implementation version
     static let versionImpl: String = "1.0"
-    // Versione del dispositivo, inizializzata con la versione dell'implementazione
+    // Device version, initialized with the implementation version
     var version: String = Self.versionImpl
-    // Informazioni di sicurezza del dispositivo
+    // Device security information
     let security: Security
-    // Metodi di recupero del dispositivo (opzionali)
+    // Optional device retrieval methods
     public var deviceRetrievalMethods: [DeviceRetrievalMethod]? = nil
-    // Lista di stringhe riservate per usi futuri (rfus)
+    // List of strings reserved for future use (rfus)
     var rfus: [String]?
-    // Chiave privata del dispositivo (solo per il titolare)
+    // Device private key (only for the holder)
     var d: [UInt8]?
-    // Identificatore della chiave nel Secure Enclave
+    // Secure Enclave key identifier
     var seKeyID: Data?
-    // Codifica QR del dispositivo
+    // QR code encoding for the device
     public var qrCoded: [UInt8]?
     
 #if DEBUG
-    // Funzioni per impostare la chiave privata e l'identificatore della chiave nel Secure Enclave per il debug
+    // Functions to set the private key and key identifier in the Secure Enclave for debugging
     mutating func setD(d: [UInt8]) { self.d = d }
     mutating func setKeyID(keyID: Data) { self.seKeyID = keyID }
 #endif
     
-    /// Genera il device engagement
+    // Generates the device engagement
     /// - Parameters:
-    ///   - isBleServer: true per la modalità server BLE mdoc periferica, false per la modalità client centrale BLE mdoc
-    ///   - crv: Il tipo di curva EC utilizzato nella chiave privata effimera mdoc
-    ///   - rfus: Lista di stringhe riservate per usi futuri
+    ///   - isBleServer: true for BLE mdoc peripheral server mode, false for BLE mdoc central client mode
+    ///   - crv: The type of EC curve used in the ephemeral mdoc private key
+    ///   - rfus: List of strings reserved for future use
     public init(isBleServer: Bool?, crv: ECCurveName = .p256, rfus: [String]? = nil) {
         let pk: CoseKeyPrivate
-        // Se il Secure Enclave è disponibile e la curva è p256, crea una chiave privata nel Secure Enclave
+        // If the Secure Enclave is available and the curve is p256, create a private key in the Secure Enclave
         if SecureEnclave.isAvailable, crv == .p256, let se = try? SecureEnclave.P256.KeyAgreement.PrivateKey() {
             pk = CoseKeyPrivate(publicKeyx963Data: se.publicKey.x963Representation, secureEnclaveKeyID: se.dataRepresentation)
             seKeyID = se.dataRepresentation
         } else {
-            // Altrimenti, crea una chiave privata normale
+            // Otherwise, create a regular private key
             pk = CoseKeyPrivate(crv: crv)
             d = pk.d
         }
         security = Security(deviceKey: pk.key)
         self.rfus = rfus
-        // Aggiungi il metodo di recupero BLE se specificato
+        // Add the BLE retrieval method if specified
         if let isBleServer {
             deviceRetrievalMethods = [.ble(isBleServer: isBleServer, uuid: DeviceRetrievalMethod.getRandomBleUuid())]
         }
     }
     
-    /// Inizializza il device engagement dai dati CBOR
+    // Initializes the device engagement from CBOR data
     public init?(data: [UInt8]) {
         guard let obj = try? CBOR.decode(data) else { return nil }
         self.init(cbor: obj)
     }
     
-    /// Restituisce la chiave privata del dispositivo, se disponibile
+    // Returns the device private key, if available
     public var privateKey: CoseKeyPrivate? {
         if let seKeyID {
             return CoseKeyPrivate(publicKeyx963Data: security.deviceKey.getx963Representation(), secureEnclaveKeyID: seKeyID)
@@ -75,7 +75,7 @@ public struct DeviceEngagement {
         return nil
     }
     
-    /// Verifica se il dispositivo è in modalità server BLE
+    // Checks if the device is in BLE server mode
     public var isBleServer: Bool? {
         guard let deviceRetrievalMethods else { return nil }
         for case let .ble(isBleServer, _) in deviceRetrievalMethods {
@@ -84,7 +84,7 @@ public struct DeviceEngagement {
         return nil
     }
     
-    /// Restituisce l'UUID del BLE, se disponibile
+    // Returns the BLE UUID, if available
     public var ble_uuid: String? {
         guard let deviceRetrievalMethods else { return nil }
         for case let .ble(_, uuid) in deviceRetrievalMethods {
@@ -94,45 +94,65 @@ public struct DeviceEngagement {
     }
 }
 
-// Estensione per supportare la codifica CBOR
+
+// Extension to support CBOR encoding
 extension DeviceEngagement: CBOREncodable {
+    // Converts the instance to a CBOR representation
     public func toCBOR(options: SwiftCBOR.CBOROptions) -> SwiftCBOR.CBOR {
+        // Create a CBOR map with version and security values
         var res = CBOR.map([0: .utf8String(version), 1: security.toCBOR(options: options)])
+        
+        // Add device retrieval methods to the CBOR map if available
         if let drms = deviceRetrievalMethods {
             res[2] = .array(drms.map { $0.toCBOR(options: options) })
         }
+        
+        // Add optional RFUs (reserved for future use) to the CBOR map
         if let rfus = self.rfus {
             for (i, r) in rfus.enumerated() {
                 res[.negativeInt(UInt64(i))] = .utf8String(r)
             }
         }
+        
+        // Return the final CBOR representation
         return res
     }
 }
 
-// Estensione per supportare la decodifica CBOR
+// Extension to support CBOR decoding
 extension DeviceEngagement: CBORDecodable {
+    // Initializer to create an instance from a CBOR map
     public init?(cbor: CBOR) {
+        // Ensure the CBOR is a map; return nil if it is not
         guard case let .map(map) = cbor else { return nil }
+        
+        // Extract and validate the version value from the map, ensuring it starts with "1."
         guard let cv = map[0], case let .utf8String(v) = cv, v.prefix(2) == "1." else { return nil }
+        
+        // Extract and initialize the security value from the map
         guard let cs = map[1], let s = Security(cbor: cs) else { return nil }
+        
+        // Extract and initialize device retrieval methods if present
         if let cdrms = map[2], case let .array(drms) = cdrms, drms.count > 0 {
             deviceRetrievalMethods = drms.compactMap(DeviceRetrievalMethod.init(cbor:))
         }
+        
+        // Set version and security properties
         version = v
         security = s
     }
 }
 
 extension DeviceEngagement {
-    /// Genera la stringa del codice QR da `qrCoded`
+    // Generates the QR code string from `qrCoded`
     var qrCode: String {
         "mdoc:" + Data(qrCoded!).base64URLEncodedString()
     }
     
-    /// Crea il payload per il codice QR
-    /// - Returns: Una stringa rappresentante il payload del codice QR
+    // Creates the payload for the QR code
+    /// - Returns: A string representing the QR code payload
     public mutating func getQrCodePayload() -> String {
+        // Encode the object with CBOR options and assign to `qrCoded`
         qrCoded = encode(options: CBOROptions())
         return qrCode
     }
