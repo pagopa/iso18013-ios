@@ -23,7 +23,7 @@ struct QRCodeView: View {
             Spacer()
         }
         .onAppear() {
-            LibIso18013Proximity.shared.setListner(viewModel)
+            LibIso18013Proximity.shared.setListener(viewModel)
             do {
                 qrCode = try LibIso18013Proximity.shared.getQrCodePayload()
             } catch {
