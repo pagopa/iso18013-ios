@@ -16,14 +16,14 @@ public class LibIso18013Proximity {
     var deviceEngagement: DeviceEngagement?
     
     // Weak reference to a listener for QR engagement events
-    weak var listner: QrEngagementListener?
+    weak var listener: QrEngagementListener?
     
     // Singleton instance of LibIso18013Proximity
     public static let shared = LibIso18013Proximity()
     
     // Sets the listener for QR engagement events
-    public func setListner(_ listner: QrEngagementListener) {
-        self.listner = listner
+    public func setListener(_ listener: QrEngagementListener) {
+        self.listener = listener
     }
     
     // Generates and returns the QR code payload
