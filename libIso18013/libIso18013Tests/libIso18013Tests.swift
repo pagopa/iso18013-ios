@@ -32,5 +32,22 @@ final class libIso18013Tests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+    
+    func testDecodeDE1() throws {
+        let de = try XCTUnwrap(DeviceEngagement(data: AnnexdTestData.d31.bytes))
+        XCTAssertEqual(de.version, "1.0")
+        XCTAssertEqual(de.deviceRetrievalMethods?.first, .ble(isBleServer: false, uuid: "45EFEF742B2C4837A9A3B0E1D05A6917"))
+    }
+    
+    func testEncodeDE() throws {
+        let de1 = try XCTUnwrap(DeviceEngagement(data: OtherTestData.deOnline.bytes))
+        let de1data = de1.encode(options: .init())
+        XCTAssertNotNil(de1data)
+    }
+    
+    func testGenerateBLEengageQRCodePayload() throws {
+        var de = DeviceEngagement(isBleServer: true)
+        XCTAssertNotNil(de.getQrCodePayload())
+    }
 
 }

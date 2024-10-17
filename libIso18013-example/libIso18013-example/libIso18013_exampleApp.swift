@@ -11,7 +11,7 @@ import SwiftUI
 struct libIso18013_exampleApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainContentView()
         }
     }
 }

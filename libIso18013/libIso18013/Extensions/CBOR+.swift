@@ -329,3 +329,19 @@ extension CBOR {
     return decoded
   }
 }
+
+extension CBOR {
+    public func decodeTaggedBytes() -> [UInt8]? {
+        guard case let CBOR.tagged(tag, cborEncoded) = self, tag == .encodedCBORDataItem, case let .byteString(bytes) = cborEncoded else {  return nil }
+        return bytes
+    }
+    public func decodeTagged<T: CBORDecodable>(_ t: T.Type = T.self) -> T? {
+        guard case let CBOR.tagged(tag, cborEncoded) = self, tag == .encodedCBORDataItem, case let .byteString(bytes) = cborEncoded else {  return nil }
+        return .init(data: bytes)
+    }
+    
+    public func decodeFullDate() -> String? {
+        guard case let CBOR.tagged(tag, cborEncoded) = self, tag.rawValue == 1004, case let .utf8String(s) = cborEncoded else { return nil }
+        return s
+    }
+}

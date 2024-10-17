@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  DocumentView.swift
 //  libIso18013-example
 //
 //  Created by Martina D'urso on 06/10/24.
@@ -9,7 +9,7 @@ import SwiftUI
 import libIso18013
 import SwiftCBOR
 
-struct ContentView: View {
+struct DocumentView: View {
     
     @State private var document: Document?
     @State private var error: Error?
@@ -77,6 +77,6 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    DocumentView()
 }
 

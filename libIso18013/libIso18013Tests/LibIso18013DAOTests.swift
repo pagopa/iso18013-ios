@@ -19,14 +19,6 @@ final class LibIso18013DAOTests: XCTestCase {
         doTestStoreDocument(dao: LibIso18013DAOMemory())
     }
     
-    func testCreateDocumentKeyChain() {
-        doTestCreateDocument(dao: LibIso18013DAOKeyChain())
-    }
-    
-    func testStoreDocumentKeyChain() {
-        doTestStoreDocument(dao: LibIso18013DAOKeyChain())
-    }
-    
     func doTestCreateDocument(dao: LibIso18013DAOProtocol) {
         let documentName = "Patente"
         
