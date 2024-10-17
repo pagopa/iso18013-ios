@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreImage.CIFilterBuiltins
+import Combine
 
 // QRCode class that contains the QR code generation logic
 class QRCode {
@@ -20,7 +21,7 @@ class QRCode {
         // Convert the input text to data
         let data = Data(text.utf8)
         filter.setValue(data, forKey: "inputMessage")
-        filter.setValue("Q", forKey: "inputCorrectionLevel")
+        filter.setValue("M", forKey: "inputCorrectionLevel")
         
         // Scale the output image
         let transform = CGAffineTransform(scaleX: 20, y: 20)

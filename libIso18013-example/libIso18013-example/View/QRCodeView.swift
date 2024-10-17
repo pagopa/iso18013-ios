@@ -10,10 +10,12 @@ import SwiftUI
 struct QRCodeView: View {
     var body: some View {
         VStack {
+            Spacer()
             QRCode()
                 .generateQRCode(from: "example")
                 .resizable()
                 .frame(width: 200, height: 200)
+            Spacer()
         }
     }
 }

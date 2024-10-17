@@ -45,3 +45,15 @@ extension Array where Element == IssuerSignedItem {
     }
 }
 
+extension Array where Element == UInt8 {
+    var hex: String {
+        var str = ""
+        for byte in self {
+            str = str.appendingFormat("%02X", UInt(byte))
+        }
+        return str
+    }
+    public var taggedEncoded: CBOR {
+        CBOR.tagged(.encodedCBORDataItem, .byteString(self))
+    }
+}
