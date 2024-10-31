@@ -19,7 +19,17 @@
 		3A868B052CBE948100B35976 /* Security.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868AF62CBE948100B35976 /* Security.swift */; };
 		3A868B132CBE9B7700B35976 /* UInt32+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868B122CBE9B7700B35976 /* UInt32+.swift */; };
 		3A868B592CBFC32800B35976 /* LibIso18013Proximity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868B582CBFC32100B35976 /* LibIso18013Proximity.swift */; };
+		3ACBE9FA2CD2898400701457 /* DictionaryExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACBE9F92CD2898400701457 /* DictionaryExtensionsTests.swift */; };
+		3ACBEA002CD28B1B00701457 /* DocumentErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACBE9FF2CD28B1B00701457 /* DocumentErrorTests.swift */; };
+		3ACBEA022CD2917700701457 /* ErrorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACBEA012CD2917700701457 /* ErrorsTests.swift */; };
+		3ACBEA042CD2920F00701457 /* NameValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACBEA032CD2920F00701457 /* NameValueTests.swift */; };
 		3ADB28F42CC106920087018A /* DeviceEngagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB28F32CC106800087018A /* DeviceEngagementTests.swift */; };
+		3ADB28F72CC24D910087018A /* DrivingPrivilegeCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB28F62CC24D910087018A /* DrivingPrivilegeCodeTests.swift */; };
+		3ADB28F92CC2501A0087018A /* StringExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB28F82CC2501A0087018A /* StringExtensionsTests.swift */; };
+		3ADB28FD2CC252CE0087018A /* ErrorHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB28FC2CC252CE0087018A /* ErrorHandlerTests.swift */; };
+		3ADB28FF2CC253680087018A /* UInt8ArrayExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB28FE2CC253680087018A /* UInt8ArrayExtensionsTests.swift */; };
+		3ADB29012CC255550087018A /* LibIso18013ProximityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB29002CC255550087018A /* LibIso18013ProximityTests.swift */; };
+		3ADB29032CC2580E0087018A /* UInt32ExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB29022CC2580E0087018A /* UInt32ExtensionsTests.swift */; };
 		3AEC7E7C2CB58B8700606D7E /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7E7B2CB58B8600606D7E /* ErrorHandler.swift */; };
 		3D14E5472CABE5C200E15A46 /* libIso18013.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D14E53C2CABE5C100E15A46 /* libIso18013.framework */; };
 		3D14E6462CAD8C0A00E15A46 /* libIso18013.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D14E6422CAD8C0A00E15A46 /* libIso18013.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -94,7 +104,17 @@
 		3A868AF62CBE948100B35976 /* Security.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Security.swift; sourceTree = "<group>"; };
 		3A868B122CBE9B7700B35976 /* UInt32+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt32+.swift"; sourceTree = "<group>"; };
 		3A868B582CBFC32100B35976 /* LibIso18013Proximity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013Proximity.swift; sourceTree = "<group>"; };
+		3ACBE9F92CD2898400701457 /* DictionaryExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryExtensionsTests.swift; sourceTree = "<group>"; };
+		3ACBE9FF2CD28B1B00701457 /* DocumentErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentErrorTests.swift; sourceTree = "<group>"; };
+		3ACBEA012CD2917700701457 /* ErrorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorsTests.swift; sourceTree = "<group>"; };
+		3ACBEA032CD2920F00701457 /* NameValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameValueTests.swift; sourceTree = "<group>"; };
 		3ADB28F32CC106800087018A /* DeviceEngagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceEngagementTests.swift; sourceTree = "<group>"; };
+		3ADB28F62CC24D910087018A /* DrivingPrivilegeCodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingPrivilegeCodeTests.swift; sourceTree = "<group>"; };
+		3ADB28F82CC2501A0087018A /* StringExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionsTests.swift; sourceTree = "<group>"; };
+		3ADB28FC2CC252CE0087018A /* ErrorHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandlerTests.swift; sourceTree = "<group>"; };
+		3ADB28FE2CC253680087018A /* UInt8ArrayExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt8ArrayExtensionsTests.swift; sourceTree = "<group>"; };
+		3ADB29002CC255550087018A /* LibIso18013ProximityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013ProximityTests.swift; sourceTree = "<group>"; };
+		3ADB29022CC2580E0087018A /* UInt32ExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt32ExtensionsTests.swift; sourceTree = "<group>"; };
 		3AEC7E7B2CB58B8600606D7E /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		3D14E53C2CABE5C100E15A46 /* libIso18013.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libIso18013.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D14E5462CABE5C200E15A46 /* libIso18013Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = libIso18013Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,6 +221,33 @@
 			path = Proximity;
 			sourceTree = "<group>";
 		};
+		3ADB28FA2CC250710087018A /* ExtensionTests */ = {
+			isa = PBXGroup;
+			children = (
+				3ACBE9F92CD2898400701457 /* DictionaryExtensionsTests.swift */,
+				3ADB29022CC2580E0087018A /* UInt32ExtensionsTests.swift */,
+				3ADB28FE2CC253680087018A /* UInt8ArrayExtensionsTests.swift */,
+				3ADB28F82CC2501A0087018A /* StringExtensionsTests.swift */,
+			);
+			path = ExtensionTests;
+			sourceTree = "<group>";
+		};
+		3ADB28FB2CC2507A0087018A /* ModelTests */ = {
+			isa = PBXGroup;
+			children = (
+				3ACBE9FF2CD28B1B00701457 /* DocumentErrorTests.swift */,
+				3ACBEA012CD2917700701457 /* ErrorsTests.swift */,
+				3ACBEA032CD2920F00701457 /* NameValueTests.swift */,
+				3ADB28FC2CC252CE0087018A /* ErrorHandlerTests.swift */,
+				3ADB28F62CC24D910087018A /* DrivingPrivilegeCodeTests.swift */,
+				3A652A252CAE97C600B0D6E4 /* DeviceResponseTests.swift */,
+				3A652A292CAE9B3300B0D6E4 /* DrivingPrivilegesTests.swift */,
+				3ADB28F32CC106800087018A /* DeviceEngagementTests.swift */,
+				3A652A912CAEA49700B0D6E4 /* CBOREncodableTests.swift */,
+			);
+			path = ModelTests;
+			sourceTree = "<group>";
+		};
 		3D14E5322CABE5C100E15A46 = {
 			isa = PBXGroup;
 			children = (
@@ -242,14 +289,13 @@
 		3D14E64A2CAD8C0E00E15A46 /* libIso18013Tests */ = {
 			isa = PBXGroup;
 			children = (
-				3ADB28F32CC106800087018A /* DeviceEngagementTests.swift */,
+				3ADB29002CC255550087018A /* LibIso18013ProximityTests.swift */,
+				3ADB28FB2CC2507A0087018A /* ModelTests */,
+				3ADB28FA2CC250710087018A /* ExtensionTests */,
 				3D179CB12CB9079C0061DFDC /* LibIso18013UtilsTests.swift */,
 				3D179CAD2CB82CBF0061DFDC /* LibIso18013DAOTests.swift */,
 				3D14E6E92CB42CA600E15A46 /* CoseTests.swift */,
 				3A405EF22CAFDE330069998C /* Documents */,
-				3A652A912CAEA49700B0D6E4 /* CBOREncodableTests.swift */,
-				3A652A292CAE9B3300B0D6E4 /* DrivingPrivilegesTests.swift */,
-				3A652A252CAE97C600B0D6E4 /* DeviceResponseTests.swift */,
 				3D14E6492CAD8C0E00E15A46 /* libIso18013Tests.swift */,
 			);
 			path = libIso18013Tests;
@@ -536,15 +582,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ADB28F92CC2501A0087018A /* StringExtensionsTests.swift in Sources */,
+				3ADB28F72CC24D910087018A /* DrivingPrivilegeCodeTests.swift in Sources */,
+				3ACBEA022CD2917700701457 /* ErrorsTests.swift in Sources */,
 				3D179CB22CB907A30061DFDC /* LibIso18013UtilsTests.swift in Sources */,
+				3ADB29012CC255550087018A /* LibIso18013ProximityTests.swift in Sources */,
 				3A652A282CAE99B800B0D6E4 /* TestData.swift in Sources */,
+				3ADB28FF2CC253680087018A /* UInt8ArrayExtensionsTests.swift in Sources */,
 				3A652A922CAEA49A00B0D6E4 /* CBOREncodableTests.swift in Sources */,
 				3D179CB02CB9074A0061DFDC /* DocumentTestData.swift in Sources */,
 				3D14E64B2CAD8C0E00E15A46 /* libIso18013Tests.swift in Sources */,
 				3D14E6EA2CB42CAA00E15A46 /* CoseTests.swift in Sources */,
 				3ADB28F42CC106920087018A /* DeviceEngagementTests.swift in Sources */,
+				3ACBEA042CD2920F00701457 /* NameValueTests.swift in Sources */,
+				3ADB28FD2CC252CE0087018A /* ErrorHandlerTests.swift in Sources */,
 				3A652A2A2CAE9B3400B0D6E4 /* DrivingPrivilegesTests.swift in Sources */,
 				3A652A262CAE97C700B0D6E4 /* DeviceResponseTests.swift in Sources */,
+				3ACBE9FA2CD2898400701457 /* DictionaryExtensionsTests.swift in Sources */,
+				3ACBEA002CD28B1B00701457 /* DocumentErrorTests.swift in Sources */,
+				3ADB29032CC2580E0087018A /* UInt32ExtensionsTests.swift in Sources */,
 				3D179CAE2CB82CCA0061DFDC /* LibIso18013DAOTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
