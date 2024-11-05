@@ -15,11 +15,7 @@ struct Security {
     var d: [UInt8]?
     // Security struct for the holder (only the public key of the mDL is encoded)
     let deviceKey: CoseKey
-    
-#if DEBUG
-    // Function to set the private key for debugging purposes
-    mutating func setD(d: [UInt8]) { self.d = d }
-#endif
+     
 }
 
 // Extension to make Security conform to CBOREncodable

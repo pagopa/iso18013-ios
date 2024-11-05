@@ -57,3 +57,22 @@ extension Array where Element == UInt8 {
         CBOR.tagged(.encodedCBORDataItem, .byteString(self))
     }
 }
+
+extension Array where Element == DocRequest {
+    /// Finds a document request by its name
+    /// - Parameter name: The name of the document request
+    /// - Returns: The matching document request if found
+    public func findDoc(name: String) -> DocRequest? {
+        first(where: { $0.itemsRequest.docType == name })
+    }
+}
+
+extension Array where Element == IssuerSigned {
+    /// Finds an issuer-signed document by its name
+    /// - Parameter name: The name of the document
+    /// - Returns: A tuple containing the matching issuer-signed document and its index if found
+    public func findDoc(name: String) -> (IssuerSigned, Int)? {
+        guard let index = firstIndex(where: { $0.issuerAuth?.mobileSecurityObject.docType == name }) else { return nil }
+        return (self[index], index)
+    }
+}

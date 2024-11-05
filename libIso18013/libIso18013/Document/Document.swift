@@ -5,7 +5,6 @@
 //  Created by Antonio on 02/10/24.
 //
 
-
 import Foundation
 import SwiftCBOR
 import OrderedCollections
@@ -22,11 +21,14 @@ public struct Document {
     // Optional errors associated with the document
     public let errors: Errors?
     
+    public let deviceSigned: DeviceSigned?
+    
     // Enum defining keys for CBOR encoding/decoding
     enum Keys: String {
         case docType
         case issuerSigned
         case errors
+        case deviceSigned
     }
     
     // Initializer for Document
@@ -34,10 +36,12 @@ public struct Document {
     //   - docType: The type of the document
     //   - issuerSigned: Issuer-signed data for the document
     //   - errors: Optional Errors associated with the document
-    public init(docType: String, issuerSigned: IssuerSigned, errors: Errors? = nil) {
+    public init(docType: String, issuerSigned: IssuerSigned, deviceSigned: DeviceSigned? = nil, errors: Errors? = nil) {
         self.docType = docType
         self.issuerSigned = issuerSigned
         self.errors = errors
+        self.deviceSigned = deviceSigned
+        
     }
 }
 
@@ -67,10 +71,19 @@ extension Document: CBORDecodable {
         self.issuerSigned = issuerSigned
         
         //MARK: VALIDATE SIGNATURE?
-//    guard self.issuerSigned.validateSignature() else {
-//      return nil
-//    }
-
+        //    guard self.issuerSigned.validateSignature() else {
+        //      return nil
+        //    }
+        
+        if let cborDeviceSigned = cborMap[Keys.deviceSigned],
+           let deviceSigned = DeviceSigned(cbor: cborDeviceSigned) {
+            self.deviceSigned = deviceSigned
+        } else {
+            deviceSigned = nil
+        }
+        
+        
+        
         // Extract the optional errors from the CBOR map
         if let cborErrors = cborMap[Keys.errors],
            let errors = Errors(cbor: cborErrors) {
@@ -95,6 +108,13 @@ extension Document: CBOREncodable {
         
         // Add the issuer-signed data to the CBOR map
         cbor[.utf8String(Keys.issuerSigned.rawValue)] = issuerSigned.toCBOR(options: options)
+        
+        
+        // Add the device-signed data to the CBOR map
+        if let deviceSigned = deviceSigned {
+            cbor[.utf8String(Keys.deviceSigned.rawValue)] = deviceSigned.toCBOR(options: options)
+        }
+        
         
         // Add the errors to the CBOR map if they exist
         if let errors {
