@@ -2,21 +2,21 @@ PODS:
   - libIso18013 (0.0.1)
 
 DEPENDENCIES:
-  - "libIso18013 (from `git@github.com:pagopa/iso18013-ios.git`, branch `feature/qrcode`)"
+  - "libIso18013 (from `git@github.com:pagopa/iso18013-ios.git`, branch `feature/proximity`)"
 
 EXTERNAL SOURCES:
   libIso18013:
-    :branch: feature/qrcode
+    :branch: feature/proximity
     :git: "git@github.com:pagopa/iso18013-ios.git"
 
 CHECKOUT OPTIONS:
   libIso18013:
-    :commit: fd48750efc3a4c9669282abd76c67bf71d51c2c2
+    :commit: 0a962576d0e1de5eeb58a165007bc655eb12e942
     :git: "git@github.com:pagopa/iso18013-ios.git"
 
 SPEC CHECKSUMS:
   libIso18013: ce816083a29d08ca3ec350de13acd47e647cfc7e
 
-PODFILE CHECKSUM: 1fb2ac9f1b0a52255cc0034c2f8060ac621a84b6
+PODFILE CHECKSUM: 16b7d879c4ada0696a508a04780d91a41e91b55b
 
 COCOAPODS: 1.15.2

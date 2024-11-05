@@ -14,50 +14,14 @@ import X509
 
 public typealias RequestItems = [String: [String: [String]]]
 
-/// Helper methods
 public class MdocHelpers {
-    
-    //	public static func initializeData(parameters: [String: Any]) -> (docs: [String: IssuerSigned], devicePrivateKeys: [String: CoseKeyPrivate], iaca: [SecCertificate]?, dauthMethod: DeviceAuthMethod)? {
-    //		var docs: [String: IssuerSigned]?
-    //		var devicePrivateKeys: [String: CoseKeyPrivate]?
-    //		var iaca: [SecCertificate]?
-    //		var deviceAuthMethod = DeviceAuthMethod.deviceMac
-    //		if let d = parameters[InitializeKeys.document_json_data.rawValue] as? [Data] {
-    //			// load json sample data here, deprecated
-    //			let sampleData = d.compactMap { $0.decodeJSON(type: SignUpResponse.self) }
-    //			let randomIds = (0..<d.count).map { _ in UUID().uuidString }
-    //			docs = Dictionary(uniqueKeysWithValues: sampleData.compactMap { $0.deviceResponse?.documents?.map(\.issuerSigned).first }.enumerated().map { (randomIds[$0], $1) })
-    //			devicePrivateKeys = Dictionary(uniqueKeysWithValues: sampleData.compactMap { $0.devicePrivateKey }.enumerated().map { (randomIds[$0], $1) })
-    //		} else if let issObjs = parameters[InitializeKeys.document_signup_issuer_signed_obj.rawValue] as? [String: IssuerSigned], let dpk = parameters[InitializeKeys.device_private_key_obj.rawValue] as? [String: CoseKeyPrivate] {
-    //			docs = issObjs
-    //			devicePrivateKeys = dpk
-    //		} else if let issData = parameters[InitializeKeys.document_signup_issuer_signed_data.rawValue] as? [String: Data], let dpks = parameters[InitializeKeys.device_private_key_data.rawValue] as? [String: Data] {
-    //			docs = issData.compactMapValues({ IssuerSigned(data: [UInt8]($0))})
-    //			devicePrivateKeys = dpks.mapValues { CoseKeyPrivate(privateKeyx963Data: $0, crv: .p256) }
-    //		}
-    //		if let i = parameters[InitializeKeys.trusted_certificates.rawValue] as? [Data] {
-    //			iaca = i.compactMap { SecCertificateCreateWithData(nil, $0 as CFData) }
-    //		}
-    //		if let d = parameters[InitializeKeys.device_auth_method.rawValue] as? String, let dam = DeviceAuthMethod(rawValue: d) {
-    //			deviceAuthMethod = dam
-    //		}
-    //		guard let docs, let devicePrivateKeys else { return nil }
-    //		return (docs, devicePrivateKeys, iaca, deviceAuthMethod)
-    //	}
-    
+   
     static var errorNoDocumentsDescriptionKey: String { "doctype_not_found" }
     static func getErrorNoDocuments(_ docType: String) -> Error { NSError(domain: "\(MdocBleServer.self)", code: 0, userInfo: ["key": Self.errorNoDocumentsDescriptionKey, "%s": docType]) }
-    
-    //	public static func makeError(code: ErrorCode, str: String? = nil) -> NSError {
-    //		let errorMessage = str ?? NSLocalizedString(code.description, comment: code.description)
-    //		logger.error(Logger.Message(unicodeScalarLiteral: errorMessage))
-    //		return NSError(domain: "\(MdocGattServer.self)", code: code.rawValue, userInfo: [NSLocalizedDescriptionKey: errorMessage, "key": code.description])
-    //	}
-    
+ 
     public static func getSessionDataToSend(sessionEncryption: SessionEncryption?, status: TransferStatus, docToSend: DeviceResponse) -> Result<Data, Error> {
         do {
             guard var sessionEncryption else {
-                //logger.error("Session Encryption not initialized");
                 return .failure(ErrorHandler.sessionEncryptionNotInitialized)
             }
             if docToSend.documents == nil {

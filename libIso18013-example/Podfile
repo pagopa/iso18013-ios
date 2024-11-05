@@ -11,7 +11,7 @@ target 'libIso18013-example' do
 
   # Pods for libIso18013-example
 
-  pod 'libIso18013', :git => 'git@github.com:pagopa/iso18013-ios.git', :branch => 'feature/qrcode'
+  pod 'libIso18013', :git => 'git@github.com:pagopa/iso18013-ios.git', :branch => 'feature/proximity'
 
   target 'libIso18013-exampleTests' do
     inherit! :search_paths

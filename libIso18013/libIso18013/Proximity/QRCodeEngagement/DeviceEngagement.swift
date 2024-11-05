@@ -5,7 +5,6 @@
 //  Created by Martina D'urso on 15/10/24.
 //
 
-
 import Foundation
 import SwiftCBOR
 import CryptoKit
@@ -29,12 +28,6 @@ public struct DeviceEngagement {
     // QR code encoding for the device
     public var qrCoded: [UInt8]?
     
-#if DEBUG
-    // Functions to set the private key and key identifier in the Secure Enclave for debugging
-    mutating func setD(d: [UInt8]) { self.d = d }
-    mutating func setKeyID(keyID: Data) { self.seKeyID = keyID }
-#endif
-    
     // Generates the device engagement
     /// - Parameters:
     ///   - isBleServer: true for BLE mdoc peripheral server mode, false for BLE mdoc central client mode
@@ -57,6 +50,24 @@ public struct DeviceEngagement {
         if let isBleServer {
             deviceRetrievalMethods = [.ble(isBleServer: isBleServer, uuid: DeviceRetrievalMethod.getRandomBleUuid())]
         }
+    }
+    
+    public init?(pk: CoseKeyPrivate, rfus: [String]? = nil) {
+        
+        if let secureKeyId = pk.secureEnclaveKeyID {
+            self.seKeyID = secureKeyId
+        }
+        else if !pk.d.isEmpty {
+            self.d = pk.d
+        }
+        else {
+            return nil
+        }
+        
+        self.rfus = rfus
+        
+        self.security = Security(deviceKey: pk.key)
+        
     }
     
     // Initializes the device engagement from CBOR data
@@ -155,5 +166,27 @@ extension DeviceEngagement {
         // Encode the object with CBOR options and assign to `qrCoded`
         qrCoded = encode(options: CBOROptions())
         return qrCode
+    }
+}
+
+public class DeviceEngagementBuilder {
+    
+    private var deviceEngagement: DeviceEngagement
+    
+    init(pk: CoseKeyPrivate, rfus: [String]? = nil) throws {
+        guard let deviceEngagement = DeviceEngagement(pk: pk, rfus: rfus) else {
+            throw ErrorHandler.unexpected_error
+        }
+        
+        self.deviceEngagement = deviceEngagement
+    }
+    
+    func setDeviceRetrievalMethods(_ retrievalMethods: [DeviceRetrievalMethod]) -> DeviceEngagementBuilder {
+        self.deviceEngagement.deviceRetrievalMethods = retrievalMethods
+        return self
+    }
+    
+    func build() -> DeviceEngagement {
+        return self.deviceEngagement
     }
 }
