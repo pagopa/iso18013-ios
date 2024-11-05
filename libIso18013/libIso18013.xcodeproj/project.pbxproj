@@ -651,6 +651,7 @@
 				3D14E6532CAD8CE700E15A46 /* XCRemoteSwiftPackageReference "SwiftCBOR" */,
 				3D179CB82CB95A370061DFDC /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				3A1E53602CD8E305005F5704 /* XCRemoteSwiftPackageReference "swift-certificates" */,
+				3A1E53D12CDA737A005F5704 /* XCRemoteSwiftPackageReference "swift-asn1" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3D14E53D2CABE5C100E15A46 /* Products */;
@@ -1086,6 +1087,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.6.1;
+			};
+		};
+		3A1E53D12CDA737A005F5704 /* XCRemoteSwiftPackageReference "swift-asn1" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-asn1.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
 			};
 		};
 		3D14E6532CAD8CE700E15A46 /* XCRemoteSwiftPackageReference "SwiftCBOR" */ = {
