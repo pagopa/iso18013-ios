@@ -11,7 +11,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   libIso18013:
-    :commit: 0a962576d0e1de5eeb58a165007bc655eb12e942
+    :commit: 37f01f044ebd8e035446f15240c449878b08aff6
     :git: "git@github.com:pagopa/iso18013-ios.git"
 
 SPEC CHECKSUMS:
