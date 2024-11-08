@@ -83,13 +83,9 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-  spec.source_files = 'libIso18013/**/*', "tools.zip"
-
- # Configurazione dei file di test (usando `test_spec`)
-  spec.test_spec 'Tests' do |test_spec|
-    test_spec.source_files = 'libIso18013/libIso18013Tests/**/*'
-    test_spec.exclude_files = ['**/Info.plist']
-  end
+  # Include all source files, but exclude test files
+  s.source_files = 'libIso18013/**/*.{swift,h,m}', 'tools.zip'
+  s.exclude_files = 'libIso18013/libIso18013Tests/**/*'
 
   spec.pod_target_xcconfig = { 
     'SWIFT_INCLUDE_PATHS' => '$(inherited) ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)',
