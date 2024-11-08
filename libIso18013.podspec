@@ -84,8 +84,8 @@ Pod::Spec.new do |spec|
   #
 
   # Include all source files, but exclude test files
-  s.source_files = 'libIso18013/**/*.{swift,h,m}', 'tools.zip'
-  s.exclude_files = 'libIso18013/libIso18013Tests/**/*'
+  spec.source_files = 'libIso18013/**/*.{swift,h,m}', 'tools.zip'
+  spec.exclude_files = 'libIso18013/libIso18013Tests/**/*'
 
   spec.pod_target_xcconfig = { 
     'SWIFT_INCLUDE_PATHS' => '$(inherited) ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)',

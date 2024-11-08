@@ -31,15 +31,29 @@ struct QRCodeView: View {
                 qrCode = "Error: \(error)"
             }
         }
+        .overlay(content: {
+            viewModel.onRequest.map({
+                item in
+                Text(item.deviceRequest.version)
+            })
+        })
     }
 }
 
 class QRCodeViewModel: QrEngagementListener {
     var dao: LibIso18013DAOProtocol = LibIso18013DAOKeyChain()
     
+    @Published var onRequest: ( onResponse: ((Bool, libIso18013.DeviceResponse?) -> Void)?, deviceRequest: libIso18013.DeviceRequest, sessionEncryption: SessionEncryption)?
+    
     func didReceiveRequest(deviceRequest: libIso18013.DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, libIso18013.DeviceResponse?) -> Void) {
         
-        var requestedDocuments = [Document]();
+        
+        onRequest = (onResponse: onResponse, deviceRequest: deviceRequest, sessionEncryption: sessionEncryption)
+        
+        return
+        
+        
+        var requestedDocuments = [Document]()
         var docErrors = [[String: UInt64]]()
         
         deviceRequest.docRequests.forEach({
@@ -82,6 +96,26 @@ class QRCodeViewModel: QrEngagementListener {
         
     }
     
+    func filterAllowedItems(nsItemsToAdd: [String:[IssuerSignedItem]], allowed: [String:[String]]) -> [String:[IssuerSignedItem]] {
+        var filteredNsItems = [String: [IssuerSignedItem]]()
+        
+        nsItemsToAdd.forEach({
+            keyPair in
+            
+            let allowedItems = allowed[keyPair.key] ?? []
+            
+            let values = keyPair.value.filter({
+                item in
+                allowedItems.contains(item.elementIdentifier)
+            })
+            
+            filteredNsItems[keyPair.key] = values
+        })
+        
+        return filteredNsItems
+    }
+    
+    
     func didReceiveRequest6(deviceRequest: libIso18013.DeviceRequest, onResponse: @escaping (Bool, libIso18013.DeviceResponse?) -> Void) {
         
         print(deviceRequest.docRequests)
@@ -104,7 +138,6 @@ class QRCodeViewModel: QrEngagementListener {
                 }
             }
         })
-        
     }
     
     func buildResponseDocument(request: DocRequest, document: DeviceDocumentProtocol, sessionEncryption: SessionEncryption) -> Document? {
