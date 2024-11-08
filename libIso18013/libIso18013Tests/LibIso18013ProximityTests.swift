@@ -28,6 +28,10 @@ class LibIso18013ProximityTests: XCTestCase {
 }
 
 class MockQrEngagementListener: QrEngagementListener {
+    func didChangeStatus(_ newStatus: libIso18013.TransferStatus) {
+        
+    }
+    
     func didReceiveRequest(deviceRequest: libIso18013.DeviceRequest, sessionEncryption: libIso18013.SessionEncryption, onResponse: @escaping (Bool, libIso18013.DeviceResponse?) -> Void) {
         
     }
@@ -36,9 +40,4 @@ class MockQrEngagementListener: QrEngagementListener {
         
     }
     
-    var onConnectingCalled = false
-    
-    func onConnecting() {
-        onConnectingCalled = true
-    }
 }

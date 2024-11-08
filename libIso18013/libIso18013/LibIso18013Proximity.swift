@@ -8,7 +8,7 @@
 // Protocol defining a listener for QR engagement events
 public protocol QrEngagementListener: AnyObject {
     // Called when the connection process is starting
-    func onConnecting()
+    func didChangeStatus(_ newStatus: TransferStatus)
     
     func didReceiveRequest(deviceRequest: DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, DeviceResponse?) -> Void)
     
@@ -83,7 +83,7 @@ public class LibIso18013Proximity {
         }
         
         func didChangeStatus(_ newStatus: TransferStatus) {
-            
+            listener.didChangeStatus(newStatus)
         }
         
         func didFinishedWithError(_ error: any Error) {
