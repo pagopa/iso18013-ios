@@ -1,44 +1,73 @@
-class QRCodeViewModel: QrEngagementListener {
+//
+//  QRCodeViewModel.swift
+//  libIso18013-example
+//
+//  Created by Martina D'urso on 08/11/24.
+//
+
+import libIso18013
+
+class QRCodeViewModel: QrEngagementListener, ObservableObject {
+    
+    enum BLEState {
+        case success
+        case loading
+        case failure(String)
+        case idle
+    }
+    
+    @Published var state: BLEState = .idle
+    
     var dao: LibIso18013DAOProtocol = LibIso18013DAOKeyChain()
     
-    @Published var onRequest: ( onResponse: ((Bool, libIso18013.DeviceResponse?) -> Void)?, deviceRequest: libIso18013.DeviceRequest, sessionEncryption: SessionEncryption)?
+    @Published var onRequest: ( onResponse: ((Bool, libIso18013.DeviceResponse?) -> Void)?,
+                                deviceRequest: libIso18013.DeviceRequest,
+                                sessionEncryption: SessionEncryption )?
     
-    func didReceiveRequest(deviceRequest: libIso18013.DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, libIso18013.DeviceResponse?) -> Void) {
-        
+    func didReceiveRequest(deviceRequest: libIso18013.DeviceRequest,
+                           sessionEncryption: SessionEncryption,
+                           onResponse: @escaping (Bool, libIso18013.DeviceResponse?) -> Void) {
         
         onRequest = (onResponse: onResponse, deviceRequest: deviceRequest, sessionEncryption: sessionEncryption)
         
-        return
-        
+    }
+    
+    func sendResponse(onResponse: @escaping (Bool, libIso18013.DeviceResponse?) -> Void) {
         
         var requestedDocuments = [Document]()
         var docErrors = [[String: UInt64]]()
         
-        deviceRequest.docRequests.forEach({
+        onRequest?.deviceRequest.docRequests.forEach({
             request in
-            if request.itemsRequest.docType == DocType.euPid.rawValue {
-                let documents = dao.getAllEuPidDocuments(state: .issued)
-                if let doc = documents.first {
-                    if let responseDocument = buildResponseDocument(request: request, document: doc, sessionEncryption: sessionEncryption) {
-                        requestedDocuments.append(responseDocument)
-                    }
-                    else {
-                        if let document = doc.document?.issuerSigned {
-                            docErrors.append([document.issuerAuth!.mobileSecurityObject.docType: UInt64(0)])
+            if let sessionEncryption = onRequest?.sessionEncryption {
+                
+                if request.itemsRequest.docType == DocType.euPid.rawValue {
+                    let documents = dao.getAllEuPidDocuments(state: .issued)
+                    if let doc = documents.first {
+                        if let responseDocument = buildResponseDocument(request: request,
+                                                                        document: doc,
+                                                                        sessionEncryption: sessionEncryption) {
+                            requestedDocuments.append(responseDocument)
                         }
-                        
+                        else {
+                            if let document = doc.document?.issuerSigned {
+                                docErrors.append([document.issuerAuth!.mobileSecurityObject.docType: UInt64(0)])
+                            }
+                            
+                        }
                     }
-                }
-            }
-            else if request.itemsRequest.docType == DocType.mDL.rawValue {
-                let documents = dao.getAllMdlDocuments(state: .issued)
-                if let doc = documents.first {
-                    if let responseDocument = buildResponseDocument(request: request, document: doc, sessionEncryption: sessionEncryption) {
-                        requestedDocuments.append(responseDocument)
-                    }
-                    else {
-                        if let document = doc.document?.issuerSigned {
-                            docErrors.append([document.issuerAuth!.mobileSecurityObject.docType: UInt64(0)])
+                } else if request.itemsRequest.docType == DocType.mDL.rawValue {
+                    let documents = dao.getAllMdlDocuments(state: .issued)
+                    if let doc = documents.first {
+                        if let responseDocument = buildResponseDocument(request: request,
+                                                                        document: doc,
+                                                                        sessionEncryption: sessionEncryption) {
+                            requestedDocuments.append(responseDocument)
+                        }
+                        else {
+                            if let document = doc.document?.issuerSigned {
+                                docErrors.append([document.issuerAuth!.mobileSecurityObject.docType: UInt64(0)])
+                            }
                         }
                     }
                 }
@@ -48,13 +77,17 @@ class QRCodeViewModel: QrEngagementListener {
         let documentErrors: [DocumentError]? = docErrors.count == 0 ? nil : docErrors.map({ DocumentError.init(documentErrors:$0) })
         
         let documentsToAdd = requestedDocuments.count == 0 ? nil : requestedDocuments
-        let deviceResponseToSend = DeviceResponse(version: DeviceResponse.defaultVersion, documents: documentsToAdd, documentErrors: documentErrors, status: 0)
+        
+        let deviceResponseToSend = DeviceResponse(version: DeviceResponse.defaultVersion,
+                                                  documents: documentsToAdd,
+                                                  documentErrors: documentErrors,
+                                                  status: 0)
         
         onResponse(true, deviceResponseToSend)
-        
     }
     
-    func filterAllowedItems(nsItemsToAdd: [String:[IssuerSignedItem]], allowed: [String:[String]]) -> [String:[IssuerSignedItem]] {
+    func filterAllowedItems(nsItemsToAdd: [String: [IssuerSignedItem]],
+                            allowed: [String: [String]]) -> [String: [IssuerSignedItem]] {
         var filteredNsItems = [String: [IssuerSignedItem]]()
         
         nsItemsToAdd.forEach({
@@ -73,32 +106,9 @@ class QRCodeViewModel: QrEngagementListener {
         return filteredNsItems
     }
     
-    
-    func didReceiveRequest6(deviceRequest: libIso18013.DeviceRequest, onResponse: @escaping (Bool, libIso18013.DeviceResponse?) -> Void) {
-        
-        print(deviceRequest.docRequests)
-        
-        var validReqItemsDocDict = RequestItems()
-        var errorReqItemsDocDict = RequestItems()
-        
-        deviceRequest.docRequests.forEach({
-            request in
-            if request.itemsRequest.docType == DocType.euPid.rawValue {
-                let documents = dao.getAllEuPidDocuments(state: .issued)
-                if let doc = documents.first {
-                    
-                }
-            }
-            else if request.itemsRequest.docType == DocType.mDL.rawValue {
-                let documents = dao.getAllMdlDocuments(state: .issued)
-                if let doc = documents.first {
-                    
-                }
-            }
-        })
-    }
-    
-    func buildResponseDocument(request: DocRequest, document: DeviceDocumentProtocol, sessionEncryption: SessionEncryption) -> Document? {
+    func buildResponseDocument(request: DocRequest,
+                               document: DeviceDocumentProtocol,
+                               sessionEncryption: SessionEncryption) -> Document? {
         
         guard let doc = document.document else {
             return nil
@@ -106,25 +116,29 @@ class QRCodeViewModel: QrEngagementListener {
         
         let dauthMethod: DeviceAuthMethod = .deviceSignature
         
-        let (nsItemsToAdd, errors, validReqItemsNsDict) = getRequestedItems(request: request, document: document)
+        let (nsItemsToAdd, errors, validReqItemsNsDict) = getRequestedItems(request: request,
+                                                                            document: document)
         
         let eReaderKey = sessionEncryption.sessionKeys.publicKey
         
         if nsItemsToAdd.count > 0 {
             let issuerAuthToAdd = doc.issuerSigned.issuerAuth
-            let issToAdd = IssuerSigned(issuerNameSpaces: IssuerNameSpaces(nameSpaces: nsItemsToAdd), issuerAuth: issuerAuthToAdd)
+            let issToAdd = IssuerSigned(issuerNameSpaces: IssuerNameSpaces(nameSpaces: nsItemsToAdd),
+                                        issuerAuth: issuerAuthToAdd)
             var devSignedToAdd: DeviceSigned? = nil
             let sessionTranscript = sessionEncryption.transcript
             
             let authKeys = CoseKeyExchange(publicKey: eReaderKey, privateKey: document.deviceKey)
             let mdocAuth = MdocAuthentication(transcript: sessionTranscript, authKeys: authKeys)
             guard let devAuth = try? mdocAuth.getDeviceAuthForTransfer(docType: doc.issuerSigned.issuerAuth!.mobileSecurityObject.docType, dauthMethod: dauthMethod) else {
-                //logger.error("Cannot create device auth");
                 return nil
             }
             devSignedToAdd = DeviceSigned(deviceAuth: devAuth)
             
-            let docToAdd = Document(docType: doc.issuerSigned.issuerAuth!.mobileSecurityObject.docType, issuerSigned: issToAdd, deviceSigned: devSignedToAdd, errors: errors)
+            let docToAdd = Document(docType: doc.issuerSigned.issuerAuth!.mobileSecurityObject.docType,
+                                    issuerSigned: issToAdd,
+                                    deviceSigned: devSignedToAdd,
+                                    errors: errors)
             
             return docToAdd
             //docFiltered.append(docToAdd)
@@ -155,7 +169,8 @@ class QRCodeViewModel: QrEngagementListener {
                         let reqElementIdentifiers =  request.itemsRequest.requestNameSpaces.nameSpaces[reqNamespace]!.elementIdentifiers
                         
                         guard let items = issuerNs[reqNamespace] else {
-                            nsErrorsToAdd[reqNamespace] = Dictionary(grouping: reqElementIdentifiers, by: {$0}).mapValues { _ in 0 }
+                            nsErrorsToAdd[reqNamespace] = Dictionary(grouping: reqElementIdentifiers,
+                                                                     by: {$0}).mapValues { _ in 0 }
                             continue
                         }
                         var itemsReqSet = Set(reqElementIdentifiers)
@@ -175,7 +190,8 @@ class QRCodeViewModel: QrEngagementListener {
                         }
                         let errorItemsSet = itemsReqSet.subtracting(itemsSet)
                         if errorItemsSet.count > 0 {
-                            nsErrorsToAdd[reqNamespace] = Dictionary(grouping: errorItemsSet, by: { $0 }).mapValues { _ in 0 }
+                            nsErrorsToAdd[reqNamespace] = Dictionary(grouping: errorItemsSet,
+                                                                     by: { $0 }).mapValues { _ in 0 }
                         }
                     }
                 }
@@ -188,11 +204,20 @@ class QRCodeViewModel: QrEngagementListener {
     
     
     func didFinishedWithError(_ error: any Error) {
-        
+        state = BLEState.failure(error.localizedDescription)
     }
-    
-    func onConnecting() {
-        
+ 
+    func didChangeStatus(_ newStatus: libIso18013.TransferStatus) {
+        switch newStatus {
+            case .connected, .qrEngagementReady, .responseSent:
+                state = BLEState.success
+            case .initialized, .requestReceived, .disconnected:
+                state = BLEState.idle
+            case .initializing, .started, .userSelected:
+                state = .loading
+            case .error:
+                return
+        }
     }
     
 }

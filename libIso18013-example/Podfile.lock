@@ -11,11 +11,11 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   libIso18013:
-    :commit: a921d9759aa79908297d30afe2f85298ede9d840
+    :commit: 9c732f90b48cd8f27ef3ceedbd445e19efc3fa51
     :git: "git@github.com:pagopa/iso18013-ios.git"
 
 SPEC CHECKSUMS:
-  libIso18013: fa103bbed7f0c7b85635e6d9774f31207ab47180
+  libIso18013: a10a8d6305d4e34630045f9b066f9c398f901ca6
 
 PODFILE CHECKSUM: 16b7d879c4ada0696a508a04780d91a41e91b55b
 

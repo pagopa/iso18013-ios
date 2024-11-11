@@ -20,6 +20,7 @@
 		3A84D59A2CB3D32E0017D76E /* libIso18013_exampleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84D5972CB3D32E0017D76E /* libIso18013_exampleUITestsLaunchTests.swift */; };
 		3A868AC12CBE64C700B35976 /* QRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868AC02CBE64C700B35976 /* QRCode.swift */; };
 		3AB5CFB52CDE086400E7A75F /* DeviceRequestAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB5CFB42CDE086400E7A75F /* DeviceRequestAlert.swift */; };
+		3AC5F5E82CDE1BAA000BA599 /* QRCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC5F5E72CDE1BAA000BA599 /* QRCodeViewModel.swift */; };
 		3AEC7E002CB3D73F00606D7E /* mdl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7DFF2CB3D73C00606D7E /* mdl.swift */; };
 		3AEC7E032CB3DD3200606D7E /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7E022CB3DD3200606D7E /* CustomTextField.swift */; };
 		3AEC7E052CB3E00600606D7E /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7E042CB3E00200606D7E /* CustomButton.swift */; };
@@ -68,6 +69,7 @@
 		3A84D5972CB3D32E0017D76E /* libIso18013_exampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = libIso18013_exampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		3A868AC02CBE64C700B35976 /* QRCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCode.swift; sourceTree = "<group>"; };
 		3AB5CFB42CDE086400E7A75F /* DeviceRequestAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRequestAlert.swift; sourceTree = "<group>"; };
+		3AC5F5E72CDE1BAA000BA599 /* QRCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewModel.swift; sourceTree = "<group>"; };
 		3AC6964B2CB2FF1200871580 /* libIso18013-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "libIso18013-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AC6965C2CB2FF1300871580 /* libIso18013-exampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "libIso18013-exampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AC696662CB2FF1300871580 /* libIso18013-exampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "libIso18013-exampleUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,6 +167,14 @@
 			path = "libIso18013-exampleUITests";
 			sourceTree = "<group>";
 		};
+		3AC5F5E62CDE1B86000BA599 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3AC5F5E72CDE1BAA000BA599 /* QRCodeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		3AC696422CB2FF1200871580 = {
 			isa = PBXGroup;
 			children = (
@@ -208,6 +218,7 @@
 		3D14E76A2CB53B0500E15A46 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3AC5F5E62CDE1B86000BA599 /* ViewModel */,
 				3A042F242CB6C0AD0035FF8E /* MainContentView.swift */,
 				3A042F262CB6CB900035FF8E /* QRCodeView.swift */,
 				3A84D58A2CB3D3270017D76E /* DocumentView.swift */,
@@ -489,6 +500,7 @@
 				3A84D5902CB3D3270017D76E /* libIso18013_exampleApp.swift in Sources */,
 				3AEC7E082CB40EEE00606D7E /* Data+Image.swift in Sources */,
 				3AEC7E002CB3D73F00606D7E /* mdl.swift in Sources */,
+				3AC5F5E82CDE1BAA000BA599 /* QRCodeViewModel.swift in Sources */,
 				3A042F252CB6C0B00035FF8E /* MainContentView.swift in Sources */,
 				3AEC7E032CB3DD3200606D7E /* CustomTextField.swift in Sources */,
 				3D14E76C2CB53B0B00E15A46 /* Cose1SignView.swift in Sources */,
@@ -652,9 +664,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "libIso18013-example/libIso18013_example.entitlements";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"libIso18013-example/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -669,13 +682,14 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "it.pagopa.app.io.proximity.libIso18013-example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -693,9 +707,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "libIso18013-example/libIso18013_example.entitlements";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"libIso18013-example/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -710,13 +725,14 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "it.pagopa.app.io.proximity.libIso18013-example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
