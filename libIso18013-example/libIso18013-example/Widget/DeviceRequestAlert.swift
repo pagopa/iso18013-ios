@@ -24,7 +24,6 @@ struct DeviceRequestAlert : View {
             Color.black.opacity(0.5).edgesIgnoringSafeArea(.all)
             
             VStack {
-                ScrollView {
                     ForEach(keys, id: \.self) {
                         key in
                         
@@ -68,7 +67,6 @@ struct DeviceRequestAlert : View {
                                 
                             }
                             
-                        }
                     }
                 }
                 HStack {
@@ -101,7 +99,7 @@ struct DeviceRequestAlert : View {
             .background(Color.white)
             .cornerRadius(12)
             .frame(alignment: .center)
-            .padding(.horizontal, 64)
+            .padding(.horizontal, 12)
             .onAppear {
                 allowed = genValues(value: requested)
             }
