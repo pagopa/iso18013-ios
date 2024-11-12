@@ -24,49 +24,54 @@ struct DeviceRequestAlert : View {
             Color.black.opacity(0.5).edgesIgnoringSafeArea(.all)
             
             VStack {
-                    ForEach(keys, id: \.self) {
-                        key in
+                ForEach(keys, id: \.self) {
+                    key in
+                    
+                    Text(key)
+                        .foregroundStyle(Color.black)
+                        .fontWeight(.bold)
+                    
+                    let map = requested?[key] ?? [:]
+                    
+                    let mapKeys = map.keys.map({$0})
+                    
+                    ForEach(mapKeys, id: \.self) {
+                        mapKey in
                         
-                        Text(key).fontWeight(.bold)
+                        let values = map[mapKey] ?? []
                         
-                        let map = requested?[key] ?? [:]
+                        Text("\(mapKey) :")
+                            .foregroundStyle(Color.black)
                         
-                        let mapKeys = map.keys.map({$0})
-                        
-                        ForEach(mapKeys, id: \.self) {
-                            mapKey in
-                            
-                            let values = map[mapKey] ?? []
-                            
-                            Text("\(mapKey) :")
-                            
-                            ForEach(values, id: \.self) {
-                                value in
-                                HStack {
-                                    let b = Binding(get: {
-                                        return allowed?[key]?[mapKey]?[value] ?? false
-                                    }, set: {
-                                        v in
-                                        
-                                        let a = allowed ?? [:]
-                                        
-                                        allowed = a
-                                        
-                                        let i = allowed?[key] ?? [:]
-                                        allowed?[key] = i
-                                        let j = allowed?[key]?[mapKey] ?? [:]
-                                        
-                                        allowed?[key]?[mapKey] = j
-                                        
-                                        allowed?[key]?[mapKey]?[value] = v
-                                    })
-                                    Toggle(isOn: b, label: { Text(value)
-                                    })
-                                    Spacer()
-                                }
-                                
+                        ForEach(values, id: \.self) {
+                            value in
+                            HStack {
+                                let b = Binding(get: {
+                                    return allowed?[key]?[mapKey]?[value] ?? false
+                                }, set: {
+                                    v in
+                                    
+                                    let a = allowed ?? [:]
+                                    
+                                    allowed = a
+                                    
+                                    let i = allowed?[key] ?? [:]
+                                    allowed?[key] = i
+                                    let j = allowed?[key]?[mapKey] ?? [:]
+                                    
+                                    allowed?[key]?[mapKey] = j
+                                    
+                                    allowed?[key]?[mapKey]?[value] = v
+                                })
+                                Toggle(isOn: b, label: {
+                                    Text(value)
+                                        .foregroundStyle(Color.black)
+                                })
+                                Spacer()
                             }
                             
+                        }
+                        
                     }
                 }
                 HStack {

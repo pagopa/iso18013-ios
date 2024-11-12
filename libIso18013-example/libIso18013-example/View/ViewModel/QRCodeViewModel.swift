@@ -86,6 +86,7 @@ class QRCodeViewModel: QrEngagementListener, ObservableObject {
                                                   status: 0)
         
         onResponse(allowed, deviceResponseToSend)
+        onRequest = nil
     }
     
     func filterAllowedItems(nsItemsToAdd: [String: [IssuerSignedItem]],
@@ -215,9 +216,9 @@ class QRCodeViewModel: QrEngagementListener, ObservableObject {
  
     func didChangeStatus(_ newStatus: libIso18013.TransferStatus) {
         switch newStatus {
-            case .connected, .qrEngagementReady, .responseSent:
+            case .responseSent:
                 state = BLEState.success
-            case .initialized, .requestReceived, .disconnected:
+            case .initialized, .requestReceived, .disconnected, .connected, .qrEngagementReady:
                 state = BLEState.idle
             case .initializing, .started, .userSelected:
                 state = .loading
