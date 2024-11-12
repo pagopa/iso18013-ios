@@ -10,64 +10,106 @@ import SwiftUI
 struct DeviceRequestAlert : View {
     
     var requested: [String: [String: [String]]]?
+    
     @State private var allowed: [String: [String: [String: Bool]]]?
     
-    @Binding var allowedBinding: [String: [String: [String: Bool]]]?
+    var response: ((Bool, [String: [String: [String: Bool]]]?) -> Void)?
     
     var body: some View {
         
         let keys = requested?.keys.map({$0}) ?? []
         
-        return VStack {
-            ForEach(keys, id: \.self) {
-                key in
-                
-                Text(key).fontWeight(.bold)
-                
-                let map = requested?[key] ?? [:]
-                
-                let mapKeys = map.keys.map({$0})
-                
-                ForEach(mapKeys, id: \.self) {
-                    mapKey in
-                    
-                    let values = map[mapKey] ?? []
-                    
-                    Text("\(mapKey) :")
-                    
-                    ForEach(values, id: \.self) {
-                        value in
-                        HStack {
-                            let b = Binding(get: {
-                                return allowed?[key]?[mapKey]?[value] ?? false
-                            }, set: {
-                                v in
-                                
-                                let a = allowed ?? [:]
-                                
-                                allowed = a
-                                
-                                let i = allowed?[key] ?? [:]
-                                allowed?[key] = i
-                                let j = allowed?[key]?[mapKey] ?? [:]
-                                
-                                allowed?[key]?[mapKey] = j
-                                
-                                allowed?[key]?[mapKey]?[value] = v
-                                allowedBinding = allowed
-                            })
-                            Toggle(isOn: b, label: { Text(value)
-                            })
-                            Spacer()
-                        }
+        return  ZStack(alignment: Alignment(horizontal: .center, vertical: .center)) {
+            
+            Color.black.opacity(0.5).edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                ScrollView {
+                    ForEach(keys, id: \.self) {
+                        key in
                         
+                        Text(key).fontWeight(.bold)
+                        
+                        let map = requested?[key] ?? [:]
+                        
+                        let mapKeys = map.keys.map({$0})
+                        
+                        ForEach(mapKeys, id: \.self) {
+                            mapKey in
+                            
+                            let values = map[mapKey] ?? []
+                            
+                            Text("\(mapKey) :")
+                            
+                            ForEach(values, id: \.self) {
+                                value in
+                                HStack {
+                                    let b = Binding(get: {
+                                        return allowed?[key]?[mapKey]?[value] ?? false
+                                    }, set: {
+                                        v in
+                                        
+                                        let a = allowed ?? [:]
+                                        
+                                        allowed = a
+                                        
+                                        let i = allowed?[key] ?? [:]
+                                        allowed?[key] = i
+                                        let j = allowed?[key]?[mapKey] ?? [:]
+                                        
+                                        allowed?[key]?[mapKey] = j
+                                        
+                                        allowed?[key]?[mapKey]?[value] = v
+                                    })
+                                    Toggle(isOn: b, label: { Text(value)
+                                    })
+                                    Spacer()
+                                }
+                                
+                            }
+                            
+                        }
                     }
-                    
                 }
+                HStack {
+                    Spacer()
+                    Button {
+                        response?(true, allowed)
+                    } label: {
+                        Text("Yes")
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 12)
+                            .background(Rectangle().fill(Color.blue).cornerRadius(8))
+                    }
+                    Spacer()
+                    Button {
+                        response?(false, allowed)
+                    } label: {
+                        Text("No")
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 12)
+                            .background(Rectangle().fill(Color.red).cornerRadius(8))
+                    }
+                    Spacer()
+                }
+                .padding()
+                
             }
-        }.padding(.horizontal, 64)
+            .padding(32)
+            .background(Color.white)
+            .cornerRadius(12)
+            .frame(alignment: .center)
+            .padding(.horizontal, 64)
+            .onAppear {
+                allowed = genValues(value: requested)
+            }
+            
+        }
+        
     }
-
+    
     func genValues(value: [String: [String: [String]]]?) -> [String: [String: [String: Bool]]]? {
         var all: [String: [String: [String: Bool]]]? = [String: [String: [String: Bool]]]()
         
@@ -84,7 +126,7 @@ struct DeviceRequestAlert : View {
                 keyPair2.value.forEach({
                     item in
                     
-                    items[item] = false
+                    items[item] = true
                 })
                 
                 ns[keyPair2.key] = items
@@ -100,17 +142,14 @@ struct DeviceRequestAlert : View {
 
 struct DeviceRequestAlert_Previews: PreviewProvider {
     static var previews: some View {
-            let value = ["mdl": ["hello": ["world"]], "euPid": ["hello": ["world", "map"]]]
+        let value = ["mdl": ["hello": ["world"]], "euPid": ["hello": ["world", "map"]]]
         
-            var all: [String: [String: [String: Bool]]]? = [String: [String: [String: Bool]]]()
+        var all: [String: [String: [String: Bool]]]? = [String: [String: [String: Bool]]]()
         
-            let allB = Binding(get: {
-                return all
-            }, set: {
-                k in
-                all = k
-            })
-        return DeviceRequestAlert(requested: value, allowedBinding: allB)
+        
+        return DeviceRequestAlert(requested: value) { allowed, values in
+            print(allowed, values)
+        }
     }
 }
 

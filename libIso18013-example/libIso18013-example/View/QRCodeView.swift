@@ -7,6 +7,7 @@
 
 import SwiftUI
 import libIso18013
+import SwiftCBOR
 
 struct QRCodeView: View {
     
@@ -54,7 +55,9 @@ struct QRCodeView: View {
         .overlay(content: {
             viewModel.onRequest.map({
                 item in
-                Text(item.deviceRequest.version)
+                    DeviceRequestAlert(requested: viewModel.buildAlert(item: item.deviceRequest)) { allowed, items in
+                        viewModel.sendResponse(allowed: allowed, items: items, onResponse: item.onResponse!)
+                }
             })
         })
         .alert(isPresented: Binding<Bool>(

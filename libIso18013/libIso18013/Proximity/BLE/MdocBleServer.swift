@@ -107,8 +107,11 @@ public class MdocBleServer {
             status = .qrEngagementReady
         } else {
             // once bt is powered on, advertise
-            if peripheralManager.state == .resetting { DispatchQueue.main.asyncAfter(deadline: .now()+1) { self.start()} }
-            else {
+            if peripheralManager.state == .resetting {
+                DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+                    self.start()
+                }
+            } else {
                 print("Peripheral manager powered off")
             }
         }
