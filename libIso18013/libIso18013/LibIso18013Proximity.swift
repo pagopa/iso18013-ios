@@ -34,7 +34,9 @@ public class LibIso18013Proximity {
         self.listener = listener
     }
     
-    
+    public func stop() {
+        bleServer?.stop()
+    }
     
     // Generates and returns the QR code payload
     public func getQrCodePayload() throws -> String {

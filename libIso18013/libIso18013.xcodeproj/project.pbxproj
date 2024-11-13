@@ -118,6 +118,7 @@
 		3D179CB52CB924DA0061DFDC /* LibIso18013DAOMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D179CB42CB924D90061DFDC /* LibIso18013DAOMemory.swift */; };
 		3D179CBA2CB95A370061DFDC /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 3D179CB92CB95A370061DFDC /* KeychainAccess */; };
 		3D179CBC2CB95EEB0061DFDC /* LibIso18013DAOKeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D179CBB2CB95EDE0061DFDC /* LibIso18013DAOKeyChain.swift */; };
+		3DB91D892CE4AAAA008AC0BB /* Proximity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB91D882CE4AAA7008AC0BB /* Proximity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -240,6 +241,7 @@
 		3D179CB12CB9079C0061DFDC /* LibIso18013UtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013UtilsTests.swift; sourceTree = "<group>"; };
 		3D179CB42CB924D90061DFDC /* LibIso18013DAOMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013DAOMemory.swift; sourceTree = "<group>"; };
 		3D179CBB2CB95EDE0061DFDC /* LibIso18013DAOKeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013DAOKeyChain.swift; sourceTree = "<group>"; };
+		3DB91D882CE4AAA7008AC0BB /* Proximity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proximity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -425,6 +427,7 @@
 		3D14E6452CAD8C0A00E15A46 /* libIso18013 */ = {
 			isa = PBXGroup;
 			children = (
+				3DB91D872CE4AA7D008AC0BB /* React */,
 				3A868B582CBFC32100B35976 /* LibIso18013Proximity.swift */,
 				3A868B572CBFC2DF00B35976 /* Proximity */,
 				3D179CB32CB924CF0061DFDC /* DAO */,
@@ -561,6 +564,14 @@
 				3D179CB42CB924D90061DFDC /* LibIso18013DAOMemory.swift */,
 			);
 			path = DAO;
+			sourceTree = "<group>";
+		};
+		3DB91D872CE4AA7D008AC0BB /* React */ = {
+			isa = PBXGroup;
+			children = (
+				3DB91D882CE4AAA7008AC0BB /* Proximity.swift */,
+			);
+			path = React;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -756,6 +767,7 @@
 				3D14E66C2CAD903500E15A46 /* Data+.swift in Sources */,
 				3D14E6522CAD8C9900E15A46 /* Document.swift in Sources */,
 				3A405EF12CAFDACC0069998C /* DeviceResponse.swift in Sources */,
+				3DB91D892CE4AAAA008AC0BB /* Proximity.swift in Sources */,
 				3D14E6A12CAE99D100E15A46 /* ECCurveName.swift in Sources */,
 				3D14E6A32CAE99DC00E15A46 /* ECCurveType.swift in Sources */,
 				3D14E67A2CAD929300E15A46 /* CBOR+.swift in Sources */,
