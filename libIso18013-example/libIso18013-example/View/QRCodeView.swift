@@ -48,18 +48,19 @@ struct QRCodeView: View {
                     .tint(Color.blue)
                     .scaleEffect(4)
             }
+            
+            viewModel.onRequest.map({
+                item in
+                DeviceRequestAlert(requested: viewModel.buildAlert(item: item.deviceRequest)) { allowed, items in
+                    viewModel.sendResponse(allowed: allowed, items: items, onResponse: item.onResponse!)
+                }
+            })
+            
+            
         }
         .onAppear() {
             startScanning()
         }
-        .overlay(content: {
-            viewModel.onRequest.map({
-                item in
-                    DeviceRequestAlert(requested: viewModel.buildAlert(item: item.deviceRequest)) { allowed, items in
-                        viewModel.sendResponse(allowed: allowed, items: items, onResponse: item.onResponse!)
-                }
-            })
-        })
         .alert(isPresented: Binding<Bool>(
             get: {
                 if case .failure(_) = viewModel.state {
@@ -89,7 +90,7 @@ struct QRCodeView: View {
             qrCode = "Error: \(error)"
         }
     }
-
+    
 }
 
 struct QRCodeView_Previews: PreviewProvider {
