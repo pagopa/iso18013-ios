@@ -11,6 +11,7 @@ public enum ProximityEvents {
     case onDocumentRequestReceived(request: [String: [String: [String]]]?)
     case onDocumentPresentationCompleted
     case onError(error: Error)
+    case onLoading
 }
 
 public class Proximity {
@@ -50,7 +51,7 @@ public class Proximity {
         
         proximityListener.onResponse?(allowed, buildDeviceResponse(allowed: allowed, items: items, documents: documents))
         
-        proximityHandler?(.onDocumentPresentationCompleted)
+        
     }
     
     public func stop() {
@@ -277,7 +278,16 @@ public class Proximity {
         }
         
         func didChangeStatus(_ newStatus: TransferStatus) {
-            
+            switch(newStatus) {
+                case .responseSent:
+                    self.proximity.proximityHandler?(.onDocumentPresentationCompleted)
+                    break
+                case .initializing, .started, .userSelected:
+                    self.proximity.proximityHandler?(.onLoading)
+                    break
+                default:
+                    break
+            }
         }
         
         func didReceiveRequest(deviceRequest: DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, DeviceResponse?) -> Void) {
