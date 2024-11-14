@@ -11,14 +11,15 @@ import SwiftCBOR
 
 struct QRCodeView: View {
     
-    @StateObject private var viewModel: QRCodeViewModel = QRCodeViewModel()
     @State var qrCode: String = ""
+    
+    @State var proximityEvent: ProximityEvents = .onBleStop
     
     var body: some View {
         ZStack {
             VStack {
                 Spacer()
-                if case .success = viewModel.state {
+                if case .onDocumentPresentationCompleted = proximityEvent {
                     HStack {
                         Text("Success")
                             .font(.title)
@@ -31,7 +32,7 @@ struct QRCodeView: View {
                     .padding(.bottom)
                     Button("Get another Qr Code") {
                         startScanning()
-                        viewModel.state = .idle
+                        //viewModel.state = .idle
                     }
                 } else {
                     QRCode
@@ -41,7 +42,7 @@ struct QRCodeView: View {
                 }
                 Spacer()
             }
-            if case .loading = viewModel.state {
+            if case .onLoading = proximityEvent {
                 Color.black.opacity(0.4)
                     .edgesIgnoringSafeArea(.all)
                 ProgressView()
@@ -49,12 +50,27 @@ struct QRCodeView: View {
                     .scaleEffect(4)
             }
             
-            viewModel.onRequest.map({
-                item in
-                DeviceRequestAlert(requested: viewModel.buildAlert(item: item.deviceRequest)) { allowed, items in
-                    viewModel.sendResponse(allowed: allowed, items: items, onResponse: item.onResponse!)
+            if case .onDocumentRequestReceived(let request) = proximityEvent {
+                
+                DeviceRequestAlert(requested: request) {
+                    allowed, items in
+                    
+                    let documents = LibIso18013DAOKeyChain().getAllDocuments(state: .issued).map({
+                        ($0.docType, $0.document.encode(), $0.deviceKey)
+                    })
+                    
+                    var dMap: [String: ([UInt8], CoseKeyPrivate)] = [:]
+                    
+                    documents.forEach({
+                        doc in
+                        dMap[doc.0] = (doc.1, doc.2)
+                    })
+                    
+                   
+                    Proximity.shared.dataPresentation(allowed: allowed, items: items, documents: dMap)
                 }
-            })
+            }
+            
             
             
         }
@@ -63,17 +79,19 @@ struct QRCodeView: View {
         }
         .alert(isPresented: Binding<Bool>(
             get: {
-                if case .failure(_) = viewModel.state {
+                if case .onError(let error) = proximityEvent {
                     return true
-                } else {
+                }
+                else {
                     return false
                 }
+                
             },
             set: { _ in }
         )) {
             Alert(title: Text("Error"), message: Text(({
-                if case let .failure(message) = viewModel.state {
-                    return message
+                if case .onError(let error) = proximityEvent {
+                    return error.localizedDescription
                 } else {
                     return "Si è verificato un errore."
                 }
@@ -82,13 +100,21 @@ struct QRCodeView: View {
     }
     
     func startScanning() {
-        LibIso18013Proximity.shared.setListener(viewModel)
-        do {
-            qrCode = try LibIso18013Proximity.shared.getQrCodePayload()
-            
-        } catch {
-            qrCode = "Error: \(error)"
+        
+        Proximity.shared.proximityHandler = {
+            event in
+            self.proximityEvent = event
         }
+        
+        qrCode = Proximity.shared.start() ?? ""
+        
+//        LibIso18013Proximity.shared.setListener(viewModel)
+//        do {
+//            qrCode = try LibIso18013Proximity.shared.getQrCodePayload()
+//            
+//        } catch {
+//            qrCode = "Error: \(error)"
+//        }
     }
     
 }
