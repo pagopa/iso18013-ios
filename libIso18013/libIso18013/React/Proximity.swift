@@ -5,44 +5,19 @@
 //  Created by Antonio on 13/11/24.
 //
 
+public enum ProximityEvents {
+    case onBleStart
+    case onBleStop
+    case onDocumentRequestReceived(request: [String: [String: [String]]]?)
+    case onDocumentPresentationCompleted
+    case onError(error: Error)
+}
+
 public class Proximity {
-    
-    class ProximityListener : QrEngagementListener {
-        
-        var proximity: Proximity
-        var onResponse: ((Bool, DeviceResponse?) -> Void)?
-        var sessionEncryption: SessionEncryption?
-        
-        
-        init(proximity: Proximity) {
-            self.proximity = proximity
-        }
-        
-        func didChangeStatus(_ newStatus: TransferStatus) {
-            
-        }
-        
-        func didReceiveRequest(deviceRequest: DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, DeviceResponse?) -> Void) {
-            self.sessionEncryption = sessionEncryption
-            self.onResponse = onResponse
-            
-            
-            proximity.onDeviceRequest(deviceRequest)
-            
-        }
-        
-        func didFinishedWithError(_ error: any Error) {
-            
-        }
-        
-        
-    }
-    
     
     public static var shared: Proximity = Proximity()
     
-    public var onRequest: (([String: [String: [String]]]?) -> Void)?
-    
+    public var proximityHandler: ((ProximityEvents) -> Void)?
     
     
     
@@ -56,7 +31,11 @@ public class Proximity {
         
         self.proximityListener = _proximity
         
-        return try? LibIso18013Proximity.shared.getQrCodePayload()
+        let qrCode = try? LibIso18013Proximity.shared.getQrCodePayload()
+        
+        proximityHandler?(.onBleStart)
+        
+        return qrCode
         
     }
     
@@ -70,10 +49,14 @@ public class Proximity {
         
         
         proximityListener.onResponse?(allowed, buildDeviceResponse(allowed: allowed, items: items, documents: documents))
+        
+        proximityHandler?(.onDocumentPresentationCompleted)
     }
     
     public func stop() {
         LibIso18013Proximity.shared.stop()
+        
+        proximityHandler?(.onBleStop)
     }
     
     public func isBleEnabled() -> Bool {
@@ -98,6 +81,10 @@ public class Proximity {
         wait.wait()
         
         return success
+    }
+    
+    func onRequest(request: [String: [String: [String]]]?) {
+        proximityHandler?(.onDocumentRequestReceived(request: request))
     }
     
     func buildDeviceResponse(allowed: Bool,
@@ -159,7 +146,7 @@ public class Proximity {
     }
     
     func onDeviceRequest(_ deviceRequest: DeviceRequest) {
-        onRequest?(buildDeviceRequestJson(item: deviceRequest))
+        onRequest(request: buildDeviceRequestJson(item: deviceRequest))
     }
     
     func buildDeviceRequestJson(item: DeviceRequest) -> [String: [String: [String]]]? {
@@ -276,6 +263,37 @@ public class Proximity {
             } else {
                 return nil
             }
+    }
+    
+    class ProximityListener : QrEngagementListener {
+        
+        var proximity: Proximity
+        var onResponse: ((Bool, DeviceResponse?) -> Void)?
+        var sessionEncryption: SessionEncryption?
+        
+        
+        init(proximity: Proximity) {
+            self.proximity = proximity
+        }
+        
+        func didChangeStatus(_ newStatus: TransferStatus) {
+            
+        }
+        
+        func didReceiveRequest(deviceRequest: DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, DeviceResponse?) -> Void) {
+            self.sessionEncryption = sessionEncryption
+            self.onResponse = onResponse
+            
+            
+            proximity.onDeviceRequest(deviceRequest)
+            
+        }
+        
+        func didFinishedWithError(_ error: any Error) {
+            proximity.proximityHandler?(.onError(error: error))
+        }
+        
+        
     }
     
     
