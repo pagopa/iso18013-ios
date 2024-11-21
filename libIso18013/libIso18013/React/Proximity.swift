@@ -8,7 +8,7 @@
 public enum ProximityEvents {
     case onBleStart
     case onBleStop
-    case onDocumentRequestReceived(request: [String: [String: [String]]]?)
+    case onDocumentRequestReceived(request:  (request: [(docType: String, nameSpaces: [String: [String: Bool]])]?, isAuthenticated: Bool)?)
     case onDocumentPresentationCompleted
     case onError(error: Error)
     case onLoading
@@ -23,9 +23,14 @@ public class Proximity {
     
     
     private var proximityListener: ProximityListener?
+    private var trustedCertificates: [SecCertificate] = []
     
-    
-    public func start() -> String? {
+    public func start(_ trustedCertificates: [Data]? = nil) -> String? {
+        
+        self.trustedCertificates = trustedCertificates?.compactMap {
+            SecCertificateCreateWithData(nil, $0 as CFData)
+        } ?? []
+        
         let _proximity = ProximityListener(proximity: self)
         
         LibIso18013Proximity.shared.setListener(_proximity)
@@ -84,7 +89,7 @@ public class Proximity {
         return success
     }
     
-    func onRequest(request: [String: [String: [String]]]?) {
+    func onRequest(request:   (request: [(docType: String, nameSpaces: [String: [String: Bool]])]?, isAuthenticated: Bool)?) {
         proximityHandler?(.onDocumentRequestReceived(request: request))
     }
     
@@ -147,38 +152,58 @@ public class Proximity {
     }
     
     func onDeviceRequest(_ deviceRequest: DeviceRequest) {
-        onRequest(request: buildDeviceRequestJson(item: deviceRequest))
+        
+        let withAuthentication : (request: [(docType: String, nameSpaces: [String: [String: Bool]])]?, isAuthenticated: Bool)
+        
+        let isAuthenticated: Bool
+        
+        if let sessionEncryption = proximityListener?.sessionEncryption {
+            let iaca: [SecCertificate] = trustedCertificates
+            
+            isAuthenticated = MdocTransferHelpers.isDeviceRequestValid(deviceRequest: deviceRequest, iaca: iaca, sessionEncryption: sessionEncryption)
+        } else {
+            isAuthenticated = false
+        }
+        
+        withAuthentication = (
+            request: buildDeviceRequestJson(item: deviceRequest),
+            isAuthenticated: isAuthenticated)
+        
+        onRequest(request: withAuthentication)
     }
     
-    func buildDeviceRequestJson(item: DeviceRequest) -> [String: [String: [String]]]? {
-        var requestedDocuments: [String: [String: [String]]] = [:]
+    func buildDeviceRequestJson(item: DeviceRequest) -> [(docType: String, nameSpaces: [String: [String: Bool]])]? {
+        
+        var requestedDocuments: [(docType: String, nameSpaces: [String: [String: Bool]])] = []
+        
         item.docRequests.forEach({
             request in
             
-            requestedDocuments[request.itemsRequest.docType] = getRequestedItems(request: request)
+            requestedDocuments.append((docType: request.itemsRequest.docType, nameSpaces: getRequestedItems(request: request)))
         })
         
         return requestedDocuments
     }
     
-    func getRequestedItems(request: DocRequest) -> [String: [String]]? {
-        var nsItemsToAdd = [String: [String]]()
+    
+    func getRequestedItems(request: DocRequest) -> [String: [String: Bool]] {
+        var nsItemsToAdd = [String: [String: Bool]]()
         
         let reqNamespaces =  Array(request.itemsRequest.requestNameSpaces.nameSpaces.keys)
         
         for reqNamespace in reqNamespaces {
-            let reqElementIdentifiers =  request.itemsRequest.requestNameSpaces.nameSpaces[reqNamespace]!.elementIdentifiers
-            
-            nsItemsToAdd[reqNamespace] = reqElementIdentifiers
+            nsItemsToAdd[reqNamespace] = request.itemsRequest.requestNameSpaces.nameSpaces[reqNamespace]?.dataElements
         }
         
         return nsItemsToAdd
     }
-    
+   
     func getRequestedValues(request: [String: [String: Bool]], doc: Document) -> (nsItemsToAdd: [String: [IssuerSignedItem]], errors: Errors?) {
         var nsItemsToAdd = [String: [IssuerSignedItem]]()
         var nsErrorsToAdd = [String: ErrorItems]()
         var errors: Errors?
+        
+        //indaghiamo intenttoretain
         
         if let issuerNs = doc.issuerSigned.issuerNameSpaces {
             request.keys.forEach({
@@ -282,7 +307,7 @@ public class Proximity {
                 case .responseSent:
                     self.proximity.proximityHandler?(.onDocumentPresentationCompleted)
                     break
-                case .initializing, .started, .userSelected:
+                case .initializing, .userSelected:
                     self.proximity.proximityHandler?(.onLoading)
                     break
                 default:

@@ -118,6 +118,7 @@
 		3D179CB52CB924DA0061DFDC /* LibIso18013DAOMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D179CB42CB924D90061DFDC /* LibIso18013DAOMemory.swift */; };
 		3D179CBA2CB95A370061DFDC /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 3D179CB92CB95A370061DFDC /* KeychainAccess */; };
 		3D179CBC2CB95EEB0061DFDC /* LibIso18013DAOKeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D179CBB2CB95EDE0061DFDC /* LibIso18013DAOKeyChain.swift */; };
+		3D56CF5C2CE792790057162C /* CborCose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D56CF5B2CE792720057162C /* CborCose.swift */; };
 		3DB91D892CE4AAAA008AC0BB /* Proximity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB91D882CE4AAA7008AC0BB /* Proximity.swift */; };
 /* End PBXBuildFile section */
 
@@ -241,6 +242,7 @@
 		3D179CB12CB9079C0061DFDC /* LibIso18013UtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013UtilsTests.swift; sourceTree = "<group>"; };
 		3D179CB42CB924D90061DFDC /* LibIso18013DAOMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013DAOMemory.swift; sourceTree = "<group>"; };
 		3D179CBB2CB95EDE0061DFDC /* LibIso18013DAOKeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013DAOKeyChain.swift; sourceTree = "<group>"; };
+		3D56CF5B2CE792720057162C /* CborCose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CborCose.swift; sourceTree = "<group>"; };
 		3DB91D882CE4AAA7008AC0BB /* Proximity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proximity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -569,6 +571,7 @@
 		3DB91D872CE4AA7D008AC0BB /* React */ = {
 			isa = PBXGroup;
 			children = (
+				3D56CF5B2CE792720057162C /* CborCose.swift */,
 				3DB91D882CE4AAA7008AC0BB /* Proximity.swift */,
 			);
 			path = React;
@@ -777,6 +780,7 @@
 				3A1E53A12CD8E34A005F5704 /* TransferStatus.swift in Sources */,
 				3A1E53A22CD8E34A005F5704 /* ItemsRequest.swift in Sources */,
 				3A1E53A32CD8E34A005F5704 /* DocRequest.swift in Sources */,
+				3D56CF5C2CE792790057162C /* CborCose.swift in Sources */,
 				3D179CB52CB924DA0061DFDC /* LibIso18013DAOMemory.swift in Sources */,
 				3D14E6AF2CAEA56C00E15A46 /* IssuerAuth.swift in Sources */,
 				3D14E6612CAD8EB800E15A46 /* CBORDecodable.swift in Sources */,
