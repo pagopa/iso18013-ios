@@ -22,91 +22,92 @@ struct DeviceRequestAlert : View {
         return  ZStack(alignment: Alignment(horizontal: .center, vertical: .center)) {
             
             Color.black.opacity(0.5).edgesIgnoringSafeArea(.all)
-            
-            VStack {
-                ForEach(keys, id: \.self) {
-                    key in
-                    
-                    Text(key)
-                        .foregroundStyle(Color.black)
-                        .fontWeight(.bold)
-                    
-                    let map = requested?[key] ?? [:]
-                    
-                    let mapKeys = map.keys.map({$0})
-                    
-                    ForEach(mapKeys, id: \.self) {
-                        mapKey in
+            ScrollView(.vertical) {
+                VStack {
+                    ForEach(keys, id: \.self) {
+                        key in
                         
-                        let values = map[mapKey] ?? []
-                        
-                        Text("\(mapKey) :")
+                        Text(key)
                             .foregroundStyle(Color.black)
+                            .fontWeight(.bold)
                         
-                        ForEach(values, id: \.self) {
-                            value in
-                            HStack {
-                                let b = Binding(get: {
-                                    return allowed?[key]?[mapKey]?[value] ?? false
-                                }, set: {
-                                    v in
-                                    
-                                    let a = allowed ?? [:]
-                                    
-                                    allowed = a
-                                    
-                                    let i = allowed?[key] ?? [:]
-                                    allowed?[key] = i
-                                    let j = allowed?[key]?[mapKey] ?? [:]
-                                    
-                                    allowed?[key]?[mapKey] = j
-                                    
-                                    allowed?[key]?[mapKey]?[value] = v
-                                })
-                                Toggle(isOn: b, label: {
-                                    Text(value)
-                                        .foregroundStyle(Color.black)
-                                })
-                                Spacer()
+                        let map = requested?[key] ?? [:]
+                        
+                        let mapKeys = map.keys.map({$0})
+                        
+                        ForEach(mapKeys, id: \.self) {
+                            mapKey in
+                            
+                            let values = map[mapKey] ?? []
+                            
+                            Text("\(mapKey) :")
+                                .foregroundStyle(Color.black)
+                            
+                            ForEach(values, id: \.self) {
+                                value in
+                                HStack {
+                                    let b = Binding(get: {
+                                        return allowed?[key]?[mapKey]?[value] ?? false
+                                    }, set: {
+                                        v in
+                                        
+                                        let a = allowed ?? [:]
+                                        
+                                        allowed = a
+                                        
+                                        let i = allowed?[key] ?? [:]
+                                        allowed?[key] = i
+                                        let j = allowed?[key]?[mapKey] ?? [:]
+                                        
+                                        allowed?[key]?[mapKey] = j
+                                        
+                                        allowed?[key]?[mapKey]?[value] = v
+                                    })
+                                    Toggle(isOn: b, label: {
+                                        Text(value)
+                                            .foregroundStyle(Color.black)
+                                    })
+                                    Spacer()
+                                }
+                                
                             }
                             
                         }
-                        
                     }
+                    HStack {
+                        Spacer()
+                        Button {
+                            response?(true, allowed)
+                        } label: {
+                            Text("Yes")
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 12)
+                                .background(Rectangle().fill(Color.blue).cornerRadius(8))
+                        }
+                        Spacer()
+                        Button {
+                            response?(false, allowed)
+                        } label: {
+                            Text("No")
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 12)
+                                .background(Rectangle().fill(Color.red).cornerRadius(8))
+                        }
+                        Spacer()
+                    }
+                    .padding()
+                    
                 }
-                HStack {
-                    Spacer()
-                    Button {
-                        response?(true, allowed)
-                    } label: {
-                        Text("Yes")
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 12)
-                            .background(Rectangle().fill(Color.blue).cornerRadius(8))
-                    }
-                    Spacer()
-                    Button {
-                        response?(false, allowed)
-                    } label: {
-                        Text("No")
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 12)
-                            .background(Rectangle().fill(Color.red).cornerRadius(8))
-                    }
-                    Spacer()
+                .padding(32)
+                .background(Color.white)
+                .cornerRadius(12)
+                .frame(alignment: .center)
+                .padding(.horizontal, 12)
+                .onAppear {
+                    allowed = genValues(value: requested)
                 }
-                .padding()
-                
-            }
-            .padding(32)
-            .background(Color.white)
-            .cornerRadius(12)
-            .frame(alignment: .center)
-            .padding(.horizontal, 12)
-            .onAppear {
-                allowed = genValues(value: requested)
             }
             
         }
