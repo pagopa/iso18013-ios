@@ -52,7 +52,31 @@ struct QRCodeView: View {
             
             if case .onDocumentRequestReceived(let request) = proximityEvent {
                 
-                DeviceRequestAlert(requested: request) {
+                let req:  [String: [String: [String]]] = {
+                    var popupRequest : [String: [String: [String]]] = [:]
+                    
+                     request?.request?.forEach({
+                        item in
+                         
+                         var subReq: [String: [String]] = [:]
+                         
+                         item.nameSpaces.keys.forEach({
+                             nameSpace in
+                             subReq[nameSpace] =
+                                 item.nameSpaces[nameSpace]?.keys.map({$0})
+                         })
+                         
+                         popupRequest[item.docType] = subReq
+                    })
+                    
+                    return popupRequest
+                    
+                    
+                }()
+                
+                
+                
+                DeviceRequestAlert(requested: req) {
                     allowed, items in
                     
                     let documents = LibIso18013DAOKeyChain().getAllDocuments(state: .issued).map({
@@ -106,15 +130,11 @@ struct QRCodeView: View {
             self.proximityEvent = event
         }
         
-        qrCode = Proximity.shared.start() ?? ""
+        let trustedCertificates: [Data] = []
         
-//        LibIso18013Proximity.shared.setListener(viewModel)
-//        do {
-//            qrCode = try LibIso18013Proximity.shared.getQrCodePayload()
-//            
-//        } catch {
-//            qrCode = "Error: \(error)"
-//        }
+        
+        
+        qrCode = Proximity.shared.start() ?? ""
     }
     
 }
