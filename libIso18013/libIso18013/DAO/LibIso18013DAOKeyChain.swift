@@ -65,22 +65,23 @@ public class LibIso18013DAOKeyChain : LibIso18013DAOProtocol {
         return true
     }
     
-    public func createDocument(docType: String, documentName: String, curve: ECCurveName = .p256, forceSecureEnclave: Bool = true) throws -> DeviceDocumentProtocol {
+    public func createDocument(docType: String, documentName: String/*, curve: ECCurveName = .p256, forceSecureEnclave: Bool = true*/) throws -> DeviceDocumentProtocol {
         
-        let deviceKey = try LibIso18013Utils.shared.createSecurePrivateKey(curve: curve, forceSecureEnclave: forceSecureEnclave)
+        let deviceKey = try LibIso18013Utils.shared.createSecurePrivateKey(curve: .p256, forceSecureEnclave: true)
         
-        return try createDocument(docType: docType, documentName: documentName, deviceKey: deviceKey)
+        return try createDocument(docType: docType, documentName: documentName, deviceKeyData: deviceKey.encode(options: CBOROptions()))
     }
     
-    public func createDocument(docType: String, documentName: String, deviceKey: CoseKeyPrivate) throws -> DeviceDocumentProtocol {
+    public func createDocument(docType: String, documentName: String, deviceKeyData: [UInt8]) throws -> DeviceDocumentProtocol {
         let document = DeviceDocument(
-            state:.unsigned,
+            documentData: nil,
+            deviceKeyData: deviceKeyData,
+            state: .unsigned,
             createdAt: Date(),
-            deviceKey: deviceKey,
             docType: docType,
             name: documentName,
-            identifier: UUID().uuidString,
-            document: nil)
+            identifier: UUID().uuidString
+        )
         
         try keyChain.set(Data(document.encode(options: CBOROptions())), key: document.identifier)
         
@@ -102,13 +103,15 @@ public class LibIso18013DAOKeyChain : LibIso18013DAOProtocol {
         
         let document = Document(docType: storedDocument.docType, issuerSigned: issuerSigned)
         
+        let deviceKey = CoseKeyPrivate(data: storedDocument.deviceKeyData)!
+        
         guard LibIso18013Utils.shared.isDevicePrivateKeyOfDocument(
             document: document,
-            privateKey: storedDocument.deviceKey) else {
+            privateKey: deviceKey) else {
             throw ErrorHandler.invalidDeviceKeyError
         }
         
-        let issuedDocument = storedDocument.issued(document: document)
+        let issuedDocument = storedDocument.issued(documentData: document.encode(options: CBOROptions()))
         
         try keyChain.set(Data(issuedDocument.encode(options: CBOROptions())), key: storedDocument.identifier)
         

@@ -20,11 +20,14 @@ public class Proximity {
     
     public var proximityHandler: ((ProximityEvents) -> Void)?
     
-    
-    
     private var proximityListener: ProximityListener?
     private var trustedCertificates: [SecCertificate] = []
     
+    
+    //  Initialize the BLE manager, set the necessary listeners. Start the BLE and generate the QRCode string
+    //  - Parameters:
+    //      - trustedCertificates: list of trusted certificates to verify reader validity
+    //  - Returns: A string containing the DeviceEngagement data necessary to start the verification process
     public func start(_ trustedCertificates: [Data]? = nil) -> String? {
         
         self.trustedCertificates = trustedCertificates?.compactMap {
@@ -45,26 +48,47 @@ public class Proximity {
         
     }
     
+    //  Responds to a request for data from the reader.
+    //  - Parameters:
+    //      - allowed: User has allowed the verification process
+    //      - items: Map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
+    //      - documents: Map of documents. Key is docType, first item is document as cbor and second item is CoseKeyPrivate encoded (can rapresent keytag or raw private key)
     public func dataPresentation(allowed: Bool,
                                  items: [String: [String: [String: Bool]]]?,
-                                 documents: [String: ([UInt8], CoseKeyPrivate)]?) {
+                                 documents: [String: ([UInt8], [UInt8])]?) {
         
         guard let proximityListener = self.proximityListener else {
             return
         }
         
+        var documentsWithKeys: [String: ([UInt8], CoseKeyPrivate)] = [:]
         
-        proximityListener.onResponse?(allowed, buildDeviceResponse(allowed: allowed, items: items, documents: documents))
+        documents?.keys.forEach({
+            key in
+            guard let item = documents?[key] else {
+                return
+            }
+            guard let privateKey = CoseKeyPrivate.init(data: item.1) else {
+                return
+            }
+            documentsWithKeys[key] =  (item.0, privateKey)
+        })
+        
+        proximityListener.onResponse?(allowed, buildDeviceResponse(allowed: allowed, items: items, documents: documentsWithKeys))
         
         
     }
     
+    //  Stops the BLE manager and closes connections.
     public func stop() {
         LibIso18013Proximity.shared.stop()
         
         proximityHandler?(.onBleStop)
     }
     
+    
+    //  Retrives state of BLE
+    //  - Returns: A Bool indicating if BLE is enabled
     public func isBleEnabled() -> Bool {
         let wait = DispatchGroup()
         
@@ -88,6 +112,9 @@ public class Proximity {
         
         return success
     }
+    
+    
+    
     
     func onRequest(request:   (request: [(docType: String, nameSpaces: [String: [String: Bool]])]?, isAuthenticated: Bool)?) {
         proximityHandler?(.onDocumentRequestReceived(request: request))
@@ -327,10 +354,5 @@ public class Proximity {
         func didFinishedWithError(_ error: any Error) {
             proximity.proximityHandler?(.onError(error: error))
         }
-        
-        
     }
-    
-    
-    
 }

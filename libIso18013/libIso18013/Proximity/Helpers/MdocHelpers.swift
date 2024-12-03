@@ -14,7 +14,7 @@ import X509
 
 public typealias RequestItems = [String: [String: [String]]]
 
-public class MdocHelpers {
+class MdocHelpers {
    
     static var errorNoDocumentsDescriptionKey: String { "doctype_not_found" }
     static func getErrorNoDocuments(_ docType: String) -> Error { NSError(domain: "\(MdocBleServer.self)", code: 0, userInfo: ["key": Self.errorNoDocumentsDescriptionKey, "%s": docType]) }
@@ -45,7 +45,7 @@ public class MdocHelpers {
     ///   - handOver: handOver structure
     /// - Returns: A ``DeviceRequest`` object
     
-    public static func decodeRequestAndInformUser(deviceEngagement: DeviceEngagement?, docs: [String: IssuerSigned], iaca: [SecCertificate], requestData: Data, devicePrivateKeys: [String: CoseKeyPrivate], dauthMethod: DeviceAuthMethod, readerKeyRawData: [UInt8]?, handOver: CBOR) -> Result<(sessionEncryption: SessionEncryption, deviceRequest: DeviceRequest, params: [String: Any], isValidRequest: Bool), Error> {
+    static func decodeRequestAndInformUser(deviceEngagement: DeviceEngagement?, docs: [String: IssuerSigned], iaca: [SecCertificate], requestData: Data, devicePrivateKeys: [String: CoseKeyPrivate], dauthMethod: DeviceAuthMethod, readerKeyRawData: [UInt8]?, handOver: CBOR) -> Result<(sessionEncryption: SessionEncryption, deviceRequest: DeviceRequest, params: [String: Any], isValidRequest: Bool), Error> {
         do {
             guard let seCbor = try CBOR.decode([UInt8](requestData)) else {
                 //logger.error("Request Data is not Cbor");
@@ -116,7 +116,7 @@ public class MdocHelpers {
     ///   - sessionTranscript: Session Transcript object
     ///   - dauthMethod: Mdoc Authentication method
     /// - Returns: (Device response object, valid requested items, error request items) tuple
-    public static func getDeviceResponseToSend(deviceRequest: DeviceRequest?, issuerSigned: [String: IssuerSigned], selectedItems: RequestItems? = nil, sessionEncryption: SessionEncryption? = nil, eReaderKey: CoseKey? = nil, devicePrivateKeys: [String: CoseKeyPrivate], sessionTranscript: SessionTranscript? = nil, dauthMethod: DeviceAuthMethod) throws -> (response: DeviceResponse, validRequestItems: RequestItems, errorRequestItems: RequestItems)? {
+    static func getDeviceResponseToSend(deviceRequest: DeviceRequest?, issuerSigned: [String: IssuerSigned], selectedItems: RequestItems? = nil, sessionEncryption: SessionEncryption? = nil, eReaderKey: CoseKey? = nil, devicePrivateKeys: [String: CoseKeyPrivate], sessionTranscript: SessionTranscript? = nil, dauthMethod: DeviceAuthMethod) throws -> (response: DeviceResponse, validRequestItems: RequestItems, errorRequestItems: RequestItems)? {
         var docFiltered = [Document]();
         var docErrors = [[String: UInt64]]()
         

@@ -14,7 +14,7 @@ import SwiftCBOR
 /// It is initialized from:
 /// a) the session establishment data received from the mdoc reader
 /// b) the device engagement data generated from the mdoc, and c) the handover data
-public struct SessionEncryption {
+struct SessionEncryption {
     // Role of the current session (either reader or mdoc)
     public let sessionRole: SessionRole
     

@@ -7,9 +7,10 @@
 
 import Foundation
 import CryptoKit
+import SwiftCBOR
 
 // Protocol definition for LibIso18013UtilsProtocol
-public protocol LibIso18013UtilsProtocol {
+protocol LibIso18013UtilsProtocol {
     // Decodes a document from a base64-encoded string
     func decodeDocument(base64Encoded: String) throws -> Document
     
@@ -33,7 +34,7 @@ public protocol LibIso18013UtilsProtocol {
 }
 
 
-public class LibIso18013Utils : LibIso18013UtilsProtocol {
+class LibIso18013Utils : LibIso18013UtilsProtocol {
     
     public static let shared = LibIso18013Utils()
     
@@ -50,7 +51,7 @@ public class LibIso18013Utils : LibIso18013UtilsProtocol {
             }
             
             if curve != .p256 {
-                throw ErrorHandler.secureEnclaveNotSupportedAlgorithm(algorithm: curve)
+                throw ErrorHandler.secureEnclaveNotSupported
             }
         }
         
@@ -85,13 +86,13 @@ public class LibIso18013Utils : LibIso18013UtilsProtocol {
         }
         
         return DeviceDocument(
+            documentData: documentData.bytes,
+            deviceKeyData: devicePrivateKey.encode(options: CBOROptions()),
             state: .issued,
             createdAt: Date(),
-            deviceKey: devicePrivateKey,
             docType: document.docType,
             name: document.docType,
-            identifier: UUID().uuidString,
-            document: document);
+            identifier: UUID().uuidString);
     }
     
     // Decodes a device document from a base64-encoded string and private key
@@ -111,13 +112,14 @@ public class LibIso18013Utils : LibIso18013UtilsProtocol {
         }
         
         return DeviceDocument(
+            documentData: document.encode(options: CBOROptions()),
+            deviceKeyData: devicePrivateKey.encode(options: CBOROptions()),
             state: .issued,
             createdAt: Date(),
-            deviceKey: devicePrivateKey,
             docType: document.docType,
             name: document.docType,
-            identifier: UUID().uuidString,
-            document: document);
+            identifier: UUID().uuidString
+            );
     }
     
     // Checks if the provided private key corresponds to the device key in the document

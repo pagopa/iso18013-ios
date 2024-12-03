@@ -11,7 +11,7 @@ import SwiftCBOR
 
 struct DocumentView: View {
     
-    @State private var document: Document?
+//    @State private var document: Document?
     @State private var error: Error?
     @State private var showAlert = false
     @State private var inputText = MDL.inputBase64
@@ -25,16 +25,16 @@ struct DocumentView: View {
                 CustomButton(title: "Verifica documento", action: {
                     displayImages = []
                     displayStrings = []
-                    do {
-                        document = try LibIso18013Utils.shared.decodeDocument(base64Encoded: inputText)
-                        guard let document else { return }
-                        if let nameSpaces = ManageNameSpaces.getSignedItems(document.issuerSigned, document.docType) {
-                            ManageNameSpaces.extractDisplayStrings(nameSpaces, &displayStrings, &displayImages)
-                        }
-                    } catch {
-                        self.error = error
-                        self.showAlert = true
-                    }
+//                    do {
+//                        document = try LibIso18013Utils.shared.decodeDocument(base64Encoded: inputText)
+//                        guard let document else { return }
+//                        if let nameSpaces = ManageNameSpaces.getSignedItems(document.issuerSigned, document.docType) {
+//                            ManageNameSpaces.extractDisplayStrings(nameSpaces, &displayStrings, &displayImages)
+//                        }
+//                    } catch {
+//                        self.error = error
+//                        self.showAlert = true
+//                    }
                 })
                 
                 Divider()

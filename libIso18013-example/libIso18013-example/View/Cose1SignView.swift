@@ -7,7 +7,9 @@
 
 import SwiftUI
 import SwiftCBOR
+import cbor
 import libIso18013
+
 
 struct Cose1SignView : View {
     @State var privateKey: String = ""
@@ -47,13 +49,11 @@ struct Cose1SignView : View {
                             Text("Pubblica")
                         })
                         CustomButton(title: "Nuova coppia", action: {
-                            let cosePrivateKey = CoseKeyPrivate(crv: .p256)
+                            let cosePrivateKey = CborCose.createSecurePrivateKey()!
                             
                             deviceKey = cosePrivateKey
                             
                             setKeyPair(coseKey: cosePrivateKey)
-//                            self.privateKey = cosePrivateKey.getx963Representation().base64EncodedString()
-//                            self.publicKey = cosePrivateKey.key.getx963Representation().base64EncodedString()
                         })
                     }, label: {
                         Text("Coppia di chiavi")
@@ -64,13 +64,10 @@ struct Cose1SignView : View {
                             guard let cosePrivateKey = self.deviceKey else {
                                 return
                             }
-//                            let cosePrivateKey = CoseKeyPrivate(privateKeyx963Data: Data(base64Encoded: privateKey)!)
                             
                             let payload = input.data(using: .utf8)!
                             
-                            let cose = try! Cose.makeCoseSign1(payloadData: payload, deviceKey: cosePrivateKey, alg: .es256)
-                            
-                            output = Data(cose.encode(options: CBOROptions())).base64EncodedString()
+                            output = CborCose.sign(data: payload, privateKey: cosePrivateKey).base64EncodedString()
                         })
                     }, label: {
                         Text("Input")
@@ -80,15 +77,11 @@ struct Cose1SignView : View {
                         CustomTextField(placeholder: "Firma", text: $output)
                         
                         CustomButton(title: "Verifica Firma", action: {
-                            let coseKey = CoseKey(crv: .p256, x963Representation: Data(base64Encoded: publicKey)!)
+                            let cosePublicKey = CoseKey(crv: .p256, x963Representation: Data(base64Encoded: publicKey)!)
                             
-                            let coseCBOR = try? CBOR.decode(Data(base64Encoded: output)!.bytes)
+                            let data = Data(base64Encoded: output)!
                             
-                            let cose = Cose.init(type: .sign1, cbor: coseCBOR!)!
-                            
-                            verified = try! cose.validateCoseSign1(publicKey_x963: coseKey.getx963Representation())
-                            
-                            input = String(data: Data(cose.payload.asBytes()!), encoding: .utf8) ?? ""
+                            verified = CborCose.verify(data: data, publicKey: cosePublicKey)
                         })
                         Text("La firma è \(verified  == true ? "valida" : verified == false ? "non valida" : "sconosciuta")")
                     }, label: {

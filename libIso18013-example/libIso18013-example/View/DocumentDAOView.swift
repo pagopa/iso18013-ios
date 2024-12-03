@@ -7,6 +7,8 @@
 
 import SwiftUI
 import libIso18013
+import SwiftCBOR
+import cbor
 
 struct DocumentDAOView : View {
     
@@ -21,36 +23,43 @@ struct DocumentDAOView : View {
     @State var openSignView: Bool = false
     @State var selectedDocument: DeviceDocumentProtocol? = nil
     
+    
+    func bodyStack() -> AnyView {
+        return AnyView(VStack {
+            CustomButton(title: "create mDL Document", action: {
+                performDocumentOperation {
+                    let _ = try dao.createDocument(docType: DocType.mDL.rawValue, documentName: "Patente")
+                }
+            })
+            CustomButton(title: "create euPid Document", action: {
+                performDocumentOperation {
+                    let _ = try dao.createDocument(docType: DocType.euPid.rawValue, documentName: "Carta d'identità")
+                }
+            })
+            CustomButton(title: "load sample document", action: {
+                performDocumentOperation {
+                    let deviceKeyData: [UInt8] = Array(Data(base64Encoded: "piABAQIhWCB10y5Y864dyByb/O7VYXIAYIgf7jN98/d6QPhFKtPS5CJYIBR3pPncV0GAnSJR8Zl0XodZfDTJcMnnF2S2DklbqMjTI1ggLH8XPkgRj3VmWAy5F2WlOJR+cGKVtJMzH+/CHv3BW/skQA==")!)
+                    
+                    let doc = try dao.createDocument(docType: DocType.euPid.rawValue, documentName: "Carta d'identità", deviceKeyData: deviceKeyData)
+                    
+                    let _ = try dao.storeDocument(identifier: doc.identifier, documentData: Data(base64Encoded: DocumentDAOView.issuerSignedDocument1)!)
+                }
+            })
+            
+            documentsView().padding(.top, 8)
+        })
+    }
+    
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack {
-                    CustomButton(title: "create mDL Document", action: {
-                        performDocumentOperation {
-                            let _ = try dao.createDocument(docType: DocType.mDL.rawValue, documentName: "Patente", curve: .p256, forceSecureEnclave: true)
-                        }
-                    })
-                    CustomButton(title: "create euPid Document", action: {
-                        performDocumentOperation {
-                            let _ = try dao.createDocument(docType: DocType.euPid.rawValue, documentName: "Carta d'identità", curve: .p256, forceSecureEnclave: true)
-                        }
-                    })
-                    CustomButton(title: "load sample document", action: {
-                        performDocumentOperation {
-                            let doc = try dao.createDocument(docType: DocType.euPid.rawValue, documentName: "Carta d'identità", deviceKey: CoseKeyPrivate(base64: DocumentDAOView.devicePrivateKey)!)
-                            
-                            let _ = try dao.storeDocument(identifier: doc.identifier, documentData: Data(base64Encoded: DocumentDAOView.issuerSignedDocument1)!)
-                        }
-                    })
-                    
-                    documentsView().padding(.top, 8)
-                }
+                bodyStack()
             }
             .padding(.top)
             .navigationTitle("DAO Example")
             .navigationDestination(isPresented: $openSignView, destination: {
                 if let document = selectedDocument {
-                    return  Cose1SignView(deviceKey: document.deviceKey)
+                    return Cose1SignView(deviceKey: CoseKeyPrivate(data: document.deviceKeyData))
                 }
                 
                 return Cose1SignView()
@@ -101,70 +110,95 @@ struct DocumentDAOView : View {
     }
     
     func documentView(_ document: DeviceDocumentProtocol) -> AnyView {
-        
-        
-        var displayStrings: [NameValue] = [NameValue]()
-        var displayImages: [NameImage] = [NameImage]()
-        
-        if let document = document.document,
-           let nameSpaces = ManageNameSpaces.getSignedItems(document.issuerSigned, document.docType) {
-            
-            ManageNameSpaces.extractDisplayStrings(nameSpaces, &displayStrings, &displayImages)
-            
-        }
-        
-        return AnyView(
-            GroupBox(content: {
-                
-                
-                VStack {
-                    InfoBoxView(title: "createdAt", docType: .date, subtitle:
-                            .text("\(document.createdAt)"))
-                    
-                    ForEach(displayStrings, id: \.name) { nameValue in
-                        if nameValue.mdocDataType == .array,
-                           let children = nameValue.children {
-                            ForEach(children, id: \.name) { element in
-                                InfoBoxView(title: nameValue.name,
-                                            docType: nameValue.mdocDataType ?? .string,
-                                            subtitle: .dictionary(element))
-                            }
-                        } else {
-                            InfoBoxView(title: nameValue.name,
-                                        docType: nameValue.mdocDataType ?? .string,
-                                        subtitle: .text(nameValue.value))
-                        }
-                    }
-                    
-                    
-                }
-            }, label: {
-                HStack {
-                    Text("Id: \(document.identifier)\nState: \(document.state)\ndocType: \(document.docType)\npublicKey: \(document.deviceKey.key.getx963Representation().base64EncodedString())").fontWeight(.light).font(Font.caption)
-                    Spacer()
-                    HStack {
-                        Button(action: {
-                            performDocumentOperation {
-                                let _ = try dao.deleteDocument(identifier: document.identifier)
-                            }
-                        }, label: {Image(systemName: "trash") })
-                        Button(action: {
-                            selectedDocument = document
-                            openSignView = true
-                        }, label: {Image(systemName: "signature") })
-                        if (document.state == .unsigned) {
-                            Button(action: {
-                                performDocumentOperation {
-                                    let _ = try dao.storeDocument(identifier: document.identifier, documentData: Data(base64Encoded: DocumentDAOView.issuerSignedDocument1)!)
+        return  AnyView(HStack {
+                                Text("Id: \(document.identifier)\nState: \(document.state.rawValue)\ndocType: \(document.docType)\npublicKey: \(Data(document.deviceKeyData).base64EncodedString())").fontWeight(.light).font(Font.caption)
+                                Spacer()
+                                HStack {
+                                    Button(action: {
+                                        performDocumentOperation {
+                                            let _ = try dao.deleteDocument(identifier: document.identifier)
+                                        }
+                                    }, label: {Image(systemName: "trash") })
+                                    Button(action: {
+                                        selectedDocument = document
+                                        openSignView = true
+                                    }, label: {Image(systemName: "signature") })
+                                    if (document.state == .unsigned) {
+                                        Button(action: {
+                                            performDocumentOperation {
+                                                let _ = try dao.storeDocument(identifier: document.identifier, documentData: Data(base64Encoded: DocumentDAOView.issuerSignedDocument1)!)
+                                            }
+                                        }, label: {Image(systemName: "square.and.arrow.down") })
+                                    }
                                 }
-                            }, label: {Image(systemName: "square.and.arrow.down") })
-                        }
-                    }
-                }
-                
-            })
-        )
+                            })
     }
+    
+//    func documentView(_ document: DeviceDocumentProtocol) -> AnyView {
+//        
+//        
+//        var displayStrings: [NameValue] = [NameValue]()
+//        var displayImages: [NameImage] = [NameImage]()
+//        
+//        if let document = document.document,
+//           let nameSpaces = ManageNameSpaces.getSignedItems(document.issuerSigned, document.docType) {
+//            
+//            ManageNameSpaces.extractDisplayStrings(nameSpaces, &displayStrings, &displayImages)
+//            
+//        }
+//        
+//        return AnyView(
+//            GroupBox(content: {
+//                
+//                
+//                VStack {
+//                    InfoBoxView(title: "createdAt", docType: .date, subtitle:
+//                            .text("\(document.createdAt)"))
+//                    
+//                    ForEach(displayStrings, id: \.name) { nameValue in
+//                        if nameValue.mdocDataType == .array,
+//                           let children = nameValue.children {
+//                            ForEach(children, id: \.name) { element in
+//                                InfoBoxView(title: nameValue.name,
+//                                            docType: nameValue.mdocDataType ?? .string,
+//                                            subtitle: .dictionary(element))
+//                            }
+//                        } else {
+//                            InfoBoxView(title: nameValue.name,
+//                                        docType: nameValue.mdocDataType ?? .string,
+//                                        subtitle: .text(nameValue.value))
+//                        }
+//                    }
+//                    
+//                    
+//                }
+//            }, label: {
+//                HStack {
+//                    Text("Id: \(document.identifier)\nState: \(document.state.rawValue)\ndocType: \(document.docType)\npublicKey: \(Data(document.deviceKeyData).base64EncodedString())").fontWeight(.light).font(Font.caption)
+//                    Spacer()
+//                    HStack {
+//                        Button(action: {
+//                            performDocumentOperation {
+//                                let _ = try dao.deleteDocument(identifier: document.identifier)
+//                            }
+//                        }, label: {Image(systemName: "trash") })
+//                        Button(action: {
+//                            selectedDocument = document
+//                            openSignView = true
+//                        }, label: {Image(systemName: "signature") })
+//                        if (document.state == .unsigned) {
+//                            Button(action: {
+//                                performDocumentOperation {
+//                                    let _ = try dao.storeDocument(identifier: document.identifier, documentData: Data(base64Encoded: DocumentDAOView.issuerSignedDocument1)!)
+//                                }
+//                            }, label: {Image(systemName: "square.and.arrow.down") })
+//                        }
+//                    }
+//                }
+//                
+//            })
+//        )
+//    }
     
     func performDocumentOperation(operation: () throws -> Void) {
         do {

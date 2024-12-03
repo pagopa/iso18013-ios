@@ -9,7 +9,7 @@ import Foundation
 import SwiftCBOR
 import OrderedCollections
 
-public struct MobileSecurityObject {
+struct MobileSecurityObject {
   public let version: String
   public static let defaultVersion = "1.0"
   public let digestAlgorithm: String

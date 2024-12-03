@@ -1,22 +1,31 @@
 PODS:
+  - cbor (0.0.1)
   - libIso18013 (0.0.1)
 
 DEPENDENCIES:
-  - "libIso18013 (from `git@github.com:pagopa/iso18013-ios.git`, branch `feature/proximity`)"
+  - "cbor (from `git@github.com:pagopa/cbor-ios.git`, branch `develop`)"
+  - libIso18013 (from `file:///Users/username/repos/digitouch/pagopa/iso18013-ios-proximity/.git`, branch `feature/proximity`)
 
 EXTERNAL SOURCES:
+  cbor:
+    :branch: develop
+    :git: "git@github.com:pagopa/cbor-ios.git"
   libIso18013:
     :branch: feature/proximity
-    :git: "git@github.com:pagopa/iso18013-ios.git"
+    :git: file:///Users/username/repos/digitouch/pagopa/iso18013-ios-proximity/.git
 
 CHECKOUT OPTIONS:
+  cbor:
+    :commit: d66ee71e59005f95c3fa3a836fd3d4b09f3ed8a8
+    :git: "git@github.com:pagopa/cbor-ios.git"
   libIso18013:
-    :commit: 724f63652dc32458d78d293f6a0d28f7d2184c8f
-    :git: "git@github.com:pagopa/iso18013-ios.git"
+    :commit: 9b0a2b7d794786c6e472c0c39faaa39d6eb6c0b5
+    :git: file:///Users/username/repos/digitouch/pagopa/iso18013-ios-proximity/.git
 
 SPEC CHECKSUMS:
-  libIso18013: a10a8d6305d4e34630045f9b066f9c398f901ca6
+  cbor: efdf90a522202f7abd156a915af217ebd725e823
+  libIso18013: ab62327ac05efcd37ab1e8d0d435b20160fea678
 
-PODFILE CHECKSUM: 16b7d879c4ada0696a508a04780d91a41e91b55b
+PODFILE CHECKSUM: 4135bf3ca6903431884cea7b42d270cce4803ef8
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

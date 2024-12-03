@@ -13,7 +13,7 @@ import SwiftCBOR
 /// Currently the mdoc side is implemented (generation of device-auth)
 /// Initialized from the session transcript object, the device private key and the reader ephemeral public key 
 
-public struct MdocAuthentication {
+struct MdocAuthentication {
 	
     let transcript: SessionTranscript
     let authKeys: CoseKeyExchange

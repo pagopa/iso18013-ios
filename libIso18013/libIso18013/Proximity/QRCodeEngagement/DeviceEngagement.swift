@@ -10,7 +10,7 @@ import SwiftCBOR
 import CryptoKit
 
 // Struct to represent device engagement
-public struct DeviceEngagement {
+struct DeviceEngagement {
     // Implementation version
     static let versionImpl: String = "1.0"
     // Device version, initialized with the implementation version
@@ -52,7 +52,7 @@ public struct DeviceEngagement {
         }
     }
     
-    public init?(pk: CoseKeyPrivate, rfus: [String]? = nil) {
+    init?(pk: CoseKeyPrivate, rfus: [String]? = nil) {
         
         if let secureKeyId = pk.secureEnclaveKeyID {
             self.seKeyID = secureKeyId
@@ -77,7 +77,7 @@ public struct DeviceEngagement {
     }
     
     // Returns the device private key, if available
-    public var privateKey: CoseKeyPrivate? {
+    var privateKey: CoseKeyPrivate? {
         if let seKeyID {
             return CoseKeyPrivate(publicKeyx963Data: security.deviceKey.getx963Representation(), secureEnclaveKeyID: seKeyID)
         } else if let d {

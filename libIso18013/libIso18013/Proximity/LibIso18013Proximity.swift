@@ -6,7 +6,7 @@
 //
 
 // Protocol defining a listener for QR engagement events
-public protocol QrEngagementListener: AnyObject {
+protocol QrEngagementListener: AnyObject {
     // Called when the connection process is starting
     func didChangeStatus(_ newStatus: TransferStatus)
     
@@ -16,7 +16,7 @@ public protocol QrEngagementListener: AnyObject {
     
 }
 
-public class LibIso18013Proximity {
+class LibIso18013Proximity {
     // Property to hold device engagement information
     var deviceEngagement: DeviceEngagement?
     

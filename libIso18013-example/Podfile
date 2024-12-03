@@ -10,7 +10,7 @@ target 'libIso18013-example' do
   use_frameworks!
 
   # Pods for libIso18013-example
-
+  pod 'cbor', :git => 'git@github.com:pagopa/cbor-ios.git', :branch => 'develop'
   pod 'libIso18013', :git => 'git@github.com:pagopa/iso18013-ios.git', :branch => 'feature/proximity'
 
   target 'libIso18013-exampleTests' do
@@ -22,4 +22,15 @@ target 'libIso18013-example' do
     # Pods for testing
   end
 
+end
+
+
+def integrate_spm(project, config)
+  puts "Injecting SPM framework into Pods"
+    `swift run --package-path utils XcodeSPMI addRemotePackages --project-path Pods/Pods.xcodeproj --config-path #{config} --target-name #{project}`
+end
+
+post_integrate do |installer|
+  integrate_spm("libIso18013", "utils/config.json")
+  integrate_spm("cbor", "utils/config_cbor.json")
 end

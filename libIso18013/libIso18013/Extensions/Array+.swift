@@ -71,7 +71,7 @@ extension Array where Element == IssuerSigned {
     /// Finds an issuer-signed document by its name
     /// - Parameter name: The name of the document
     /// - Returns: A tuple containing the matching issuer-signed document and its index if found
-    public func findDoc(name: String) -> (IssuerSigned, Int)? {
+    func findDoc(name: String) -> (IssuerSigned, Int)? {
         guard let index = firstIndex(where: { $0.issuerAuth?.mobileSecurityObject.docType == name }) else { return nil }
         return (self[index], index)
     }

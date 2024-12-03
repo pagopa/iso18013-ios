@@ -9,7 +9,7 @@ import Foundation
 import CryptoKit
 
 /// A COSE_Key exchange pair
-public struct CoseKeyExchange {
+struct CoseKeyExchange {
 	public let publicKey: CoseKey
 	public let privateKey: CoseKeyPrivate
 

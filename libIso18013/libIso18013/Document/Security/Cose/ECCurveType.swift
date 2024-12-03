@@ -19,7 +19,7 @@
  | Reserved  | 0     | This value is reserved                        |
  +-----------+-------+-----------------------------------------------+
  */
-public enum ECCurveType: UInt64 {
+enum ECCurveType: UInt64 {
   case OKP = 1
   case EC2 = 2
   case Symmetric = 4

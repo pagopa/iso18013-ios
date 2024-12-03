@@ -10,7 +10,7 @@ import SwiftCBOR
 import OrderedCollections
 
 // Struct representing a Document, including its type, issuer-signed data, and optional errors
-public struct Document {
+struct Document {
     
     // The type of document
     public let docType: String

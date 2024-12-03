@@ -79,19 +79,21 @@ struct QRCodeView: View {
                 DeviceRequestAlert(requested: req) {
                     allowed, items in
                     
-                    let documents = LibIso18013DAOKeyChain().getAllDocuments(state: .issued).map({
-                        ($0.docType, $0.document.encode(), $0.deviceKey)
+                    let documents = LibIso18013DAOKeyChain().getAllDocuments(state: .issued).compactMap({
+                        if let documentData = $0.documentData {
+                            return ($0.docType, documentData, $0.deviceKeyData)
+                        }
+                        return nil
                     })
                     
-                    var dMap: [String: ([UInt8], CoseKeyPrivate)] = [:]
-                    
+                    var documentMap: [String: ([UInt8], [UInt8])] = [:]
+
                     documents.forEach({
                         doc in
-                        dMap[doc.0] = (doc.1, doc.2)
+                        documentMap[doc.0] = (doc.1, doc.2)
                     })
                     
-                   
-                    Proximity.shared.dataPresentation(allowed: allowed, items: items, documents: dMap)
+                    Proximity.shared.dataPresentation(allowed: allowed, items: items, documents: documentMap)
                 }
             }
             

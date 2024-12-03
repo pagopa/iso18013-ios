@@ -8,37 +8,41 @@
 import SwiftCBOR
 
 public struct DeviceDocument : DeviceDocumentProtocol {
+    public let documentData: [UInt8]?
+    
+    public let deviceKeyData: [UInt8]
+    
     public let state: DeviceDocumentState
     public let createdAt: Date
-    public let deviceKey: CoseKeyPrivate
+    
     
     public let docType: String
     public let name: String
     
     
     public let identifier: String
-    public let document: Document?
+//    public let document: Document?
     
-    public func issued(document: Document) -> DeviceDocument {
-        return DeviceDocument(state: .issued, createdAt: self.createdAt, deviceKey: self.deviceKey, docType: self.docType, name: self.name, identifier: self.identifier, document: document)
+    public func issued(documentData: [UInt8]) -> DeviceDocument {
+        return DeviceDocument(documentData: documentData, deviceKeyData: self.deviceKeyData, state: .issued, createdAt: self.createdAt,  docType: self.docType, name: self.name, identifier: self.identifier)
     }
-    
-    public func coseSign(payloadData: Data, alg: Cose.VerifyAlgorithm) throws-> Cose {
-        return try Cose.makeCoseSign1(payloadData: payloadData, deviceKey: deviceKey, alg: alg)
-    }
+//    
+//    public func coseSign(payloadData: Data, alg: Cose.VerifyAlgorithm) throws-> Cose {
+//        return try Cose.makeCoseSign1(payloadData: payloadData, deviceKey: deviceKey, alg: alg)
+//    }
 }
 
 extension DeviceDocument : CBOREncodable {
     public func toCBOR(options: SwiftCBOR.CBOROptions) -> SwiftCBOR.CBOR {
         
-        let documentValue: CBOR = document == nil ?
+        let documentValue: CBOR = documentData == nil ?
             .null :
-            .byteString(document!.encode(options: CBOROptions()))
+            .byteString(documentData!)
         
         let cbor: CBOR = [
             -1: .utf8String(state.rawValue),
              -2: .date(createdAt),
-             -3: .byteString(deviceKey.encode(options: options)),
+             -3: .byteString(deviceKeyData),
              -4: .utf8String(docType),
              -5: .utf8String(name),
              -6: .utf8String(identifier),
@@ -74,9 +78,11 @@ extension DeviceDocument : CBORDecodable {
             return nil
         }
         
-        guard let deviceKey = CoseKeyPrivate(data: deviceKeyValue) else {
-            return nil
-        }
+//        guard let deviceKey = CoseKeyPrivate(data: deviceKeyValue) else {
+//            return nil
+//        }
+        
+       
         
         
         
@@ -84,10 +90,12 @@ extension DeviceDocument : CBORDecodable {
             guard let document = Document(data: documentValue) else {
                 return nil
             }
-            self.document = document
+            self.documentData = documentValue
+//            self.document = document
         }
         else if case CBOR.null = documentCBOR {
-            self.document = nil
+//            self.document = nil
+            self.documentData = nil
         }
         else {
             return nil
@@ -98,7 +106,8 @@ extension DeviceDocument : CBORDecodable {
         self.docType = docTypeValue
         self.name = nameValue
         self.identifier = identifierValue
-        self.deviceKey = deviceKey
+//        self.deviceKey = deviceKey
+        self.deviceKeyData = deviceKeyValue
     }
     
     
@@ -120,8 +129,11 @@ public protocol DeviceDocumentProtocol {
     var state: DeviceDocumentState { get }
     var createdAt: Date { get }
     
-    var document: Document? { get }
-    var deviceKey: CoseKeyPrivate { get }
+    var documentData: [UInt8]? { get }
+    var deviceKeyData: [UInt8] { get }
+
+//    var document: Document? { get }
+//    var deviceKey: CoseKeyPrivate { get }
     
     //DA CAPIRE
     var docType: String { get }

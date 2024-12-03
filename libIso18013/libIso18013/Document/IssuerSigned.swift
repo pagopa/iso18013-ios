@@ -11,7 +11,7 @@ import SwiftCBOR
 import OrderedCollections
 
 // Struct representing IssuerSigned, containing optional IssuerNameSpaces
-public struct IssuerSigned {
+struct IssuerSigned {
   public let issuerNameSpaces: IssuerNameSpaces?
   public let issuerAuth: IssuerAuth?
   

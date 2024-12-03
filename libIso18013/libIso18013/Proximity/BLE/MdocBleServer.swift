@@ -9,13 +9,13 @@ import CoreBluetooth
 import SwiftCBOR
 import X509
 
-public protocol MdocTransferDelegate: AnyObject {
+protocol MdocTransferDelegate: AnyObject {
     func didChangeStatus(_ newStatus: TransferStatus)
     func didFinishedWithError(_ error: Error)
     func didReceiveRequest(deviceRequest: DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, DeviceResponse?) -> Void)
 }
 
-public class MdocBleServer {
+class MdocBleServer {
     var peripheralManager: CBPeripheralManager!
     var bleDelegate: MdocBleDelegate!
     var remoteCentral: CBCentral!

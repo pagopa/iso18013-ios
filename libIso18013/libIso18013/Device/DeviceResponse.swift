@@ -9,7 +9,7 @@ import Foundation
 import SwiftCBOR
 import OrderedCollections
 
-public struct DeviceResponse {
+struct DeviceResponse {
     
     public let version: String
     public static let defaultVersion = "1.0" // The default version if none is specified.

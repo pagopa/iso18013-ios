@@ -8,7 +8,7 @@
 import SwiftCBOR
 import OrderedCollections
 
-public struct DeviceKeyInfo {
+struct DeviceKeyInfo {
   public let deviceKey: CoseKey
   let keyAuthorizations: KeyAuthorizations?
   let keyInfo: CBOR?

@@ -10,7 +10,7 @@ import SwiftCBOR
 import OrderedCollections
 
 /// Contains the mdoc authentication structure and the data elements protected by mdoc authentication
-public struct DeviceSigned {
+struct DeviceSigned {
 	let nameSpaces: DeviceNameSpaces
 	let nameSpacesRawData: [UInt8]
 	let deviceAuth: DeviceAuth

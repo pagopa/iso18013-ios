@@ -84,18 +84,12 @@ Pod::Spec.new do |spec|
   #
 
   # Include all source files, but exclude test files
-  spec.source_files = 'libIso18013/**/*.{swift,h,m}', 'tools.zip'
+  spec.source_files = 'libIso18013/**/*.{swift,h,m}'
   spec.exclude_files = 'libIso18013/libIso18013Tests/**/*'
 
   spec.pod_target_xcconfig = { 
     'SWIFT_INCLUDE_PATHS' => '$(inherited) ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)',
     'ENABLE_USER_SCRIPT_SANDBOXING' => 'NO'
   }
-
-  spec.script_phase = [
-    {
-      :name => 'Inject SPM', :script => 'if [ -f libIso18013/tools.zip ] ; then unzip -o libIso18013/tools.zip -d libIso18013/ && unzip -o libIso18013/tools/libraries.zip -d libIso18013/ && rm -f libIso18013/tools.zip && touch libIso18013/installed.txt &&  ruby libIso18013/tools/prepare.rb ;else echo "SPM Already Injected" ; fi', :execution_position => :before_compile, :output_files => ['Pods/libIso18013/installed.txt']
-    }
-  ]
 
 end
