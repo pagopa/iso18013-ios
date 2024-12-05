@@ -106,6 +106,11 @@ struct QRCodeView: View {
         .alert(isPresented: Binding<Bool>(
             get: {
                 if case .onError(let error) = proximityEvent {
+                    if let proximityError = error as? ErrorHandler {
+                        if proximityError == .userRejected {
+                            return false
+                        }
+                    }
                     return true
                 }
                 else {
@@ -117,6 +122,9 @@ struct QRCodeView: View {
         )) {
             Alert(title: Text("Error"), message: Text(({
                 if case .onError(let error) = proximityEvent {
+                    if let proximityError = error as? ErrorHandler {
+                        return proximityError.localizedDescription
+                    }
                     return error.localizedDescription
                 } else {
                     return "Si è verificato un errore."
