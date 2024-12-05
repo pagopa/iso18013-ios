@@ -25,12 +25,13 @@ target 'libIso18013-example' do
 end
 
 
-def integrate_spm(project, config)
-  puts "Injecting SPM framework into Pods"
-    `swift run --package-path utils XcodeSPMI addRemotePackages --project-path Pods/Pods.xcodeproj --config-path #{config} --target-name #{project}`
+def integrate_spm(target, project, config)
+  puts "Injecting SPM framework into #{project} -> #{target}"
+    `swift run --package-path utils XcodeSPMI addRemotePackages --project-path #{project} --config-path #{config} --target-name #{target}`
 end
 
 post_integrate do |installer|
-  integrate_spm("libIso18013", "utils/config.json")
-  integrate_spm("cbor", "utils/config_cbor.json")
+  integrate_spm("libIso18013", "Pods/Pods.xcodeproj", "utils/config.json")
+  integrate_spm("cbor", "Pods/Pods.xcodeproj", "utils/config_cbor.json")
+  integrate_spm("libIso18013-example", "libIso18013-example.xcodeproj", "utils/config_cbor.json")
 end
