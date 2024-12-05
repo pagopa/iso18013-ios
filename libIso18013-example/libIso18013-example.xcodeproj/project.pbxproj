@@ -29,7 +29,9 @@
 		3D179CBE2CB96B5C0061DFDC /* DocumentDAOView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D179CBD2CB96B560061DFDC /* DocumentDAOView.swift */; };
 		3FDC9BF2CD259FA0F1D155C7 /* Pods_libIso18013_exampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 114BB588DD9494853F2FF211 /* Pods_libIso18013_exampleTests.framework */; };
 		59C60B58BCE21DED0306ADF5 /* Pods_libIso18013_example_libIso18013_exampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B453F5169607276D2989B38E /* Pods_libIso18013_example_libIso18013_exampleUITests.framework */; };
+		62A31990C5CDECF67F13CAB5 /* SwiftCBOR in Frameworks */ = {isa = PBXBuildFile; productRef = 3B54559B98277605F536595F /* SwiftCBOR */; };
 		7E28541F75C6A13382FE826D /* Pods_libIso18013_example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 401350FA130F246C62AC6B5D /* Pods_libIso18013_example.framework */; };
+		7F0F440AAF04C00D78DE5A63 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 3E1EB47BFD2F003F6C43CF5D /* Collections */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +93,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E28541F75C6A13382FE826D /* Pods_libIso18013_example.framework in Frameworks */,
+				62A31990C5CDECF67F13CAB5 /* SwiftCBOR in Frameworks */,
+				7F0F440AAF04C00D78DE5A63 /* Collections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,6 +262,10 @@
 			dependencies = (
 			);
 			name = "libIso18013-example";
+			packageProductDependencies = (
+				3B54559B98277605F536595F /* SwiftCBOR */,
+				3E1EB47BFD2F003F6C43CF5D /* Collections */,
+			);
 			productName = "libIso18013-example";
 			productReference = 3AC6964B2CB2FF1200871580 /* libIso18013-example.app */;
 			productType = "com.apple.product-type.application";
@@ -333,6 +341,10 @@
 				Base,
 			);
 			mainGroup = 3AC696422CB2FF1200871580;
+			packageReferences = (
+				D9A106C9E45DF0A102C1EC0C /* XCRemoteSwiftPackageReference "SwiftCBOR" */,
+				22E6063649DB278522FA00E4 /* XCRemoteSwiftPackageReference "swift-collections" */,
+			);
 			productRefGroup = 3AC6964C2CB2FF1200871580 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -379,9 +391,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-libIso18013-example/Pods-libIso18013-example-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-libIso18013-example/Pods-libIso18013-example-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -462,9 +478,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-libIso18013-example-libIso18013-exampleUITests/Pods-libIso18013-example-libIso18013-exampleUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-libIso18013-example-libIso18013-exampleUITests/Pods-libIso18013-example-libIso18013-exampleUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -869,6 +889,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		22E6063649DB278522FA00E4 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.4;
+			};
+		};
+		D9A106C9E45DF0A102C1EC0C /* XCRemoteSwiftPackageReference "SwiftCBOR" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/niscy-eudiw/SwiftCBOR.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3B54559B98277605F536595F /* SwiftCBOR */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9A106C9E45DF0A102C1EC0C /* XCRemoteSwiftPackageReference "SwiftCBOR" */;
+			productName = SwiftCBOR;
+		};
+		3E1EB47BFD2F003F6C43CF5D /* Collections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22E6063649DB278522FA00E4 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = Collections;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3AC696432CB2FF1200871580 /* Project object */;
 }

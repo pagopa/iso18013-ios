@@ -19,7 +19,7 @@ CHECKOUT OPTIONS:
     :commit: d66ee71e59005f95c3fa3a836fd3d4b09f3ed8a8
     :git: "git@github.com:pagopa/cbor-ios.git"
   libIso18013:
-    :commit: c7a32ba551bedc89bb6c313a12c8a3aea34364b2
+    :commit: eec1f2915e49f0c6b897c98f10cd8095d70da43c
     :git: "git@github.com:pagopa/iso18013-ios.git"
 
 SPEC CHECKSUMS:
