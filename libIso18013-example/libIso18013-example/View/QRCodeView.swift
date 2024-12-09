@@ -19,7 +19,23 @@ struct QRCodeView: View {
         ZStack {
             VStack {
                 Spacer()
-                if case .onDocumentPresentationCompleted = proximityEvent {
+                if case .onError(let error) = proximityEvent,
+                let proximityError = error as? ErrorHandler,
+                proximityError == .userRejected {
+                    HStack {
+                        Text("User Rejected")
+                            .font(.title)
+                            .foregroundStyle(.green)
+                        Image(systemName: "checkmark")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundStyle(.green)
+                    }
+                    .padding(.bottom)
+                    Button("Get another Qr Code") {
+                        startScanning()                    }
+                }
+                else if case .onDocumentPresentationCompleted = proximityEvent {
                     HStack {
                         Text("Success")
                             .font(.title)
