@@ -8,7 +8,7 @@
 import SwiftCBOR
 
 // Protocol for types that can be decoded from a CBOR object
-public protocol CBORDecodable {
+protocol CBORDecodable {
     init?(cbor: CBOR)
 }
 

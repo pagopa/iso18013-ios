@@ -7,6 +7,45 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A1E53532CD8E1E4005F5704 /* DeviceSignedItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E534F2CD8E1E4005F5704 /* DeviceSignedItems.swift */; };
+		3A1E53542CD8E1E4005F5704 /* DeviceNameSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53502CD8E1E4005F5704 /* DeviceNameSpaces.swift */; };
+		3A1E53552CD8E1E4005F5704 /* DeviceSigned.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53512CD8E1E4005F5704 /* DeviceSigned.swift */; };
+		3A1E53562CD8E1E4005F5704 /* DeviceAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E534E2CD8E1E4005F5704 /* DeviceAuth.swift */; };
+		3A1E535C2CD8E2BD005F5704 /* MdocHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E535A2CD8E2BD005F5704 /* MdocHelpers.swift */; };
+		3A1E535D2CD8E2BD005F5704 /* UserRequestKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53572CD8E2BD005F5704 /* UserRequestKeys.swift */; };
+		3A1E535E2CD8E2BD005F5704 /* MdocOfflineDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53592CD8E2BD005F5704 /* MdocOfflineDelegate.swift */; };
+		3A1E535F2CD8E2BD005F5704 /* InitializeKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53582CD8E2BD005F5704 /* InitializeKeys.swift */; };
+		3A1E53622CD8E305005F5704 /* X509 in Frameworks */ = {isa = PBXBuildFile; productRef = 3A1E53612CD8E305005F5704 /* X509 */; };
+		3A1E536A2CD8E336005F5704 /* BleTransferMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53662CD8E336005F5704 /* BleTransferMode.swift */; };
+		3A1E536B2CD8E336005F5704 /* MdocServiceCharacteristic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53652CD8E336005F5704 /* MdocServiceCharacteristic.swift */; };
+		3A1E536C2CD8E336005F5704 /* MdocBleServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53642CD8E336005F5704 /* MdocBleServer.swift */; };
+		3A1E536D2CD8E336005F5704 /* MdocTransferHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53632CD8E336005F5704 /* MdocTransferHelpers.swift */; };
+		3A1E53842CD8E33D005F5704 /* MdocAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E536F2CD8E33D005F5704 /* MdocAuthentication.swift */; };
+		3A1E53852CD8E33D005F5704 /* CRL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53762CD8E33D005F5704 /* CRL.swift */; };
+		3A1E53862CD8E33D005F5704 /* CRLDistributionPointsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53752CD8E33D005F5704 /* CRLDistributionPointsExtension.swift */; };
+		3A1E53872CD8E33D005F5704 /* DeviceAuthMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E537E2CD8E33D005F5704 /* DeviceAuthMethod.swift */; };
+		3A1E53882CD8E33D005F5704 /* MdocReaderAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E537B2CD8E33D005F5704 /* MdocReaderAuthentication.swift */; };
+		3A1E53892CD8E33D005F5704 /* CertificateUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53782CD8E33D005F5704 /* CertificateUsage.swift */; };
+		3A1E538A2CD8E33D005F5704 /* AuthorityInformationAccess+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53712CD8E33D005F5704 /* AuthorityInformationAccess+.swift */; };
+		3A1E538B2CD8E33D005F5704 /* ReaderAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E537A2CD8E33D005F5704 /* ReaderAuthentication.swift */; };
+		3A1E538C2CD8E33D005F5704 /* DeviceAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E536E2CD8E33D005F5704 /* DeviceAuthentication.swift */; };
+		3A1E538D2CD8E33D005F5704 /* X509+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53722CD8E33D005F5704 /* X509+.swift */; };
+		3A1E538E2CD8E33D005F5704 /* ReaderAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E537C2CD8E33D005F5704 /* ReaderAuth.swift */; };
+		3A1E538F2CD8E33D005F5704 /* NotAllowedExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53702CD8E33D005F5704 /* NotAllowedExtension.swift */; };
+		3A1E53902CD8E33D005F5704 /* SessionEstablishment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53802CD8E33D005F5704 /* SessionEstablishment.swift */; };
+		3A1E53912CD8E33D005F5704 /* SessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E537D2CD8E33D005F5704 /* SessionData.swift */; };
+		3A1E53922CD8E33D005F5704 /* SessionEncryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53822CD8E33D005F5704 /* SessionEncryption.swift */; };
+		3A1E53932CD8E33D005F5704 /* SessionTranscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E537F2CD8E33D005F5704 /* SessionTranscript.swift */; };
+		3A1E53942CD8E33D005F5704 /* ASN1ObjectIdentifier+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53732CD8E33D005F5704 /* ASN1ObjectIdentifier+.swift */; };
+		3A1E53952CD8E33D005F5704 /* SecurityHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53792CD8E33D005F5704 /* SecurityHelpers.swift */; };
+		3A1E53962CD8E33D005F5704 /* SessionRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53812CD8E33D005F5704 /* SessionRole.swift */; };
+		3A1E53972CD8E33D005F5704 /* CRLDistributions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53742CD8E33D005F5704 /* CRLDistributions.swift */; };
+		3A1E53992CD8E344005F5704 /* DeviceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53982CD8E344005F5704 /* DeviceRequest.swift */; };
+		3A1E539F2CD8E34A005F5704 /* RequestDataElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E539B2CD8E34A005F5704 /* RequestDataElements.swift */; };
+		3A1E53A02CD8E34A005F5704 /* RequestNameSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E539C2CD8E34A005F5704 /* RequestNameSpaces.swift */; };
+		3A1E53A12CD8E34A005F5704 /* TransferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E539A2CD8E34A005F5704 /* TransferStatus.swift */; };
+		3A1E53A22CD8E34A005F5704 /* ItemsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E539D2CD8E34A005F5704 /* ItemsRequest.swift */; };
+		3A1E53A32CD8E34A005F5704 /* DocRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E539E2CD8E34A005F5704 /* DocRequest.swift */; };
 		3A405EEE2CAFDA050069998C /* DocumentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A405EED2CAFD9FF0069998C /* DocumentError.swift */; };
 		3A405EF12CAFDACC0069998C /* DeviceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A405EF02CAFDAC70069998C /* DeviceResponse.swift */; };
 		3A652A262CAE97C700B0D6E4 /* DeviceResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A652A252CAE97C600B0D6E4 /* DeviceResponseTests.swift */; };
@@ -79,6 +118,7 @@
 		3D179CB52CB924DA0061DFDC /* LibIso18013DAOMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D179CB42CB924D90061DFDC /* LibIso18013DAOMemory.swift */; };
 		3D179CBA2CB95A370061DFDC /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 3D179CB92CB95A370061DFDC /* KeychainAccess */; };
 		3D179CBC2CB95EEB0061DFDC /* LibIso18013DAOKeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D179CBB2CB95EDE0061DFDC /* LibIso18013DAOKeyChain.swift */; };
+		3DB91D892CE4AAAA008AC0BB /* Proximity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB91D882CE4AAA7008AC0BB /* Proximity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +132,44 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A1E534E2CD8E1E4005F5704 /* DeviceAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAuth.swift; sourceTree = "<group>"; };
+		3A1E534F2CD8E1E4005F5704 /* DeviceSignedItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSignedItems.swift; sourceTree = "<group>"; };
+		3A1E53502CD8E1E4005F5704 /* DeviceNameSpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceNameSpaces.swift; sourceTree = "<group>"; };
+		3A1E53512CD8E1E4005F5704 /* DeviceSigned.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSigned.swift; sourceTree = "<group>"; };
+		3A1E53572CD8E2BD005F5704 /* UserRequestKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRequestKeys.swift; sourceTree = "<group>"; };
+		3A1E53582CD8E2BD005F5704 /* InitializeKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitializeKeys.swift; sourceTree = "<group>"; };
+		3A1E53592CD8E2BD005F5704 /* MdocOfflineDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdocOfflineDelegate.swift; sourceTree = "<group>"; };
+		3A1E535A2CD8E2BD005F5704 /* MdocHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdocHelpers.swift; sourceTree = "<group>"; };
+		3A1E53632CD8E336005F5704 /* MdocTransferHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdocTransferHelpers.swift; sourceTree = "<group>"; };
+		3A1E53642CD8E336005F5704 /* MdocBleServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdocBleServer.swift; sourceTree = "<group>"; };
+		3A1E53652CD8E336005F5704 /* MdocServiceCharacteristic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdocServiceCharacteristic.swift; sourceTree = "<group>"; };
+		3A1E53662CD8E336005F5704 /* BleTransferMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleTransferMode.swift; sourceTree = "<group>"; };
+		3A1E536E2CD8E33D005F5704 /* DeviceAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAuthentication.swift; sourceTree = "<group>"; };
+		3A1E536F2CD8E33D005F5704 /* MdocAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdocAuthentication.swift; sourceTree = "<group>"; };
+		3A1E53702CD8E33D005F5704 /* NotAllowedExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotAllowedExtension.swift; sourceTree = "<group>"; };
+		3A1E53712CD8E33D005F5704 /* AuthorityInformationAccess+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthorityInformationAccess+.swift"; sourceTree = "<group>"; };
+		3A1E53722CD8E33D005F5704 /* X509+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "X509+.swift"; sourceTree = "<group>"; };
+		3A1E53732CD8E33D005F5704 /* ASN1ObjectIdentifier+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASN1ObjectIdentifier+.swift"; sourceTree = "<group>"; };
+		3A1E53742CD8E33D005F5704 /* CRLDistributions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRLDistributions.swift; sourceTree = "<group>"; };
+		3A1E53752CD8E33D005F5704 /* CRLDistributionPointsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRLDistributionPointsExtension.swift; sourceTree = "<group>"; };
+		3A1E53762CD8E33D005F5704 /* CRL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRL.swift; sourceTree = "<group>"; };
+		3A1E53782CD8E33D005F5704 /* CertificateUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateUsage.swift; sourceTree = "<group>"; };
+		3A1E53792CD8E33D005F5704 /* SecurityHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityHelpers.swift; sourceTree = "<group>"; };
+		3A1E537A2CD8E33D005F5704 /* ReaderAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderAuthentication.swift; sourceTree = "<group>"; };
+		3A1E537B2CD8E33D005F5704 /* MdocReaderAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MdocReaderAuthentication.swift; sourceTree = "<group>"; };
+		3A1E537C2CD8E33D005F5704 /* ReaderAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderAuth.swift; sourceTree = "<group>"; };
+		3A1E537D2CD8E33D005F5704 /* SessionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionData.swift; sourceTree = "<group>"; };
+		3A1E537E2CD8E33D005F5704 /* DeviceAuthMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAuthMethod.swift; sourceTree = "<group>"; };
+		3A1E537F2CD8E33D005F5704 /* SessionTranscript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTranscript.swift; sourceTree = "<group>"; };
+		3A1E53802CD8E33D005F5704 /* SessionEstablishment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionEstablishment.swift; sourceTree = "<group>"; };
+		3A1E53812CD8E33D005F5704 /* SessionRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionRole.swift; sourceTree = "<group>"; };
+		3A1E53822CD8E33D005F5704 /* SessionEncryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionEncryption.swift; sourceTree = "<group>"; };
+		3A1E53982CD8E344005F5704 /* DeviceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRequest.swift; sourceTree = "<group>"; };
+		3A1E539A2CD8E34A005F5704 /* TransferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferStatus.swift; sourceTree = "<group>"; };
+		3A1E539B2CD8E34A005F5704 /* RequestDataElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDataElements.swift; sourceTree = "<group>"; };
+		3A1E539C2CD8E34A005F5704 /* RequestNameSpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestNameSpaces.swift; sourceTree = "<group>"; };
+		3A1E539D2CD8E34A005F5704 /* ItemsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsRequest.swift; sourceTree = "<group>"; };
+		3A1E539E2CD8E34A005F5704 /* DocRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocRequest.swift; sourceTree = "<group>"; };
 		3A405EED2CAFD9FF0069998C /* DocumentError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentError.swift; sourceTree = "<group>"; };
 		3A405EF02CAFDAC70069998C /* DeviceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceResponse.swift; sourceTree = "<group>"; };
 		3A652A252CAE97C600B0D6E4 /* DeviceResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceResponseTests.swift; sourceTree = "<group>"; };
@@ -163,6 +241,7 @@
 		3D179CB12CB9079C0061DFDC /* LibIso18013UtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013UtilsTests.swift; sourceTree = "<group>"; };
 		3D179CB42CB924D90061DFDC /* LibIso18013DAOMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013DAOMemory.swift; sourceTree = "<group>"; };
 		3D179CBB2CB95EDE0061DFDC /* LibIso18013DAOKeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013DAOKeyChain.swift; sourceTree = "<group>"; };
+		3DB91D882CE4AAA7008AC0BB /* Proximity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proximity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +251,7 @@
 			files = (
 				3D179CBA2CB95A370061DFDC /* KeychainAccess in Frameworks */,
 				3D14E6552CAD8CE700E15A46 /* SwiftCBOR in Frameworks */,
+				3A1E53622CD8E305005F5704 /* X509 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +266,74 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A1E53522CD8E1E4005F5704 /* DeviceSigned */ = {
+			isa = PBXGroup;
+			children = (
+				3A1E534E2CD8E1E4005F5704 /* DeviceAuth.swift */,
+				3A1E534F2CD8E1E4005F5704 /* DeviceSignedItems.swift */,
+				3A1E53502CD8E1E4005F5704 /* DeviceNameSpaces.swift */,
+				3A1E53512CD8E1E4005F5704 /* DeviceSigned.swift */,
+			);
+			path = DeviceSigned;
+			sourceTree = "<group>";
+		};
+		3A1E535B2CD8E2BD005F5704 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				3A1E53572CD8E2BD005F5704 /* UserRequestKeys.swift */,
+				3A1E53582CD8E2BD005F5704 /* InitializeKeys.swift */,
+				3A1E53592CD8E2BD005F5704 /* MdocOfflineDelegate.swift */,
+				3A1E535A2CD8E2BD005F5704 /* MdocHelpers.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		3A1E53682CD8E336005F5704 /* BLE */ = {
+			isa = PBXGroup;
+			children = (
+				3A1E53632CD8E336005F5704 /* MdocTransferHelpers.swift */,
+				3A1E53642CD8E336005F5704 /* MdocBleServer.swift */,
+				3A1E53652CD8E336005F5704 /* MdocServiceCharacteristic.swift */,
+				3A1E53662CD8E336005F5704 /* BleTransferMode.swift */,
+			);
+			path = BLE;
+			sourceTree = "<group>";
+		};
+		3A1E53772CD8E33D005F5704 /* CRL */ = {
+			isa = PBXGroup;
+			children = (
+				3A1E53712CD8E33D005F5704 /* AuthorityInformationAccess+.swift */,
+				3A1E53722CD8E33D005F5704 /* X509+.swift */,
+				3A1E53732CD8E33D005F5704 /* ASN1ObjectIdentifier+.swift */,
+				3A1E53742CD8E33D005F5704 /* CRLDistributions.swift */,
+				3A1E53752CD8E33D005F5704 /* CRLDistributionPointsExtension.swift */,
+				3A1E53762CD8E33D005F5704 /* CRL.swift */,
+			);
+			path = CRL;
+			sourceTree = "<group>";
+		};
+		3A1E53832CD8E33D005F5704 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				3A1E536E2CD8E33D005F5704 /* DeviceAuthentication.swift */,
+				3A1E536F2CD8E33D005F5704 /* MdocAuthentication.swift */,
+				3A1E53702CD8E33D005F5704 /* NotAllowedExtension.swift */,
+				3A1E53772CD8E33D005F5704 /* CRL */,
+				3A1E53782CD8E33D005F5704 /* CertificateUsage.swift */,
+				3A1E53792CD8E33D005F5704 /* SecurityHelpers.swift */,
+				3A1E537A2CD8E33D005F5704 /* ReaderAuthentication.swift */,
+				3A1E537B2CD8E33D005F5704 /* MdocReaderAuthentication.swift */,
+				3A1E537C2CD8E33D005F5704 /* ReaderAuth.swift */,
+				3A1E537D2CD8E33D005F5704 /* SessionData.swift */,
+				3A1E537E2CD8E33D005F5704 /* DeviceAuthMethod.swift */,
+				3A1E537F2CD8E33D005F5704 /* SessionTranscript.swift */,
+				3A1E53802CD8E33D005F5704 /* SessionEstablishment.swift */,
+				3A1E53812CD8E33D005F5704 /* SessionRole.swift */,
+				3A1E53822CD8E33D005F5704 /* SessionEncryption.swift */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
 		3A405EEF2CAFDABC0069998C /* Device */ = {
 			isa = PBXGroup;
 			children = (
@@ -216,6 +364,17 @@
 		3A868B572CBFC2DF00B35976 /* Proximity */ = {
 			isa = PBXGroup;
 			children = (
+				3A868B582CBFC32100B35976 /* LibIso18013Proximity.swift */,
+				3A1E539A2CD8E34A005F5704 /* TransferStatus.swift */,
+				3A1E539B2CD8E34A005F5704 /* RequestDataElements.swift */,
+				3A1E539C2CD8E34A005F5704 /* RequestNameSpaces.swift */,
+				3A1E539D2CD8E34A005F5704 /* ItemsRequest.swift */,
+				3A1E539E2CD8E34A005F5704 /* DocRequest.swift */,
+				3A1E53982CD8E344005F5704 /* DeviceRequest.swift */,
+				3A1E53832CD8E33D005F5704 /* Security */,
+				3A1E53682CD8E336005F5704 /* BLE */,
+				3A1E535B2CD8E2BD005F5704 /* Helpers */,
+				3A1E53522CD8E1E4005F5704 /* DeviceSigned */,
 				3A868AFA2CBE948100B35976 /* QRCodeEngagement */,
 			);
 			path = Proximity;
@@ -269,7 +428,7 @@
 		3D14E6452CAD8C0A00E15A46 /* libIso18013 */ = {
 			isa = PBXGroup;
 			children = (
-				3A868B582CBFC32100B35976 /* LibIso18013Proximity.swift */,
+				3DB91D882CE4AAA7008AC0BB /* Proximity.swift */,
 				3A868B572CBFC2DF00B35976 /* Proximity */,
 				3D179CB32CB924CF0061DFDC /* DAO */,
 				3D179CAB2CB7BD920061DFDC /* LibIso18013DAO.swift */,
@@ -438,6 +597,7 @@
 			packageProductDependencies = (
 				3D14E6542CAD8CE700E15A46 /* SwiftCBOR */,
 				3D179CB92CB95A370061DFDC /* KeychainAccess */,
+				3A1E53612CD8E305005F5704 /* X509 */,
 			);
 			productName = libIso18013;
 			productReference = 3D14E53C2CABE5C100E15A46 /* libIso18013.framework */;
@@ -493,6 +653,7 @@
 			packageReferences = (
 				3D14E6532CAD8CE700E15A46 /* XCRemoteSwiftPackageReference "SwiftCBOR" */,
 				3D179CB82CB95A370061DFDC /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				3A1E53602CD8E305005F5704 /* XCRemoteSwiftPackageReference "swift-certificates" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3D14E53D2CABE5C100E15A46 /* Products */;
@@ -541,6 +702,10 @@
 				3D14E6572CAD8D4E00E15A46 /* IssuerSigned.swift in Sources */,
 				3D14E6742CAD918900E15A46 /* OrderedDictionary+.swift in Sources */,
 				3D14E67D2CAD92DD00E15A46 /* String+.swift in Sources */,
+				3A1E535C2CD8E2BD005F5704 /* MdocHelpers.swift in Sources */,
+				3A1E535D2CD8E2BD005F5704 /* UserRequestKeys.swift in Sources */,
+				3A1E535E2CD8E2BD005F5704 /* MdocOfflineDelegate.swift in Sources */,
+				3A1E535F2CD8E2BD005F5704 /* InitializeKeys.swift in Sources */,
 				3D14E6802CAD933600E15A46 /* DrivingPrivileges.swift in Sources */,
 				3D14E6472CAD8C0A00E15A46 /* libIso18013.docc in Sources */,
 				3D14E6A72CAE9A1000E15A46 /* CoseKeyPrivate.swift in Sources */,
@@ -549,8 +714,16 @@
 				3A405EEE2CAFDA050069998C /* DocumentError.swift in Sources */,
 				3D14E6A92CAE9AE600E15A46 /* ValidityInfo.swift in Sources */,
 				3D14E69A2CAE993500E15A46 /* ValueDigests.swift in Sources */,
+				3A1E536A2CD8E336005F5704 /* BleTransferMode.swift in Sources */,
+				3A1E536B2CD8E336005F5704 /* MdocServiceCharacteristic.swift in Sources */,
+				3A1E536C2CD8E336005F5704 /* MdocBleServer.swift in Sources */,
+				3A1E536D2CD8E336005F5704 /* MdocTransferHelpers.swift in Sources */,
 				3A868AFC2CBE948100B35976 /* CoseKeyExchange.swift in Sources */,
 				3A868B132CBE9B7700B35976 /* UInt32+.swift in Sources */,
+				3A1E53532CD8E1E4005F5704 /* DeviceSignedItems.swift in Sources */,
+				3A1E53542CD8E1E4005F5704 /* DeviceNameSpaces.swift in Sources */,
+				3A1E53552CD8E1E4005F5704 /* DeviceSigned.swift in Sources */,
+				3A1E53562CD8E1E4005F5704 /* DeviceAuth.swift in Sources */,
 				3A868AFE2CBE948100B35976 /* DeviceEngagement.swift in Sources */,
 				3A868AFF2CBE948100B35976 /* DeviceRetrievalMethod.swift in Sources */,
 				3A868B052CBE948100B35976 /* Security.swift in Sources */,
@@ -560,15 +733,42 @@
 				3D14E68A2CAD947B00E15A46 /* IssuerSignedItem.swift in Sources */,
 				3A868B592CBFC32800B35976 /* LibIso18013Proximity.swift in Sources */,
 				3D14E6722CAD915600E15A46 /* Dictionary+.swift in Sources */,
+				3A1E53842CD8E33D005F5704 /* MdocAuthentication.swift in Sources */,
+				3A1E53852CD8E33D005F5704 /* CRL.swift in Sources */,
+				3A1E53862CD8E33D005F5704 /* CRLDistributionPointsExtension.swift in Sources */,
+				3A1E53872CD8E33D005F5704 /* DeviceAuthMethod.swift in Sources */,
+				3A1E53882CD8E33D005F5704 /* MdocReaderAuthentication.swift in Sources */,
+				3A1E53892CD8E33D005F5704 /* CertificateUsage.swift in Sources */,
+				3A1E538A2CD8E33D005F5704 /* AuthorityInformationAccess+.swift in Sources */,
+				3A1E538B2CD8E33D005F5704 /* ReaderAuthentication.swift in Sources */,
+				3A1E538C2CD8E33D005F5704 /* DeviceAuthentication.swift in Sources */,
+				3A1E538D2CD8E33D005F5704 /* X509+.swift in Sources */,
+				3A1E538E2CD8E33D005F5704 /* ReaderAuth.swift in Sources */,
+				3A1E538F2CD8E33D005F5704 /* NotAllowedExtension.swift in Sources */,
+				3A1E53902CD8E33D005F5704 /* SessionEstablishment.swift in Sources */,
+				3A1E53992CD8E344005F5704 /* DeviceRequest.swift in Sources */,
+				3A1E53912CD8E33D005F5704 /* SessionData.swift in Sources */,
+				3A1E53922CD8E33D005F5704 /* SessionEncryption.swift in Sources */,
+				3A1E53932CD8E33D005F5704 /* SessionTranscript.swift in Sources */,
+				3A1E53942CD8E33D005F5704 /* ASN1ObjectIdentifier+.swift in Sources */,
+				3A1E53952CD8E33D005F5704 /* SecurityHelpers.swift in Sources */,
+				3A1E53962CD8E33D005F5704 /* SessionRole.swift in Sources */,
+				3A1E53972CD8E33D005F5704 /* CRLDistributions.swift in Sources */,
 				3D14E69C2CAE995000E15A46 /* DigestIDs.swift in Sources */,
 				3D179CBC2CB95EEB0061DFDC /* LibIso18013DAOKeyChain.swift in Sources */,
 				3D14E66C2CAD903500E15A46 /* Data+.swift in Sources */,
 				3D14E6522CAD8C9900E15A46 /* Document.swift in Sources */,
 				3A405EF12CAFDACC0069998C /* DeviceResponse.swift in Sources */,
+				3DB91D892CE4AAAA008AC0BB /* Proximity.swift in Sources */,
 				3D14E6A12CAE99D100E15A46 /* ECCurveName.swift in Sources */,
 				3D14E6A32CAE99DC00E15A46 /* ECCurveType.swift in Sources */,
 				3D14E67A2CAD929300E15A46 /* CBOR+.swift in Sources */,
 				3D14E6C62CAFD31900E15A46 /* SecCertificate+.swift in Sources */,
+				3A1E539F2CD8E34A005F5704 /* RequestDataElements.swift in Sources */,
+				3A1E53A02CD8E34A005F5704 /* RequestNameSpaces.swift in Sources */,
+				3A1E53A12CD8E34A005F5704 /* TransferStatus.swift in Sources */,
+				3A1E53A22CD8E34A005F5704 /* ItemsRequest.swift in Sources */,
+				3A1E53A32CD8E34A005F5704 /* DocRequest.swift in Sources */,
 				3D179CB52CB924DA0061DFDC /* LibIso18013DAOMemory.swift in Sources */,
 				3D14E6AF2CAEA56C00E15A46 /* IssuerAuth.swift in Sources */,
 				3D14E6612CAD8EB800E15A46 /* CBORDecodable.swift in Sources */,
@@ -630,6 +830,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -666,6 +867,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -822,6 +1024,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = it.pagopa.app.io.proximity.libIso18013Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -837,6 +1043,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = it.pagopa.app.io.proximity.libIso18013Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -876,6 +1086,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3A1E53602CD8E305005F5704 /* XCRemoteSwiftPackageReference "swift-certificates" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-certificates.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.1;
+			};
+		};
 		3D14E6532CAD8CE700E15A46 /* XCRemoteSwiftPackageReference "SwiftCBOR" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/niscy-eudiw/SwiftCBOR.git";
@@ -895,6 +1113,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3A1E53612CD8E305005F5704 /* X509 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3A1E53602CD8E305005F5704 /* XCRemoteSwiftPackageReference "swift-certificates" */;
+			productName = X509;
+		};
 		3D14E6542CAD8CE700E15A46 /* SwiftCBOR */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3D14E6532CAD8CE700E15A46 /* XCRemoteSwiftPackageReference "SwiftCBOR" */;

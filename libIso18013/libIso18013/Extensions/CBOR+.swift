@@ -335,7 +335,8 @@ extension CBOR {
         guard case let CBOR.tagged(tag, cborEncoded) = self, tag == .encodedCBORDataItem, case let .byteString(bytes) = cborEncoded else {  return nil }
         return bytes
     }
-    public func decodeTagged<T: CBORDecodable>(_ t: T.Type = T.self) -> T? {
+    
+    func decodeTagged<T: CBORDecodable>(_ t: T.Type = T.self) -> T? {
         guard case let CBOR.tagged(tag, cborEncoded) = self, tag == .encodedCBORDataItem, case let .byteString(bytes) = cborEncoded else {  return nil }
         return .init(data: bytes)
     }

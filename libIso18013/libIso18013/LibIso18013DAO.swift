@@ -57,14 +57,14 @@ public protocol LibIso18013DAOProtocol {
     
     func deleteDocument(identifier: String) throws -> Bool
     
-    func createDocument(docType: String, documentName: String, curve: ECCurveName, forceSecureEnclave: Bool) throws -> DeviceDocumentProtocol
+    func createDocument(docType: String, documentName: String/*, curve: ECCurveName, forceSecureEnclave: Bool*/) throws -> DeviceDocumentProtocol
     
     //store document data "issuerSigned" inside created unsigned document
     func storeDocument(identifier: String, documentData: Data) throws -> String
     
     
     //needed for tests
-    func createDocument(docType: String, documentName: String, deviceKey: CoseKeyPrivate) throws -> DeviceDocumentProtocol
+    func createDocument(docType: String, documentName: String, deviceKeyData: [UInt8]) throws -> DeviceDocumentProtocol
     
 }
 

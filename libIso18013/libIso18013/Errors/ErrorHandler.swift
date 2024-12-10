@@ -19,8 +19,8 @@ public enum ErrorHandler: Error {
                 return "Invalid device key"
             case .secureEnclaveNotSupported:
                 return "Secure Enclave not supported on this device"
-            case .secureEnclaveNotSupportedAlgorithm(let algorithm):
-                return "\(algorithm) not supported with Secure Enclave"
+//            case .secureEnclaveNotSupportedAlgorithm(let algorithm):
+//                return "\(algorithm) not supported with Secure Enclave"
             case .documentWithIdentifierNotFound:
                 return "No stored document found with this identifier"
             case .documentMustBeUnsigned:
@@ -61,7 +61,7 @@ public enum ErrorHandler: Error {
     case invalidDeviceKeyError
     
     case secureEnclaveNotSupported
-    case secureEnclaveNotSupportedAlgorithm(algorithm: ECCurveName)
+//    case secureEnclaveNotSupportedAlgorithm(algorithm: ECCurveName)
     
     //DAO
     case documentWithIdentifierNotFound

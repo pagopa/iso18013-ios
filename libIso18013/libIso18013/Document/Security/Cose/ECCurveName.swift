@@ -25,7 +25,7 @@ import SwiftCBOR
  +---------+-------+----------+------------------------------------+*/
 
 /// crv: EC identifier - Taken from the "COSE Elliptic Curves" registry
-public enum ECCurveName: UInt64 {
+enum ECCurveName: UInt64 {
   case p256 = 1
   case p384 = 2
   case p521 = 3

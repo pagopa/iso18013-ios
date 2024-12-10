@@ -5,13 +5,12 @@
 //  Created by Martina D'urso on 15/10/24.
 //
 
-
 import Foundation
 import SwiftCBOR
 import CryptoKit
 
 // Struct to represent device engagement
-public struct DeviceEngagement {
+struct DeviceEngagement {
     // Implementation version
     static let versionImpl: String = "1.0"
     // Device version, initialized with the implementation version
@@ -28,12 +27,6 @@ public struct DeviceEngagement {
     var seKeyID: Data?
     // QR code encoding for the device
     public var qrCoded: [UInt8]?
-    
-#if DEBUG
-    // Functions to set the private key and key identifier in the Secure Enclave for debugging
-    mutating func setD(d: [UInt8]) { self.d = d }
-    mutating func setKeyID(keyID: Data) { self.seKeyID = keyID }
-#endif
     
     // Generates the device engagement
     /// - Parameters:
@@ -59,6 +52,24 @@ public struct DeviceEngagement {
         }
     }
     
+    init?(pk: CoseKeyPrivate, rfus: [String]? = nil) {
+        
+        if let secureKeyId = pk.secureEnclaveKeyID {
+            self.seKeyID = secureKeyId
+        }
+        else if !pk.d.isEmpty {
+            self.d = pk.d
+        }
+        else {
+            return nil
+        }
+        
+        self.rfus = rfus
+        
+        self.security = Security(deviceKey: pk.key)
+        
+    }
+    
     // Initializes the device engagement from CBOR data
     public init?(data: [UInt8]) {
         guard let obj = try? CBOR.decode(data) else { return nil }
@@ -66,7 +77,7 @@ public struct DeviceEngagement {
     }
     
     // Returns the device private key, if available
-    public var privateKey: CoseKeyPrivate? {
+    var privateKey: CoseKeyPrivate? {
         if let seKeyID {
             return CoseKeyPrivate(publicKeyx963Data: security.deviceKey.getx963Representation(), secureEnclaveKeyID: seKeyID)
         } else if let d {
@@ -155,5 +166,27 @@ extension DeviceEngagement {
         // Encode the object with CBOR options and assign to `qrCoded`
         qrCoded = encode(options: CBOROptions())
         return qrCode
+    }
+}
+
+public class DeviceEngagementBuilder {
+    
+    private var deviceEngagement: DeviceEngagement
+    
+    init(pk: CoseKeyPrivate, rfus: [String]? = nil) throws {
+        guard let deviceEngagement = DeviceEngagement(pk: pk, rfus: rfus) else {
+            throw ErrorHandler.unexpected_error
+        }
+        
+        self.deviceEngagement = deviceEngagement
+    }
+    
+    func setDeviceRetrievalMethods(_ retrievalMethods: [DeviceRetrievalMethod]) -> DeviceEngagementBuilder {
+        self.deviceEngagement.deviceRetrievalMethods = retrievalMethods
+        return self
+    }
+    
+    func build() -> DeviceEngagement {
+        return self.deviceEngagement
     }
 }

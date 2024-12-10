@@ -9,7 +9,7 @@
 import Foundation
 import SwiftCBOR
 
-public struct IssuerAuth {
+struct IssuerAuth {
   public let mobileSecurityObject: MobileSecurityObject
   public let mobileSecurityObjectRawData: [UInt8]
   

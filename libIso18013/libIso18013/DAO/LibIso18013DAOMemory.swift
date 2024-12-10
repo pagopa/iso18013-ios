@@ -5,8 +5,10 @@
 //  Created by Antonio on 11/10/24.
 //
 
+import SwiftCBOR
 
-public class LibIso18013DAOMemory : LibIso18013DAOProtocol {
+
+class LibIso18013DAOMemory : LibIso18013DAOProtocol {
     
     public init() {
         self._documents = []
@@ -52,22 +54,22 @@ public class LibIso18013DAOMemory : LibIso18013DAOProtocol {
         return true
     }
     
-    public func createDocument(docType: String, documentName: String, curve: ECCurveName = .p256, forceSecureEnclave: Bool = true) throws -> DeviceDocumentProtocol {
+    public func createDocument(docType: String, documentName: String/*, curve: ECCurveName = .p256, forceSecureEnclave: Bool = true*/) throws -> DeviceDocumentProtocol {
         
-        let deviceKey = try LibIso18013Utils.shared.createSecurePrivateKey(curve: curve, forceSecureEnclave: forceSecureEnclave)
+        let deviceKey = try LibIso18013Utils.shared.createSecurePrivateKey(curve: .p256, forceSecureEnclave: true)
         
-        return try createDocument(docType: docType, documentName: documentName, deviceKey: deviceKey)
+        return try createDocument(docType: docType, documentName: documentName, deviceKeyData: deviceKey.encode(options: CBOROptions()))
     }
     
-    public func createDocument(docType: String, documentName: String, deviceKey: CoseKeyPrivate) throws -> DeviceDocumentProtocol {
+    public func createDocument(docType: String, documentName: String, deviceKeyData: [UInt8]) throws -> DeviceDocumentProtocol {
         let document = DeviceDocument(
+            documentData: nil,
+            deviceKeyData: deviceKeyData,
             state:.unsigned,
             createdAt: Date(),
-            deviceKey: deviceKey,
             docType: docType,
             name: documentName,
-            identifier: UUID().uuidString,
-            document: nil)
+            identifier: UUID().uuidString)
         
         _documents.append(document)
         
@@ -91,13 +93,15 @@ public class LibIso18013DAOMemory : LibIso18013DAOProtocol {
          
         let document = Document(docType: storedDocument.docType, issuerSigned: issuerSigned)
         
+        let deviceKey = CoseKeyPrivate(data: storedDocument.deviceKeyData)!
+        
         guard LibIso18013Utils.shared.isDevicePrivateKeyOfDocument(
             document: document,
-            privateKey: storedDocument.deviceKey) else {
+            privateKey: deviceKey) else {
             throw ErrorHandler.invalidDeviceKeyError
         }
         
-        _documents[documentIndex] = storedDocument.issued(document: document)
+        _documents[documentIndex] = storedDocument.issued(documentData: document.encode(options: CBOROptions()))
         
         return identifier
     }

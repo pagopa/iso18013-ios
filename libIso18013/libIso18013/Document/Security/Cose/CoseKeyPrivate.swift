@@ -10,7 +10,7 @@ import SwiftCBOR
 
 
 // CoseKey + private key
-public struct CoseKeyPrivate  {
+struct CoseKeyPrivate  {
   
   public let key: CoseKey
   let d: [UInt8]
