@@ -1,0 +1,37 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '16.0'
+
+#install! 'cocoapods',
+  #generate_multiple_pod_projects: true,
+  #share_schemes_for_development_pods: true
+
+target 'libIso18013-example' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for libIso18013-example
+  pod 'cbor', :git => 'git@github.com:pagopa/cbor-ios.git', :branch => 'develop'
+  pod 'libIso18013', :git => 'git@github.com:pagopa/iso18013-ios.git', :branch => 'feature/proximity'
+
+  target 'libIso18013-exampleTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'libIso18013-exampleUITests' do
+    # Pods for testing
+  end
+
+end
+
+
+def integrate_spm(target, project, config)
+  puts "Injecting SPM framework into #{project} -> #{target}"
+    `swift run --package-path utils XcodeSPMI addRemotePackages --project-path #{project} --config-path #{config} --target-name #{target}`
+end
+
+post_integrate do |installer|
+  integrate_spm("libIso18013", "Pods/Pods.xcodeproj", "utils/config.json")
+  integrate_spm("cbor", "Pods/Pods.xcodeproj", "utils/config_cbor.json")
+  integrate_spm("libIso18013-example", "libIso18013-example.xcodeproj", "utils/config_cbor.json")
+end

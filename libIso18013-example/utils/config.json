@@ -1,0 +1,34 @@
+{
+    "packages": [
+        {
+            "spmUrl": "https://github.com/niscy-eudiw/SwiftCBOR.git",
+            "product": "SwiftCBOR",
+            "versionKind": "uptomaj",
+            "versionValue": "0.6.2"
+        },
+        {
+            "spmUrl": "https://github.com/apple/swift-asn1.git",
+            "product": "SwiftASN1",
+            "versionKind": "uptomaj",
+            "versionValue": "1.3.0"
+        },
+        {
+            "spmUrl": "https://github.com/kishikawakatsumi/KeychainAccess.git",
+            "product": "KeychainAccess",
+            "versionKind": "uptomaj",
+            "versionValue": "4.2.2"
+        },
+        {
+            "spmUrl": "https://github.com/apple/swift-certificates.git",
+            "product": "X509",
+            "versionKind": "uptomaj",
+            "versionValue": "1.6.1"
+        },
+        {
+            "spmUrl": "https://github.com/apple/swift-collections.git",
+            "product": "Collections",
+            "versionKind": "uptomaj",
+            "versionValue": "1.1.4"
+        }
+    ]
+}
