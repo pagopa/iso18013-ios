@@ -70,9 +70,9 @@
 		3ADB29012CC255550087018A /* LibIso18013ProximityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB29002CC255550087018A /* LibIso18013ProximityTests.swift */; };
 		3ADB29032CC2580E0087018A /* UInt32ExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB29022CC2580E0087018A /* UInt32ExtensionsTests.swift */; };
 		3AEC7E7C2CB58B8700606D7E /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7E7B2CB58B8600606D7E /* ErrorHandler.swift */; };
-		3D14E5472CABE5C200E15A46 /* libIso18013.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D14E53C2CABE5C100E15A46 /* libIso18013.framework */; };
-		3D14E6462CAD8C0A00E15A46 /* libIso18013.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D14E6422CAD8C0A00E15A46 /* libIso18013.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3D14E6472CAD8C0A00E15A46 /* libIso18013.docc in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6432CAD8C0A00E15A46 /* libIso18013.docc */; };
+		3D14E5472CABE5C200E15A46 /* IOWalletProximity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D14E53C2CABE5C100E15A46 /* IOWalletProximity.framework */; };
+		3D14E6462CAD8C0A00E15A46 /* IOWalletProximity.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D14E6422CAD8C0A00E15A46 /* IOWalletProximity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3D14E6472CAD8C0A00E15A46 /* IOWalletProximity.docc in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6432CAD8C0A00E15A46 /* IOWalletProximity.docc */; };
 		3D14E6482CAD8C0A00E15A46 /* LibIso18013Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6442CAD8C0A00E15A46 /* LibIso18013Utils.swift */; };
 		3D14E64B2CAD8C0E00E15A46 /* libIso18013Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E6492CAD8C0E00E15A46 /* libIso18013Tests.swift */; };
 		3D14E64E2CAD8C3B00E15A46 /* NameValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D14E64D2CAD8C3B00E15A46 /* NameValue.swift */; };
@@ -194,10 +194,10 @@
 		3ADB29002CC255550087018A /* LibIso18013ProximityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013ProximityTests.swift; sourceTree = "<group>"; };
 		3ADB29022CC2580E0087018A /* UInt32ExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UInt32ExtensionsTests.swift; sourceTree = "<group>"; };
 		3AEC7E7B2CB58B8600606D7E /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
-		3D14E53C2CABE5C100E15A46 /* libIso18013.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = libIso18013.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3D14E5462CABE5C200E15A46 /* libIso18013Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = libIso18013Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3D14E6422CAD8C0A00E15A46 /* libIso18013.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libIso18013.h; sourceTree = "<group>"; };
-		3D14E6432CAD8C0A00E15A46 /* libIso18013.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = libIso18013.docc; sourceTree = "<group>"; };
+		3D14E53C2CABE5C100E15A46 /* IOWalletProximity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IOWalletProximity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D14E5462CABE5C200E15A46 /* IOWalletProximityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOWalletProximityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D14E6422CAD8C0A00E15A46 /* IOWalletProximity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOWalletProximity.h; sourceTree = "<group>"; };
+		3D14E6432CAD8C0A00E15A46 /* IOWalletProximity.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = IOWalletProximity.docc; sourceTree = "<group>"; };
 		3D14E6442CAD8C0A00E15A46 /* LibIso18013Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013Utils.swift; sourceTree = "<group>"; };
 		3D14E6492CAD8C0E00E15A46 /* libIso18013Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = libIso18013Tests.swift; sourceTree = "<group>"; };
 		3D14E64D2CAD8C3B00E15A46 /* NameValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameValue.swift; sourceTree = "<group>"; };
@@ -259,7 +259,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D14E5472CABE5C200E15A46 /* libIso18013.framework in Frameworks */,
+				3D14E5472CABE5C200E15A46 /* IOWalletProximity.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,8 +410,8 @@
 		3D14E5322CABE5C100E15A46 = {
 			isa = PBXGroup;
 			children = (
-				3D14E6452CAD8C0A00E15A46 /* libIso18013 */,
-				3D14E64A2CAD8C0E00E15A46 /* libIso18013Tests */,
+				3D14E6452CAD8C0A00E15A46 /* IOWalletProximity */,
+				3D14E64A2CAD8C0E00E15A46 /* IOWalletProximityTests */,
 				3D14E53D2CABE5C100E15A46 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -419,13 +419,13 @@
 		3D14E53D2CABE5C100E15A46 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3D14E53C2CABE5C100E15A46 /* libIso18013.framework */,
-				3D14E5462CABE5C200E15A46 /* libIso18013Tests.xctest */,
+				3D14E53C2CABE5C100E15A46 /* IOWalletProximity.framework */,
+				3D14E5462CABE5C200E15A46 /* IOWalletProximityTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3D14E6452CAD8C0A00E15A46 /* libIso18013 */ = {
+		3D14E6452CAD8C0A00E15A46 /* IOWalletProximity */ = {
 			isa = PBXGroup;
 			children = (
 				3DB91D882CE4AAA7008AC0BB /* Proximity.swift */,
@@ -439,13 +439,13 @@
 				3D14E66D2CAD907800E15A46 /* Errors */,
 				3A405EEF2CAFDABC0069998C /* Device */,
 				3D14E64C2CAD8C1100E15A46 /* Document */,
-				3D14E6422CAD8C0A00E15A46 /* libIso18013.h */,
-				3D14E6432CAD8C0A00E15A46 /* libIso18013.docc */,
+				3D14E6422CAD8C0A00E15A46 /* IOWalletProximity.h */,
+				3D14E6432CAD8C0A00E15A46 /* IOWalletProximity.docc */,
 			);
-			path = libIso18013;
+			path = IOWalletProximity;
 			sourceTree = "<group>";
 		};
-		3D14E64A2CAD8C0E00E15A46 /* libIso18013Tests */ = {
+		3D14E64A2CAD8C0E00E15A46 /* IOWalletProximityTests */ = {
 			isa = PBXGroup;
 			children = (
 				3ADB29002CC255550087018A /* LibIso18013ProximityTests.swift */,
@@ -457,7 +457,7 @@
 				3A405EF22CAFDE330069998C /* Documents */,
 				3D14E6492CAD8C0E00E15A46 /* libIso18013Tests.swift */,
 			);
-			path = libIso18013Tests;
+			path = IOWalletProximityTests;
 			sourceTree = "<group>";
 		};
 		3D14E64C2CAD8C1100E15A46 /* Document */ = {
@@ -573,16 +573,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D14E6462CAD8C0A00E15A46 /* libIso18013.h in Headers */,
+				3D14E6462CAD8C0A00E15A46 /* IOWalletProximity.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		3D14E53B2CABE5C100E15A46 /* libIso18013 */ = {
+		3D14E53B2CABE5C100E15A46 /* IOWalletProximity */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3D14E54F2CABE5C200E15A46 /* Build configuration list for PBXNativeTarget "libIso18013" */;
+			buildConfigurationList = 3D14E54F2CABE5C200E15A46 /* Build configuration list for PBXNativeTarget "IOWalletProximity" */;
 			buildPhases = (
 				3D14E5372CABE5C100E15A46 /* Headers */,
 				3D14E5382CABE5C100E15A46 /* Sources */,
@@ -593,19 +593,19 @@
 			);
 			dependencies = (
 			);
-			name = libIso18013;
+			name = IOWalletProximity;
 			packageProductDependencies = (
 				3D14E6542CAD8CE700E15A46 /* SwiftCBOR */,
 				3D179CB92CB95A370061DFDC /* KeychainAccess */,
 				3A1E53612CD8E305005F5704 /* X509 */,
 			);
 			productName = libIso18013;
-			productReference = 3D14E53C2CABE5C100E15A46 /* libIso18013.framework */;
+			productReference = 3D14E53C2CABE5C100E15A46 /* IOWalletProximity.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		3D14E5452CABE5C200E15A46 /* libIso18013Tests */ = {
+		3D14E5452CABE5C200E15A46 /* IOWalletProximityTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3D14E5542CABE5C200E15A46 /* Build configuration list for PBXNativeTarget "libIso18013Tests" */;
+			buildConfigurationList = 3D14E5542CABE5C200E15A46 /* Build configuration list for PBXNativeTarget "IOWalletProximityTests" */;
 			buildPhases = (
 				3D14E5422CABE5C200E15A46 /* Sources */,
 				3D14E5432CABE5C200E15A46 /* Frameworks */,
@@ -616,11 +616,11 @@
 			dependencies = (
 				3D14E5492CABE5C200E15A46 /* PBXTargetDependency */,
 			);
-			name = libIso18013Tests;
+			name = IOWalletProximityTests;
 			packageProductDependencies = (
 			);
 			productName = libIso18013Tests;
-			productReference = 3D14E5462CABE5C200E15A46 /* libIso18013Tests.xctest */;
+			productReference = 3D14E5462CABE5C200E15A46 /* IOWalletProximityTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -641,7 +641,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 3D14E5362CABE5C100E15A46 /* Build configuration list for PBXProject "libIso18013" */;
+			buildConfigurationList = 3D14E5362CABE5C100E15A46 /* Build configuration list for PBXProject "IOWalletProximity" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -660,8 +660,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3D14E53B2CABE5C100E15A46 /* libIso18013 */,
-				3D14E5452CABE5C200E15A46 /* libIso18013Tests */,
+				3D14E53B2CABE5C100E15A46 /* IOWalletProximity */,
+				3D14E5452CABE5C200E15A46 /* IOWalletProximityTests */,
 			);
 		};
 /* End PBXProject section */
@@ -707,7 +707,7 @@
 				3A1E535E2CD8E2BD005F5704 /* MdocOfflineDelegate.swift in Sources */,
 				3A1E535F2CD8E2BD005F5704 /* InitializeKeys.swift in Sources */,
 				3D14E6802CAD933600E15A46 /* DrivingPrivileges.swift in Sources */,
-				3D14E6472CAD8C0A00E15A46 /* libIso18013.docc in Sources */,
+				3D14E6472CAD8C0A00E15A46 /* IOWalletProximity.docc in Sources */,
 				3D14E6A72CAE9A1000E15A46 /* CoseKeyPrivate.swift in Sources */,
 				3D14E6882CAD944200E15A46 /* IssuerNameSpaces.swift in Sources */,
 				3D179CAC2CB7BDC60061DFDC /* LibIso18013DAO.swift in Sources */,
@@ -810,7 +810,7 @@
 /* Begin PBXTargetDependency section */
 		3D14E5492CABE5C200E15A46 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3D14E53B2CABE5C100E15A46 /* libIso18013 */;
+			target = 3D14E53B2CABE5C100E15A46 /* IOWalletProximity */;
 			targetProxy = 3D14E5482CABE5C200E15A46 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -837,9 +837,10 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				MERGED_BINARY_TYPE = automatic;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = it.pagopa.app.io.proximity.libIso18013;
+				PRODUCT_BUNDLE_IDENTIFIER = it.pagopa.io.wallet.proximity;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -874,9 +875,10 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				MERGED_BINARY_TYPE = automatic;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = it.pagopa.app.io.proximity.libIso18013;
+				PRODUCT_BUNDLE_IDENTIFIER = it.pagopa.io.wallet.proximity;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1056,7 +1058,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3D14E5362CABE5C100E15A46 /* Build configuration list for PBXProject "libIso18013" */ = {
+		3D14E5362CABE5C100E15A46 /* Build configuration list for PBXProject "IOWalletProximity" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3D14E5522CABE5C200E15A46 /* Debug */,
@@ -1065,7 +1067,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3D14E54F2CABE5C200E15A46 /* Build configuration list for PBXNativeTarget "libIso18013" */ = {
+		3D14E54F2CABE5C200E15A46 /* Build configuration list for PBXNativeTarget "IOWalletProximity" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3D14E5502CABE5C200E15A46 /* Debug */,
@@ -1074,7 +1076,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3D14E5542CABE5C200E15A46 /* Build configuration list for PBXNativeTarget "libIso18013Tests" */ = {
+		3D14E5542CABE5C200E15A46 /* Build configuration list for PBXNativeTarget "IOWalletProximityTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3D14E5552CABE5C200E15A46 /* Debug */,

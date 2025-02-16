@@ -15,7 +15,7 @@ Pod::Spec.new do |spec|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  spec.name         = "libIso18013"
+  spec.name         = "IOWalletProximity"
   spec.version      = "0.0.1"
   spec.summary      = "ISO 18013 sets global standards for driving licenses, covering both physical cards and mobile formats."
 
@@ -72,7 +72,9 @@ Pod::Spec.new do |spec|
 
   spec.ios.deployment_target = '16.0'
 
-  spec.source       = { :git => "https://github.com/pagopa/iso18013-ios.git", :tag => "#{spec.version}" }
+  # spec.source       = { :git => "https://github.com/pagopa/iso18013-ios.git", :tag => "#{spec.version}" }
+  spec.source                  = { :http => "https://github.com/pagopa/iso18013-ios/releases/download/0.0.1/IOWalletProximity-0.0.1.xcframework.zip" }
+  spec.ios.vendored_frameworks = "IOWalletProximity.xcframework"
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -84,8 +86,8 @@ Pod::Spec.new do |spec|
   #
 
   # Include all source files, but exclude test files
-  spec.source_files = 'libIso18013/**/*.{swift,h,m}'
-  spec.exclude_files = 'libIso18013/libIso18013Tests/**/*'
+  spec.source_files = 'IOWalletProximity/**/*.{swift,h,m}'
+  spec.exclude_files = 'IOWalletProximity/IOWalletProximityTests/**/*'
 
   spec.pod_target_xcconfig = { 
     'SWIFT_INCLUDE_PATHS' => '$(inherited) ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)',
