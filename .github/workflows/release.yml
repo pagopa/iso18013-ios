@@ -1,4 +1,4 @@
-name: Build and Release cbor
+name: Build and Release Proximity
 
 on:
   push:
