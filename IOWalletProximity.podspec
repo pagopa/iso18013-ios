@@ -30,10 +30,6 @@ Pod::Spec.new do |spec|
   spec.source                  = { :http => "https://github.com/pagopa/iso18013-ios/releases/download/0.0.1/IOWalletProximity-0.0.1.xcframework.zip" }
   spec.ios.vendored_frameworks = "IOWalletProximity.xcframework"
 
-  # Include all source files, but exclude test files
-  spec.source_files = 'IOWalletProximity/**/*.{swift,h,m}'
-  spec.exclude_files = 'IOWalletProximity/IOWalletProximityTests/**/*'
-
   spec.pod_target_xcconfig = { 
     'SWIFT_INCLUDE_PATHS' => '$(inherited) ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)',
     'ENABLE_USER_SCRIPT_SANDBOXING' => 'NO'
