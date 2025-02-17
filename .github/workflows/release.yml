@@ -8,6 +8,7 @@ on:
 jobs:
   build-release:
     runs-on: macos-15-xlarge
+    environment: prod
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
