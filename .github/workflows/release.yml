@@ -1,0 +1,61 @@
+name: Build and Release cbor
+
+on:
+  push:
+    tags:
+      - '*.*.*'  # Trigger for every tag x.y.z
+
+jobs:
+  build-release:
+    runs-on: macos-15-xlarge
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
+
+      - name: Extract tag version
+        id: get_version
+        run: |
+          # Extract tag removing "refs/tags/"
+          echo "version=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+
+      - name: Update podspec version
+        run: |
+          NEW_VERSION="${{ steps.get_version.outputs.version }}"
+          echo "Updating podspec version to ${NEW_VERSION}"
+          sed -i '' "s/spec.version\s*=\s*\".*\"/spec.version      = \"${NEW_VERSION}\"/" IOWalletProximity.podspec
+
+      - name: Build XCFramework
+        run: |
+          chmod +x ./build.sh
+          ./build.sh
+
+      - name: Zip XCFramework
+        run: |
+          VERSION="${{ steps.get_version.outputs.version }}"
+          cp LICENSE archives/
+          cd archives
+          zip -r "IOWalletProximity-${VERSION}.xcframework.zip" IOWalletProximity.xcframework LICENSE
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          name: Release ${{ steps.get_version.outputs.version }}
+          body: |
+            Automated release for IOWalletProximity version ${{ steps.get_version.outputs.version }}.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: archives/IOWalletProximity-${{ steps.get_version.outputs.version }}.xcframework.zip
+          asset_name: IOWalletProximity-${{ steps.get_version.outputs.version }}.xcframework.zip
+          asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
