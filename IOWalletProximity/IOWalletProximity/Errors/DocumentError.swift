@@ -6,11 +6,11 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
 /// Error codes for documents that are not returned
-public struct DocumentError {
+ struct DocumentError {
     
     // Dictionary mapping document types (String) to error codes (UInt64)
     public let documentErrors: [String: UInt64]

@@ -7,7 +7,7 @@
 
 import XCTest
 import Security
-import SwiftCBOR
+internal import SwiftCBOR
 
 @testable import libIso18013
 

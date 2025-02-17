@@ -5,7 +5,7 @@
 //  Created by Antonio Caparello on 17/10/24.
 //
 
-import X509
+internal import X509
 
 extension AuthorityInformationAccess {
 	var infoAccesses: [AccessDescription]? {

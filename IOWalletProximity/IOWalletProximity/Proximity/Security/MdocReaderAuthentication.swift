@@ -7,13 +7,13 @@
 
 import Foundation
 import CryptoKit
-import SwiftCBOR
+internal import SwiftCBOR
 
 /// Implements mdoc reader authentication
 ///
 /// The data that the mdoc reader authenticates is the ReaderAuthentication structure
 /// Currently the mdoc side is implemented (verification of reader-auth CBOR data)
-public struct MdocReaderAuthentication {
+ struct MdocReaderAuthentication {
     
     // Stores the transcript of the session, used for verification
     let transcript: SessionTranscript

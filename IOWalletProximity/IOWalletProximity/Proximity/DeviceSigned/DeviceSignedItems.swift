@@ -5,10 +5,10 @@
 //  Created by Antonio Caparello on 17/10/24.
 //
 
-import SwiftCBOR
+internal import SwiftCBOR
 
 /// Contains the data element identifiers and values for a namespace
-public struct DeviceSignedItems {
+ struct DeviceSignedItems {
 	public let deviceSignedItems: [String: CBOR]
 	public subscript(ei: String) -> CBOR? { deviceSignedItems[ei] }
 }

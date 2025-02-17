@@ -7,10 +7,10 @@
 
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
-public struct DrivingPrivilegeCode: Codable {
+struct DrivingPrivilegeCode: Codable {
   public let code: String
   public let sign: String?
   public let value: String?

@@ -6,14 +6,14 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
 // Typealias for representing error items as a dictionary of string descriptions and error codes (UInt64)
 public typealias ErrorItems = [String: UInt64]
 
 // Struct to represent a collection of errors, categorized by namespace
-public struct Errors {
+ struct Errors {
     
     // Dictionary of namespaces and their associated error items
     public let errors: [String: ErrorItems]

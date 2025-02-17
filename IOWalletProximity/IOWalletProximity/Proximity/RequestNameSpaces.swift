@@ -6,11 +6,11 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
 /// contains the requested data elements and the namespace they belong to.
-public struct RequestNameSpaces {
+ struct RequestNameSpaces {
     public let nameSpaces: [String: RequestDataElements]
     public subscript(ns: String)-> RequestDataElements? { nameSpaces[ns] }
 } 

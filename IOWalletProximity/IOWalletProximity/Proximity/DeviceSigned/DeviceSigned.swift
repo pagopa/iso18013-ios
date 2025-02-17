@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
 /// Contains the mdoc authentication structure and the data elements protected by mdoc authentication
 struct DeviceSigned {

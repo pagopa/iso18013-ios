@@ -5,8 +5,8 @@
 //  Created by Antonio on 02/10/24.
 //
 
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
 // Extension to add CBOR encoding and date formatting utilities for String
 extension String {

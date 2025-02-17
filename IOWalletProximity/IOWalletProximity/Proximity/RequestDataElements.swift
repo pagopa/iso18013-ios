@@ -6,20 +6,20 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
 public typealias IntentToRetain = Bool
 
 /// Requested data elements identified by their data element identifier.
-public struct RequestDataElements {
+struct RequestDataElements {
 	/// IntentToRetain indicates whether the mdoc verifier intends to retain the received data element
     public let dataElements: [String: IntentToRetain]
     public var elementIdentifiers: [String] { Array(dataElements.keys) }
 }
 
 extension RequestDataElements: CBORDecodable {
-	public init?(cbor: CBOR) {
+    init?(cbor: CBOR) {
   		guard case let .map(e) = cbor else { return nil }
 		let dePairs = e.compactMap { (k: CBOR, v: CBOR) -> (String, Bool)?  in
 			guard case .utf8String(let dei) = k else { return nil }
@@ -33,7 +33,7 @@ extension RequestDataElements: CBORDecodable {
 }
 
 extension RequestDataElements: CBOREncodable {
-	public func toCBOR(options: CBOROptions) -> CBOR {
+    public func toCBOR(options: CBOROptions) -> CBOR {
 		let m = dataElements.map { (dei: String, ir: IntentToRetain) -> (CBOR, CBOR) in
 			(.utf8String(dei), .boolean(ir))
 		}

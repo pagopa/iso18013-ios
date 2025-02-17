@@ -5,7 +5,7 @@
 //  Created by Antonio on 17/10/24.
 //
 
-import X509
+internal import X509
 import CryptoKit
 
 public class SecurityHelpers {
@@ -69,7 +69,7 @@ public class SecurityHelpers {
         return SecTrustEvaluateWithError(trust, &error)
     }
     
-    public static func fetchCRLSerialNumbers(_ x509root: X509.Certificate) -> [Certificate.SerialNumber] {
+     static func fetchCRLSerialNumbers(_ x509root: X509.Certificate) -> [Certificate.SerialNumber] {
         var serialNumbers = [Certificate.SerialNumber]()
         if let ext = x509root.extensions[oid: .X509ExtensionID.cRLDistributionPoints],
            let crlDistribution = try? CRLDistributions(derEncoded: ext.value) {
@@ -83,7 +83,7 @@ public class SecurityHelpers {
         return serialNumbers
     }
     
-    public static func verifyReaderAuthCert(_ x509: X509.Certificate, messages: inout [String]) {
+     static func verifyReaderAuthCert(_ x509: X509.Certificate, messages: inout [String]) {
         if x509.issuer.isEmpty { messages.append("Missing Issuer") }
         if let ext_aki = try? x509.extensions.authorityKeyIdentifier, let ext_aki_ki = ext_aki.keyIdentifier, ext_aki_ki.isEmpty {
             messages.append("Missing Authority Key Identifier")

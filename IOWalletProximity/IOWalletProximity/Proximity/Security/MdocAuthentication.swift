@@ -7,7 +7,7 @@
 
 import Foundation
 import CryptoKit
-import SwiftCBOR
+internal import SwiftCBOR
 
 /// The security objective of mdoc authentication is to prevent cloning of the mdoc and to mitigate man in the middle attacks.
 /// Currently the mdoc side is implemented (generation of device-auth)

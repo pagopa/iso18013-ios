@@ -5,16 +5,16 @@
 //  Created by Antonio on 02/10/24.
 //
 
-import OrderedCollections
-import SwiftCBOR
+internal import OrderedCollections
+internal import SwiftCBOR
 
 
 extension OrderedDictionary where Key == CBOR {
-  public subscript<Index: RawRepresentable>(index: Index) -> Value? where Index.RawValue == String {
+   subscript<Index: RawRepresentable>(index: Index) -> Value? where Index.RawValue == String {
     self[CBOR(stringLiteral: index.rawValue)]
   }
   
-  public subscript<Index: RawRepresentable>(index: Index) -> Value? where Index.RawValue == Int {
+   subscript<Index: RawRepresentable>(index: Index) -> Value? where Index.RawValue == Int {
     self[CBOR(integerLiteral: index.rawValue)]
   }
 }
@@ -32,14 +32,14 @@ extension OrderedDictionary where Key == String, Value == Any {
     return ""
   }
   
-  public func decodeJSON<T: Decodable>(type: T.Type = T.self) -> T? {
+   func decodeJSON<T: Decodable>(type: T.Type = T.self) -> T? {
        let decoder = JSONDecoder()
     guard let data = try? JSONSerialization.data(withJSONObject: self) else { return nil }
        guard let response = try? decoder.decode(type.self, from: data) else { return nil }
        return response
    }
   
-  public subscript<Index: RawRepresentable>(index: Index) -> String where Index.RawValue == String {
+   subscript<Index: RawRepresentable>(index: Index) -> String where Index.RawValue == String {
     getInnerValue(index.rawValue)
   }
 }

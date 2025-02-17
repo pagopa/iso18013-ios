@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
-public struct DrivingPrivilege: Codable {
+ struct DrivingPrivilege: Codable {
   public let vehicleCategoryCode: String
   public let issueDate: String?
   public let expiryDate: String?

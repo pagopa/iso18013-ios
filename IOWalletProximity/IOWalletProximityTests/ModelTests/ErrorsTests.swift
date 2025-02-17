@@ -7,8 +7,8 @@
 
 
 import XCTest
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
 @testable import libIso18013
 

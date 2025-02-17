@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
 // Struct representing a Document, including its type, issuer-signed data, and optional errors
 struct Document {

@@ -7,7 +7,7 @@
 
 import CryptoKit
 import Foundation
-import SwiftCBOR
+internal import SwiftCBOR
 
 /* Applications MUST check that the curve and the key type are
  consistent and reject a key if they are not.

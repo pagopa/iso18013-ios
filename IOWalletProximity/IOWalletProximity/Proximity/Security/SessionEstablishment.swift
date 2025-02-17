@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
 /// The mdoc reader creates the session establishment message.Contains the reader key and the encrypted mdoc request.
 /// The mdoc uses the data from the session establishment message to derive the session keys and decrypt the mdoc request.

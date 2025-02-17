@@ -7,7 +7,7 @@
 
 
 import Foundation
-import SwiftCBOR
+internal import SwiftCBOR
 
 struct IssuerAuth {
   public let mobileSecurityObject: MobileSecurityObject

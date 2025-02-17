@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
-public struct ItemsRequest {
+ struct ItemsRequest {
 	/// Requested document type.
     public let docType: String
 	/// Requested data elements for each NameSpace

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SwiftCBOR
+internal import SwiftCBOR
 import CryptoKit
 
 // Struct to represent device engagement

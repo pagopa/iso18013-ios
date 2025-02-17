@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SwiftCBOR
+internal import SwiftCBOR
 
 struct Security {
     // Cipher suite identifier used in the encoding

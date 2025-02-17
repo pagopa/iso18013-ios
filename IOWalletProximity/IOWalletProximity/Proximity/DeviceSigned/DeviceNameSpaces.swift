@@ -5,10 +5,10 @@
 //  Created by Antonio on 17/10/24.
 //
 
-import SwiftCBOR
+internal import SwiftCBOR
 
 /// Device data elements per namespac
-public struct DeviceNameSpaces {
+ struct DeviceNameSpaces {
 	public let deviceNameSpaces: [String: DeviceSignedItems]
 	public subscript(ns: String) -> DeviceSignedItems? { deviceNameSpaces[ns] }
 }

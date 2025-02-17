@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
-public struct ValueDigests {
+ struct ValueDigests {
 	public let valueDigests: [String: DigestIDs]
 	public subscript(ns: String) -> DigestIDs? { valueDigests[ns] }
 	

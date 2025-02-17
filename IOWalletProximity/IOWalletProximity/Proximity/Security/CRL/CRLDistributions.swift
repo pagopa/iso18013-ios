@@ -5,11 +5,11 @@
 //  Created by Antonio on 17/10/24.
 //
 
-import SwiftASN1
-import X509
+internal import SwiftASN1
+internal import X509
 
 /// Wrapper for CRL (Certificate Revocation List) distributions
-public struct CRLDistributions {
+ struct CRLDistributions {
     // List of CRL distribution points
     public var crls: [CRLDistribution] = []
 }
@@ -32,7 +32,7 @@ extension CRLDistributions: DERImplicitlyTaggable {
 }
 
 /// Represents a CRL distribution point
-public struct CRLDistribution {
+ struct CRLDistribution {
     // The URL of the CRL distribution point
     let distributionPoint: String
     
@@ -42,16 +42,16 @@ public struct CRLDistribution {
 
 extension CRLDistribution: DERImplicitlyTaggable {
     /// Serialization is not needed for this implementation
-    public func serialize(into coder: inout SwiftASN1.DER.Serializer, withIdentifier identifier: SwiftASN1.ASN1Identifier) throws { }
+     func serialize(into coder: inout SwiftASN1.DER.Serializer, withIdentifier identifier: SwiftASN1.ASN1Identifier) throws { }
     
     /// Default identifier for this structure is `.sequence`
-    public static var defaultIdentifier: SwiftASN1.ASN1Identifier { .sequence }
+     static var defaultIdentifier: SwiftASN1.ASN1Identifier { .sequence }
     
     /// Initializes a `CRLDistribution` instance from a DER-encoded ASN1 node
     /// - Parameters:
     ///   - rootNode: The ASN1 root node containing the CRL distribution point data
     ///   - identifier: The identifier for this ASN1 structure
-    public init(derEncoded rootNode: ASN1Node, withIdentifier identifier: SwiftASN1.ASN1Identifier) throws {
+     init(derEncoded rootNode: ASN1Node, withIdentifier identifier: SwiftASN1.ASN1Identifier) throws {
         // Parse the ASN1 node to extract the URL for the CRL distribution point
         self = try DER.sequence(rootNode, identifier: identifier) { nodes in
             guard let firstNode = nodes.next(),

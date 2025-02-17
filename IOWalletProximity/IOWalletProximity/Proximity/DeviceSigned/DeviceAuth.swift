@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
 /// contains either the DeviceSignature or the DeviceMac element
 struct DeviceAuth {

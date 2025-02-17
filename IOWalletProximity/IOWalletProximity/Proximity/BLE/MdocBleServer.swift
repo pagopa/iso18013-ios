@@ -6,8 +6,8 @@
 //
 
 import CoreBluetooth
-import SwiftCBOR
-import X509
+internal import SwiftCBOR
+internal import X509
 
 protocol MdocTransferDelegate: AnyObject {
     func didChangeStatus(_ newStatus: TransferStatus)

@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
-public struct DigestIDs {
+ struct DigestIDs {
   public let digestIDs: [UInt64: [UInt8]]
   public subscript(digestID: UInt64) -> [UInt8]? { digestIDs[digestID] }
   

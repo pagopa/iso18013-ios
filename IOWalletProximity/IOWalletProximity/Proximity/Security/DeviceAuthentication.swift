@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import SwiftCBOR
+internal import SwiftCBOR
 
-public struct DeviceAuthentication {
+ struct DeviceAuthentication {
     let sessionTranscript: SessionTranscript
     let docType: String
     let deviceNameSpacesRawData: [UInt8]

@@ -5,14 +5,14 @@
 //  Created by Antonio on 02/10/24.
 //
 
-import SwiftCBOR
+internal import SwiftCBOR
 
 extension Dictionary where Key == CBOR {
-  public subscript<Index: RawRepresentable>(index: Index) -> Value? where Index.RawValue == String {
+   subscript<Index: RawRepresentable>(index: Index) -> Value? where Index.RawValue == String {
     self[CBOR(stringLiteral: index.rawValue)]
   }
   
-  public subscript<Index: RawRepresentable>(index: Index) -> Value? where Index.RawValue == Int {
+   subscript<Index: RawRepresentable>(index: Index) -> Value? where Index.RawValue == Int {
     self[CBOR(integerLiteral: index.rawValue)]
   }
 }

@@ -5,7 +5,7 @@
 //  Created by Antonio on 02/10/24.
 //
 
-import SwiftCBOR
+internal import SwiftCBOR
 
 // Protocol for types that can be decoded from a CBOR object
 protocol CBORDecodable {

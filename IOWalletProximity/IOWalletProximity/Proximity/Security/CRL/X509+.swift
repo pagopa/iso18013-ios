@@ -5,7 +5,7 @@
 //  Created by Antonio Caparello on 17/10/24.
 //
 
-import X509
+internal import X509
 
 extension X509.Certificate.SignatureAlgorithm {
 	var isECDSA256or384or512: Bool {

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SwiftCBOR
+internal import SwiftCBOR
 
 /// Reader authentication structure encoded as Cose Sign1
 struct ReaderAuth {

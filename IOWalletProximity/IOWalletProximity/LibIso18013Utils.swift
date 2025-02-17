@@ -7,7 +7,7 @@
 
 import Foundation
 import CryptoKit
-import SwiftCBOR
+internal import SwiftCBOR
 
 // Protocol definition for LibIso18013UtilsProtocol
 protocol LibIso18013UtilsProtocol {

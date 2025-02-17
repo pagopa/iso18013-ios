@@ -5,8 +5,8 @@
 //  Created by Antonio on 03/10/24.
 //
 
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
 struct DeviceKeyInfo {
   public let deviceKey: CoseKey

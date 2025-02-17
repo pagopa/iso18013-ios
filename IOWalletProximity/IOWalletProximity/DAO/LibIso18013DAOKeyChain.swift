@@ -4,8 +4,8 @@
 //
 //  Created by Antonio on 11/10/24.
 //
-import KeychainAccess
-import SwiftCBOR
+internal import KeychainAccess
+internal import SwiftCBOR
 
 
 public class LibIso18013DAOKeyChain : LibIso18013DAOProtocol {

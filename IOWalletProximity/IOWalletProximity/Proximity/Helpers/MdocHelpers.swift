@@ -9,8 +9,8 @@ import Foundation
 import CoreBluetooth
 import Combine
 import AVFoundation
-import SwiftCBOR
-import X509
+internal import SwiftCBOR
+internal import X509
 
 public typealias RequestItems = [String: [String: [String]]]
 

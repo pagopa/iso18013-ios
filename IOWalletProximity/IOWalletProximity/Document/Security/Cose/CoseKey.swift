@@ -5,7 +5,7 @@
 //  Created by Antonio on 03/10/24.
 //
 
-import SwiftCBOR
+internal import SwiftCBOR
 
 // Defined in RFC 8152
 struct CoseKey: Equatable {

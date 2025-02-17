@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import SwiftCBOR
+internal import SwiftCBOR
 
-public struct DrivingPrivileges: Codable {
+ struct DrivingPrivileges: Codable {
   public let drivingPrivileges: [DrivingPrivilege]
   public subscript(i: Int) -> DrivingPrivilege { drivingPrivileges[i] }
 }

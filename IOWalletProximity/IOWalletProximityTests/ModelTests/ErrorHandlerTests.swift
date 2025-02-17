@@ -7,7 +7,7 @@
 
 
 import XCTest
-import SwiftCBOR
+internal import SwiftCBOR
 @testable import libIso18013
 
 class ErrorHandlerTests: XCTestCase {

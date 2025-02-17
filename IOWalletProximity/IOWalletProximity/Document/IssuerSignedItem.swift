@@ -7,10 +7,10 @@
 
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
-public struct IssuerSignedItem {
+ struct IssuerSignedItem {
   public let digestID: UInt64
   let random: [UInt8]
   public let elementIdentifier: String

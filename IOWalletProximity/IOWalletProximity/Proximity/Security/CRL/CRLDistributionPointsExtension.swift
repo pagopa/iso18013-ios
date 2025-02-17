@@ -5,10 +5,10 @@
 //  Created by Antonio Caparello on 17/10/24.
 //
 
-import X509
-import SwiftASN1
+internal import X509
+internal import SwiftASN1
 
-public struct CRLDistributionPointsExtension {
+ struct CRLDistributionPointsExtension {
 	public var crls: [CRLDistribution] = []
 	
 	public init(_ ext: Certificate.Extension) throws {

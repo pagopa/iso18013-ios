@@ -7,7 +7,7 @@
 
 import Foundation
 import CryptoKit
-import SwiftCBOR
+internal import SwiftCBOR
 
 /// Session encryption uses standard ephemeral key ECDH to establish session keys for authenticated symmetric encryption.
 /// The ``SessionEncryption`` struct implements session encryption (for the mDoc currently).

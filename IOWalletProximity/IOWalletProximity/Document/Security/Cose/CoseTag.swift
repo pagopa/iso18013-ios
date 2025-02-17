@@ -6,12 +6,12 @@
 //
 
 
-import SwiftCBOR
+internal import SwiftCBOR
 
 /// COSE Message Identification
 extension CBOR.Tag {
   /// Tagged COSE Sign1 Structure
-  public static let coseSign1Item = CBOR.Tag(rawValue: 18)
+   static let coseSign1Item = CBOR.Tag(rawValue: 18)
   /// Tagged COSE Mac0 Structure
-  public static let coseMac0Item = CBOR.Tag(rawValue: 17)
+   static let coseMac0Item = CBOR.Tag(rawValue: 17)
 }

@@ -5,14 +5,14 @@
 //  Created by Antonio on 02/10/24.
 //
 
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
 // Extension to make CBOR conform to CustomStringConvertible, providing a custom description for CBOR values
 extension CBOR: @retroactive CustomStringConvertible {
     
     // Computed property to provide a string representation of the CBOR object
-    public var description: String {
+     var description: String {
         switch self {
                 
                 // Handle utf8String case, returning the string
@@ -50,7 +50,7 @@ extension CBOR: @retroactive CustomStringConvertible {
 extension CBOR: @retroactive CustomDebugStringConvertible {
     
     // Computed property to provide a detailed debug string representation of the CBOR object
-    public var debugDescription: String {
+     var debugDescription: String {
         switch self {
                 
                 // Handle utf8String case, returning the string in single quotes for better readability in debug output
@@ -104,7 +104,7 @@ extension CBOR: @retroactive CustomDebugStringConvertible {
 extension CBOR {
     
     // Computed property to infer the MdocDataType from the CBOR value
-    public var mdocDataType: MdocDataType? {
+     var mdocDataType: MdocDataType? {
         switch self {
                 
                 // If the CBOR value is a string or null, it's considered a string data type
@@ -158,7 +158,7 @@ extension CBOR {
 extension CBOR {
     
     // Function to extract the full date string from a CBOR value tagged with a specific tag
-    public func fullDate() -> String? {
+     func fullDate() -> String? {
         // Ensure the CBOR value is a tagged value with a tag and an encoded CBOR value
         guard case let CBOR.tagged(tag, cborEncoded) = self,
               tag.rawValue == 1004,                            // Check if the tag matches the custom tag for dates
@@ -176,7 +176,7 @@ extension CBOR {
 extension CBOR {
     
     // Function to unwrap the CBOR value and return its underlying data as a Swift type
-    public func unwrap() -> Any? {
+     func unwrap() -> Any? {
         switch self {
             case .simple(let value): return value
             case .boolean(let value): return value
@@ -196,47 +196,47 @@ extension CBOR {
     }
     
     // Function to attempt to unwrap the CBOR value as UInt64
-    public func asUInt64() -> UInt64? {
+     func asUInt64() -> UInt64? {
         return self.unwrap() as? UInt64
     }
     
     // Function to attempt to unwrap the CBOR value as Double
-    public func asDouble() -> Double? {
+     func asDouble() -> Double? {
         return self.unwrap() as? Double
     }
     
     // Function to attempt to unwrap the CBOR value as Int64
-    public func asInt64() -> Int64? {
+     func asInt64() -> Int64? {
         return self.unwrap() as? Int64
     }
     
     // Function to attempt to unwrap the CBOR value as String
-    public func asString() -> String? {
+     func asString() -> String? {
         return self.unwrap() as? String
     }
     
     // Function to attempt to unwrap the CBOR value as a list of CBOR items (array)
-    public func asList() -> [CBOR]? {
+     func asList() -> [CBOR]? {
         return self.unwrap() as? [CBOR]
     }
     
     // Function to attempt to unwrap the CBOR value as a map (OrderedDictionary)
-    public func asMap() -> OrderedDictionary<CBOR, CBOR>? {
+     func asMap() -> OrderedDictionary<CBOR, CBOR>? {
         return self.unwrap() as? OrderedDictionary<CBOR, CBOR>
     }
     
     // Function to attempt to unwrap the CBOR value as an array of UInt8 (bytes)
-    public func asBytes() -> [UInt8]? {
+     func asBytes() -> [UInt8]? {
         return self.unwrap() as? [UInt8]
     }
     
     // Function to encode the CBOR value into Data
-    public func asData() -> Data {
+     func asData() -> Data {
         return Data(self.encode()) // Encode the CBOR value into Data format
     }
     
     // Static function to handle date strings from CBOR tagged values
-    public static func asDateString(_ tag: Tag, _ value: CBOR) -> Any {
+     static func asDateString(_ tag: Tag, _ value: CBOR) -> Any {
         if tag.rawValue == 1004 || tag == .standardDateTimeString, let strDate = value.unwrap() as? String {
             return strDate.toPosixDate() // Convert the string to POSIX date format
         } else {
@@ -249,13 +249,13 @@ extension CBOR {
 extension CBOR {
     
     // Decode a list of CBOR values, optionally unwrapping and converting them to Base64 if specified
-    public static func decodeList(_ list: [CBOR], unwrap: Bool = true, base64: Bool = false) -> [Any] {
+     static func decodeList(_ list: [CBOR], unwrap: Bool = true, base64: Bool = false) -> [Any] {
         // Map over the list and decode each CBOR value
         return list.map { val in decodeCborVal(val, unwrap: unwrap, base64: base64) }
     }
     
     // Decode a dictionary of CBOR values, converting the keys to Strings and optionally unwrapping the values
-    public static func decodeDictionary(
+     static func decodeDictionary(
         _ dictionary: OrderedDictionary<CBOR, CBOR>,
         unwrap: Bool = true,
         base64: Bool = false
@@ -271,7 +271,7 @@ extension CBOR {
     }
     
     // Decode a single CBOR value, optionally unwrapping nested values and handling Base64 conversion for byte strings
-    public static func decodeCborVal(_ val: CBOR, unwrap: Bool, base64: Bool) -> Any {
+     static func decodeCborVal(_ val: CBOR, unwrap: Bool, base64: Bool) -> Any {
         if unwrap, case .map(let dict) = val {
             // If the CBOR value is a map, recursively decode the dictionary
             return decodeDictionary(dict, unwrap: unwrap)
@@ -294,7 +294,7 @@ extension CBOR {
     }
     
     // Get the typed value from CBOR based on the expected type `T`
-    public func getTypedValue<T>() -> T? {
+     func getTypedValue<T>() -> T? {
         // Special case for DrivingPrivileges type
         if T.self == DrivingPrivileges.self {
             return DrivingPrivileges(cbor: self) as? T
@@ -313,7 +313,7 @@ extension CBOR {
 }
 
 extension CBOR {
-  public func toCose() -> (CBOR.Tag, [CBOR])? {
+   func toCose() -> (CBOR.Tag, [CBOR])? {
     guard let rawCose =  self.unwrap() as? (CBOR.Tag, CBOR),
         let cosePayload = rawCose.1.asList() else {
       return nil
@@ -321,7 +321,7 @@ extension CBOR {
     return (rawCose.0, cosePayload)
   }
   
-  public func decodeBytestring() -> CBOR? {
+   func decodeBytestring() -> CBOR? {
     guard let bytestring = self.asBytes(),
         let decoded = try? CBORDecoder(input: bytestring).decodeItem() else {
       return nil
@@ -331,7 +331,7 @@ extension CBOR {
 }
 
 extension CBOR {
-    public func decodeTaggedBytes() -> [UInt8]? {
+     func decodeTaggedBytes() -> [UInt8]? {
         guard case let CBOR.tagged(tag, cborEncoded) = self, tag == .encodedCBORDataItem, case let .byteString(bytes) = cborEncoded else {  return nil }
         return bytes
     }
@@ -341,7 +341,7 @@ extension CBOR {
         return .init(data: bytes)
     }
     
-    public func decodeFullDate() -> String? {
+     func decodeFullDate() -> String? {
         guard case let CBOR.tagged(tag, cborEncoded) = self, tag.rawValue == 1004, case let .utf8String(s) = cborEncoded else { return nil }
         return s
     }

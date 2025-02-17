@@ -5,8 +5,8 @@
 //  Created by Antonio on 18/10/24.
 //
 
-import X509
-import SwiftCBOR
+internal import X509
+internal import SwiftCBOR
 
 
 class MdocTransferHelpers {

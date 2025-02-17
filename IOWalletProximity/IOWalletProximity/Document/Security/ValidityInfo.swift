@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
-public struct ValidityInfo {
+ struct ValidityInfo {
   public let signed: String
   public let validFrom: String
   public let validUntil: String

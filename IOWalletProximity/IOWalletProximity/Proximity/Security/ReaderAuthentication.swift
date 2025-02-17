@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import SwiftCBOR
+internal import SwiftCBOR
 
-public struct ReaderAuthentication {
+struct ReaderAuthentication {
     let sessionTranscript: SessionTranscript
     let itemsRequestRawData: [UInt8]
 }

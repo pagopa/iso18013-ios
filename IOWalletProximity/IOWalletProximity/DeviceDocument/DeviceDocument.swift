@@ -5,9 +5,9 @@
 //  Created by Antonio on 04/10/24.
 //
 
-import SwiftCBOR
+internal import SwiftCBOR
 
-public struct DeviceDocument : DeviceDocumentProtocol {
+ struct DeviceDocument : DeviceDocumentProtocol {
     public let documentData: [UInt8]?
     
     public let deviceKeyData: [UInt8]

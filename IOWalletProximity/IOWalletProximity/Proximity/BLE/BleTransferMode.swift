@@ -5,9 +5,9 @@
 //  Created by Antonio on 17/10/24.
 //
 
-import SwiftCBOR
+internal import SwiftCBOR
 
-public enum BleTransferMode {
+ enum BleTransferMode {
 	case server
 	case client
 	static var START_REQUEST: [UInt8] = [0x01]

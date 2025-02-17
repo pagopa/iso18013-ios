@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import SwiftCBOR
+internal import SwiftCBOR
 @testable import libIso18013
 
 // Dummy type conforming to CBOREncodable for testing purposes

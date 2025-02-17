@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftASN1
-import X509
+internal import SwiftASN1
+internal import X509
 
 /// Represents a Certificate Revocation List (CRL) used to indicate revoked certificates
 struct CRL: PEMParseable, DERParseable {

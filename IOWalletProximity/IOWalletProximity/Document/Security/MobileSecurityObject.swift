@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
 struct MobileSecurityObject {
   public let version: String

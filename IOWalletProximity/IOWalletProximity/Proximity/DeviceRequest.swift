@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
-public struct DeviceRequest {
+ struct DeviceRequest {
 	/// The current version
 	static let currentVersion = "1.0"
 	/// The version requested

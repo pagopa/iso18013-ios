@@ -6,9 +6,9 @@
 //
 
 import Foundation
-import SwiftCBOR
+internal import SwiftCBOR
 
-public struct SessionTranscript {
+ struct SessionTranscript {
 	let devEngRawData: [UInt8]?
 	let eReaderRawData: [UInt8]?
 	let handOver: CBOR

@@ -6,7 +6,7 @@
 //
 
 import CryptoKit
-import SwiftCBOR
+internal import SwiftCBOR
 
 
 // CoseKey + private key

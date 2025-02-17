@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
-public struct DocRequest {
+struct DocRequest {
     public let itemsRequest: ItemsRequest
     public let itemsRequestRawData: [UInt8]? // items-request raw data NOT tagged
 	/// Used for mdoc reader authentication

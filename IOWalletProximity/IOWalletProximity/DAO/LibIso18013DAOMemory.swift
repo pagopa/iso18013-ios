@@ -5,7 +5,7 @@
 //  Created by Antonio on 11/10/24.
 //
 
-import SwiftCBOR
+internal import SwiftCBOR
 
 
 class LibIso18013DAOMemory : LibIso18013DAOProtocol {

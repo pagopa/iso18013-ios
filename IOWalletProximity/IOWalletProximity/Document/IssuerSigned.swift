@@ -7,8 +7,8 @@
 
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
 // Struct representing IssuerSigned, containing optional IssuerNameSpaces
 struct IssuerSigned {

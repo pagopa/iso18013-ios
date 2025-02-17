@@ -6,11 +6,11 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
 /// Message data transfered between mDL and mDL reader
-public struct SessionData {
+ struct SessionData {
 	
 	public let data: [UInt8]?
 	public let status: UInt64?

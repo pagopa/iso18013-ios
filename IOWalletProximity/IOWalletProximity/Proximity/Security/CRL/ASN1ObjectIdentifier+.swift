@@ -5,7 +5,7 @@
 //  Created by Antonio on 17/10/24.
 //
 
-import SwiftASN1
+internal import SwiftASN1
 
 extension ASN1ObjectIdentifier {
     static let extKeyUsageMdlReaderAuth: ASN1ObjectIdentifier = [1,0,18013,5,1,6]

@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import SwiftCBOR
-import OrderedCollections
+internal import SwiftCBOR
+internal import OrderedCollections
 
-public struct IssuerNameSpaces {
+ struct IssuerNameSpaces {
   
   public let nameSpaces: [String: [IssuerSignedItem]]
   public subscript(nameSpace: String) -> [IssuerSignedItem]? { nameSpaces[nameSpace] }
