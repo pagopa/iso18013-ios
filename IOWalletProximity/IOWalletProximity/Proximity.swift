@@ -79,6 +79,37 @@ public class Proximity {
         
     }
     
+    //  Responds to a request for data from the reader.
+    //  - Parameters:
+    //      - allowed: User has allowed the verification process
+    //      - items: Map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
+    //      - documents: Map of documents. Key is docType, first item is document as cbor and second item is SecKey
+    public func dataPresentation(allowed: Bool,
+                                 items: [String: [String: [String: Bool]]]?,
+                                 documents: [String: ([UInt8], SecKey)]?) {
+        
+        guard let proximityListener = self.proximityListener else {
+            return
+        }
+        
+        var documentsWithKeys: [String: ([UInt8], CoseKeyPrivate)] = [:]
+        
+        documents?.keys.forEach({
+            key in
+            guard let item = documents?[key] else {
+                return
+            }
+            guard let privateKey = CoseKeyPrivate.init(crv: .p256, secKey: item.1) else {
+                return
+            }
+            documentsWithKeys[key] =  (item.0, privateKey)
+        })
+        
+        proximityListener.onResponse?(allowed, buildDeviceResponse(allowed: allowed, items: items, documents: documentsWithKeys))
+        
+        
+    }
+    
     //  Stops the BLE manager and closes connections.
     public func stop() {
         LibIso18013Proximity.shared.stop()
