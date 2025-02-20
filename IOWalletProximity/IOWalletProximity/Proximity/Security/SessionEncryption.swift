@@ -104,6 +104,16 @@ struct SessionEncryption {
         return symmetricKey
     }
     
+    /// Derives a symmetric key using HKDF
+    /// - Parameters:
+    ///   - sharedSecret: The shared secret obtained from key exchange
+    ///   - salt: Salt value for HKDF
+    ///   - info: Context-specific information for key derivation
+    /// - Returns: The derived symmetric key
+    static func HMACKeyDerivationFunction(sharedSecret: SymmetricKey, salt: [UInt8], info: Data) -> SymmetricKey {
+        return HKDF<SHA256>.deriveKey(inputKeyMaterial: sharedSecret, salt: salt, info: info, outputByteCount: 32)
+    }
+    
     /// Encrypts data using the current session key
     /// - Parameter data: Data to be encrypted
     /// - Returns: The encrypted data or nil if encryption fails
@@ -164,6 +174,17 @@ struct SessionEncryption {
     /// - Parameter isEncrypt: Indicates if the key is for encryption
     /// - Returns: The derived symmetric key or nil if key agreement fails
     func makeKeyAgreementAndDeriveSessionKey(isEncrypt: Bool) throws -> SymmetricKey? {
+        
+        if sessionKeys.privateKey.secKey != nil {
+            guard let sharedKey = sessionKeys.makeEckaDHAgreementSecurity() else {
+                return nil
+            }
+            
+            let symmetricKey = Self.HMACKeyDerivationFunction(sharedSecret: sharedKey, salt: sessionTranscriptBytes, info: getInfo(isEncrypt: isEncrypt).data(using: .utf8)!)
+            
+            return symmetricKey
+        }
+        
         // Perform ECKA-DH key agreement
         guard let sharedKey = sessionKeys.makeEckaDHAgreement(inSecureEnclave: sessionKeys.privateKey.secureEnclaveKeyID != nil) else {
             //logger.error("Error in ECKA session key agreement");
@@ -174,4 +195,7 @@ struct SessionEncryption {
         let symmetricKey = try Self.HMACKeyDerivationFunction(sharedSecret: sharedKey, salt: sessionTranscriptBytes, info: getInfo(isEncrypt: isEncrypt).data(using: .utf8)!)
         return symmetricKey
     }
+    
 }
+
+

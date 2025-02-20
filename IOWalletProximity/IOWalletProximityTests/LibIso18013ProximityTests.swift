@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import libIso18013
+@testable import IOWalletProximity
 
 class LibIso18013ProximityTests: XCTestCase {
     func testSetListener() {
@@ -20,6 +20,10 @@ class LibIso18013ProximityTests: XCTestCase {
     func testGetQrCodePayload() throws {
         let proximityLib = LibIso18013Proximity.shared
         
+        let listener = MockQrEngagementListener()
+        
+        proximityLib.setListener(listener)
+        
         XCTAssertNoThrow(try {
             let payload = try proximityLib.getQrCodePayload()
             XCTAssertFalse(payload.isEmpty, "QR code payload should not be empty")
@@ -28,11 +32,11 @@ class LibIso18013ProximityTests: XCTestCase {
 }
 
 class MockQrEngagementListener: QrEngagementListener {
-    func didChangeStatus(_ newStatus: libIso18013.TransferStatus) {
+    func didChangeStatus(_ newStatus: IOWalletProximity.TransferStatus) {
         
     }
     
-    func didReceiveRequest(deviceRequest: libIso18013.DeviceRequest, sessionEncryption: libIso18013.SessionEncryption, onResponse: @escaping (Bool, libIso18013.DeviceResponse?) -> Void) {
+    func didReceiveRequest(deviceRequest: IOWalletProximity.DeviceRequest, sessionEncryption: IOWalletProximity.SessionEncryption, onResponse: @escaping (Bool, IOWalletProximity.DeviceResponse?) -> Void) {
         
     }
     

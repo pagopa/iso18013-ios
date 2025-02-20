@@ -22,6 +22,34 @@ struct CoseKeyExchange {
 extension CoseKeyExchange {
     
     /// Computes a shared secret from the private key and the provided public key from another party.
+    public func makeEckaDHAgreementSecurity() -> SymmetricKey? {
+        
+        guard let privateKey = privateKey.secKey else {
+            return nil
+        }
+        
+        guard let publicKey = publicKey.secKey else {
+            return nil
+        }
+        
+    
+        var error: Unmanaged<CFError>?
+        guard let derivedData = SecKeyCopyKeyExchangeResult(
+            privateKey,
+            SecKeyAlgorithm.ecdhKeyExchangeStandard,
+            publicKey,
+            [:] as CFDictionary,
+            &error
+        ) as Data? else {
+            return nil
+        }
+        
+        return SymmetricKey(data: derivedData)
+        
+    }
+
+    
+    /// Computes a shared secret from the private key and the provided public key from another party.
     public func makeEckaDHAgreement(inSecureEnclave: Bool) -> SharedSecret? {
         var sharedSecret: SharedSecret?
         switch publicKey.crv {

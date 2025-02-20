@@ -7,7 +7,7 @@
 
 
 import XCTest
-@testable import libIso18013
+@testable import IOWalletProximity
 
 class UInt32ExtensionsTests: XCTestCase {
     func testDataConversion() {

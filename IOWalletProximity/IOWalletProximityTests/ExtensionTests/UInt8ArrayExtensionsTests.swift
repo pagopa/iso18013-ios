@@ -9,7 +9,7 @@
 import XCTest
 internal import SwiftCBOR
 internal import OrderedCollections
-@testable import libIso18013
+@testable import IOWalletProximity
 
 class IssuerSignedItemArrayTests: XCTestCase {
     

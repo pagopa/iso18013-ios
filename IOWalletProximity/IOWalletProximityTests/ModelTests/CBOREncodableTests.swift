@@ -7,7 +7,7 @@
 
 import XCTest
 internal import SwiftCBOR
-@testable import libIso18013
+@testable import IOWalletProximity
 
 // Dummy type conforming to CBOREncodable for testing purposes
 struct TestEncodable: CBOREncodable {

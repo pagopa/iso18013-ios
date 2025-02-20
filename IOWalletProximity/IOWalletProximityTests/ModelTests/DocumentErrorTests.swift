@@ -9,7 +9,7 @@ import XCTest
 import Security
 internal import SwiftCBOR
 
-@testable import libIso18013
+@testable import IOWalletProximity
 
 class DocumentErrorTests: XCTestCase {
     func testDocumentError_EncodingAndDecoding() {

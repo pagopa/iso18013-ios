@@ -25,6 +25,10 @@ struct DeviceEngagement {
     var d: [UInt8]?
     // Secure Enclave key identifier
     var seKeyID: Data?
+    
+    // Secure Enclave key identifier
+    var secKey: SecKey?
+    
     // QR code encoding for the device
     public var qrCoded: [UInt8]?
     
@@ -54,7 +58,10 @@ struct DeviceEngagement {
     
     init?(pk: CoseKeyPrivate, rfus: [String]? = nil) {
         
-        if let secureKeyId = pk.secureEnclaveKeyID {
+        if let secKey = pk.secKey {
+            self.secKey = secKey
+        }
+        else if let secureKeyId = pk.secureEnclaveKeyID {
             self.seKeyID = secureKeyId
         }
         else if !pk.d.isEmpty {
@@ -78,7 +85,10 @@ struct DeviceEngagement {
     
     // Returns the device private key, if available
     var privateKey: CoseKeyPrivate? {
-        if let seKeyID {
+        if let secKey = secKey {
+            return CoseKeyPrivate(publicKey: security.deviceKey, secKey: secKey)
+        }
+        else if let seKeyID {
             return CoseKeyPrivate(publicKeyx963Data: security.deviceKey.getx963Representation(), secureEnclaveKeyID: seKeyID)
         } else if let d {
             return CoseKeyPrivate(key: security.deviceKey, d: d)

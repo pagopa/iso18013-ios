@@ -15,12 +15,30 @@ struct CoseKeyPrivate  {
   public let key: CoseKey
   let d: [UInt8]
   public let secureEnclaveKeyID: Data?
-  
+    public let secKey: SecKey?
   public init(key: CoseKey, d: [UInt8]) {
     self.key = key
     self.d = d
     self.secureEnclaveKeyID = nil
+      self.secKey = nil
   }
+}
+
+extension CoseKeyPrivate {
+    public init?(crv: ECCurveName, secKey: SecKey) {
+        guard let secKeyPublic = SecKeyCopyPublicKey(secKey) else {
+            return nil
+        }
+        
+        guard let secKeyPublicx963Representation
+                = SecKeyCopyExternalRepresentation(secKeyPublic, nil) as? Data else {
+            return nil
+        }
+        
+        let publicKey = CoseKey(crv: crv, x963Representation: secKeyPublicx963Representation)
+        
+        self.init(publicKey: publicKey, secKey: secKey)
+    }
 }
 
 extension CoseKeyPrivate {
@@ -82,13 +100,22 @@ extension CoseKeyPrivate {
     key = CoseKey(crv: crv, kty: crv.keyType, x: xdata.bytes, y: ydata.bytes)
     d = ddata.bytes
     secureEnclaveKeyID = nil
+      self.secKey = nil
   }
   
   public init(publicKeyx963Data: Data, secureEnclaveKeyID: Data) {
     key = CoseKey(crv: .p256, x963Representation: publicKeyx963Data)
     d = [] // not used
     self.secureEnclaveKeyID = secureEnclaveKeyID
+      self.secKey = nil
   }
+    
+    public init(publicKey: CoseKey, secKey: SecKey) {
+        key = publicKey
+        d = [] // not used
+        self.secureEnclaveKeyID = nil
+        self.secKey = secKey
+    }
   
   
 }
@@ -98,6 +125,7 @@ extension CoseKeyPrivate {
     self.key = CoseKey(x: x, y: y, crv: crv)
     self.d = d
     self.secureEnclaveKeyID = nil
+      self.secKey = nil
   }
   
   /// An ANSI x9.63 representation of the private key.
