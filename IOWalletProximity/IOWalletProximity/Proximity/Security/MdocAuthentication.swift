@@ -23,23 +23,6 @@ struct MdocAuthentication {
 		self.transcript = transcript
 		self.authKeys = authKeys
 	}
-    
-    
-//    private func sharedSecretFromKeyAgreementSecurity(_ privateKey: SecKey, _ publicKey: SecKey) throws {
-//        
-//        var error: Unmanaged<CFError>?
-//        guard let derivedData = SecKeyCopyKeyExchangeResult(
-//            privateKey,
-//            SecKeyAlgorithm.ecdhKeyExchangeStandard,
-//            publicKey,
-//            [:] as CFDictionary,
-//            &error
-//        ) as Data? else {
-//            throw error!.takeRetainedValue() as Error
-//        }
-//        
-//    }
-    
 
 	/// Calculate the ephemeral MAC key, by performing ECKA-DH (Elliptic Curve Key Agreement Algorithm – Diffie-Hellman)
 	/// The inputs shall be the SDeviceKey.Priv and EReaderKey.Pub for the mdoc and EReaderKey.Priv and SDeviceKey.Pub for the mdoc reader.
