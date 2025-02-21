@@ -8,7 +8,7 @@
 
 import XCTest
 internal import SwiftCBOR
-@testable import libIso18013
+@testable import IOWalletProximity
 
 class ErrorHandlerTests: XCTestCase {
     
@@ -35,9 +35,9 @@ class ErrorHandlerTests: XCTestCase {
         XCTAssertEqual(ErrorHandler.unexpected_error.localizedDescription, "GENERIC_ERROR")
     }
     
-    func testSecureEnclaveNotSupportedAlgorithmDescription() {
-        let algorithm = ECCurveName.p256
-        let error = ErrorHandler.secureEnclaveNotSupportedAlgorithm(algorithm: algorithm)
-        XCTAssertEqual(error.localizedDescription, "\(algorithm) not supported with Secure Enclave")
-    }
+//    func testSecureEnclaveNotSupportedAlgorithmDescription() {
+//        let algorithm = ECCurveName.p256
+//        let error = ErrorHandler.secureEnclaveNotSupportedAlgorithm(algorithm: algorithm)
+//        XCTAssertEqual(error.localizedDescription, "\(algorithm) not supported with Secure Enclave")
+//    }
 }

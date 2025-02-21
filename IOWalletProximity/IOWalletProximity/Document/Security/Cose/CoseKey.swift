@@ -76,3 +76,19 @@ extension CoseKey {
         return keyData
     }
 }
+
+extension CoseKey {
+    
+    var secKey: SecKey? {
+        var error: Unmanaged<CFError>?
+        
+        return SecKeyCreateWithData(
+            Data(self.getx963Representation()) as CFData,
+            [
+                kSecAttrKeyClass: kSecAttrKeyClassPublic,
+                kSecAttrKeyType: kSecAttrKeyTypeECSECPrimeRandom,
+            ] as CFDictionary,
+            &error
+        )
+    }
+}

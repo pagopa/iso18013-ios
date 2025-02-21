@@ -7,7 +7,7 @@
 
 
 import XCTest
-@testable import libIso18013
+@testable import IOWalletProximity
 
 class DictionaryExtensionsTests: XCTestCase {
     

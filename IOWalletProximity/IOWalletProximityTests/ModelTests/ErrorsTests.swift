@@ -10,7 +10,7 @@ import XCTest
 internal import SwiftCBOR
 internal import OrderedCollections
 
-@testable import libIso18013
+@testable import IOWalletProximity
 
 class ErrorsTests: XCTestCase {
     func testErrors_EncodingAndDecoding_ShouldReturnEquivalentObject() {

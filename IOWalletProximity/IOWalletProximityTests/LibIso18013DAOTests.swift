@@ -7,7 +7,7 @@
 
 import XCTest
 internal import SwiftCBOR
-@testable import libIso18013
+@testable import IOWalletProximity
 
 final class LibIso18013DAOTests: XCTestCase {
     
@@ -23,13 +23,12 @@ final class LibIso18013DAOTests: XCTestCase {
         let documentName = "Patente"
         
         do {
+        
             let unsigned = try dao.createDocument(
                 docType: DocType.mDL.rawValue,
-                documentName: documentName,
-                curve: .p256,
-                forceSecureEnclave: true)
+                documentName: documentName)
             
-            XCTAssert(unsigned.document == nil)
+            XCTAssert(unsigned.documentData == nil)
             XCTAssert(unsigned.docType == DocType.mDL.rawValue)
             XCTAssert(unsigned.name == documentName)
         }
@@ -52,17 +51,17 @@ final class LibIso18013DAOTests: XCTestCase {
                 return
             }
             
-            let unsigned = try dao.createDocument(docType: DocType.mDL.rawValue, documentName: documentName, deviceKey: deviceKey)
+            let unsigned = try dao.createDocument(docType: DocType.mDL.rawValue, documentName: documentName, deviceKeyData: deviceKey.encode(options: CBOROptions()))
             
             let issuedIdentifier = try dao.storeDocument(identifier: unsigned.identifier, documentData: documentData)
             
             let issued = try dao.getDocumentByIdentifier(identifier: issuedIdentifier)
             
             
-            XCTAssert(unsigned.document == nil)
+            XCTAssert(unsigned.documentData == nil)
             XCTAssert(unsigned.docType == issued.docType)
             XCTAssert(unsigned.name == issued.name)
-            XCTAssert(issued.document != nil)
+            XCTAssert(issued.documentData != nil)
             
         }
         catch  {

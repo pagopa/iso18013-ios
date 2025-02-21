@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import libIso18013
+@testable import IOWalletProximity
 
 final class libIso18013Tests: XCTestCase {
 

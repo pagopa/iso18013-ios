@@ -8,7 +8,7 @@
 
 import XCTest
 internal import SwiftCBOR
-@testable import libIso18013
+@testable import IOWalletProximity
 
 final class LibIso18013UtilsTests: XCTestCase {
     
