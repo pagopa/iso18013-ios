@@ -9,7 +9,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "IOWalletProximity"
-  spec.version      = "0.0.1"
+  spec.version      = "0.0.2"
   spec.summary      = "ISO 18013 sets global standards for driving licenses, covering both physical cards and mobile formats."
 
   spec.description  = <<-DESC
@@ -27,7 +27,7 @@ Pod::Spec.new do |spec|
 
   spec.ios.deployment_target = '16.0'
 
-  spec.source                  = { :http => "https://github.com/pagopa/iso18013-ios/releases/download/0.0.1/IOWalletProximity-0.0.1.xcframework.zip" }
+  spec.source                  = { :http => "https://github.com/pagopa/iso18013-ios/releases/download/0.0.2/IOWalletProximity-0.0.2.xcframework.zip" }
   spec.ios.vendored_frameworks = "IOWalletProximity.xcframework"
 
   spec.pod_target_xcconfig = { 
