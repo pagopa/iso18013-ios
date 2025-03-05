@@ -120,6 +120,8 @@
 		3D179CBC2CB95EEB0061DFDC /* LibIso18013DAOKeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D179CBB2CB95EDE0061DFDC /* LibIso18013DAOKeyChain.swift */; };
 		3D3263902D636B8B00E3976E /* SwiftASN1 in Frameworks */ = {isa = PBXBuildFile; productRef = 3D32638F2D636B8B00E3976E /* SwiftASN1 */; };
 		3DB91D892CE4AAAA008AC0BB /* Proximity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB91D882CE4AAA7008AC0BB /* Proximity.swift */; };
+		3DCFB89B2D6F728D001050C3 /* GeneratedResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCFB89A2D6F7287001050C3 /* GeneratedResponseTests.swift */; };
+		3DF43E1B2D6E019100C871FB /* iOS13HKDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF43E1A2D6E019100C871FB /* iOS13HKDF.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -243,6 +245,8 @@
 		3D179CB42CB924D90061DFDC /* LibIso18013DAOMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013DAOMemory.swift; sourceTree = "<group>"; };
 		3D179CBB2CB95EDE0061DFDC /* LibIso18013DAOKeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013DAOKeyChain.swift; sourceTree = "<group>"; };
 		3DB91D882CE4AAA7008AC0BB /* Proximity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proximity.swift; sourceTree = "<group>"; };
+		3DCFB89A2D6F7287001050C3 /* GeneratedResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratedResponseTests.swift; sourceTree = "<group>"; };
+		3DF43E1A2D6E019100C871FB /* iOS13HKDF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS13HKDF.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -317,6 +321,7 @@
 		3A1E53832CD8E33D005F5704 /* Security */ = {
 			isa = PBXGroup;
 			children = (
+				3DF43E1A2D6E019100C871FB /* iOS13HKDF.swift */,
 				3A1E536E2CD8E33D005F5704 /* DeviceAuthentication.swift */,
 				3A1E536F2CD8E33D005F5704 /* MdocAuthentication.swift */,
 				3A1E53702CD8E33D005F5704 /* NotAllowedExtension.swift */,
@@ -396,6 +401,7 @@
 		3ADB28FB2CC2507A0087018A /* ModelTests */ = {
 			isa = PBXGroup;
 			children = (
+				3DCFB89A2D6F7287001050C3 /* GeneratedResponseTests.swift */,
 				3ACBE9FF2CD28B1B00701457 /* DocumentErrorTests.swift */,
 				3ACBEA012CD2917700701457 /* ErrorsTests.swift */,
 				3ACBEA032CD2920F00701457 /* NameValueTests.swift */,
@@ -735,6 +741,7 @@
 				3D14E6A52CAE99FB00E15A46 /* CoseKey.swift in Sources */,
 				3D14E6982CAE991B00E15A46 /* DigestAlgorithmKind.swift in Sources */,
 				3D14E6482CAD8C0A00E15A46 /* LibIso18013Utils.swift in Sources */,
+				3DF43E1B2D6E019100C871FB /* iOS13HKDF.swift in Sources */,
 				3D14E68A2CAD947B00E15A46 /* IssuerSignedItem.swift in Sources */,
 				3A868B592CBFC32800B35976 /* LibIso18013Proximity.swift in Sources */,
 				3D14E6722CAD915600E15A46 /* Dictionary+.swift in Sources */,
@@ -794,6 +801,7 @@
 				3ADB29012CC255550087018A /* LibIso18013ProximityTests.swift in Sources */,
 				3A652A282CAE99B800B0D6E4 /* TestData.swift in Sources */,
 				3ADB28FF2CC253680087018A /* UInt8ArrayExtensionsTests.swift in Sources */,
+				3DCFB89B2D6F728D001050C3 /* GeneratedResponseTests.swift in Sources */,
 				3A652A922CAEA49A00B0D6E4 /* CBOREncodableTests.swift in Sources */,
 				3D179CB02CB9074A0061DFDC /* DocumentTestData.swift in Sources */,
 				3D14E64B2CAD8C0E00E15A46 /* libIso18013Tests.swift in Sources */,
@@ -836,7 +844,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -876,7 +884,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -955,7 +963,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1016,7 +1024,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
