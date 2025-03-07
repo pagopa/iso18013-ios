@@ -255,30 +255,42 @@ class MdocHelpers {
     /// - Parameters:
     ///   - completion: The completion handler with a result indicating success or failure
     public static func checkBleAccess(completion: @escaping (Result<Void, Error>) -> Void) {
-        switch CBManager.authorization {
-            case .denied:
-                // BLE access is denied, return a failure
-                let error = NSError(domain: "BLEAccess", code: 1, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Bluetooth access is denied", comment: "")])
-                completion(.failure(error))
-            case .restricted:
-                // BLE access is restricted
-                let error = NSError(domain: "BLEAccess", code: 2, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Bluetooth access is restricted", comment: "")])
-                completion(.failure(error))
-            case .allowedAlways:
-                // BLE access is allowed, proceed with success
-                DispatchQueue.main.async {
-                    completion(.success(()))
-                }
-            case .notDetermined:
-                // Authorization is not determined, request access
-               CBCentralManager(delegate: BLEAccessDelegate { granted in
-                    completion(granted)
-                }, queue: nil)
-            @unknown default:
-                // Unknown authorization status, handle gracefully
-                let error = NSError(domain: "BLEAccess", code: 3, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Unknown Bluetooth authorization status", comment: "")])
-                completion(.failure(error))
+        
+        let authorization: CBManagerAuthorization
+        
+        
+        if #available(iOS 13.1, *) {
+            authorization = CBManager.authorization
         }
+        else {
+            authorization = .notDetermined
+        }
+        
+        
+            switch authorization {
+                case .denied:
+                    // BLE access is denied, return a failure
+                    let error = NSError(domain: "BLEAccess", code: 1, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Bluetooth access is denied", comment: "")])
+                    completion(.failure(error))
+                case .restricted:
+                    // BLE access is restricted
+                    let error = NSError(domain: "BLEAccess", code: 2, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Bluetooth access is restricted", comment: "")])
+                    completion(.failure(error))
+                case .allowedAlways:
+                    // BLE access is allowed, proceed with success
+                    DispatchQueue.main.async {
+                        completion(.success(()))
+                    }
+                case .notDetermined:
+                    // Authorization is not determined, request access
+                    CBCentralManager(delegate: BLEAccessDelegate { granted in
+                        completion(granted)
+                    }, queue: nil)
+                @unknown default:
+                    // Unknown authorization status, handle gracefully
+                    let error = NSError(domain: "BLEAccess", code: 3, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Unknown Bluetooth authorization status", comment: "")])
+                    completion(.failure(error))
+            }
     }
 
     

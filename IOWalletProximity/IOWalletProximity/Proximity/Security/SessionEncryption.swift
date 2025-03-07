@@ -7,6 +7,7 @@
 
 import Foundation
 import CryptoKit
+
 internal import SwiftCBOR
 
 /// Session encryption uses standard ephemeral key ECDH to establish session keys for authenticated symmetric encryption.
@@ -111,7 +112,11 @@ struct SessionEncryption {
     ///   - info: Context-specific information for key derivation
     /// - Returns: The derived symmetric key
     static func HMACKeyDerivationFunction(sharedSecret: SymmetricKey, salt: [UInt8], info: Data) -> SymmetricKey {
-        return HKDF<SHA256>.deriveKey(inputKeyMaterial: sharedSecret, salt: salt, info: info, outputByteCount: 32)
+        if #available(iOS 14.0, *) {
+            return HKDF<SHA256>.deriveKey(inputKeyMaterial: sharedSecret, salt: salt, info: info, outputByteCount: 32)
+        } else {
+            return iOS13HKDF.deriveKey(inputKeyMaterial: sharedSecret, salt: salt, info: info, outputByteCount: 32)
+        }
     }
     
     /// Encrypts data using the current session key
