@@ -75,6 +75,7 @@ public class LibIso18013DAOKeyChain : LibIso18013DAOProtocol {
     public func createDocument(docType: String, documentName: String, deviceKeyData: [UInt8]) throws -> DeviceDocumentProtocol {
         let document = DeviceDocument(
             documentData: nil,
+            issuerSigned: nil,
             deviceKeyData: deviceKeyData,
             state: .unsigned,
             createdAt: Date(),
@@ -111,7 +112,7 @@ public class LibIso18013DAOKeyChain : LibIso18013DAOProtocol {
             throw ErrorHandler.invalidDeviceKeyError
         }
         
-        let issuedDocument = storedDocument.issued(documentData: document.encode(options: CBOROptions()))
+        let issuedDocument = storedDocument.issued(documentData: document.encode(options: CBOROptions()), issuerSigned: document.issuerSigned.encode(options: CBOROptions()))
         
         try keyChain.set(Data(issuedDocument.encode(options: CBOROptions())), key: storedDocument.identifier)
         
