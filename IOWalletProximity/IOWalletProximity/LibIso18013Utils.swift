@@ -87,6 +87,7 @@ class LibIso18013Utils : LibIso18013UtilsProtocol {
         
         return DeviceDocument(
             documentData: documentData.bytes,
+            issuerSigned: document.issuerSigned.encode(options: CBOROptions()),
             deviceKeyData: devicePrivateKey.encode(options: CBOROptions()),
             state: .issued,
             createdAt: Date(),
@@ -113,6 +114,7 @@ class LibIso18013Utils : LibIso18013UtilsProtocol {
         
         return DeviceDocument(
             documentData: document.encode(options: CBOROptions()),
+            issuerSigned: document.issuerSigned.encode(options: CBOROptions()),
             deviceKeyData: devicePrivateKey.encode(options: CBOROptions()),
             state: .issued,
             createdAt: Date(),

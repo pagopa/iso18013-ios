@@ -9,6 +9,7 @@ internal import SwiftCBOR
 
  struct DeviceDocument : DeviceDocumentProtocol {
     public let documentData: [UInt8]?
+     public let issuerSigned: [UInt8]?
     
     public let deviceKeyData: [UInt8]
     
@@ -23,8 +24,8 @@ internal import SwiftCBOR
     public let identifier: String
 //    public let document: Document?
     
-    public func issued(documentData: [UInt8]) -> DeviceDocument {
-        return DeviceDocument(documentData: documentData, deviceKeyData: self.deviceKeyData, state: .issued, createdAt: self.createdAt,  docType: self.docType, name: self.name, identifier: self.identifier)
+     public func issued(documentData: [UInt8], issuerSigned: [UInt8]) -> DeviceDocument {
+         return DeviceDocument(documentData: documentData, issuerSigned: issuerSigned, deviceKeyData: self.deviceKeyData, state: .issued, createdAt: self.createdAt,  docType: self.docType, name: self.name, identifier: self.identifier)
     }
 //    
 //    public func coseSign(payloadData: Data, alg: Cose.VerifyAlgorithm) throws-> Cose {
@@ -91,11 +92,13 @@ extension DeviceDocument : CBORDecodable {
                 return nil
             }
             self.documentData = documentValue
+            self.issuerSigned = document.issuerSigned.encode(options: CBOROptions())
 //            self.document = document
         }
         else if case CBOR.null = documentCBOR {
 //            self.document = nil
             self.documentData = nil
+            self.issuerSigned = nil
         }
         else {
             return nil
@@ -130,6 +133,7 @@ public protocol DeviceDocumentProtocol {
     var createdAt: Date { get }
     
     var documentData: [UInt8]? { get }
+    var issuerSigned: [UInt8]? { get }
     var deviceKeyData: [UInt8] { get }
 
 //    var document: Document? { get }
