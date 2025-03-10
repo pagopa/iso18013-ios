@@ -25,7 +25,7 @@ Pod::Spec.new do |spec|
     "MartinaDurso95"
   ]
 
-  spec.ios.deployment_target = '16.0'
+  spec.ios.deployment_target = '13.0'
 
   spec.source                  = { :http => "https://github.com/pagopa/iso18013-ios/releases/download/0.0.2/IOWalletProximity-0.0.2.xcframework.zip" }
   spec.ios.vendored_frameworks = "IOWalletProximity.xcframework"
