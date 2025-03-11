@@ -73,7 +73,7 @@ public class Proximity {
     //      - allowed: User has allowed the verification process
     //      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]] as String
     //      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
-    public func generateDeviceResponse(allowed: Bool,
+    public func generateDeviceResponseFromJsonWithSecKey(allowed: Bool,
                                        items: String?,
                                        documents: [String: ([UInt8], SecKey)]?) -> [UInt8]? {
         var decodedItems: [String: [String: [String: Bool]]]? = nil
@@ -85,7 +85,7 @@ public class Proximity {
             }
         }
         
-        return generateDeviceResponse(allowed: allowed, items: decodedItems, documents: documents)
+        return generateDeviceResponseFromDataWithSecKey(allowed: allowed, items: decodedItems, documents: documents)
     }
     
     
@@ -94,7 +94,7 @@ public class Proximity {
     //      - allowed: User has allowed the verification process
     //      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
     //      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
-    public func generateDeviceResponse(
+    public func generateDeviceResponseFromDataWithSecKey(
         allowed: Bool,
         items: [String: [String: [String: Bool]]]?,
         documents: [String: ([UInt8], SecKey)]?
@@ -112,7 +112,7 @@ public class Proximity {
             documentsWithKeys[key] =  (item.0, privateKey)
         })
         
-        return generateDeviceResponse(allowed: allowed, items: items, documents: documentsWithKeys)
+        return generateDeviceResponseCBOR(allowed: allowed, items: items, documents: documentsWithKeys)
     }
     
     //  Generate response to request for data from the reader.
@@ -120,7 +120,7 @@ public class Proximity {
     //      - allowed: User has allowed the verification process
     //      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
     //      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
-    public func generateDeviceResponse(
+    public func generateDeviceResponseFromData(
         allowed: Bool,
         items: [String: [String: [String: Bool]]]?,
         documents: [String: ([UInt8], [UInt8])]?
@@ -138,10 +138,10 @@ public class Proximity {
             documentsWithKeys[key] =  (item.0, privateKey)
         })
         
-        return generateDeviceResponse(allowed: allowed, items: items, documents: documentsWithKeys)
+        return generateDeviceResponseCBOR(allowed: allowed, items: items, documents: documentsWithKeys)
     }
     
-    private func generateDeviceResponse(
+    private func generateDeviceResponseCBOR(
         allowed: Bool,
         items: [String: [String: [String: Bool]]]?,
         documents: [String: ([UInt8], CoseKeyPrivate)]?
