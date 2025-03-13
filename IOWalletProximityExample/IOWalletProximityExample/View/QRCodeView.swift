@@ -98,7 +98,7 @@ struct QRCodeView: View {
                     allowed, items in
                     
                     let documents = LibIso18013DAOKeyChain().getAllDocuments(state: .issued).compactMap({
-                        if let documentData = $0.documentData {
+                        if let documentData = $0.issuerSigned {
                             return ($0.docType, documentData, $0.deviceKeyData)
                         }
                         return nil
