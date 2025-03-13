@@ -5,7 +5,7 @@
 //  Created by Antonio on 04/10/24.
 //
 
-
+import Foundation
 
 extension SecCertificate {
   public func getPublicKey() -> Data? {

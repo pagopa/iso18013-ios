@@ -34,7 +34,7 @@ protocol LibIso18013UtilsProtocol {
 }
 
 
-class LibIso18013Utils : LibIso18013UtilsProtocol {
+class LibIso18013Utils : LibIso18013UtilsProtocol, @unchecked Sendable {
     
     public static let shared = LibIso18013Utils()
     

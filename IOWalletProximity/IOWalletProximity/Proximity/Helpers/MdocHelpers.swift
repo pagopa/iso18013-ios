@@ -277,10 +277,7 @@ class MdocHelpers {
                     let error = NSError(domain: "BLEAccess", code: 2, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Bluetooth access is restricted", comment: "")])
                     completion(.failure(error))
                 case .allowedAlways:
-                    // BLE access is allowed, proceed with success
-                    DispatchQueue.main.async {
-                        completion(.success(()))
-                    }
+                    completion(.success(()))
                 case .notDetermined:
                     // Authorization is not determined, request access
                     CBCentralManager(delegate: BLEAccessDelegate { granted in

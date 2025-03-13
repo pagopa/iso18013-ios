@@ -27,7 +27,7 @@ struct CRL: PEMParseable, DERParseable {
     var revokedSerials: [CRLSerialInfo] = []
     
     // Default discriminator for PEM parsing
-    static var defaultPEMDiscriminator: String = "X509 CRL"
+    static let defaultPEMDiscriminator: String = "X509 CRL"
     
     /// Represents information about a revoked certificate serial number
     struct CRLSerialInfo: DERImplicitlyTaggable, CustomStringConvertible {
@@ -51,7 +51,7 @@ struct CRL: PEMParseable, DERParseable {
         }
         
         // Default identifier for this structure is `.sequence`
-        static var defaultIdentifier: SwiftASN1.ASN1Identifier = .sequence
+        static let defaultIdentifier: SwiftASN1.ASN1Identifier = .sequence
         
         /// Serialization is not used in this implementation
         func serialize(into coder: inout SwiftASN1.DER.Serializer, withIdentifier identifier: SwiftASN1.ASN1Identifier) throws { }

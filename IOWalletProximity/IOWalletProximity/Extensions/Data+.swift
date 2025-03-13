@@ -5,6 +5,8 @@
 //  Created by Antonio on 02/10/24.
 //
 
+import Foundation
+
 // Extension to convert Data into an array of UInt8 (bytes)
 extension Data {
     

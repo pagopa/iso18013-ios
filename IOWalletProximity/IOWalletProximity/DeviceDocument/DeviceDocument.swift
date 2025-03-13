@@ -6,6 +6,7 @@
 //
 
 internal import SwiftCBOR
+import Foundation
 
  struct DeviceDocument : DeviceDocumentProtocol {
     public let documentData: [UInt8]?

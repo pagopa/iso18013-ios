@@ -6,7 +6,7 @@
 //
 
 internal import SwiftCBOR
-
+import Foundation
 
 class LibIso18013DAOMemory : LibIso18013DAOProtocol {
     

@@ -7,9 +7,11 @@
 
 internal import X509
 import CryptoKit
+import Security
+import Foundation
 
 public class SecurityHelpers {
-    public static var nonAllowedExtensions: [String] = NotAllowedExtension.allCases.map(\.rawValue)
+    public static let nonAllowedExtensions: [String] = NotAllowedExtension.allCases.map(\.rawValue)
     
     public static func isMdocCertificateValid(secCert: SecCertificate, usage: CertificateUsage, rootCerts: [SecCertificate]) -> (isValid: Bool, validationMessages: [String], rootCert: SecCertificate?) {
         let now = Date()

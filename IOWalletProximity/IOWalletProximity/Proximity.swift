@@ -5,6 +5,7 @@
 //  Created by Antonio on 13/11/24.
 //
 internal import SwiftCBOR
+import Foundation
 
 public enum ProximityEvents {
     case onBleStart
@@ -15,9 +16,9 @@ public enum ProximityEvents {
     case onLoading
 }
 
-public class Proximity {
+public class Proximity: @unchecked Sendable {
     
-    public static var shared: Proximity = Proximity()
+    public static let shared: Proximity = Proximity()
     
     public var proximityHandler: ((ProximityEvents) -> Void)?
     

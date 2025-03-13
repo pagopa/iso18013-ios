@@ -6,7 +6,7 @@
 //
 internal import KeychainAccess
 internal import SwiftCBOR
-
+import Foundation
 
 public class LibIso18013DAOKeyChain : LibIso18013DAOProtocol {
     

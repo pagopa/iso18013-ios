@@ -7,7 +7,7 @@
 
 import CryptoKit
 internal import SwiftCBOR
-
+import Foundation
 
 // CoseKey + private key
 struct CoseKeyPrivate  {
