@@ -1,5 +1,5 @@
 import CryptoKit
-
+import Foundation
 
 class iOS13HKDF {
     static func deriveKey(inputKeyMaterial: SymmetricKey,

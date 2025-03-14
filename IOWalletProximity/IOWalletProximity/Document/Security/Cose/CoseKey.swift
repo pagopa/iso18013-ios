@@ -6,6 +6,7 @@
 //
 
 internal import SwiftCBOR
+import Foundation
 
 // Defined in RFC 8152
 struct CoseKey: Equatable {

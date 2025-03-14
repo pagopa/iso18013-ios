@@ -16,7 +16,7 @@ protocol QrEngagementListener: AnyObject {
     
 }
 
-class LibIso18013Proximity {
+class LibIso18013Proximity: @unchecked Sendable {
     // Property to hold device engagement information
     var deviceEngagement: DeviceEngagement?
     

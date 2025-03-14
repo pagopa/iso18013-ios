@@ -1,9 +1,11 @@
 //
 //  Proximity.swift
-//  libIso18013
+//  IOWalletProximity
 //
 //  Created by Antonio on 13/11/24.
 //
+internal import SwiftCBOR
+import Foundation
 
 public enum ProximityEvents {
     case onBleStart
@@ -14,9 +16,9 @@ public enum ProximityEvents {
     case onLoading
 }
 
-public class Proximity {
+public class Proximity: @unchecked Sendable {
     
-    public static var shared: Proximity = Proximity()
+    public static let shared: Proximity = Proximity()
     
     public var proximityHandler: ((ProximityEvents) -> Void)?
     
@@ -51,47 +53,53 @@ public class Proximity {
     //  Responds to a request for data from the reader.
     //  - Parameters:
     //      - allowed: User has allowed the verification process
-    //      - items: Map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
-    //      - documents: Map of documents. Key is docType, first item is document as cbor and second item is CoseKeyPrivate encoded (can rapresent keytag or raw private key)
-    public func dataPresentation(allowed: Bool,
-                                 items: [String: [String: [String: Bool]]]?,
-                                 documents: [String: ([UInt8], [UInt8])]?) {
-        
+    //      - deviceResponse: deviceResponse as cbor encoded
+    public func dataPresentation(allowed: Bool, _ deviceResponse: [UInt8]) {
         guard let proximityListener = self.proximityListener else {
             return
         }
         
-        var documentsWithKeys: [String: ([UInt8], CoseKeyPrivate)] = [:]
+        guard let deviceResponse = DeviceResponse(data: deviceResponse) else {
+            return
+        }
         
-        documents?.keys.forEach({
-            key in
-            guard let item = documents?[key] else {
-                return
-            }
-            guard let privateKey = CoseKeyPrivate.init(data: item.1) else {
-                return
-            }
-            documentsWithKeys[key] =  (item.0, privateKey)
-        })
         
-        proximityListener.onResponse?(allowed, buildDeviceResponse(allowed: allowed, items: items, documents: documentsWithKeys))
-        
+        proximityListener.onResponse?(allowed, deviceResponse)
         
     }
     
-    //  Responds to a request for data from the reader.
+    
+    //  Generate response to request for data from the reader.
     //  - Parameters:
     //      - allowed: User has allowed the verification process
-    //      - items: Map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
-    //      - documents: Map of documents. Key is docType, first item is document as cbor and second item is SecKey
-    public func dataPresentation(allowed: Bool,
-                                 items: [String: [String: [String: Bool]]]?,
-                                 documents: [String: ([UInt8], SecKey)]?) {
-        
-        guard let proximityListener = self.proximityListener else {
-            return
+    //      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]] as String
+    //      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
+    public func generateDeviceResponseFromJsonWithSecKey(allowed: Bool,
+                                       items: String?,
+                                       documents: [String: ([UInt8], SecKey)]?) -> [UInt8]? {
+        var decodedItems: [String: [String: [String: Bool]]]? = nil
+        if let items = items {
+            if let itemsData = items.data(using: .utf8) {
+                if let itemsJson = try? JSONDecoder().decode([String: [String: [String: Bool]]].self, from: itemsData) {
+                    decodedItems = itemsJson
+                }
+            }
         }
         
+        return generateDeviceResponseFromDataWithSecKey(allowed: allowed, items: decodedItems, documents: documents)
+    }
+    
+    
+    //  Generate response to request for data from the reader.
+    //  - Parameters:
+    //      - allowed: User has allowed the verification process
+    //      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
+    //      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
+    public func generateDeviceResponseFromDataWithSecKey(
+        allowed: Bool,
+        items: [String: [String: [String: Bool]]]?,
+        documents: [String: ([UInt8], SecKey)]?
+    ) -> [UInt8]? {
         var documentsWithKeys: [String: ([UInt8], CoseKeyPrivate)] = [:]
         
         documents?.keys.forEach({
@@ -105,10 +113,106 @@ public class Proximity {
             documentsWithKeys[key] =  (item.0, privateKey)
         })
         
-        proximityListener.onResponse?(allowed, buildDeviceResponse(allowed: allowed, items: items, documents: documentsWithKeys))
+        return generateDeviceResponseCBOR(allowed: allowed, items: items, documents: documentsWithKeys)
+    }
+    
+    //  Generate response to request for data from the reader.
+    //  - Parameters:
+    //      - allowed: User has allowed the verification process
+    //      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
+    //      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
+    public func generateDeviceResponseFromData(
+        allowed: Bool,
+        items: [String: [String: [String: Bool]]]?,
+        documents: [String: ([UInt8], [UInt8])]?
+    ) -> [UInt8]? {
+        var documentsWithKeys: [String: ([UInt8], CoseKeyPrivate)] = [:]
         
+        documents?.keys.forEach({
+            key in
+            guard let item = documents?[key] else {
+                return
+            }
+            guard let privateKey = CoseKeyPrivate.init(data: item.1) else {
+                return
+            }
+            documentsWithKeys[key] =  (item.0, privateKey)
+        })
+        
+        return generateDeviceResponseCBOR(allowed: allowed, items: items, documents: documentsWithKeys)
+    }
+    
+    private func generateDeviceResponseCBOR(
+        allowed: Bool,
+        items: [String: [String: [String: Bool]]]?,
+        documents: [String: ([UInt8], CoseKeyPrivate)]?
+    ) -> [UInt8]? {
+        
+        return generateDeviceResponse(allowed: allowed, items: items, documents: documents).encode()
+    }
+    
+    private func generateDeviceResponse(allowed: Bool,
+                                         items: [String: [String: [String: Bool]]]?,
+                                         documents: [String: ([UInt8], CoseKeyPrivate)]?) -> DeviceResponse? {
+        
+        var requestedDocuments = [Document]()
+        var docErrors = [[String: UInt64]]()
+        
+        guard let sessionEncryption = proximityListener?.sessionEncryption else {
+            return nil
+        }
+        
+        guard let items = items else {
+            return nil
+        }
+        
+        guard let documents = documents else {
+            return nil
+        }
+        
+        items.keys.forEach({
+            documentType in
+            
+            guard let issuerSignedWithKey = documents[documentType] else {
+                return
+            }
+            
+            let deviceKey = issuerSignedWithKey.1
+            let issuerSignedData = issuerSignedWithKey.0
+            
+            guard let issuerSigned = IssuerSigned(data: issuerSignedData) else {
+                return
+            }
+            
+            guard let request = items[documentType] else {
+                return
+            }
+            
+            if let responseDocument = buildResponseDocument(request: request, issuerSigned: issuerSigned, deviceKey: deviceKey, sessionEncryption: sessionEncryption) {
+                
+                requestedDocuments.append(responseDocument)
+            }
+            else {
+                if let docType = issuerSigned.issuerAuth?.mobileSecurityObject.docType {
+                    docErrors.append([docType: UInt64(0)])
+                }
+            }
+        })
+        
+        
+        let documentErrors: [DocumentError]? = docErrors.count == 0 ? nil : docErrors.map({ DocumentError.init(documentErrors:$0) })
+        
+        let documentsToAdd = requestedDocuments.count == 0 ? nil : requestedDocuments
+        
+        let deviceResponseToSend = DeviceResponse(version: DeviceResponse.defaultVersion,
+                                                  documents: documentsToAdd,
+                                                  documentErrors: documentErrors,
+                                                  status: 0)
+        
+        return deviceResponseToSend
         
     }
+    
     
     //  Stops the BLE manager and closes connections.
     public func stop() {
@@ -149,64 +253,6 @@ public class Proximity {
     
     func onRequest(request:   (request: [(docType: String, nameSpaces: [String: [String: Bool]])]?, isAuthenticated: Bool)?) {
         proximityHandler?(.onDocumentRequestReceived(request: request))
-    }
-    
-    func buildDeviceResponse(allowed: Bool,
-                             items: [String: [String: [String: Bool]]]?,
-                             documents: [String: (documentData: [UInt8], documentKey: CoseKeyPrivate)]?) -> DeviceResponse? {
-        
-        var requestedDocuments = [Document]()
-        var docErrors = [[String: UInt64]]()
-        
-        guard let sessionEncryption = proximityListener?.sessionEncryption else {
-            return nil
-        }
-        
-        guard let items = items else {
-            return nil
-        }
-        
-        guard let documents = documents else {
-            return nil
-        }
-
-        items.keys.forEach({
-            documentType in
-            
-            guard let deviceDocument = documents[documentType] else {
-                return
-            }
-            
-            guard let document = Document(data: deviceDocument.documentData) else {
-                return
-            }
-            
-            guard let request = items[documentType] else {
-                return
-            }
-            
-            if let responseDocument = buildResponseDocument(request: request, document: document, deviceKey: deviceDocument.documentKey, sessionEncryption: sessionEncryption) {
-                
-                requestedDocuments.append(responseDocument)
-            }
-            else {
-                if let docType = document.issuerSigned.issuerAuth?.mobileSecurityObject.docType {
-                    docErrors.append([docType: UInt64(0)])
-                }
-            }
-        })
-        
-        
-        let documentErrors: [DocumentError]? = docErrors.count == 0 ? nil : docErrors.map({ DocumentError.init(documentErrors:$0) })
-        
-        let documentsToAdd = requestedDocuments.count == 0 ? nil : requestedDocuments
-        
-        let deviceResponseToSend = DeviceResponse(version: DeviceResponse.defaultVersion,
-                                                  documents: documentsToAdd,
-                                                  documentErrors: documentErrors,
-                                                  status: 0)
-        
-        return deviceResponseToSend
     }
     
     func onDeviceRequest(_ deviceRequest: DeviceRequest) {
@@ -255,15 +301,15 @@ public class Proximity {
         
         return nsItemsToAdd
     }
-   
-    func getRequestedValues(request: [String: [String: Bool]], doc: Document) -> (nsItemsToAdd: [String: [IssuerSignedItem]], errors: Errors?) {
+    
+    func getRequestedValues(request: [String: [String: Bool]], issuerSigned: IssuerSigned) -> (nsItemsToAdd: [String: [IssuerSignedItem]], errors: Errors?) {
         var nsItemsToAdd = [String: [IssuerSignedItem]]()
         var nsErrorsToAdd = [String: ErrorItems]()
         var errors: Errors?
         
         //indaghiamo intenttoretain
         
-        if let issuerNs = doc.issuerSigned.issuerNameSpaces {
+        if let issuerNs = issuerSigned.issuerNameSpaces {
             request.keys.forEach({
                 reqNamespace in
                 
@@ -314,18 +360,18 @@ public class Proximity {
     
     func buildResponseDocument(
         request: [String: [String: Bool]],
-        document: Document,
+        issuerSigned: IssuerSigned,
         deviceKey: CoseKeyPrivate,
         sessionEncryption: SessionEncryption) -> Document? {
             
             let dauthMethod: DeviceAuthMethod = .deviceSignature
             
-            let (nsItemsToAdd, errors) = getRequestedValues(request: request, doc: document)
+            let (nsItemsToAdd, errors) = getRequestedValues(request: request, issuerSigned: issuerSigned)
             
             let eReaderKey = sessionEncryption.sessionKeys.publicKey
             
             if nsItemsToAdd.count > 0 {
-                let issuerAuthToAdd = document.issuerSigned.issuerAuth
+                let issuerAuthToAdd = issuerSigned.issuerAuth
                 let issToAdd = IssuerSigned(issuerNameSpaces: IssuerNameSpaces(nameSpaces: nsItemsToAdd),
                                             issuerAuth: issuerAuthToAdd)
                 var devSignedToAdd: DeviceSigned? = nil
@@ -333,12 +379,12 @@ public class Proximity {
                 
                 let authKeys = CoseKeyExchange(publicKey: eReaderKey, privateKey: deviceKey)
                 let mdocAuth = MdocAuthentication(transcript: sessionTranscript, authKeys: authKeys)
-                guard let devAuth = try? mdocAuth.getDeviceAuthForTransfer(docType: document.issuerSigned.issuerAuth!.mobileSecurityObject.docType, dauthMethod: dauthMethod) else {
+                guard let devAuth = try? mdocAuth.getDeviceAuthForTransfer(docType: issuerSigned.issuerAuth!.mobileSecurityObject.docType, dauthMethod: dauthMethod) else {
                     return nil
                 }
                 devSignedToAdd = DeviceSigned(deviceAuth: devAuth)
                 
-                let docToAdd = Document(docType: document.issuerSigned.issuerAuth!.mobileSecurityObject.docType,
+                let docToAdd = Document(docType: issuerSigned.issuerAuth!.mobileSecurityObject.docType,
                                         issuerSigned: issToAdd,
                                         deviceSigned: devSignedToAdd,
                                         errors: errors)
@@ -347,7 +393,7 @@ public class Proximity {
             } else {
                 return nil
             }
-    }
+        }
     
     class ProximityListener : QrEngagementListener {
         

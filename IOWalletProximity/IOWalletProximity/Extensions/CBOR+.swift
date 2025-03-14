@@ -8,6 +8,8 @@
 internal import SwiftCBOR
 internal import OrderedCollections
 
+import Foundation
+
 // Extension to make CBOR conform to CustomStringConvertible, providing a custom description for CBOR values
 extension CBOR: @retroactive CustomStringConvertible {
     

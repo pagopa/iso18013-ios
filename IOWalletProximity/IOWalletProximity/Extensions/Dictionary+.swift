@@ -6,6 +6,7 @@
 //
 
 internal import SwiftCBOR
+import Foundation
 
 extension Dictionary where Key == CBOR {
    subscript<Index: RawRepresentable>(index: Index) -> Value? where Index.RawValue == String {

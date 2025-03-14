@@ -15,7 +15,7 @@ protocol MdocTransferDelegate: AnyObject {
     func didReceiveRequest(deviceRequest: DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, DeviceResponse?) -> Void)
 }
 
-class MdocBleServer {
+class MdocBleServer : @unchecked Sendable {
     var peripheralManager: CBPeripheralManager!
     var bleDelegate: MdocBleDelegate!
     var remoteCentral: CBCentral!
@@ -195,7 +195,7 @@ class MdocBleServer {
     
     func sendData(_ bytesToSend: Data, _ errorToSend: Error? = nil) {
         prepareDataToSend(bytesToSend)
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.2) { 
             self.sendDataWithUpdates()
             self.error = errorToSend
         }

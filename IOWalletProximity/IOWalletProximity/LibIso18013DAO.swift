@@ -44,6 +44,7 @@
  ) throws -> String
  }*/
 
+import Foundation
 
 public protocol LibIso18013DAOProtocol {
     

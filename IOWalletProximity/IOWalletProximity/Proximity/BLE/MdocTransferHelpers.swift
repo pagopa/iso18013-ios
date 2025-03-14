@@ -7,6 +7,7 @@
 
 internal import X509
 internal import SwiftCBOR
+import Foundation
 
 
 class MdocTransferHelpers {
