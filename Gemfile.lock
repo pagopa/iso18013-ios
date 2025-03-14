@@ -102,7 +102,7 @@ PLATFORMS
   x86_64-darwin-23
 
 DEPENDENCIES
-  cocoapods
+  cocoapods (~> 1.16.2)
 
 BUNDLED WITH
    2.5.6
