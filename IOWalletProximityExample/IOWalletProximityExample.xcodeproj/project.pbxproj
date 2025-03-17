@@ -1,0 +1,884 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3A042F252CB6C0B00035FF8E /* MainContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A042F242CB6C0AD0035FF8E /* MainContentView.swift */; };
+		3A042F272CB6CB990035FF8E /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A042F262CB6CB900035FF8E /* QRCodeView.swift */; };
+		3A042F292CB6CDD20035FF8E /* QRCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A042F282CB6CDCC0035FF8E /* QRCodeTests.swift */; };
+		3A84D58E2CB3D3270017D76E /* InfoBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84D5872CB3D3270017D76E /* InfoBoxView.swift */; };
+		3A84D5902CB3D3270017D76E /* libIso18013_exampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84D58C2CB3D3270017D76E /* libIso18013_exampleApp.swift */; };
+		3A84D5912CB3D3270017D76E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A84D5852CB3D3270017D76E /* Preview Assets.xcassets */; };
+		3A84D5922CB3D3270017D76E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A84D5892CB3D3270017D76E /* Assets.xcassets */; };
+		3A84D5952CB3D32B0017D76E /* libIso18013_exampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84D5932CB3D32B0017D76E /* libIso18013_exampleTests.swift */; };
+		3A84D5992CB3D32E0017D76E /* libIso18013_exampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84D5962CB3D32E0017D76E /* libIso18013_exampleUITests.swift */; };
+		3A84D59A2CB3D32E0017D76E /* libIso18013_exampleUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84D5972CB3D32E0017D76E /* libIso18013_exampleUITestsLaunchTests.swift */; };
+		3A868AC12CBE64C700B35976 /* QRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A868AC02CBE64C700B35976 /* QRCode.swift */; };
+		3AB5CFB52CDE086400E7A75F /* DeviceRequestAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB5CFB42CDE086400E7A75F /* DeviceRequestAlert.swift */; };
+		3AEC7E032CB3DD3200606D7E /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7E022CB3DD3200606D7E /* CustomTextField.swift */; };
+		3AEC7E052CB3E00600606D7E /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7E042CB3E00200606D7E /* CustomButton.swift */; };
+		3AEC7E082CB40EEE00606D7E /* Data+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7E072CB40EEA00606D7E /* Data+Image.swift */; };
+		3AEC7E0A2CB40F8100606D7E /* ManageNameSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7E092CB40F7300606D7E /* ManageNameSpaces.swift */; };
+		3D179CBE2CB96B5C0061DFDC /* DocumentDAOView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D179CBD2CB96B560061DFDC /* DocumentDAOView.swift */; };
+		3DC072202D809673003C35A2 /* Documents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0721F2D809670003C35A2 /* Documents.swift */; };
+		6E724FF09144F288E352F84C /* Pods_IOWalletProximityExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 875BEB094914F2F2386131C5 /* Pods_IOWalletProximityExampleTests.framework */; };
+		A2E19F7FF71CF97C6C04C626 /* Pods_IOWalletProximityExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105E95DF666335A927668DCB /* Pods_IOWalletProximityExample.framework */; };
+		E25F65EF769AE73B539055E5 /* Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC91DE1251F8D9C010B5B28C /* Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3AC6965D2CB2FF1300871580 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3AC696432CB2FF1200871580 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3AC6964A2CB2FF1200871580;
+			remoteInfo = "libIso18013-example";
+		};
+		3AC696672CB2FF1300871580 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3AC696432CB2FF1200871580 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3AC6964A2CB2FF1200871580;
+			remoteInfo = "libIso18013-example";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		105E95DF666335A927668DCB /* Pods_IOWalletProximityExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOWalletProximityExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		295D2C40696474BC034ED41A /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig"; sourceTree = "<group>"; };
+		3A042F242CB6C0AD0035FF8E /* MainContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentView.swift; sourceTree = "<group>"; };
+		3A042F262CB6CB900035FF8E /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
+		3A042F282CB6CDCC0035FF8E /* QRCodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeTests.swift; sourceTree = "<group>"; };
+		3A84D5852CB3D3270017D76E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3A84D5872CB3D3270017D76E /* InfoBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBoxView.swift; sourceTree = "<group>"; };
+		3A84D5892CB3D3270017D76E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3A84D58B2CB3D3270017D76E /* IOWalletProximityExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = IOWalletProximityExample.entitlements; sourceTree = "<group>"; };
+		3A84D58C2CB3D3270017D76E /* libIso18013_exampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = libIso18013_exampleApp.swift; sourceTree = "<group>"; };
+		3A84D5932CB3D32B0017D76E /* libIso18013_exampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = libIso18013_exampleTests.swift; sourceTree = "<group>"; };
+		3A84D5962CB3D32E0017D76E /* libIso18013_exampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = libIso18013_exampleUITests.swift; sourceTree = "<group>"; };
+		3A84D5972CB3D32E0017D76E /* libIso18013_exampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = libIso18013_exampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3A868AC02CBE64C700B35976 /* QRCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCode.swift; sourceTree = "<group>"; };
+		3AB5CFB42CDE086400E7A75F /* DeviceRequestAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRequestAlert.swift; sourceTree = "<group>"; };
+		3AC6964B2CB2FF1200871580 /* IOWalletProximityExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOWalletProximityExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AC6965C2CB2FF1300871580 /* IOWalletProximityExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOWalletProximityExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AC696662CB2FF1300871580 /* IOWalletProximityExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IOWalletProximityExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AEC7E022CB3DD3200606D7E /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		3AEC7E042CB3E00200606D7E /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		3AEC7E072CB40EEA00606D7E /* Data+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Image.swift"; sourceTree = "<group>"; };
+		3AEC7E092CB40F7300606D7E /* ManageNameSpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageNameSpaces.swift; sourceTree = "<group>"; };
+		3D179CBD2CB96B560061DFDC /* DocumentDAOView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentDAOView.swift; sourceTree = "<group>"; };
+		3DC0721F2D809670003C35A2 /* Documents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Documents.swift; sourceTree = "<group>"; };
+		875BEB094914F2F2386131C5 /* Pods_IOWalletProximityExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOWalletProximityExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9213E11CC9C4BDAE69E48531 /* Pods-IOWalletProximityExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExampleTests.release.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExampleTests/Pods-IOWalletProximityExampleTests.release.xcconfig"; sourceTree = "<group>"; };
+		9B1575D734B4751539639147 /* Pods-IOWalletProximityExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExample.debug.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExample/Pods-IOWalletProximityExample.debug.xcconfig"; sourceTree = "<group>"; };
+		9C39DA357085EE1CF78057AF /* Pods-IOWalletProximityExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExampleTests/Pods-IOWalletProximityExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AC2D7C5C078C0A17604F3E5B /* Pods-IOWalletProximityExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExample.release.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExample/Pods-IOWalletProximityExample.release.xcconfig"; sourceTree = "<group>"; };
+		C06401327E734B6A7145A415 /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.debug.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		FC91DE1251F8D9C010B5B28C /* Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3AC696482CB2FF1200871580 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2E19F7FF71CF97C6C04C626 /* Pods_IOWalletProximityExample.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AC696592CB2FF1300871580 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E724FF09144F288E352F84C /* Pods_IOWalletProximityExampleTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AC696632CB2FF1300871580 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E25F65EF769AE73B539055E5 /* Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3A84D5862CB3D3270017D76E /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				3A84D5852CB3D3270017D76E /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3A84D5882CB3D3270017D76E /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				3AB5CFB42CDE086400E7A75F /* DeviceRequestAlert.swift */,
+				3AEC7E042CB3E00200606D7E /* CustomButton.swift */,
+				3A84D5872CB3D3270017D76E /* InfoBoxView.swift */,
+				3AEC7E022CB3DD3200606D7E /* CustomTextField.swift */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
+		3A84D58D2CB3D3270017D76E /* IOWalletProximityExample */ = {
+			isa = PBXGroup;
+			children = (
+				3D14E76A2CB53B0500E15A46 /* View */,
+				3AEC7E062CB40EDF00606D7E /* Helper */,
+				3AEC7E012CB3D80C00606D7E /* Constants */,
+				3A84D5862CB3D3270017D76E /* Preview Content */,
+				3A84D5882CB3D3270017D76E /* Widget */,
+				3A84D5892CB3D3270017D76E /* Assets.xcassets */,
+				3A84D58B2CB3D3270017D76E /* IOWalletProximityExample.entitlements */,
+				3A84D58C2CB3D3270017D76E /* libIso18013_exampleApp.swift */,
+			);
+			path = IOWalletProximityExample;
+			sourceTree = "<group>";
+		};
+		3A84D5942CB3D32B0017D76E /* IOWalletProximityExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				3A042F282CB6CDCC0035FF8E /* QRCodeTests.swift */,
+				3A84D5932CB3D32B0017D76E /* libIso18013_exampleTests.swift */,
+			);
+			path = IOWalletProximityExampleTests;
+			sourceTree = "<group>";
+		};
+		3A84D5982CB3D32E0017D76E /* IOWalletProximityExampleUITests */ = {
+			isa = PBXGroup;
+			children = (
+				3A84D5962CB3D32E0017D76E /* libIso18013_exampleUITests.swift */,
+				3A84D5972CB3D32E0017D76E /* libIso18013_exampleUITestsLaunchTests.swift */,
+			);
+			path = IOWalletProximityExampleUITests;
+			sourceTree = "<group>";
+		};
+		3AC696422CB2FF1200871580 = {
+			isa = PBXGroup;
+			children = (
+				3A84D58D2CB3D3270017D76E /* IOWalletProximityExample */,
+				3A84D5942CB3D32B0017D76E /* IOWalletProximityExampleTests */,
+				3A84D5982CB3D32E0017D76E /* IOWalletProximityExampleUITests */,
+				3AC6964C2CB2FF1200871580 /* Products */,
+				6E9CC8B6DC06E71A45D478E0 /* Pods */,
+				536D8224781C688D24EC5BF4 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		3AC6964C2CB2FF1200871580 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3AC6964B2CB2FF1200871580 /* IOWalletProximityExample.app */,
+				3AC6965C2CB2FF1300871580 /* IOWalletProximityExampleTests.xctest */,
+				3AC696662CB2FF1300871580 /* IOWalletProximityExampleUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3AEC7E012CB3D80C00606D7E /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				3DC0721F2D809670003C35A2 /* Documents.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		3AEC7E062CB40EDF00606D7E /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				3A868AC02CBE64C700B35976 /* QRCode.swift */,
+				3AEC7E092CB40F7300606D7E /* ManageNameSpaces.swift */,
+				3AEC7E072CB40EEA00606D7E /* Data+Image.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		3D14E76A2CB53B0500E15A46 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3A042F242CB6C0AD0035FF8E /* MainContentView.swift */,
+				3A042F262CB6CB900035FF8E /* QRCodeView.swift */,
+				3D179CBD2CB96B560061DFDC /* DocumentDAOView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		536D8224781C688D24EC5BF4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				105E95DF666335A927668DCB /* Pods_IOWalletProximityExample.framework */,
+				FC91DE1251F8D9C010B5B28C /* Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework */,
+				875BEB094914F2F2386131C5 /* Pods_IOWalletProximityExampleTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6E9CC8B6DC06E71A45D478E0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9B1575D734B4751539639147 /* Pods-IOWalletProximityExample.debug.xcconfig */,
+				AC2D7C5C078C0A17604F3E5B /* Pods-IOWalletProximityExample.release.xcconfig */,
+				C06401327E734B6A7145A415 /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.debug.xcconfig */,
+				295D2C40696474BC034ED41A /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig */,
+				9C39DA357085EE1CF78057AF /* Pods-IOWalletProximityExampleTests.debug.xcconfig */,
+				9213E11CC9C4BDAE69E48531 /* Pods-IOWalletProximityExampleTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3AC6964A2CB2FF1200871580 /* IOWalletProximityExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3AC696702CB2FF1300871580 /* Build configuration list for PBXNativeTarget "IOWalletProximityExample" */;
+			buildPhases = (
+				3CBAC827522AC6559441888D /* [CP] Check Pods Manifest.lock */,
+				3AC696472CB2FF1200871580 /* Sources */,
+				3AC696482CB2FF1200871580 /* Frameworks */,
+				3AC696492CB2FF1200871580 /* Resources */,
+				4E2B4CD4FE3827F8FBAC8A10 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IOWalletProximityExample;
+			productName = "libIso18013-example";
+			productReference = 3AC6964B2CB2FF1200871580 /* IOWalletProximityExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3AC6965B2CB2FF1300871580 /* IOWalletProximityExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3AC696732CB2FF1300871580 /* Build configuration list for PBXNativeTarget "IOWalletProximityExampleTests" */;
+			buildPhases = (
+				2678B72DEB3496B6C085EFBC /* [CP] Check Pods Manifest.lock */,
+				3AC696582CB2FF1300871580 /* Sources */,
+				3AC696592CB2FF1300871580 /* Frameworks */,
+				3AC6965A2CB2FF1300871580 /* Resources */,
+				86F0DC1F7901842F4E374392 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3AC6965E2CB2FF1300871580 /* PBXTargetDependency */,
+			);
+			name = IOWalletProximityExampleTests;
+			productName = "libIso18013-exampleTests";
+			productReference = 3AC6965C2CB2FF1300871580 /* IOWalletProximityExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3AC696652CB2FF1300871580 /* IOWalletProximityExampleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3AC696762CB2FF1300871580 /* Build configuration list for PBXNativeTarget "IOWalletProximityExampleUITests" */;
+			buildPhases = (
+				DB1856D1E31B84B25F29AC93 /* [CP] Check Pods Manifest.lock */,
+				3AC696622CB2FF1300871580 /* Sources */,
+				3AC696632CB2FF1300871580 /* Frameworks */,
+				3AC696642CB2FF1300871580 /* Resources */,
+				6F86CCFBDC08668F0BED2476 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3AC696682CB2FF1300871580 /* PBXTargetDependency */,
+			);
+			name = IOWalletProximityExampleUITests;
+			productName = "libIso18013-exampleUITests";
+			productReference = 3AC696662CB2FF1300871580 /* IOWalletProximityExampleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3AC696432CB2FF1200871580 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					3AC6964A2CB2FF1200871580 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					3AC6965B2CB2FF1300871580 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 3AC6964A2CB2FF1200871580;
+					};
+					3AC696652CB2FF1300871580 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 3AC6964A2CB2FF1200871580;
+					};
+				};
+			};
+			buildConfigurationList = 3AC696462CB2FF1200871580 /* Build configuration list for PBXProject "IOWalletProximityExample" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3AC696422CB2FF1200871580;
+			productRefGroup = 3AC6964C2CB2FF1200871580 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3AC6964A2CB2FF1200871580 /* IOWalletProximityExample */,
+				3AC6965B2CB2FF1300871580 /* IOWalletProximityExampleTests */,
+				3AC696652CB2FF1300871580 /* IOWalletProximityExampleUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3AC696492CB2FF1200871580 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A84D5912CB3D3270017D76E /* Preview Assets.xcassets in Resources */,
+				3A84D5922CB3D3270017D76E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AC6965A2CB2FF1300871580 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AC696642CB2FF1300871580 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2678B72DEB3496B6C085EFBC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-IOWalletProximityExampleTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3CBAC827522AC6559441888D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-IOWalletProximityExample-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4E2B4CD4FE3827F8FBAC8A10 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample/Pods-IOWalletProximityExample-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample/Pods-IOWalletProximityExample-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample/Pods-IOWalletProximityExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6F86CCFBDC08668F0BED2476 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		86F0DC1F7901842F4E374392 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExampleTests/Pods-IOWalletProximityExampleTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExampleTests/Pods-IOWalletProximityExampleTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExampleTests/Pods-IOWalletProximityExampleTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DB1856D1E31B84B25F29AC93 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3AC696472CB2FF1200871580 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A84D58E2CB3D3270017D76E /* InfoBoxView.swift in Sources */,
+				3AB5CFB52CDE086400E7A75F /* DeviceRequestAlert.swift in Sources */,
+				3AEC7E0A2CB40F8100606D7E /* ManageNameSpaces.swift in Sources */,
+				3A042F272CB6CB990035FF8E /* QRCodeView.swift in Sources */,
+				3A868AC12CBE64C700B35976 /* QRCode.swift in Sources */,
+				3AEC7E052CB3E00600606D7E /* CustomButton.swift in Sources */,
+				3DC072202D809673003C35A2 /* Documents.swift in Sources */,
+				3D179CBE2CB96B5C0061DFDC /* DocumentDAOView.swift in Sources */,
+				3A84D5902CB3D3270017D76E /* libIso18013_exampleApp.swift in Sources */,
+				3AEC7E082CB40EEE00606D7E /* Data+Image.swift in Sources */,
+				3A042F252CB6C0B00035FF8E /* MainContentView.swift in Sources */,
+				3AEC7E032CB3DD3200606D7E /* CustomTextField.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AC696582CB2FF1300871580 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A84D5952CB3D32B0017D76E /* libIso18013_exampleTests.swift in Sources */,
+				3A042F292CB6CDD20035FF8E /* QRCodeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AC696622CB2FF1300871580 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A84D5992CB3D32E0017D76E /* libIso18013_exampleUITests.swift in Sources */,
+				3A84D59A2CB3D32E0017D76E /* libIso18013_exampleUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3AC6965E2CB2FF1300871580 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3AC6964A2CB2FF1200871580 /* IOWalletProximityExample */;
+			targetProxy = 3AC6965D2CB2FF1300871580 /* PBXContainerItemProxy */;
+		};
+		3AC696682CB2FF1300871580 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3AC6964A2CB2FF1200871580 /* IOWalletProximityExample */;
+			targetProxy = 3AC696672CB2FF1300871580 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		3AC6966E2CB2FF1300871580 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3AC6966F2CB2FF1300871580 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		3AC696712CB2FF1300871580 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B1575D734B4751539639147 /* Pods-IOWalletProximityExample.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = IOWalletProximityExample/IOWalletProximityExample.entitlements;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"IOWalletProximityExample/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The app needs bluetooth to communicate with verifier";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "it.pagopa.app.io.proximity.libIso18013-example";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		3AC696722CB2FF1300871580 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AC2D7C5C078C0A17604F3E5B /* Pods-IOWalletProximityExample.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = IOWalletProximityExample/IOWalletProximityExample.entitlements;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"IOWalletProximityExample/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The app needs bluetooth to communicate with verifier";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "it.pagopa.app.io.proximity.libIso18013-example";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		3AC696742CB2FF1300871580 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9C39DA357085EE1CF78057AF /* Pods-IOWalletProximityExampleTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "it.pagopa.app.io.proximity.libIso18013-exampleTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IOWalletProximityExample.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IOWalletProximityExample";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		3AC696752CB2FF1300871580 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9213E11CC9C4BDAE69E48531 /* Pods-IOWalletProximityExampleTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "it.pagopa.app.io.proximity.libIso18013-exampleTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IOWalletProximityExample.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IOWalletProximityExample";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		3AC696772CB2FF1300871580 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C06401327E734B6A7145A415 /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "it.pagopa.app.io.proximity.libIso18013-exampleUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = "libIso18013-example";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		3AC696782CB2FF1300871580 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 295D2C40696474BC034ED41A /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "it.pagopa.app.io.proximity.libIso18013-exampleUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = "libIso18013-example";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3AC696462CB2FF1200871580 /* Build configuration list for PBXProject "IOWalletProximityExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AC6966E2CB2FF1300871580 /* Debug */,
+				3AC6966F2CB2FF1300871580 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3AC696702CB2FF1300871580 /* Build configuration list for PBXNativeTarget "IOWalletProximityExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AC696712CB2FF1300871580 /* Debug */,
+				3AC696722CB2FF1300871580 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3AC696732CB2FF1300871580 /* Build configuration list for PBXNativeTarget "IOWalletProximityExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AC696742CB2FF1300871580 /* Debug */,
+				3AC696752CB2FF1300871580 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3AC696762CB2FF1300871580 /* Build configuration list for PBXNativeTarget "IOWalletProximityExampleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AC696772CB2FF1300871580 /* Debug */,
+				3AC696782CB2FF1300871580 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3AC696432CB2FF1200871580 /* Project object */;
+}

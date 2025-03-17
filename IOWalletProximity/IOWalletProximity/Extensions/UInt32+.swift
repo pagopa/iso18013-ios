@@ -5,6 +5,7 @@
 //  Created by Martina D'urso on 15/10/24.
 //
 
+import Foundation
 
 extension UInt32 {
   public var data: Data {

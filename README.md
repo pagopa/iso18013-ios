@@ -46,20 +46,19 @@ Proximity.shared.stop()
 ```
 
 
-#### Proximity.shared.dataPresentation
-
+#### Proximity.shared.generateDeviceResponse
 ```swift
-//  Responds to a request for data from the reader.
+//  Generate response to request for data from the reader.
 //  - Parameters:
 //      - allowed: User has allowed the verification process
 //      - items: Map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
-//      - documents: Map of documents. Key is docType, first item is document as cbor and second item is CoseKeyPrivate encoded (can rapresent keytag or raw private key)
+//      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is CoseKeyPrivate encoded
 
 let items: [String: [String: [String: Bool]]] = [:]
 
 let documents = LibIso18013DAOKeyChain().getAllDocuments(state: .issued).compactMap({
     document in
-    if let documentData = document.documentData {
+    if let documentData = document.issuerSigned {
         return (document.docType, documentData, document.deviceKeyData)
     }
     return nil
@@ -72,5 +71,19 @@ documents.forEach({
     documentMap[document.0] = (document.1, document.2)
 })
                     
-Proximity.shared.dataPresentation(allowed: allowed, items: items, documents: documentMap)
+let response = Proximity.shared.generateDeviceResponse(allowed: allowed, items: items, documents: documentMap)
+```
+
+
+#### Proximity.shared.dataPresentation
+
+```swift
+//  Responds to a request for data from the reader.
+//  - Parameters:
+//      - allowed: User has allowed the verification process
+//      - deviceResponse: Device Response cbor-encoded (result of Proximity.shared.generateDeviceResponse)
+
+let deviceResponse: [UInt8] = /*result of generateDeviceResponse*/
+
+Proximity.shared.dataPresentation(allowed: allowed, deviceResponse)
 ```
