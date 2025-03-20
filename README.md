@@ -46,13 +46,64 @@ Proximity.shared.stop()
 ```
 
 
-#### Proximity.shared.generateDeviceResponse
+#### Proximity.shared.generateOID4VPSessionTranscriptCBOR
+```swift
+//  Generate session transcript with OID4VPHandover
+//  - Parameters:
+//      - clientId: clientId
+//      - responseUri: responseUri
+//      - authorizationRequestNonce: authorizationRequestNonce
+//      - mdocGeneratedNonce: mdocGeneratedNonce
+public func generateOID4VPSessionTranscriptCBOR(
+    clientId: String,
+    responseUri: String,
+    authorizationRequestNonce: String,
+    mdocGeneratedNonce: String
+) -> [UInt8] 
+```
+
+
+#### Proximity.shared.generateDeviceResponseFromJsonWithSecKey
+```swift
+//  Generate response to request for data from the reader.
+//  - Parameters:
+//      - allowed: User has allowed the verification process
+//      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]] as String
+//      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
+//      - sessionTranscript: optional CBOR encoded session transcript
+public func generateDeviceResponseFromJsonWithSecKey(
+    allowed: Bool,
+    items: String?,
+    documents: [String: ([UInt8], SecKey)]?,
+    sessionTranscript: [UInt8]?
+) -> [UInt8]?
+```
+
+#### Proximity.shared.generateDeviceResponseFromDataWithSecKey
+```swift
+//  Generate response to request for data from the reader.
+//  - Parameters:
+//      - allowed: User has allowed the verification process
+//      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
+//      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
+//      - sessionTranscript: optional CBOR encoded session transcript
+public func generateDeviceResponseFromDataWithSecKey(
+    allowed: Bool,
+    items: [String: [String: [String: Bool]]]?,
+    documents: [String: ([UInt8], SecKey)]?,
+    sessionTranscript: [UInt8]?
+) -> [UInt8]?
+```
+
+
+#### Proximity.shared.generateDeviceResponseFromData
 ```swift
 //  Generate response to request for data from the reader.
 //  - Parameters:
 //      - allowed: User has allowed the verification process
 //      - items: Map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
 //      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is CoseKeyPrivate encoded
+//      - sessionTranscript: optional CBOR encoded session transcript
 
 let items: [String: [String: [String: Bool]]] = [:]
 
