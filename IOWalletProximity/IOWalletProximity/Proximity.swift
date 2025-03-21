@@ -69,14 +69,61 @@ public class Proximity: @unchecked Sendable {
     }
     
     
+    
+   /**
+    * Generate session transcript with OID4VPHandover
+    * This method is used for ISO 18013-7 OID4VP flow.
+    *
+    * - Parameters:
+    *   - clientId: Authorization Request 'client_id'
+    *   - responseUri: Authorization Request 'response_uri'
+    *   - authorizationRequestNonce: Authorization Request 'nonce'
+    *   - mdocGeneratedNonce: cryptographically random number with sufficient entropy
+    *
+    * - Returns: A CBOR-encoded SessionTranscript object
+    */
+    public func generateOID4VPSessionTranscriptCBOR(
+        clientId: String,
+        responseUri: String,
+        authorizationRequestNonce: String,
+        mdocGeneratedNonce: String
+    ) -> [UInt8] {
+        return generateOID4VPSessionTranscript(
+            clientId: clientId,
+            responseUri: responseUri,
+            authorizationRequestNonce: authorizationRequestNonce,
+            mdocGeneratedNonce: mdocGeneratedNonce
+        ).encode(options: CBOROptions())
+    }
+    
+    
+    private func generateOID4VPSessionTranscript(
+        clientId: String,
+        responseUri: String,
+        authorizationRequestNonce: String,
+        mdocGeneratedNonce: String
+    ) -> SessionTranscript {
+        return SessionTranscript(
+            handOver: OID4VPHandover(
+                clientId: clientId,
+                responseUri: responseUri,
+                authorizationRequestNonce: authorizationRequestNonce,
+                mdocGeneratedNonce: mdocGeneratedNonce
+            ).toCBOR(options: CBOROptions())
+        )
+    }
+    
+    
     //  Generate response to request for data from the reader.
     //  - Parameters:
     //      - allowed: User has allowed the verification process
     //      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]] as String
     //      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
+    //      - sessionTranscript: optional CBOR encoded session transcript
     public func generateDeviceResponseFromJsonWithSecKey(allowed: Bool,
-                                       items: String?,
-                                       documents: [String: ([UInt8], SecKey)]?) -> [UInt8]? {
+                                                         items: String?,
+                                                         documents: [String: ([UInt8], SecKey)]?,
+                                                         sessionTranscript: [UInt8]?) -> [UInt8]? {
         var decodedItems: [String: [String: [String: Bool]]]? = nil
         if let items = items {
             if let itemsData = items.data(using: .utf8) {
@@ -86,7 +133,7 @@ public class Proximity: @unchecked Sendable {
             }
         }
         
-        return generateDeviceResponseFromDataWithSecKey(allowed: allowed, items: decodedItems, documents: documents)
+        return generateDeviceResponseFromDataWithSecKey(allowed: allowed, items: decodedItems, documents: documents, sessionTranscript: sessionTranscript)
     }
     
     
@@ -95,10 +142,12 @@ public class Proximity: @unchecked Sendable {
     //      - allowed: User has allowed the verification process
     //      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
     //      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
+    //      - sessionTranscript: optional CBOR encoded session transcript
     public func generateDeviceResponseFromDataWithSecKey(
         allowed: Bool,
         items: [String: [String: [String: Bool]]]?,
-        documents: [String: ([UInt8], SecKey)]?
+        documents: [String: ([UInt8], SecKey)]?,
+        sessionTranscript: [UInt8]?
     ) -> [UInt8]? {
         var documentsWithKeys: [String: ([UInt8], CoseKeyPrivate)] = [:]
         
@@ -113,7 +162,7 @@ public class Proximity: @unchecked Sendable {
             documentsWithKeys[key] =  (item.0, privateKey)
         })
         
-        return generateDeviceResponseCBOR(allowed: allowed, items: items, documents: documentsWithKeys)
+        return generateDeviceResponseCBOR(allowed: allowed, items: items, documents: documentsWithKeys, sessionTranscript: sessionTranscript)
     }
     
     //  Generate response to request for data from the reader.
@@ -121,10 +170,12 @@ public class Proximity: @unchecked Sendable {
     //      - allowed: User has allowed the verification process
     //      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
     //      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
+    //      - sessionTranscript: optional CBOR encoded session transcript
     public func generateDeviceResponseFromData(
         allowed: Bool,
         items: [String: [String: [String: Bool]]]?,
-        documents: [String: ([UInt8], [UInt8])]?
+        documents: [String: ([UInt8], [UInt8])]?,
+        sessionTranscript: [UInt8]?
     ) -> [UInt8]? {
         var documentsWithKeys: [String: ([UInt8], CoseKeyPrivate)] = [:]
         
@@ -139,21 +190,32 @@ public class Proximity: @unchecked Sendable {
             documentsWithKeys[key] =  (item.0, privateKey)
         })
         
-        return generateDeviceResponseCBOR(allowed: allowed, items: items, documents: documentsWithKeys)
+        return generateDeviceResponseCBOR(allowed: allowed, items: items, documents: documentsWithKeys, sessionTranscript: sessionTranscript)
     }
     
     private func generateDeviceResponseCBOR(
         allowed: Bool,
         items: [String: [String: [String: Bool]]]?,
-        documents: [String: ([UInt8], CoseKeyPrivate)]?
+        documents: [String: ([UInt8], CoseKeyPrivate)]?,
+        sessionTranscript: [UInt8]? = nil
     ) -> [UInt8]? {
         
-        return generateDeviceResponse(allowed: allowed, items: items, documents: documents).encode()
+        let transcript: SessionTranscript?
+        
+        if let sessionTranscript = sessionTranscript {
+            transcript = SessionTranscript.init(data: sessionTranscript)
+        }
+        else {
+            transcript = nil
+        }
+        
+        return generateDeviceResponse(allowed: allowed, items: items, documents: documents, sessionTranscript: transcript).encode()
     }
     
     private func generateDeviceResponse(allowed: Bool,
                                          items: [String: [String: [String: Bool]]]?,
-                                         documents: [String: ([UInt8], CoseKeyPrivate)]?) -> DeviceResponse? {
+                                         documents: [String: ([UInt8], CoseKeyPrivate)]?,
+                                         sessionTranscript: SessionTranscript?) -> DeviceResponse? {
         
         var requestedDocuments = [Document]()
         var docErrors = [[String: UInt64]]()
@@ -188,7 +250,7 @@ public class Proximity: @unchecked Sendable {
                 return
             }
             
-            if let responseDocument = buildResponseDocument(request: request, issuerSigned: issuerSigned, deviceKey: deviceKey, sessionEncryption: sessionEncryption) {
+            if let responseDocument = buildResponseDocument(request: request, issuerSigned: issuerSigned, deviceKey: deviceKey, sessionTranscript:  sessionTranscript ?? sessionEncryption.transcript) {
                 
                 requestedDocuments.append(responseDocument)
             }
@@ -357,6 +419,65 @@ public class Proximity: @unchecked Sendable {
         return (nsItemsToAdd: nsItemsToAdd, errors: errors)
     }
     
+    
+    /**
+     * Builds a response document using a SessionTranscript for authentication.
+     * This method is used specifically for OID4VP flows.
+     *
+     * - Parameters:
+     *   - request: Dictionary mapping namespaces to element identifiers which want to share
+     *   - issuerSigned: The issuer-signed data for the document
+     *   - deviceKey: The private key used for signing the device authentication
+     *   - sessionTranscript: The session transcript containing the handover data
+     *
+     * - Returns: A Document object if document creation succeeded, nil otherwise
+     */
+    
+    func buildResponseDocument(
+        request: [String: [String: Bool]],
+        issuerSigned: IssuerSigned,
+        deviceKey: CoseKeyPrivate,
+        sessionTranscript: SessionTranscript) -> Document? {
+            
+            
+            let (nsItemsToAdd, errors) = getRequestedValues(request: request, issuerSigned: issuerSigned)
+            
+            if nsItemsToAdd.count > 0 {
+                let issuerAuthToAdd = issuerSigned.issuerAuth
+                let issToAdd = IssuerSigned(issuerNameSpaces: IssuerNameSpaces(nameSpaces: nsItemsToAdd),
+                                            issuerAuth: issuerAuthToAdd)
+                var devSignedToAdd: DeviceSigned? = nil
+                
+                guard let devAuth = try? MdocAuthentication.getDeviceAuthForTransferSignature(transcript: sessionTranscript, docType: issuerSigned.issuerAuth!.mobileSecurityObject.docType, privateKey: deviceKey) else {
+                    return nil
+                }
+                
+                devSignedToAdd = DeviceSigned(deviceAuth: devAuth)
+                
+                let docToAdd = Document(docType: issuerSigned.issuerAuth!.mobileSecurityObject.docType,
+                                        issuerSigned: issToAdd,
+                                        deviceSigned: devSignedToAdd,
+                                        errors: errors)
+                
+                return docToAdd
+            } else {
+                return nil
+            }
+        }
+    
+    
+    /**
+     * Builds a response document using a SessionEncryption for authentication.
+     * This method is used for traditional ISO 18013-5 flows.
+     *
+     * - Parameters:
+     *   - request: Dictionary mapping namespaces to element identifiers which want to share
+     *   - issuerSigned: The issuer-signed data for the document
+     *   - deviceKey: The private key used for signing the device authentication
+     *   - sessionEncryption: The session encryption containing keys and transcript data
+     *
+     * - Returns: A Document object if document creation succeeded, nil otherwise
+     */
     
     func buildResponseDocument(
         request: [String: [String: Bool]],

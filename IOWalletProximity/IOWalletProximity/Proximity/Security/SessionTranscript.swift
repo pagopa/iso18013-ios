@@ -20,6 +20,26 @@ internal import SwiftCBOR
 	}
 }
 
+extension SessionTranscript: CBORDecodable {
+    init?(cbor: SwiftCBOR.CBOR) {
+        guard case .array(let array) = cbor else { return nil }
+        
+        if case .null = array[0] {
+            devEngRawData = nil
+        } else {
+            devEngRawData = array[0].decodeTaggedBytes()
+        }
+        
+        if case .null = array[1] {
+            eReaderRawData = nil
+        } else {
+            eReaderRawData = array[1].decodeTaggedBytes()
+        }
+        
+        handOver = array[2]
+    }
+}
+
 extension SessionTranscript: CBOREncodable {
 	public func toCBOR(options: CBOROptions) -> CBOR {
 		return .array([devEngRawData?.taggedEncoded ?? CBOR.null, eReaderRawData?.taggedEncoded ?? CBOR.null, handOver])
