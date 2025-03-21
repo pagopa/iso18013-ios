@@ -69,12 +69,19 @@ public class Proximity: @unchecked Sendable {
     }
     
     
-    //  Generate session transcript with OID4VPHandover
-    //  - Parameters:
-    //      - clientId: clientId
-    //      - responseUri: responseUri
-    //      - authorizationRequestNonce: authorizationRequestNonce
-    //      - mdocGeneratedNonce: mdocGeneratedNonce
+    
+   /**
+    * Generate session transcript with OID4VPHandover
+    * This method is used for ISO 18013-7 OID4VP flow.
+    *
+    * - Parameters:
+    *   - clientId: Authorization Request 'client_id'
+    *   - responseUri: Authorization Request 'response_uri'
+    *   - authorizationRequestNonce: Authorization Request 'nonce'
+    *   - mdocGeneratedNonce: cryptographically random number with sufficient entropy
+    *
+    * - Returns: A CBOR-encoded SessionTranscript object
+    */
     public func generateOID4VPSessionTranscriptCBOR(
         clientId: String,
         responseUri: String,
@@ -413,6 +420,19 @@ public class Proximity: @unchecked Sendable {
     }
     
     
+    /**
+     * Builds a response document using a SessionTranscript for authentication.
+     * This method is used specifically for OID4VP flows.
+     *
+     * - Parameters:
+     *   - request: Dictionary mapping namespaces to element identifiers which want to share
+     *   - issuerSigned: The issuer-signed data for the document
+     *   - deviceKey: The private key used for signing the device authentication
+     *   - sessionTranscript: The session transcript containing the handover data
+     *
+     * - Returns: A Document object if document creation succeeded, nil otherwise
+     */
+    
     func buildResponseDocument(
         request: [String: [String: Bool]],
         issuerSigned: IssuerSigned,
@@ -444,6 +464,20 @@ public class Proximity: @unchecked Sendable {
                 return nil
             }
         }
+    
+    
+    /**
+     * Builds a response document using a SessionEncryption for authentication.
+     * This method is used for traditional ISO 18013-5 flows.
+     *
+     * - Parameters:
+     *   - request: Dictionary mapping namespaces to element identifiers which want to share
+     *   - issuerSigned: The issuer-signed data for the document
+     *   - deviceKey: The private key used for signing the device authentication
+     *   - sessionEncryption: The session encryption containing keys and transcript data
+     *
+     * - Returns: A Document object if document creation succeeded, nil otherwise
+     */
     
     func buildResponseDocument(
         request: [String: [String: Bool]],
