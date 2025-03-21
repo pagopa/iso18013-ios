@@ -3,7 +3,7 @@ name: Build and Release Proximity
 on:
   push:
     tags:
-      - '*.*.*'  # Trigger for every tag x.y.z
+      - "*.*.*" # Trigger for every tag x.y.z
 
 jobs:
   build-release:
@@ -30,14 +30,14 @@ jobs:
 
       - name: Build XCFramework
         run: |
-          chmod +x ./build.sh
-          ./build.sh
+          chmod +x ./.build.sh
+          ./.build.sh
 
       - name: Zip XCFramework
         run: |
           VERSION="${{ steps.get_version.outputs.version }}"
-          cp LICENSE archives/
-          cd archives
+          cp LICENSE .archives/
+          cd .archives
           zip -r "IOWalletProximity-${VERSION}.xcframework.zip" IOWalletProximity.xcframework LICENSE
 
       - name: Create GitHub Release
@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: archives/IOWalletProximity-${{ steps.get_version.outputs.version }}.xcframework.zip
+          asset_path: .archives/IOWalletProximity-${{ steps.get_version.outputs.version }}.xcframework.zip
           asset_name: IOWalletProximity-${{ steps.get_version.outputs.version }}.xcframework.zip
           asset_content_type: application/zip
         env:
