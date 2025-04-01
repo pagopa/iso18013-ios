@@ -8,12 +8,14 @@
 
 import Foundation
 
+//  ProximityDocument is a class to store docType, issuerSigned and deviceKey.
+//  It can be initialized in various ways. The only difference is the source of the deviceKey
 public class ProximityDocument {
     public var docType: String
-    
     public var issuerSigned: [UInt8]
     internal var deviceKey: CoseKeyPrivate
     
+    //Initialize ProximityDocument with a COSEKey CBOR encoded deviceKey
     public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeyRaw: [UInt8]) {
         guard let deviceKey = CoseKeyPrivate.init(data: deviceKeyRaw) else {
             return nil
@@ -22,6 +24,7 @@ public class ProximityDocument {
         self.init(docType: docType, issuerSigned: issuerSigned, deviceKey: deviceKey)
     }
     
+    //Initialize ProximityDocument with a SecKey deviceKey
     public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeySecKey: SecKey) {
         guard let deviceKey = CoseKeyPrivate.init(crv: .p256, secKey: deviceKeySecKey) else {
             return nil
@@ -30,6 +33,8 @@ public class ProximityDocument {
         self.init(docType: docType, issuerSigned: issuerSigned, deviceKey: deviceKey)
     }
     
+    
+    //Initialize ProximityDocument with a String representing the SecKey in the keychain
     public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeyTag: String) {
         guard let deviceKey = CoseKeyPrivate.init(crv: .p256, keyTag: deviceKeyTag) else {
             return nil
