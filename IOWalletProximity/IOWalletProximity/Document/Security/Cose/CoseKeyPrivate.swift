@@ -39,6 +39,25 @@ extension CoseKeyPrivate {
         
         self.init(publicKey: publicKey, secKey: secKey)
     }
+    
+    public init?(crv: ECCurveName, keyTag: String) {
+        let getQuery: [String: Any] = [
+            kSecClass as String: kSecClassKey,
+            kSecAttrApplicationTag as String: keyTag,
+            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
+            kSecReturnRef as String: true
+        ]
+        
+        var item: CFTypeRef?
+        let status = SecItemCopyMatching(getQuery as CFDictionary, &item)
+        
+        guard status == errSecSuccess else {
+            return nil
+        }
+        
+        self.init(crv: crv, secKey: (item as! SecKey))
+        
+    }
 }
 
 extension CoseKeyPrivate {

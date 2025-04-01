@@ -113,16 +113,20 @@ public class Proximity: @unchecked Sendable {
         )
     }
     
-    
-    //  Generate response to request for data from the reader.
-    //  - Parameters:
-    //      - allowed: User has allowed the verification process
-    //      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]] as String
-    //      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
-    //      - sessionTranscript: optional CBOR encoded session transcript
-    public func generateDeviceResponseFromJsonWithSecKey(allowed: Bool,
+    /**
+     * Generate DeviceResponse to request for data from the reader.
+     *
+     * - Parameters:
+     *   - allowed: User has allowed the verification process
+     *   - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]] as String
+     *   - documents: List of documents.
+     *   - sessionTranscript: optional CBOR encoded session transcript
+     *
+     * - Returns: A CBOR-encoded DeviceResponse object
+     */
+    public func generateDeviceResponseFromJson(allowed: Bool,
                                                          items: String?,
-                                                         documents: [String: ([UInt8], SecKey)]?,
+                                               documents: [ProximityDocument]?,
                                                          sessionTranscript: [UInt8]?) -> [UInt8]? {
         var decodedItems: [String: [String: [String: Bool]]]? = nil
         if let items = items {
@@ -133,65 +137,38 @@ public class Proximity: @unchecked Sendable {
             }
         }
         
-        return generateDeviceResponseFromDataWithSecKey(allowed: allowed, items: decodedItems, documents: documents, sessionTranscript: sessionTranscript)
+        return generateDeviceResponse(allowed: allowed, items: decodedItems, documents: documents, sessionTranscript: sessionTranscript)
     }
     
-    
-    //  Generate response to request for data from the reader.
-    //  - Parameters:
-    //      - allowed: User has allowed the verification process
-    //      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
-    //      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
-    //      - sessionTranscript: optional CBOR encoded session transcript
-    public func generateDeviceResponseFromDataWithSecKey(
-        allowed: Bool,
-        items: [String: [String: [String: Bool]]]?,
-        documents: [String: ([UInt8], SecKey)]?,
-        sessionTranscript: [UInt8]?
-    ) -> [UInt8]? {
+    /**
+     * Generate DeviceResponse to request for data from the reader.
+     *
+     * - Parameters:
+     *   - allowed: User has allowed the verification process
+     *   - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
+     *   - documents: List of documents.
+     *   - sessionTranscript: optional CBOR encoded session transcript
+     *
+     * - Returns: A CBOR-encoded DeviceResponse object
+     */
+    public func generateDeviceResponse(allowed: Bool,
+                                       items: [String: [String: [String: Bool]]]?,
+                                               documents: [ProximityDocument]?,
+                                               sessionTranscript: [UInt8]?) -> [UInt8]? {
+       
+        
         var documentsWithKeys: [String: ([UInt8], CoseKeyPrivate)] = [:]
         
-        documents?.keys.forEach({
-            key in
-            guard let item = documents?[key] else {
-                return
-            }
-            guard let privateKey = CoseKeyPrivate.init(crv: .p256, secKey: item.1) else {
-                return
-            }
-            documentsWithKeys[key] =  (item.0, privateKey)
+        documents?.forEach({
+            item in
+            
+            documentsWithKeys[item.docType] =  (item.issuerSigned, item.deviceKey)
         })
+        
         
         return generateDeviceResponseCBOR(allowed: allowed, items: items, documents: documentsWithKeys, sessionTranscript: sessionTranscript)
     }
     
-    //  Generate response to request for data from the reader.
-    //  - Parameters:
-    //      - allowed: User has allowed the verification process
-    //      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
-    //      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
-    //      - sessionTranscript: optional CBOR encoded session transcript
-    public func generateDeviceResponseFromData(
-        allowed: Bool,
-        items: [String: [String: [String: Bool]]]?,
-        documents: [String: ([UInt8], [UInt8])]?,
-        sessionTranscript: [UInt8]?
-    ) -> [UInt8]? {
-        var documentsWithKeys: [String: ([UInt8], CoseKeyPrivate)] = [:]
-        
-        documents?.keys.forEach({
-            key in
-            guard let item = documents?[key] else {
-                return
-            }
-            guard let privateKey = CoseKeyPrivate.init(data: item.1) else {
-                return
-            }
-            documentsWithKeys[key] =  (item.0, privateKey)
-        })
-        
-        return generateDeviceResponseCBOR(allowed: allowed, items: items, documents: documentsWithKeys, sessionTranscript: sessionTranscript)
-    }
     
     private func generateDeviceResponseCBOR(
         allowed: Bool,
