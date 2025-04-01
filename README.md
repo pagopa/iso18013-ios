@@ -44,69 +44,92 @@ let qrCode = Proximity.shared.start()
 Proximity.shared.stop()
 ```
 
+#### ProximityDocument
 
-#### Proximity.shared.generateDeviceResponseFromJsonWithSecKey
 ```swift
-//  Generate response to request for data from the reader.
-//  - Parameters:
-//      - allowed: User has allowed the verification process
-//      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]] as String
-//      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
-//      - sessionTranscript: optional CBOR encoded session transcript
-public func generateDeviceResponseFromJsonWithSecKey(
+//  ProximityDocument is a class to store docType, issuerSigned and deviceKey.
+//  It can be initialized in various ways. The difference is the source of the deviceKey
+
+//  This constructor allows to initialize the object with a COSEKey CBOR encoded deviceKey
+public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeyRaw: [UInt8])
+
+//  This constructor allows to initialize the object with a SecKey deviceKey
+public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeySecKey: SecKey)
+
+//  This constructor allows to initialize the object with a String representing the SecKey in the keychain
+public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeyTag: String)
+```
+
+#### Proximity.shared.generateDeviceResponseFromJson
+```swift
+/**
+ * Generate DeviceResponse to request for data from the reader.
+ *
+ * - Parameters:
+ *   - allowed: User has allowed the verification process
+ *   - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]] as String
+ *   - documents: List of documents.
+ *   - sessionTranscript: optional CBOR encoded session transcript
+ *
+ * - Returns: A CBOR-encoded DeviceResponse object
+ */
+public func generateDeviceResponseFromJson(
     allowed: Bool,
     items: String?,
-    documents: [String: ([UInt8], SecKey)]?,
+    documents: [ProximityDocument]?,
     sessionTranscript: [UInt8]?
-) -> [UInt8]?
+) -> [UInt8]? 
 ```
 
-#### Proximity.shared.generateDeviceResponseFromDataWithSecKey
+
+#### Proximity.shared.generateDeviceResponse
 ```swift
-//  Generate response to request for data from the reader.
-//  - Parameters:
-//      - allowed: User has allowed the verification process
-//      - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
-//      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is SecKey
-//      - sessionTranscript: optional CBOR encoded session transcript
-public func generateDeviceResponseFromDataWithSecKey(
+/**
+ * Generate DeviceResponse to request for data from the reader.
+ *
+ * - Parameters:
+ *   - allowed: User has allowed the verification process
+ *   - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
+ *   - documents: List of documents.
+ *   - sessionTranscript: optional CBOR encoded session transcript
+ *
+ * - Returns: A CBOR-encoded DeviceResponse object
+ */
+public func generateDeviceResponse(
     allowed: Bool,
     items: [String: [String: [String: Bool]]]?,
-    documents: [String: ([UInt8], SecKey)]?,
+    documents: [ProximityDocument]?,
     sessionTranscript: [UInt8]?
 ) -> [UInt8]?
 ```
 
-
-#### Proximity.shared.generateDeviceResponseFromData
 ```swift
-//  Generate response to request for data from the reader.
-//  - Parameters:
-//      - allowed: User has allowed the verification process
-//      - items: Map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
-//      - documents: Map of documents. Key is docType, first item is issuerSigned as cbor and second item is CoseKeyPrivate encoded
-//      - sessionTranscript: optional CBOR encoded session transcript
-
 let items: [String: [String: [String: Bool]]] = [:]
 
-let documents = LibIso18013DAOKeyChain().getAllDocuments(state: .issued).compactMap({
-    document in
-    if let documentData = document.issuerSigned {
-        return (document.docType, documentData, document.deviceKeyData)
-    }
-    return nil
-})
+let documents = LibIso18013DAOKeyChain()
+    .getAllDocuments(state: .issued)
+    .compactMap({
+        if let issuerSigned = $0.issuerSigned {
+            return ProximityDocument(
+                docType: $0.docType, 
+                issuerSigned: issuerSigned, 
+                deviceKeyRaw: $0.deviceKeyData
+            )
+        }
+        return nil
+    })
                     
-var documentMap: [String: ([UInt8], [UInt8])] = [:]
-
-documents.forEach({
-    document in
-    documentMap[document.0] = (document.1, document.2)
-})
                     
-let response = Proximity.shared.generateDeviceResponse(allowed: allowed, items: items, documents: documentMap)
+guard let deviceResponse = Proximity.shared
+    .generateDeviceResponse(
+        allowed: allowed, 
+        items: items, 
+        documents: documents, 
+        sessionTranscript: nil
+        ) else {
+    return
+}
 ```
-
 
 #### Proximity.shared.dataPresentation
 

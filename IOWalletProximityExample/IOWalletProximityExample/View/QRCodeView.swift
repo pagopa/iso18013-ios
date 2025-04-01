@@ -98,20 +98,14 @@ struct QRCodeView: View {
                     allowed, items in
                     
                     let documents = LibIso18013DAOKeyChain().getAllDocuments(state: .issued).compactMap({
-                        if let documentData = $0.issuerSigned {
-                            return ($0.docType, documentData, $0.deviceKeyData)
+                        if let issuerSigned = $0.issuerSigned {
+                            return ProximityDocument(docType: $0.docType, issuerSigned: issuerSigned, deviceKeyRaw: $0.deviceKeyData)
                         }
                         return nil
                     })
                     
-                    var documentMap: [String: ([UInt8], [UInt8])] = [:]
-
-                    documents.forEach({
-                        doc in
-                        documentMap[doc.0] = (doc.1, doc.2)
-                    })
                     
-                    guard let deviceResponse = Proximity.shared.generateDeviceResponseFromData(allowed: allowed, items: items, documents: documentMap) else {
+                    guard let deviceResponse = Proximity.shared.generateDeviceResponse(allowed: allowed, items: items, documents: documents, sessionTranscript: nil) else {
                         return
                     }
                     

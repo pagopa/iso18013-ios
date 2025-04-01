@@ -119,6 +119,7 @@
 		3D179CBA2CB95A370061DFDC /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 3D179CB92CB95A370061DFDC /* KeychainAccess */; settings = {ATTRIBUTES = (Required, ); }; };
 		3D179CBC2CB95EEB0061DFDC /* LibIso18013DAOKeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D179CBB2CB95EDE0061DFDC /* LibIso18013DAOKeyChain.swift */; };
 		3D3263902D636B8B00E3976E /* SwiftASN1 in Frameworks */ = {isa = PBXBuildFile; productRef = 3D32638F2D636B8B00E3976E /* SwiftASN1 */; };
+		3D3D867A2D9BF2D800874CE0 /* ProximityDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D3D86792D9BF2A200874CE0 /* ProximityDocument.swift */; };
 		3DA71A882D8C503D00EC35EF /* OID4VPHandover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA71A872D8C503400EC35EF /* OID4VPHandover.swift */; };
 		3DA71A8A2D8C573700EC35EF /* SessionTranscriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA71A892D8C573000EC35EF /* SessionTranscriptTests.swift */; };
 		3DC072092D7F3BA1003C35A2 /* iOS13HKDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC072082D7F3BA1003C35A2 /* iOS13HKDF.swift */; };
@@ -245,6 +246,7 @@
 		3D179CB12CB9079C0061DFDC /* LibIso18013UtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013UtilsTests.swift; sourceTree = "<group>"; };
 		3D179CB42CB924D90061DFDC /* LibIso18013DAOMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013DAOMemory.swift; sourceTree = "<group>"; };
 		3D179CBB2CB95EDE0061DFDC /* LibIso18013DAOKeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibIso18013DAOKeyChain.swift; sourceTree = "<group>"; };
+		3D3D86792D9BF2A200874CE0 /* ProximityDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProximityDocument.swift; sourceTree = "<group>"; };
 		3DA71A872D8C503400EC35EF /* OID4VPHandover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OID4VPHandover.swift; sourceTree = "<group>"; };
 		3DA71A892D8C573000EC35EF /* SessionTranscriptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTranscriptTests.swift; sourceTree = "<group>"; };
 		3DC072082D7F3BA1003C35A2 /* iOS13HKDF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS13HKDF.swift; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 				3A1E535B2CD8E2BD005F5704 /* Helpers */,
 				3A1E53522CD8E1E4005F5704 /* DeviceSigned */,
 				3A868AFA2CBE948100B35976 /* QRCodeEngagement */,
+				3D3D86792D9BF2A200874CE0 /* ProximityDocument.swift */,
 			);
 			path = Proximity;
 			sourceTree = "<group>";
@@ -726,6 +729,7 @@
 				3D14E67D2CAD92DD00E15A46 /* String+.swift in Sources */,
 				3A1E535C2CD8E2BD005F5704 /* MdocHelpers.swift in Sources */,
 				3A1E535D2CD8E2BD005F5704 /* UserRequestKeys.swift in Sources */,
+				3D3D867A2D9BF2D800874CE0 /* ProximityDocument.swift in Sources */,
 				3A1E535E2CD8E2BD005F5704 /* MdocOfflineDelegate.swift in Sources */,
 				3A1E535F2CD8E2BD005F5704 /* InitializeKeys.swift in Sources */,
 				3D14E6802CAD933600E15A46 /* DrivingPrivileges.swift in Sources */,
