@@ -68,25 +68,23 @@ struct QRCodeView: View {
                     .scaleEffect(4)
             }
             
-            if case .onDocumentRequestReceived(let request) = proximityEvent {
+            if case .onDocumentRequestReceived(let request, let json) = proximityEvent {
                 
                 let req:  [String: [String: [String]]] = {
                     var popupRequest : [String: [String: [String]]] = [:]
                     
-                     request?.request?.forEach({
-                        item in
-                         
-                         var subReq: [String: [String]] = [:]
-                         
-                         item.nameSpaces.keys.forEach({
-                             nameSpace in
-                             subReq[nameSpace] =
-                                 item.nameSpaces[nameSpace]?.keys.map({$0})
-                         })
-                         
-                         popupRequest[item.docType] = subReq
+                    (request["request"] as? [String: AnyHashable])?.forEach({
+                        docType, nameSpaces in
+                        var subReq: [String: [String]] = [:]
+                        
+                        (nameSpaces as? [String: AnyHashable])?.forEach({
+                            nameSpace, items in
+                            subReq[nameSpace] = (items as? [String: AnyHashable])?.keys.map({$0})
+                        })
+                        
+                        popupRequest[docType] = subReq
+                        
                     })
-                    
                     return popupRequest
                     
                     
