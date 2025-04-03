@@ -10,7 +10,7 @@ import Foundation
 public enum ProximityEvents {
     case onBleStart
     case onBleStop
-    case onDocumentRequestReceived(request:  (request: [(docType: String, nameSpaces: [String: [String: Bool]])]?, isAuthenticated: Bool)?)
+    case onDocumentRequestReceived(request: [String: AnyHashable], json: String?)
     case onDocumentPresentationCompleted
     case onError(error: Error)
     case onLoading
@@ -290,8 +290,44 @@ public class Proximity: @unchecked Sendable {
     
     
     
-    func onRequest(request:   (request: [(docType: String, nameSpaces: [String: [String: Bool]])]?, isAuthenticated: Bool)?) {
-        proximityHandler?(.onDocumentRequestReceived(request: request))
+    func onRequest(request: (request: [(docType: String, nameSpaces: [String: [String: Bool]])]?, isAuthenticated: Bool)?) {
+        let json = deviceRequestToJson(request: request)
+        
+        let jsonString: String?
+        
+        if let jsonData = try? JSONSerialization.data(withJSONObject: json, options: []) {
+            jsonString = String(data: jsonData, encoding: .utf8)
+        }
+        else {
+            jsonString = nil
+        }
+        
+        proximityHandler?(.onDocumentRequestReceived(request: json, json: jsonString))
+    }
+    
+    private func deviceRequestToJson(request: (request: [(docType: String, nameSpaces: [String: [String: Bool]])]?, isAuthenticated: Bool)?) -> [String: AnyHashable] {
+        
+        var jsonRequest : [String: [String: [String: Bool]]] = [:]
+        
+        request?.request?.forEach({
+            item in
+            
+            var subReq: [String: [String: Bool]] = [:]
+            
+            item.nameSpaces.keys.forEach({
+                nameSpace in
+                subReq[nameSpace] = item.nameSpaces[nameSpace]
+            })
+            
+            jsonRequest[item.docType] = subReq
+        })
+        
+        var json: [String: AnyHashable] = [
+            "isAuthenticated": request?.isAuthenticated ?? false,
+            "request": jsonRequest
+        ]
+       
+        return json
     }
     
     func onDeviceRequest(_ deviceRequest: DeviceRequest) {
