@@ -197,9 +197,18 @@ public class Proximity: @unchecked Sendable {
         var requestedDocuments = [Document]()
         var docErrors = [[String: UInt64]]()
         
-        guard let sessionEncryption = proximityListener?.sessionEncryption else {
-            return nil
+        let _sessionTranscript: SessionTranscript
+        
+        if let sessionTranscript = sessionTranscript {
+            _sessionTranscript = sessionTranscript
         }
+        else {
+            guard let sessionEncryption = proximityListener?.sessionEncryption else {
+                return nil
+            }
+            _sessionTranscript = sessionEncryption.transcript
+        }
+      
         
         guard let items = items else {
             return nil
@@ -227,7 +236,7 @@ public class Proximity: @unchecked Sendable {
                 return
             }
             
-            if let responseDocument = buildResponseDocument(request: request, issuerSigned: issuerSigned, deviceKey: deviceKey, sessionTranscript:  sessionTranscript ?? sessionEncryption.transcript) {
+            if let responseDocument = buildResponseDocument(request: request, issuerSigned: issuerSigned, deviceKey: deviceKey, sessionTranscript:  _sessionTranscript) {
                 
                 requestedDocuments.append(responseDocument)
             }
