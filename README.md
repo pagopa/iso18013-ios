@@ -12,7 +12,7 @@ The library offers a specific set of functions to handle BLE proximity as specif
 public enum ProximityEvents {
     case onBleStart
     case onBleStop
-    case onDocumentRequestReceived(request:  (request: [(docType: String, nameSpaces: [String: [String: Bool]])]?, isAuthenticated: Bool)?)
+    case onDocumentRequestReceived(request: [String: AnyHashable], json: String?)
     case onDocumentPresentationCompleted
     case onError(error: Error)
     case onLoading
@@ -23,6 +23,56 @@ public enum ProximityEvents {
     print(event)
 }
 ```
+
+#### Proximity.shared.ProximityEvents.onDocumentRequestReceived(request: [String: AnyHashable], json: String?)
+
+* **request** is a json object.
+* **json** is **request** as string.
+
+Here an example:
+
+```json
+{
+  "isAuthenticated": false,
+  "request": {
+    "eu.europa.ec.eudi.pid.1": {
+      "eu.europa.ec.eudi.pid.1": {
+        "resident_street": false,
+        "birth_country": false,
+        "birth_city": false,
+        "given_name": false,
+        "nationality": false,
+        "issuance_date": false,
+        "issuing_authority": false,
+        "resident_state": false,
+        "portrait_capture_date": false,
+        "birth_date": false,
+        "gender": false,
+        "portrait": false,
+        "birth_place": false,
+        "given_name_birth": false,
+        "family_name_birth": false,
+        "administrative_number": false,
+        "age_birth_year": false,
+        "resident_address": false,
+        "issuing_country": false,
+        "family_name": false,
+        "resident_city": false,
+        "resident_country": false,
+        "document_number": false,
+        "resident_house_number": false,
+        "expiry_date": false,
+        "birth_state": false,
+        "issuing_jurisdiction": false,
+        "age_in_years": false,
+        "resident_postal_code": false
+      }
+    }
+  }
+}
+```
+
+
 
 
 #### Proximity.shared.start
