@@ -124,6 +124,7 @@
 		3DA71A8A2D8C573700EC35EF /* SessionTranscriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA71A892D8C573000EC35EF /* SessionTranscriptTests.swift */; };
 		3DC072092D7F3BA1003C35A2 /* iOS13HKDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC072082D7F3BA1003C35A2 /* iOS13HKDF.swift */; };
 		3DCFB9C92D7894E7001050C3 /* Proximity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCFB9C82D7894E4001050C3 /* Proximity.swift */; };
+		3DE097F62DA7D4D3005C83FD /* ProximityDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE097F52DA7D4CB005C83FD /* ProximityDocumentTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,6 +252,7 @@
 		3DA71A892D8C573000EC35EF /* SessionTranscriptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTranscriptTests.swift; sourceTree = "<group>"; };
 		3DC072082D7F3BA1003C35A2 /* iOS13HKDF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS13HKDF.swift; sourceTree = "<group>"; };
 		3DCFB9C82D7894E4001050C3 /* Proximity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proximity.swift; sourceTree = "<group>"; };
+		3DE097F52DA7D4CB005C83FD /* ProximityDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProximityDocumentTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -406,6 +408,7 @@
 		3ADB28FB2CC2507A0087018A /* ModelTests */ = {
 			isa = PBXGroup;
 			children = (
+				3DE097F52DA7D4CB005C83FD /* ProximityDocumentTests.swift */,
 				3DA71A892D8C573000EC35EF /* SessionTranscriptTests.swift */,
 				3ACBE9FF2CD28B1B00701457 /* DocumentErrorTests.swift */,
 				3ACBEA012CD2917700701457 /* ErrorsTests.swift */,
@@ -828,6 +831,7 @@
 				3A652A2A2CAE9B3400B0D6E4 /* DrivingPrivilegesTests.swift in Sources */,
 				3A652A262CAE97C700B0D6E4 /* DeviceResponseTests.swift in Sources */,
 				3ACBE9FA2CD2898400701457 /* DictionaryExtensionsTests.swift in Sources */,
+				3DE097F62DA7D4D3005C83FD /* ProximityDocumentTests.swift in Sources */,
 				3ACBEA002CD28B1B00701457 /* DocumentErrorTests.swift in Sources */,
 				3ADB29032CC2580E0087018A /* UInt32ExtensionsTests.swift in Sources */,
 				3D179CAE2CB82CCA0061DFDC /* LibIso18013DAOTests.swift in Sources */,

@@ -105,11 +105,17 @@ struct QRCodeView: View {
                     })
                     
                     
-                    guard let deviceResponse = Proximity.shared.generateDeviceResponse(allowed: allowed, items: items, documents: documents, sessionTranscript: nil) else {
-                        return
-                    }
+                    let deviceResponse = Proximity.shared.generateDeviceResponse(allowed: allowed, items: items, documents: documents, sessionTranscript: nil)
                     
-                    Proximity.shared.dataPresentation(allowed: allowed, deviceResponse)
+                    switch(deviceResponse) {
+                        case .success(let response):
+                            let dataPresentationResponse = Proximity.shared.dataPresentation(allowed: allowed, response)
+                            
+                            print(dataPresentationResponse)
+                        default:
+                            print(deviceResponse)
+                            return
+                    }
                 }
             }
             
@@ -162,9 +168,15 @@ struct QRCodeView: View {
         
         let trustedCertificates: [Data] = []
         
+        let startResult = Proximity.shared.start()
         
-        
-        qrCode = Proximity.shared.start() ?? ""
+        switch(startResult) {
+            case .success(let qrCode):
+                self.qrCode = qrCode
+                break
+            default:
+                qrCode = "";
+        }
     }
     
 }
