@@ -10,7 +10,7 @@ import Foundation
 public enum ProximityEvents {
     case onBleStart
     case onBleStop
-    case onDocumentRequestReceived(request:  (request: [(docType: String, nameSpaces: [String: [String: Bool]])]?, isAuthenticated: Bool)?)
+    case onDocumentRequestReceived(request: [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool)]?)
     case onDocumentPresentationCompleted
     case onError(error: Error)
     case onLoading
@@ -299,39 +299,33 @@ public class Proximity: @unchecked Sendable {
     
     
     
-    func onRequest(request:   (request: [(docType: String, nameSpaces: [String: [String: Bool]])]?, isAuthenticated: Bool)?) {
+    func onRequest(request:  [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool)]) {
         proximityHandler?(.onDocumentRequestReceived(request: request))
     }
     
     func onDeviceRequest(_ deviceRequest: DeviceRequest) {
-        
-        let withAuthentication : (request: [(docType: String, nameSpaces: [String: [String: Bool]])]?, isAuthenticated: Bool)
-        
-        let isAuthenticated: Bool
-        
-        if let sessionEncryption = proximityListener?.sessionEncryption {
-            let iaca: [SecCertificate] = trustedCertificates
-            
-            isAuthenticated = MdocTransferHelpers.isDeviceRequestValid(deviceRequest: deviceRequest, iaca: iaca, sessionEncryption: sessionEncryption)
-        } else {
-            isAuthenticated = false
-        }
-        
-        withAuthentication = (
-            request: buildDeviceRequestJson(item: deviceRequest),
-            isAuthenticated: isAuthenticated)
-        
-        onRequest(request: withAuthentication)
+        onRequest(request: buildDeviceRequestJson(item: deviceRequest))
     }
     
-    func buildDeviceRequestJson(item: DeviceRequest) -> [(docType: String, nameSpaces: [String: [String: Bool]])]? {
+    func buildDeviceRequestJson(item: DeviceRequest) -> [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool)] {
         
-        var requestedDocuments: [(docType: String, nameSpaces: [String: [String: Bool]])] = []
+        var requestedDocuments: [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool)] = []
         
         item.docRequests.forEach({
             request in
             
-            requestedDocuments.append((docType: request.itemsRequest.docType, nameSpaces: getRequestedItems(request: request)))
+            let isAuthenticated: Bool
+            
+            if let sessionEncryption = proximityListener?.sessionEncryption {
+                let iaca: [SecCertificate] = trustedCertificates
+                
+                isAuthenticated = MdocTransferHelpers.isDeviceRequestDocumentValid(docR: request, iaca: iaca, sessionEncryption: sessionEncryption)
+            }
+            else {
+                isAuthenticated = false
+            }
+            
+            requestedDocuments.append((docType: request.itemsRequest.docType, nameSpaces: getRequestedItems(request: request), isAuthenticated: isAuthenticated))
         })
         
         return requestedDocuments

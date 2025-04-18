@@ -73,7 +73,7 @@ struct QRCodeView: View {
                 let req:  [String: [String: [String]]] = {
                     var popupRequest : [String: [String: [String]]] = [:]
                     
-                     request?.request?.forEach({
+                     request?.forEach({
                         item in
                          
                          var subReq: [String: [String]] = [:]

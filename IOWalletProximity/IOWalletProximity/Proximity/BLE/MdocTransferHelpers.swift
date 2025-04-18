@@ -65,6 +65,28 @@ class MdocTransferHelpers {
         } catch { return .failure(error) }
     }
     
+    public static func isDeviceRequestDocumentValid(docR: DocRequest, iaca: [SecCertificate], sessionEncryption: SessionEncryption) -> Bool {
+        //if let docR = deviceRequest.docRequests.first {
+            let mdocAuth = MdocReaderAuthentication(transcript: sessionEncryption.transcript)
+            if let readerAuthRawCBOR = docR.readerAuthRawCBOR,
+               let certData = docR.readerCertificate,
+               let x509 = try? X509.Certificate(derEncoded: [UInt8](certData)),
+               let (isValidSignature, reasonFailure) = try? mdocAuth.validateReaderAuth(readerAuthCBOR: readerAuthRawCBOR, readerAuthCertificate: certData, itemsRequestRawData: docR.itemsRequestRawData!, rootCerts: iaca) {
+                //params[UserRequestKeys.reader_certificate_issuer.rawValue] = MdocHelpers.getCN(from: x509.subject.description)
+                //params[UserRequestKeys.reader_auth_validated.rawValue] = b
+                if let reasonFailure {
+                    //Certificate root authentication failed
+                    //params[UserRequestKeys.reader_certificate_validation_message.rawValue] = reasonFailure
+                    return false
+                    
+                }
+                return isValidSignature
+            }
+        //}
+        return false
+    }
+    
+    
     public static func isDeviceRequestValid(deviceRequest: DeviceRequest, iaca: [SecCertificate], sessionEncryption: SessionEncryption) -> Bool {
         if let docR = deviceRequest.docRequests.first {
             let mdocAuth = MdocReaderAuthentication(transcript: sessionEncryption.transcript)
