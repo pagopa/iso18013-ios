@@ -25,13 +25,12 @@ public enum ProximityEvents {
 ```
 
 
-#### ProximityStatus
+#### ProximityError
 ```swift
 
-//  Possible response status of various methods
+//  Possible response errors of various methods
 
-public enum ProximityStatus<T> {
-    case success(result: T)
+public enum ProximityError {
     case nullObject(objectName: String)
     case decodingFailed(objectName: String)
     case error(error: Error)
@@ -44,7 +43,7 @@ public enum ProximityStatus<T> {
 //  Initialize the BLE manager, set the necessary listeners. Start the BLE and generate the QRCode string
 //  - Parameters:
 //      - trustedCertificates: list of trusted certificates to verify reader validity
-//  - Returns: ProximityStatus.success with string containing the DeviceEngagement data necessary to start the verification process as value
+//  - Returns: string containing the DeviceEngagement data necessary to start the verification process as value
 
 let qrCodeStatus = Proximity.shared.start()
 
@@ -94,14 +93,14 @@ public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeyTag: S
  *   - documents: List of documents.
  *   - sessionTranscript: optional CBOR encoded session transcript
  *
- * - Returns: ProximityStatus.success with CBOR-encoded DeviceResponse object as value
+ * - Returns: CBOR-encoded DeviceResponse object as value
  */
 public func generateDeviceResponseFromJson(
     allowed: Bool,
     items: String?,
     documents: [ProximityDocument]?,
     sessionTranscript: [UInt8]?
-) -> ProximityStatus<[UInt8]> 
+) throws -> [UInt8]
 ```
 
 
@@ -116,14 +115,14 @@ public func generateDeviceResponseFromJson(
  *   - documents: List of documents.
  *   - sessionTranscript: optional CBOR encoded session transcript
  *
- * - Returns: ProximityStatus.success with CBOR-encoded DeviceResponse object as value
+ * - Returns: CBOR-encoded DeviceResponse object as value
  */
 public func generateDeviceResponse(
     allowed: Bool,
     items: [String: [String: [String: Bool]]]?,
     documents: [ProximityDocument]?,
     sessionTranscript: [UInt8]?
-) -> ProximityStatus<[UInt8]>
+) throws -> [UInt8]
 ```
 
 ```swift
@@ -169,7 +168,6 @@ switch(deviceResponseStatus) {
 //  - Parameters:
 //      - allowed: User has allowed the verification process
 //      - deviceResponse: Device Response cbor-encoded (result of Proximity.shared.generateDeviceResponse)
-//  - Returns: ProximityStatus
 
 let deviceResponse: [UInt8] = /*result of generateDeviceResponse*/
 

@@ -7,22 +7,21 @@
 internal import SwiftCBOR
 import Foundation
 
-public enum ProximityStatus<T> {
-    case success(result: T)
+public enum ProximityError : Error, CustomStringConvertible {
     case nullObject(objectName: String)
     case decodingFailed(objectName: String)
     case error(error: Error)
     
-    func to<T1>(_ convert: (T) -> T1) -> ProximityStatus<T1> {
+    public var description: String {
         switch(self) {
-            case .decodingFailed(let objectName):
-                return .decodingFailed(objectName: objectName)
             case .nullObject(let objectName):
-                return .nullObject(objectName: objectName)
-            case .success(let result):
-                return .success(result: convert(result))
+                return "'\(objectName)' should not be null"
+            
+            case .decodingFailed(let objectName):
+                return "'\(objectName)' decoding failed"
+                
             case .error(let error):
-                return .error(error: error)
+                return error.localizedDescription
         }
     }
 }
@@ -50,7 +49,7 @@ public class Proximity: @unchecked Sendable {
     //  - Parameters:
     //      - trustedCertificates: list of trusted certificates to verify reader validity
     //  - Returns: A string containing the DeviceEngagement data necessary to start the verification process
-    public func start(_ trustedCertificates: [Data]? = nil) -> ProximityStatus<String> {
+    public func start(_ trustedCertificates: [Data]? = nil) throws -> String {
         
         self.trustedCertificates = trustedCertificates?.compactMap {
             SecCertificateCreateWithData(nil, $0 as CFData)
@@ -67,12 +66,11 @@ public class Proximity: @unchecked Sendable {
             
             proximityHandler?(.onBleStart)
             
-            return .success(result: qrCode)
+            return qrCode
         }
         catch {
-            
             proximityHandler?(.onError(error: error))
-            return .error(error: error)
+            throw ProximityError.error(error: error)
         }
     }
     
@@ -80,19 +78,18 @@ public class Proximity: @unchecked Sendable {
     //  - Parameters:
     //      - allowed: User has allowed the verification process
     //      - deviceResponse: deviceResponse as cbor encoded
-    public func dataPresentation(allowed: Bool, _ deviceResponse: [UInt8]) -> ProximityStatus<Void> {
+    public func dataPresentation(allowed: Bool, _ deviceResponse: [UInt8]) throws {
         guard let proximityListener = self.proximityListener else {
-            return .nullObject(objectName: "proximityListener")
+            throw Null
+            throw ProximityError.nullObject(objectName: "proximityListener")
         }
         
         guard let deviceResponse = DeviceResponse(data: deviceResponse) else {
-            return .decodingFailed(objectName: "deviceResponse")
+            throw ProximityError.decodingFailed(objectName: "deviceResponse")
         }
         
         
         proximityListener.onResponse?(allowed, deviceResponse)
-        
-        return .success(result: Void())
     }
     
     
@@ -154,7 +151,7 @@ public class Proximity: @unchecked Sendable {
     public func generateDeviceResponseFromJson(allowed: Bool,
                                                          items: String?,
                                                documents: [ProximityDocument]?,
-                                                         sessionTranscript: [UInt8]?) -> ProximityStatus<[UInt8]> {
+                                                         sessionTranscript: [UInt8]?) throws -> [UInt8] {
         var decodedItems: [String: [String: [String: Bool]]]? = nil
         if let items = items {
             if let itemsData = items.data(using: .utf8) {
@@ -164,7 +161,7 @@ public class Proximity: @unchecked Sendable {
             }
         }
         
-        return generateDeviceResponse(allowed: allowed, items: decodedItems, documents: documents, sessionTranscript: sessionTranscript)
+        return try generateDeviceResponse(allowed: allowed, items: decodedItems, documents: documents, sessionTranscript: sessionTranscript)
     }
     
     /**
@@ -181,7 +178,7 @@ public class Proximity: @unchecked Sendable {
     public func generateDeviceResponse(allowed: Bool,
                                        items: [String: [String: [String: Bool]]]?,
                                                documents: [ProximityDocument]?,
-                                               sessionTranscript: [UInt8]?) -> ProximityStatus<[UInt8]> {
+                                               sessionTranscript: [UInt8]?) throws -> [UInt8] {
        
         
         var documentsWithKeys: [String: ([UInt8], CoseKeyPrivate)] = [:]
@@ -193,7 +190,7 @@ public class Proximity: @unchecked Sendable {
         })
         
         
-        return generateDeviceResponseCBOR(allowed: allowed, items: items, documents: documentsWithKeys, sessionTranscript: sessionTranscript)
+        return try generateDeviceResponseCBOR(allowed: allowed, items: items, documents: documentsWithKeys, sessionTranscript: sessionTranscript)
     }
     
     
@@ -202,7 +199,7 @@ public class Proximity: @unchecked Sendable {
         items: [String: [String: [String: Bool]]]?,
         documents: [String: ([UInt8], CoseKeyPrivate)]?,
         sessionTranscript: [UInt8]? = nil
-    ) -> ProximityStatus<[UInt8]> {
+    ) throws -> [UInt8] {
         
         let transcript: SessionTranscript?
         
@@ -213,12 +210,9 @@ public class Proximity: @unchecked Sendable {
             transcript = nil
         }
         
-        let deviceResponse = generateDeviceResponse(allowed: allowed, items: items, documents: documents, sessionTranscript: transcript)
+        let deviceResponse = try generateDeviceResponse(allowed: allowed, items: items, documents: documents, sessionTranscript: transcript)
         
-        return deviceResponse.to({
-            deviceResponse in
-            return deviceResponse.encode(options: CBOROptions())
-        })
+        return deviceResponse.encode(options: CBOROptions())
     }
     
     
@@ -226,7 +220,7 @@ public class Proximity: @unchecked Sendable {
     private func generateDeviceResponse(allowed: Bool,
                                          items: [String: [String: [String: Bool]]]?,
                                          documents: [String: ([UInt8], CoseKeyPrivate)]?,
-                                         sessionTranscript: SessionTranscript?) -> ProximityStatus<DeviceResponse> {
+                                         sessionTranscript: SessionTranscript?) throws -> DeviceResponse {
         
         var requestedDocuments = [Document]()
         var docErrors = [[String: UInt64]]()
@@ -238,18 +232,18 @@ public class Proximity: @unchecked Sendable {
         }
         else {
             guard let sessionEncryption = proximityListener?.sessionEncryption else {
-                return .nullObject(objectName: "sessionEncryption")
+                throw ProximityError.nullObject(objectName: "sessionEncryption")
             }
             _sessionTranscript = sessionEncryption.transcript
         }
       
         
         guard let items = items else {
-            return .nullObject(objectName: "items")
+            throw ProximityError.nullObject(objectName: "items")
         }
         
         guard let documents = documents else {
-            return .nullObject(objectName: "documents")
+            throw ProximityError.nullObject(objectName: "documents")
         }
         
         items.keys.forEach({
@@ -291,7 +285,7 @@ public class Proximity: @unchecked Sendable {
                                                   documentErrors: documentErrors,
                                                   status: 0)
         
-        return .success(result: deviceResponseToSend)
+        return deviceResponseToSend
         
     }
     
