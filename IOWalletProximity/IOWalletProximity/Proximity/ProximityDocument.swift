@@ -21,6 +21,11 @@ public class ProximityDocument {
             return nil
         }
         
+        if !ProximityDocument.isIssuerSignedValid(issuerSigned) {
+            //issuerSigned decoding failed
+            return nil
+        }
+        
         self.init(docType: docType, issuerSigned: issuerSigned, deviceKey: deviceKey)
     }
     
@@ -29,6 +34,12 @@ public class ProximityDocument {
         guard let deviceKey = CoseKeyPrivate.init(crv: .p256, secKey: deviceKeySecKey) else {
             return nil
         }
+        
+        if !ProximityDocument.isIssuerSignedValid(issuerSigned) {
+            //issuerSigned decoding failed
+            return nil
+        }
+        
         
         self.init(docType: docType, issuerSigned: issuerSigned, deviceKey: deviceKey)
     }
@@ -40,7 +51,21 @@ public class ProximityDocument {
             return nil
         }
         
+        if !ProximityDocument.isIssuerSignedValid(issuerSigned) {
+            //issuerSigned decoding failed
+            return nil
+        }
+        
+        
         self.init(docType: docType, issuerSigned: issuerSigned, deviceKey: deviceKey)
+    }
+    
+    private static func isIssuerSignedValid(_ issuerSigned: [UInt8]) -> Bool {
+        guard let _ = IssuerSigned(data: issuerSigned) else {
+            return false
+        }
+        
+        return true
     }
     
     private init(docType: String, issuerSigned: [UInt8], deviceKey: CoseKeyPrivate) {
