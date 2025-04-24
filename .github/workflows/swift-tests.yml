@@ -44,15 +44,16 @@ jobs:
 
       - name: Convert XCResult → JUnit XML
         run: |
-          brew install chargepoint/xcparse/xcparse
-          xcparse junit TestResults.xcresult junit-results
+          brew tap a7ex/homebrew-formulae
+          brew install xcresultparser
+          xcresultparser -o junit TestResults > junit-results.xml
 
       - name: Publish JUnit summary
         uses: dorny/test-reporter@31a54ee7ebcacc03a09ea97a7e5465a47b84aea5
         if: always()
         with:
           name: iOS Unit Tests
-          path: junit-results/*.xml
+          path: junit-results.xml
           reporter: java-junit
 
       - name: Upload Test Results
