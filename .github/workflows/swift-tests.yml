@@ -39,7 +39,15 @@ jobs:
             -project IOWalletProximity/IOWalletProximity.xcodeproj \
             -scheme IOWalletProximity \
             -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0.1' \
+            -resultBundlePath TestResults \
             -enableCodeCoverage YES | xcpretty
+
+      - name: Analyze XCResult and publish Check
+        uses: tbartelmess/analyze-xcoderesults-action@fda2d27557bf6fdc1ce09b82e117bcfde3976c46 # v0.1.1
+        if: always()
+        with:
+          results: TestResults.xcresult
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Test Results
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
