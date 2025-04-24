@@ -38,7 +38,7 @@ jobs:
           xcodebuild test \
             -project IOWalletProximity/IOWalletProximity.xcodeproj \
             -scheme IOWalletProximity \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0.1' \
             -enableCodeCoverage YES | xcpretty
 
       - name: Upload Test Results
