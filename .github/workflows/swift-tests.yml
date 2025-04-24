@@ -29,8 +29,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          gem install bundler
-          bundle install
+          gem install cocoapods cocoapods-spm
           cd IOWalletProximityExample
           pod install --repo-update
 
