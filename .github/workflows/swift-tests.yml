@@ -7,6 +7,9 @@ on:
     branches: [main]
     types: [opened, synchronize, reopened]
 
+env:
+  RESULT_BUNDLE: TestResults.xcresult
+
 # Limit permissions to only what is necessary for the workflow
 permissions:
   contents: read
@@ -39,18 +42,17 @@ jobs:
             -project IOWalletProximity/IOWalletProximity.xcodeproj \
             -scheme IOWalletProximity \
             -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0.1' \
-            -resultBundlePath TestResults.xcresult \
+            -resultBundlePath "$RESULT_BUNDLE" \
             -enableCodeCoverage YES | xcpretty
 
       - name: Convert XCResult → JUnit XML
         run: |
           brew tap a7ex/homebrew-formulae
           brew install xcresultparser
-          xcresultparser -o junit TestResults.xcresult > junit-results.xml
+          xcresultparser -o junit "$RESULT_BUNDLE" > junit-results.xml
 
       - name: Publish JUnit summary
         uses: dorny/test-reporter@31a54ee7ebcacc03a09ea97a7e5465a47b84aea5
-        if: always()
         with:
           name: iOS Unit Tests
           path: junit-results.xml
@@ -62,7 +64,7 @@ jobs:
         with:
           name: test-results
           path: |
-            ~/Library/Developer/Xcode/DerivedData/**/Logs/Test/*.xcresult
+            "$RESULT_BUNDLE"
           retention-days: 7
           if-no-files-found: error # ← makes the step (and job) fail
 
