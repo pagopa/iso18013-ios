@@ -42,14 +42,14 @@ jobs:
             -project IOWalletProximity/IOWalletProximity.xcodeproj \
             -scheme IOWalletProximity \
             -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0.1' \
-            -resultBundlePath "$RESULT_BUNDLE" \
+            -resultBundlePath ${{ env.RESULT_BUNDLE }} \
             -enableCodeCoverage YES | xcpretty
 
       - name: Convert XCResult → JUnit XML
         run: |
           brew tap a7ex/homebrew-formulae
           brew install xcresultparser
-          xcresultparser -o junit "$RESULT_BUNDLE" > junit-results.xml
+          xcresultparser -o junit ${{ env.RESULT_BUNDLE }} > junit-results.xml
 
       - name: Publish JUnit summary
         uses: dorny/test-reporter@31a54ee7ebcacc03a09ea97a7e5465a47b84aea5
@@ -64,7 +64,7 @@ jobs:
         with:
           name: test-results
           path: |
-            "$RESULT_BUNDLE"
+            ${{ env.RESULT_BUNDLE }}
           retention-days: 7
           if-no-files-found: error # ← makes the step (and job) fail
 
