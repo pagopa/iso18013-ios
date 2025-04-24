@@ -49,6 +49,7 @@ jobs:
           path: |
             ~/Library/Developer/Xcode/DerivedData/**/Logs/Test/*.xcresult
           retention-days: 7
+          if-no-files-found: error # ← makes the step (and job) fail
 
       - name: Report Test Status
         if: always()
