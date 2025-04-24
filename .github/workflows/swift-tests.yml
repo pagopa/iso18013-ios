@@ -1,0 +1,58 @@
+name: Swift Unit Tests
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+# Limit permissions to only what is necessary for the workflow
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  test:
+    name: Run Unit Tests
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v60606e260d2fc5762a71e64e74b2174e8ea3c8bd # v1.6.0
+        with:
+          xcode-version: latest-stable
+
+      - name: Install Dependencies
+        run: |
+          gem install bundler
+          bundle install
+          cd IOWalletProximityExample
+          pod install --repo-update
+
+      - name: Run Unit Tests
+        run: |
+          xcodebuild test \
+            -project IOWalletProximity/IOWalletProximity.xcodeproj \
+            -scheme IOWalletProximity \
+            -destination 'platform=iOS Simulator,name=iPhone 14,OS=latest' \
+            -enableCodeCoverage YES | xcpretty
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: test-results
+          path: |
+            ~/Library/Developer/Xcode/DerivedData/**/Logs/Test/*.xcresult
+          retention-days: 7
+
+      - name: Report Test Status
+        if: always()
+        run: |
+          if [ ${{ job.status }} == "failure" ]; then
+            echo "::error::Unit tests failed. Please check the logs for details."
+            exit 1
+          fi
