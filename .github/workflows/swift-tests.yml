@@ -30,6 +30,26 @@ jobs:
         with:
           xcode-version: latest-stable
 
+      # Cache di CocoaPods
+      - name: Cache CocoaPods
+        uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.2
+        with:
+          path: |
+            IOWalletProximityExample/Pods
+            ~/Library/Caches/CocoaPods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      # Cache di Swift Package Manager
+      - name: Cache Swift packages
+        uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.2
+        with:
+          path: .build
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
       - name: Install Dependencies
         run: |
           gem install cocoapods cocoapods-spm
