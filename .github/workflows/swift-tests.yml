@@ -37,6 +37,8 @@ jobs:
       - name: Install Dependencies
         run: |
           cd IOWalletProximityExample
+          gem install bundle
+          bundle install
           bundle exec pod install --repo-update
 
       - name: Run Unit Tests
