@@ -47,8 +47,7 @@ jobs:
             -project IOWalletProximity/IOWalletProximity.xcodeproj \
             -scheme IOWalletProximity \
             -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0.1' \
-            -resultBundlePath ${{ env.RESULT_BUNDLE }} \
-            -enableCodeCoverage YES | xcpretty
+            -resultBundlePath ${{ env.RESULT_BUNDLE }}
 
       - name: Convert XCResult → JUnit XML
         run: |
