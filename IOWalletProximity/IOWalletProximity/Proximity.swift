@@ -69,7 +69,6 @@ public class Proximity: @unchecked Sendable {
             return qrCode
         }
         catch {
-            proximityHandler?(.onError(error: error))
             throw ProximityError.error(error: error)
         }
     }
@@ -80,7 +79,6 @@ public class Proximity: @unchecked Sendable {
     //      - deviceResponse: deviceResponse as cbor encoded
     public func dataPresentation(allowed: Bool, _ deviceResponse: [UInt8]) throws {
         guard let proximityListener = self.proximityListener else {
-            throw Null
             throw ProximityError.nullObject(objectName: "proximityListener")
         }
         
