@@ -54,7 +54,16 @@ dependencies: [
 import IOWalletProximity
 
 // Start the proximity service
-let qrCode = Proximity.shared.start()
+let qrCodeStatus = Proximity.shared.start()
+
+switch(qrCodeStatus) {
+    case .success(let qrCode):
+        //use qrCode
+        print(qrCode)
+    default:
+        print(qrCodeStatus)
+        //start failed for some reasons
+}
 
 //  Stops the BLE manager and closes connections.
 Proximity.shared.stop()
@@ -107,14 +116,14 @@ public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeyTag: S
  *   - documents: List of documents.
  *   - sessionTranscript: optional CBOR encoded session transcript
  *
- * - Returns: A CBOR-encoded DeviceResponse object
+ * - Returns: CBOR-encoded DeviceResponse object as value
  */
 public func generateDeviceResponseFromJson(
     allowed: Bool,
     items: String?,
     documents: [ProximityDocument]?,
     sessionTranscript: [UInt8]?
-) -> [UInt8]?
+) throws -> [UInt8]
 ```
 
 #### Proximity.shared.generateDeviceResponse
@@ -129,14 +138,14 @@ public func generateDeviceResponseFromJson(
  *   - documents: List of documents.
  *   - sessionTranscript: optional CBOR encoded session transcript
  *
- * - Returns: A CBOR-encoded DeviceResponse object
+ * - Returns: CBOR-encoded DeviceResponse object as value
  */
 public func generateDeviceResponse(
     allowed: Bool,
     items: [String: [String: [String: Bool]]]?,
     documents: [ProximityDocument]?,
     sessionTranscript: [UInt8]?
-) -> [UInt8]?
+) throws -> [UInt8]
 ```
 
 ```swift
@@ -156,14 +165,21 @@ let documents = LibIso18013DAOKeyChain()
     })
 
 
-guard let deviceResponse = Proximity.shared
+let deviceResponseStatus = Proximity.shared
     .generateDeviceResponse(
         allowed: allowed,
         items: items,
         documents: documents,
         sessionTranscript: nil
-        ) else {
-    return
+        )
+
+switch(deviceResponseStatus) {
+    case .success(let deviceResponse):
+        //use deviceResponse
+        print(deviceResponse)
+    default:
+        print(deviceResponseStatus)
+        //generateDeviceResponse failed for some reasons
 }
 ```
 
@@ -178,6 +194,19 @@ guard let deviceResponse = Proximity.shared
 let deviceResponse: [UInt8] = /*result of generateDeviceResponse*/
 
 Proximity.shared.dataPresentation(allowed: allowed, deviceResponse)
+```
+
+#### ProximityError
+
+```swift
+
+//  Possible response errors of various methods
+
+public enum ProximityError {
+    case nullObject(objectName: String)
+    case decodingFailed(objectName: String)
+    case error(error: Error)
+}
 ```
 
 ### ISO18013-7 Remote Presentation (OpenID4VP)
@@ -221,17 +250,24 @@ let sessionTranscript = Proximity.shared.generateOID4VPSessionTranscriptCBOR(
 //Map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
 let items: [String: [String: [String: Bool]]] = [:] //items should contain all the items received in the openId4VpRequest.
 
-//Map of [documentType : (issuerSigned, deviceKey)]
-var documentMap: [String: ([UInt8], SecKey)] = [:]
+//List of ProximityDocument
+var documents: [ProximityDocument] = []
 
-let deviceResponse = Proximity.shared.generateDeviceResponseFromDataWithSecKey(
+let deviceResponseStatus = Proximity.shared.generateDeviceResponse(
     allowed: true,
     items: items,
-    documents: documentMap,
+    documents: documents,
     sessionTranscript: sessionTranscript
 )
 
-//send deviceResponse to OpenID4VP backend
+switch(deviceResponseStatus) {
+    case .success(let deviceResponse):
+        //send deviceResponse to OpenID4VP backend
+        print(deviceResponse)
+    default:
+        print(deviceResponseStatus)
+        //generateDeviceResponse failed for some reasons
+}
 
 ```
 
