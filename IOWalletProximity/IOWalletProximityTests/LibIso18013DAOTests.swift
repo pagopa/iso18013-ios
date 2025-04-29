@@ -99,7 +99,8 @@ final class LibIso18013DAOTests: XCTestCase {
        let sessionTranscript = Proximity.shared.generateOID4VPSessionTranscriptCBOR(clientId: "clientId", responseUri: "responseUri", authorizationRequestNonce: "authorizationRequestNonce", mdocGeneratedNonce: "mdocNonce")
         
         
-        guard case .success(let deviceResponseRaw) = Proximity.shared.generateDeviceResponse(allowed: true, items: items, documents: documents, sessionTranscript: sessionTranscript) else {
+        
+        guard let deviceResponseRaw = try? Proximity.shared.generateDeviceResponse(allowed: true, items: items, documents: documents, sessionTranscript: sessionTranscript) else {
             XCTFail("deviceResponse must be valid")
             return
         }
