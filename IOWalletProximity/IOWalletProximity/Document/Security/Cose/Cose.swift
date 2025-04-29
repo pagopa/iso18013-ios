@@ -282,10 +282,19 @@ extension Cose {
     /// - Returns: True if validation of signature succeeds
     public func validateDetachedCoseSign1(payloadData: Data, publicKey_x963: Data) throws -> Bool {
         let b: Bool
-        guard type == .sign1 else { /*logger.error("Cose must have type sign1");*/ return false}
-        guard let verifyAlgorithm = verifyAlgorithm else { /*logger.error("Cose signature algorithm not found");*/ return false}
+        guard type == .sign1 else {
+            //Cose must have type sign1
+            return false
+        }
+        guard let verifyAlgorithm = verifyAlgorithm else {
+            //Cose signature algorithm not found
+            return false
+        }
         let coseWithPayload = Cose(other: self, payloadData: payloadData)
-        guard let signatureStruct = coseWithPayload.signatureStruct else { /*logger.error("Cose signature struct cannot be computed");*/ return false}
+        guard let signatureStruct = coseWithPayload.signatureStruct else {
+            //Cose signature struct cannot be computed
+            return false
+        }
         switch verifyAlgorithm {
             case .es256:
                 let signingPubKey = try P256.Signing.PublicKey(x963Representation: publicKey_x963)
@@ -305,10 +314,19 @@ extension Cose {
     
     public func validateCoseSign1(publicKey_x963: Data) throws -> Bool {
         let b: Bool
-        guard type == .sign1 else { /*logger.error("Cose must have type sign1");*/ return false}
-        guard let verifyAlgorithm = verifyAlgorithm else { /*logger.error("Cose signature algorithm not found");*/ return false}
-        //let coseWithPayload = Cose(other: self, payloadData: payloadData)
-        guard let signatureStruct = self.signatureStruct else { /*logger.error("Cose signature struct cannot be computed");*/ return false}
+        guard type == .sign1 else {
+            //Cose must have type sign1
+            return false
+        }
+        guard let verifyAlgorithm = verifyAlgorithm else {
+            //Cose signature algorithm not found
+            return false
+        }
+        
+        guard let signatureStruct = self.signatureStruct else {
+            //Cose signature struct cannot be computed
+            return false
+        }
         switch verifyAlgorithm {
             case .es256:
                 let signingPubKey = try P256.Signing.PublicKey(x963Representation: publicKey_x963)
