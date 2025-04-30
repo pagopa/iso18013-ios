@@ -1,8 +1,98 @@
-# iso18013-ios
+# IOWalletProximity - ISO 18013 iOS Library
 
-The library offers a specific set of functions to handle BLE proximity as specified by iso-18013
+## Overview
 
-### ISO18013-5 Proximity
+IOWalletProximity is an iOS library that implements the ISO 18013 standard for mobile driving licenses (mDL) and digital identity documents. This library is part of the Italian Digital Identity Wallet implementation, providing native iOS support for secure document verification and presentation through proximity protocols.
+
+## Features
+
+- **ISO 18013-5 Compliance**: Full implementation of the ISO 18013-5 standard for mobile driving licenses
+- **Secure Document Transfer**: Secure transfer of identity documents via BLE (Bluetooth Low Energy)
+- **QR Code Engagement**: Generation and processing of QR codes for establishing secure connections
+- **Selective Disclosure**: Support for selective disclosure of personal data attributes
+- **CBOR Encoding**: Compact Binary Object Representation for efficient data exchange
+- **Document Authentication**: Cryptographic verification of document authenticity
+- **OID4VP Support**: Implementation of OpenID for Verifiable Presentations (ISO 18013-7)
+
+## Requirements
+
+- iOS 13.0+
+- Swift 5.0+
+- Xcode 12.0+
+
+## Installation
+
+### CocoaPods
+
+Add the following to your `Podfile`:
+
+```ruby
+pod 'IOWalletProximity', '~> 0.0.6'
+```
+
+Then run:
+
+```bash
+pod install
+```
+
+## Usage
+
+### Initialize the Proximity Service
+
+```swift
+import IOWalletProximity
+
+// Start the proximity service
+let qrCodeStatus = Proximity.shared.start()
+
+switch(qrCodeStatus) {
+    case .success(let qrCode):
+        //use qrCode
+        print(qrCode)
+    default:
+        print(qrCodeStatus)
+        //start failed for some reasons
+}
+
+//  Stops the BLE manager and closes connections.
+Proximity.shared.stop()
+
+
+// Listen for proximity events
+Proximity.shared.proximityHandler = { event in
+    switch event {
+    case .onBleStart:
+        // BLE service started
+    case .onDocumentRequestReceived(let request):
+        // Handle document request
+    case .onDocumentPresentationCompleted:
+        // Document successfully presented
+    case .onError(let error):
+        // Handle error
+    case .onLoading:
+        // Loading state
+    case .onBleStop:
+        // BLE service stopped
+    }
+}
+```
+
+#### ProximityDocument
+
+```swift
+//  ProximityDocument is a class to store docType, issuerSigned and deviceKey.
+//  It can be initialized in various ways. The difference is the source of the deviceKey
+
+//  This constructor allows to initialize the object with a COSEKey CBOR encoded deviceKey
+public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeyRaw: [UInt8])
+
+//  This constructor allows to initialize the object with a SecKey deviceKey
+public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeySecKey: SecKey)
+
+//  This constructor allows to initialize the object with a String representing the SecKey in the keychain
+public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeyTag: String)
+```
 
 #### Proximity.shared.proximityHandler
 
@@ -24,65 +114,8 @@ public enum ProximityEvents {
 }
 ```
 
-
-#### ProximityError
-```swift
-
-//  Possible response errors of various methods
-
-public enum ProximityError {
-    case nullObject(objectName: String)
-    case decodingFailed(objectName: String)
-    case error(error: Error)
-}
-```
-
-#### Proximity.shared.start
-
-```swift
-//  Initialize the BLE manager, set the necessary listeners. Start the BLE and generate the QRCode string
-//  - Parameters:
-//      - trustedCertificates: list of trusted certificates to verify reader validity
-//  - Returns: string containing the DeviceEngagement data necessary to start the verification process as value
-
-let qrCodeStatus = Proximity.shared.start()
-
-switch(qrCodeStatus) {
-    case .success(let qrCode):
-        //use qrCode
-        print(qrCode)
-    default:
-        print(qrCodeStatus)
-        //start failed for some reasons
-}
-
-```
-
-#### Proximity.shared.stop
-
-```swift
-//  Stops the BLE manager and closes connections.
-
-Proximity.shared.stop()
-```
-
-#### ProximityDocument
-
-```swift
-//  ProximityDocument is a class to store docType, issuerSigned and deviceKey.
-//  It can be initialized in various ways. The difference is the source of the deviceKey
-
-//  This constructor allows to initialize the object with a COSEKey CBOR encoded deviceKey
-public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeyRaw: [UInt8])
-
-//  This constructor allows to initialize the object with a SecKey deviceKey
-public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeySecKey: SecKey)
-
-//  This constructor allows to initialize the object with a String representing the SecKey in the keychain
-public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeyTag: String)
-```
-
 #### Proximity.shared.generateDeviceResponseFromJson
+
 ```swift
 /**
  * Generate DeviceResponse to request for data from the reader.
@@ -103,8 +136,8 @@ public func generateDeviceResponseFromJson(
 ) throws -> [UInt8]
 ```
 
-
 #### Proximity.shared.generateDeviceResponse
+
 ```swift
 /**
  * Generate DeviceResponse to request for data from the reader.
@@ -133,20 +166,20 @@ let documents = LibIso18013DAOKeyChain()
     .compactMap({
         if let issuerSigned = $0.issuerSigned {
             return ProximityDocument(
-                docType: $0.docType, 
-                issuerSigned: issuerSigned, 
+                docType: $0.docType,
+                issuerSigned: issuerSigned,
                 deviceKeyRaw: $0.deviceKeyData
             )
         }
         return nil
     })
-                    
-            
+
+
 let deviceResponseStatus = Proximity.shared
     .generateDeviceResponse(
-        allowed: allowed, 
-        items: items, 
-        documents: documents, 
+        allowed: allowed,
+        items: items,
+        documents: documents,
         sessionTranscript: nil
         )
 
@@ -158,7 +191,6 @@ switch(deviceResponseStatus) {
         print(deviceResponseStatus)
         //generateDeviceResponse failed for some reasons
 }
-
 ```
 
 #### Proximity.shared.dataPresentation
@@ -174,10 +206,23 @@ let deviceResponse: [UInt8] = /*result of generateDeviceResponse*/
 Proximity.shared.dataPresentation(allowed: allowed, deviceResponse)
 ```
 
+#### ProximityError
+
+```swift
+
+//  Possible response errors of various methods
+
+public enum ProximityError {
+    case nullObject(objectName: String)
+    case decodingFailed(objectName: String)
+    case error(error: Error)
+}
+```
+
 ### ISO18013-7 Remote Presentation (OpenID4VP)
 
-
 #### Proximity.shared.generateOID4VPSessionTranscriptCBOR
+
 ```swift
 /**
     * Generate session transcript with OID4VPHandover
@@ -196,7 +241,7 @@ public func generateOID4VPSessionTranscriptCBOR(
     responseUri: String,
     authorizationRequestNonce: String,
     mdocGeneratedNonce: String
-) -> [UInt8] 
+) -> [UInt8]
 ```
 
 #### Example
@@ -220,11 +265,10 @@ var documents: [ProximityDocument] = []
 
 let deviceResponseStatus = Proximity.shared.generateDeviceResponse(
     allowed: true,
-    items: items, 
+    items: items,
     documents: documents,
     sessionTranscript: sessionTranscript
 )
-
 
 switch(deviceResponseStatus) {
     case .success(let deviceResponse):
@@ -235,6 +279,66 @@ switch(deviceResponseStatus) {
         //generateDeviceResponse failed for some reasons
 }
 
-
-
 ```
+
+## Running Tests
+
+You can run the IOWalletProximity unit tests following these steps:
+
+### From Xcode
+
+1. Open the project `IOWalletProximity/IOWalletProximity.xcodeproj` in Xcode
+2. Select the `IOWalletProximity` scheme
+3. Press ⌘+U or go to Product > Test
+
+### From Terminal
+
+You can run the tests from the command line with the following command:
+
+```bash
+xcodebuild test \
+  -project IOWalletProximity/IOWalletProximity.xcodeproj \
+  -scheme IOWalletProximity \
+  -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+  -enableCodeCoverage YES
+```
+
+To generate a test results bundle, you can add the `-resultBundlePath` parameter:
+
+```bash
+xcodebuild test \
+  -project IOWalletProximity/IOWalletProximity.xcodeproj \
+  -scheme IOWalletProximity \
+  -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+  -resultBundlePath TestResults.xcresult \
+  -enableCodeCoverage YES
+```
+
+## Example Application
+
+The repository includes an example application (`IOWalletProximityExample`) demonstrating how to use the library to:
+
+- Create and store digital documents
+- Present documents via BLE
+- Generate QR codes for verification
+- Handle document requests with user consent
+
+In order to run the example application we suggesting using [bundler](https://bundler.io/) to manage ruby dependencies and [rbenv](https://github.com/rbenv/rbenv) to manage ruby versions:
+
+```bash
+gem install bundler
+bundle install
+cd IOWalletProximityExample
+bundler exec pod update
+# Open IOWalletProximityExample\IOWalletProximityExample.xcworkspace using Xcode.
+```
+
+## Architecture
+
+The library consists of several key components:
+
+- **Proximity**: Main interface for handling document presentation
+- **DeviceEngagement**: Handles the connection establishment process
+- **SessionEncryption**: Manages secure encrypted sessions
+- **Document**: Represents identity documents with issuer-signed data
+- **MdocBleServer**: Manages BLE server for secure proximity connections
