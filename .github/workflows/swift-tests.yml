@@ -55,21 +55,11 @@ jobs:
           xcresultparser -o junit ${{ env.RESULT_BUNDLE }} > junit-results.xml
 
       - name: Publish JUnit summary
-        uses: dorny/test-reporter@31a54ee7ebcacc03a09ea97a7e5465a47b84aea5
+        uses: dorny/test-reporter@6e6a65b7a0bd2c9197df7d0ae36ac5cee784230c # v2.0.0
         with:
-          name: iOS Unit Tests
+          name: Swift Unit Tests Summary
           path: junit-results.xml
           reporter: java-junit
-
-      - name: Upload Test Results
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-        if: always()
-        with:
-          name: test-results
-          path: |
-            ${{ env.RESULT_BUNDLE }}
-          retention-days: 7
-          if-no-files-found: error # ← makes the step (and job) fail
 
       - name: Report Test Status
         if: always()

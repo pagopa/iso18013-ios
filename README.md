@@ -342,7 +342,3 @@ The library consists of several key components:
 - **SessionEncryption**: Manages secure encrypted sessions
 - **Document**: Represents identity documents with issuer-signed data
 - **MdocBleServer**: Manages BLE server for secure proximity connections
-
-## License
-
-MIT License - See LICENSE file for details
