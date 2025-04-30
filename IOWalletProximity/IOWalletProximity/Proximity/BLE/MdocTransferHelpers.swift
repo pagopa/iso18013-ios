@@ -24,11 +24,11 @@ class MdocTransferHelpers {
     public static func decodeRequest(deviceEngagement: DeviceEngagement?,  requestData: Data, dauthMethod: DeviceAuthMethod, readerKeyRawData: [UInt8]?, handOver: CBOR) -> Result<(sessionEncryption: SessionEncryption, deviceRequest: DeviceRequest), Error> {
         do {
             guard let seCbor = try CBOR.decode([UInt8](requestData)) else {
-                //logger.error("Request Data is not Cbor");
+                //Request Data is not Cbor
                 return .failure(ErrorHandler.requestDecodeError)
             }
             guard var se = SessionEstablishment(cbor: seCbor) else {
-                //logger.error("Request Data cannot be decoded to session establisment");
+                //Request Data cannot be decoded to session establisment
                 return .failure(ErrorHandler.requestDecodeError)
             }
             if se.eReaderKeyRawData == nil,
@@ -37,33 +37,48 @@ class MdocTransferHelpers {
             }
             
             guard se.eReaderKey != nil else {
-                //logger.error("Reader key not available");
+                //Reader key not available
                 return .failure(ErrorHandler.readerKeyMissing)
             }
             let requestCipherData = se.data
             guard let deviceEngagement else {
-                //logger.error("Device Engagement not initialized");
+                //Device Engagement not initialized
                 return .failure(ErrorHandler.deviceEngagementMissing)
             }
             // init session-encryption object from session establish message and device engagement, decrypt data
             let sessionEncryption = SessionEncryption(se: se, de: deviceEngagement, handOver: handOver)
             guard var sessionEncryption else {
-                //logger.error("Session Encryption not initialized");
+                //Session Encryption not initialized
                 return .failure(ErrorHandler.sessionEncryptionNotInitialized)
             }
-            guard let requestData = try sessionEncryption.decrypt(requestCipherData) else { //logger.error("Request data cannot be decrypted");
+            guard let requestData = try sessionEncryption.decrypt(requestCipherData) else {
+                //Request data cannot be decrypted
                 return .failure(ErrorHandler.requestDecodeError)
             }
             guard let deviceRequest = DeviceRequest(data: requestData) else {
-                //logger.error("Decrypted data cannot be decoded");
+                //Decrypted data cannot be decoded
                 return .failure(ErrorHandler.requestDecodeError)
             }
             
-            //var params: [String: Any] = [UserRequestKeys.valid_items_requested.rawValue: validRequestItems, UserRequestKeys.error_items_requested.rawValue: errorRequestItems]
-           
             return .success((sessionEncryption: sessionEncryption, deviceRequest: deviceRequest))
         } catch { return .failure(error) }
     }
+    
+    public static func isDeviceRequestDocumentValid(docR: DocRequest, iaca: [SecCertificate], sessionEncryption: SessionEncryption) -> Bool {
+        let mdocAuth = MdocReaderAuthentication(transcript: sessionEncryption.transcript)
+        if let readerAuthRawCBOR = docR.readerAuthRawCBOR,
+           let certData = docR.readerCertificate,
+           let x509 = try? X509.Certificate(derEncoded: [UInt8](certData)),
+           let (isValidSignature, reasonFailure) = try? mdocAuth.validateReaderAuth(readerAuthCBOR: readerAuthRawCBOR, readerAuthCertificate: certData, itemsRequestRawData: docR.itemsRequestRawData!, rootCerts: iaca) {
+            if let reasonFailure {
+                //Certificate root authentication failed
+                return false
+            }
+            return isValidSignature
+        }
+        return false
+    }
+    
     
     public static func isDeviceRequestValid(deviceRequest: DeviceRequest, iaca: [SecCertificate], sessionEncryption: SessionEncryption) -> Bool {
         if let docR = deviceRequest.docRequests.first {
@@ -72,11 +87,8 @@ class MdocTransferHelpers {
                let certData = docR.readerCertificate,
                let x509 = try? X509.Certificate(derEncoded: [UInt8](certData)),
                let (isValidSignature, reasonFailure) = try? mdocAuth.validateReaderAuth(readerAuthCBOR: readerAuthRawCBOR, readerAuthCertificate: certData, itemsRequestRawData: docR.itemsRequestRawData!, rootCerts: iaca) {
-                //params[UserRequestKeys.reader_certificate_issuer.rawValue] = MdocHelpers.getCN(from: x509.subject.description)
-                //params[UserRequestKeys.reader_auth_validated.rawValue] = b
                 if let reasonFailure {
                     //Certificate root authentication failed
-                    //params[UserRequestKeys.reader_certificate_validation_message.rawValue] = reasonFailure
                     return false
                     
                 }
@@ -124,7 +136,7 @@ class MdocTransferHelpers {
             // Document's data must be in CBOR bytes that has the IssuerSigned structure according to ISO 23220-4
             // Currently, the library does not support IssuerSigned structure without the nameSpaces field.
             guard let issuerNs = doc.issuerNameSpaces else {
-                //logger.error("Document does not contain issuer namespaces");
+                //Document does not contain issuer namespaces
                 return nil
             }
             var nsItemsToAdd = [String: [IssuerSignedItem]]()
@@ -171,7 +183,7 @@ class MdocTransferHelpers {
                     let authKeys = CoseKeyExchange(publicKey: eReaderKey, privateKey: devicePrivateKey)
                     let mdocAuth = MdocAuthentication(transcript: sessionTranscript, authKeys: authKeys)
                     guard let devAuth = try mdocAuth.getDeviceAuthForTransfer(docType: doc.issuerAuth!.mobileSecurityObject.docType, dauthMethod: dauthMethod) else {
-                        //logger.error("Cannot create device auth");
+                        //Cannot create device auth
                         return nil
                     }
                     devSignedToAdd = DeviceSigned(deviceAuth: devAuth)

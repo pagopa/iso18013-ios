@@ -36,16 +36,6 @@ Then run:
 pod install
 ```
 
-### Swift Package Manager
-
-Add IOWalletProximity as a dependency to your `Package.swift`:
-
-```swift
-dependencies: [
-    .package(url: "https://github.com/pagopa/iso18013-ios.git", .upToNextMajor(from: "0.0.6"))
-]
-```
-
 ## Usage
 
 ### Initialize the Proximity Service
@@ -102,6 +92,26 @@ public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeySecKey
 
 //  This constructor allows to initialize the object with a String representing the SecKey in the keychain
 public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeyTag: String)
+```
+
+#### Proximity.shared.proximityHandler
+
+```swift
+//  In order to listen for proximity events set this handler
+
+public enum ProximityEvents {
+    case onBleStart
+    case onBleStop
+    case onDocumentRequestReceived(request: [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool)]?)
+    case onDocumentPresentationCompleted
+    case onError(error: Error)
+    case onLoading
+}
+
+ Proximity.shared.proximityHandler = {
+    event in
+    print(event)
+}
 ```
 
 #### Proximity.shared.generateDeviceResponseFromJson
@@ -312,6 +322,16 @@ The repository includes an example application (`IOWalletProximityExample`) demo
 - Present documents via BLE
 - Generate QR codes for verification
 - Handle document requests with user consent
+
+In order to run the example application we suggesting using [bundler](https://bundler.io/) to manage ruby dependencies and [rbenv](https://github.com/rbenv/rbenv) to manage ruby versions:
+
+```bash
+gem install bundler
+bundle install
+cd IOWalletProximityExample
+bundler exec pod update
+# Open IOWalletProximityExample\IOWalletProximityExample.xcworkspace using Xcode.
+```
 
 ## Architecture
 

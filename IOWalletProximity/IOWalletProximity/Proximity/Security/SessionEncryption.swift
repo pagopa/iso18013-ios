@@ -58,20 +58,20 @@ struct SessionEncryption {
         
         // Validate that the device engagement contains a private key
         guard let pk = de.privateKey else {
-            //logger.error("Device engagement for mdoc must have the private key");
+            //Device engagement for mdoc must have the private key
             return nil
         }
         
         // Validate that reader key raw data is available
         guard let rkrd = se.eReaderKeyRawData else {
-            //logger.error("Reader key data not available");
+            //Reader key data not available
             return nil
         }
         self.eReaderKeyRawData = rkrd
         
         // Validate that the eReader key can be decoded
         guard let ok = se.eReaderKey else {
-            //logger.error("Could not decode ereader key");
+            //Could not decode ereader key
             return nil
         }
         
@@ -192,7 +192,7 @@ struct SessionEncryption {
         
         // Perform ECKA-DH key agreement
         guard let sharedKey = sessionKeys.makeEckaDHAgreement(inSecureEnclave: sessionKeys.privateKey.secureEnclaveKeyID != nil) else {
-            //logger.error("Error in ECKA session key agreement");
+            //Error in ECKA session key agreement
             return nil
         }
         
