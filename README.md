@@ -12,7 +12,7 @@ The library offers a specific set of functions to handle BLE proximity as specif
 public enum ProximityEvents {
     case onBleStart
     case onBleStop
-    case onDocumentRequestReceived(request:  (request: [(docType: String, nameSpaces: [String: [String: Bool]])]?, isAuthenticated: Bool)?)
+    case onDocumentRequestReceived(request: [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool)]?)
     case onDocumentPresentationCompleted
     case onError(error: Error)
     case onLoading

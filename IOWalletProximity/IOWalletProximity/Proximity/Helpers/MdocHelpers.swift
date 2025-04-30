@@ -48,11 +48,11 @@ class MdocHelpers {
     static func decodeRequestAndInformUser(deviceEngagement: DeviceEngagement?, docs: [String: IssuerSigned], iaca: [SecCertificate], requestData: Data, devicePrivateKeys: [String: CoseKeyPrivate], dauthMethod: DeviceAuthMethod, readerKeyRawData: [UInt8]?, handOver: CBOR) -> Result<(sessionEncryption: SessionEncryption, deviceRequest: DeviceRequest, params: [String: Any], isValidRequest: Bool), Error> {
         do {
             guard let seCbor = try CBOR.decode([UInt8](requestData)) else {
-                //logger.error("Request Data is not Cbor");
+                //Request Data is not Cbor
                 return .failure(ErrorHandler.requestDecodeError)
             }
             guard var se = SessionEstablishment(cbor: seCbor) else {
-                //logger.error("Request Data cannot be decoded to session establisment");
+                //Request Data cannot be decoded to session establisment
                 return .failure(ErrorHandler.requestDecodeError)
             }
             if se.eReaderKeyRawData == nil,
@@ -61,29 +61,30 @@ class MdocHelpers {
             }
             
             guard se.eReaderKey != nil else {
-                //logger.error("Reader key not available");
+                //Reader key not available
                 return .failure(ErrorHandler.readerKeyMissing)
             }
             let requestCipherData = se.data
             guard let deviceEngagement else {
-                //logger.error("Device Engagement not initialized");
+                //Device Engagement not initialized
                 return .failure(ErrorHandler.deviceEngagementMissing)
             }
             // init session-encryption object from session establish message and device engagement, decrypt data
             let sessionEncryption = SessionEncryption(se: se, de: deviceEngagement, handOver: handOver)
             guard var sessionEncryption else {
-                //logger.error("Session Encryption not initialized");
+                //Session Encryption not initialized
                 return .failure(ErrorHandler.sessionEncryptionNotInitialized)
             }
-            guard let requestData = try sessionEncryption.decrypt(requestCipherData) else { //logger.error("Request data cannot be decrypted");
+            guard let requestData = try sessionEncryption.decrypt(requestCipherData) else {
+                //Request data cannot be decrypted
                 return .failure(ErrorHandler.requestDecodeError)
             }
             guard let deviceRequest = DeviceRequest(data: requestData) else {
-                //logger.error("Decrypted data cannot be decoded");
+                //Decrypted data cannot be decoded
                 return .failure(ErrorHandler.requestDecodeError)
             }
             guard let (drTest, validRequestItems, errorRequestItems) = try Self.getDeviceResponseToSend(deviceRequest: deviceRequest, issuerSigned: docs, selectedItems: nil, sessionEncryption: sessionEncryption, eReaderKey: sessionEncryption.sessionKeys.publicKey, devicePrivateKeys: devicePrivateKeys, dauthMethod: dauthMethod) else {
-                //logger.error("Valid request items nil");
+                //Valid request items nil
                 return .failure(ErrorHandler.requestDecodeError)
             }
             let bInvalidReq = (drTest.documents == nil)
@@ -143,7 +144,7 @@ class MdocHelpers {
             // Document's data must be in CBOR bytes that has the IssuerSigned structure according to ISO 23220-4
             // Currently, the library does not support IssuerSigned structure without the nameSpaces field.
             guard let issuerNs = doc.issuerNameSpaces else {
-                //logger.error("Document does not contain issuer namespaces");
+                //Document does not contain issuer namespaces
                 return nil
             }
             var nsItemsToAdd = [String: [IssuerSignedItem]]()
@@ -190,7 +191,7 @@ class MdocHelpers {
                     let authKeys = CoseKeyExchange(publicKey: eReaderKey, privateKey: devicePrivateKey)
                     let mdocAuth = MdocAuthentication(transcript: sessionTranscript, authKeys: authKeys)
                     guard let devAuth = try mdocAuth.getDeviceAuthForTransfer(docType: doc.issuerAuth!.mobileSecurityObject.docType, dauthMethod: dauthMethod) else {
-                        //logger.error("Cannot create device auth");
+                        //Cannot create device auth
                         return nil
                     }
                     devSignedToAdd = DeviceSigned(deviceAuth: devAuth)
