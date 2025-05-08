@@ -15,15 +15,15 @@ struct OID4VPHandover : CBOREncodable {
     let mdocGeneratedNonce: String
     
     func toCBOR(options: SwiftCBOR.CBOROptions) -> SwiftCBOR.CBOR {
-        let encodedClientId = CBOR(arrayLiteral: [
+        let encodedClientId = CBOR(arrayLiteral:
             .utf8String(clientId),
             .utf8String(mdocGeneratedNonce)
-        ]).encode()
+        ).encode()
         
-        let encodedResponseUri = CBOR(arrayLiteral: [
+        let encodedResponseUri = CBOR(arrayLiteral:
             .utf8String(responseUri),
             .utf8String(mdocGeneratedNonce)
-        ]).encode()
+        ).encode()
         
         let clientIdChecksum = calcSHA256Hash(encodedClientId)
         let responseUriChecksum = calcSHA256Hash(encodedResponseUri)
