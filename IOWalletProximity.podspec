@@ -9,7 +9,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "IOWalletProximity"
-  spec.version      = "1.0.0"
+  spec.version      = "1.0.1"
   spec.summary      = "ISO 18013 sets global standards for driving licenses, covering both physical cards and mobile formats."
 
   spec.description  = <<-DESC
