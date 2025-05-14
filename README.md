@@ -44,16 +44,11 @@ pod install
 import IOWalletProximity
 
 // Start the proximity service
-let qrCodeStatus = Proximity.shared.start()
+try Proximity.shared.start()
 
-switch(qrCodeStatus) {
-    case .success(let qrCode):
-        //use qrCode
-        print(qrCode)
-    default:
-        print(qrCodeStatus)
-        //start failed for some reasons
-}
+let qrCode = try Proximity.shared.getQrCode()
+
+print(qrCode)
 
 //  Stops the BLE manager and closes connections.
 Proximity.shared.stop()
@@ -62,18 +57,33 @@ Proximity.shared.stop()
 // Listen for proximity events
 Proximity.shared.proximityHandler = { event in
     switch event {
-    case .onBleStart:
-        // BLE service started
-    case .onDocumentRequestReceived(let request):
-        // Handle document request
-    case .onDocumentPresentationCompleted:
-        // Document successfully presented
-    case .onError(let error):
-        // Handle error
-    case .onLoading:
-        // Loading state
-    case .onBleStop:
-        // BLE service stopped
+        //The device is done sending documents
+        case onDocumentPresentationCompleted:
+        break
+    
+        //The device is connecting to the verifier app
+        case onDeviceConnecting:
+        break
+    
+        //The device has connected to the verifier app
+        case onDeviceConnected:
+        break
+    
+        //The device has received a new request from the verifier app
+        case onDocumentRequestReceived(request: [
+            (docType: String,
+            nameSpaces: [String: [String: Bool]],
+            isAuthenticated: Bool)
+        ]?):
+        break
+    
+        //The device has received the termination flag from the verifier app
+        case onDeviceDisconnected:
+        break
+    
+        //An error occurred
+        case onError(error: Error):
+        break
     }
 }
 ```
@@ -99,13 +109,30 @@ public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeyTag: S
 ```swift
 //  In order to listen for proximity events set this handler
 
+
 public enum ProximityEvents {
-    case onBleStart
-    case onBleStop
-    case onDocumentRequestReceived(request: [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool)]?)
+    //The device is done sending documents
     case onDocumentPresentationCompleted
+    
+    //The device is connecting to the verifier app
+    case onDeviceConnecting
+    
+    //The device has connected to the verifier app
+    case onDeviceConnected
+    
+    //The device has received a new request from the verifier app
+    case onDocumentRequestReceived(request: [
+        (docType: String,
+         nameSpaces: [String: [String: Bool]],
+         isAuthenticated: Bool)
+    ]?)
+    
+    //The device has received the termination flag from the verifier app
+    case onDeviceDisconnected
+    
+    //An error occurred
     case onError(error: Error)
-    case onLoading
+    
 }
 
  Proximity.shared.proximityHandler = {

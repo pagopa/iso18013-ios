@@ -27,15 +27,31 @@ public enum ProximityError : Error, CustomStringConvertible {
 }
 
 public enum ProximityEvents {
-    case onBleStart
-    case onBleStop
-    case onDocumentRequestReceived(request: [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool)]?)
+    //The device is done sending documents
     case onDocumentPresentationCompleted
+    
+    //The device is connecting to the verifier app
+    case onDeviceConnecting
+    
+    //The device has connected to the verifier app
+    case onDeviceConnected
+    
+    //The device has received a new request from the verifier app
+    case onDocumentRequestReceived(request: [
+        (docType: String,
+         nameSpaces: [String: [String: Bool]],
+         isAuthenticated: Bool)
+    ]?)
+    
+    //The device has received the termination flag from the verifier app
+    case onDeviceDisconnected
+    
+    //An error occurred
     case onError(error: Error)
-    case onLoading
+    
 }
 
-public class Proximity: @unchecked Sendable {
+public class Proximity: @unchecked Sendable {
     
     public static let shared: Proximity = Proximity()
     
@@ -45,11 +61,10 @@ public class Proximity: @unchecked Sendable {
     private var trustedCertificates: [SecCertificate] = []
     
     
-    //  Initialize the BLE manager, set the necessary listeners. Start the BLE and generate the QRCode string
+    //  Initialize the BLE manager, set the necessary listeners. Start the BLE
     //  - Parameters:
     //      - trustedCertificates: list of trusted certificates to verify reader validity
-    //  - Returns: A string containing the DeviceEngagement data necessary to start the verification process
-    public func start(_ trustedCertificates: [Data]? = nil) throws -> String {
+    public func start(_ trustedCertificates: [Data]? = nil) throws {
         
         self.trustedCertificates = trustedCertificates?.compactMap {
             SecCertificateCreateWithData(nil, $0 as CFData)
@@ -60,11 +75,13 @@ public class Proximity: @unchecked Sendable {
         LibIso18013Proximity.shared.setListener(_proximity)
         
         self.proximityListener = _proximity
-        
+    }
+    
+    //  Generate the QRCode string
+    //  - Returns: A string containing the DeviceEngagement data necessary to start the verification process
+    public func getQrCode() throws -> String {
         do {
             let qrCode = try LibIso18013Proximity.shared.getQrCodePayload()
-            
-            proximityHandler?(.onBleStart)
             
             return qrCode
         }
@@ -72,6 +89,8 @@ public class Proximity: @unchecked Sendable {
             throw ProximityError.error(error: error)
         }
     }
+    
+    
     
     //  Responds to a request for data from the reader.
     //  - Parameters:
@@ -291,8 +310,6 @@ public class Proximity: @unchecked Sendable {
     //  Stops the BLE manager and closes connections.
     public func stop() {
         LibIso18013Proximity.shared.stop()
-        
-        proximityHandler?(.onBleStop)
     }
     
     
@@ -538,9 +555,12 @@ public class Proximity: @unchecked Sendable {
                 case .responseSent:
                     self.proximity.proximityHandler?(.onDocumentPresentationCompleted)
                     break
-                case .initializing, .userSelected:
-                    self.proximity.proximityHandler?(.onLoading)
-                    break
+                case .disconnected:
+                    self.proximity.proximityHandler?(.onDeviceDisconnected)
+                case .connected:
+                    self.proximity.proximityHandler?(.onDeviceConnecting)
+                case .started:
+                    self.proximity.proximityHandler?(.onDeviceConnected)
                 default:
                     break
             }

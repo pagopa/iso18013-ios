@@ -12,79 +12,74 @@ struct QRCodeView: View {
     
     @State var qrCode: String = ""
     
-    @State var proximityEvent: ProximityEvents = .onBleStop
-    
-    var body: some View {
-        NavigationStack {
-            ScrollView {
-               
-        ZStack {
-            VStack {
-                Spacer()
-                if case .onError(let error) = proximityEvent,
-                let proximityError = error as? ErrorHandler,
-                proximityError == .userRejected {
-                    HStack {
-                        Text("User Rejected")
-                            .font(.title)
-                            .foregroundStyle(.green)
-                        Image(systemName: "checkmark")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundStyle(.green)
-                    }
-                    .padding(.bottom)
-                    Button("Get another Qr Code") {
-                        startScanning()                    }
-                }
-                else if case .onDocumentPresentationCompleted = proximityEvent {
-                    HStack {
-                        Text("Success")
-                            .font(.title)
-                            .foregroundStyle(.green)
-                        Image(systemName: "checkmark")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundStyle(.green)
-                    }
-                    .padding(.bottom)
-                    Button("Get another Qr Code") {
-                        startScanning()
-                        //viewModel.state = .idle
-                    }
-                } else {
-                    QRCode
-                        .getQrCodeImage(qrCode: qrCode, inputCorrectionLevel: .m)
-                        .resizable()
-                        .frame(width: 200, height: 200)
-                }
-                Spacer()
-            }
-            if case .onLoading = proximityEvent {
-                Color.black.opacity(0.4)
-                    .edgesIgnoringSafeArea(.all)
-                ProgressView()
-                    .tint(Color.blue)
-                    .scaleEffect(4)
-            }
+    @State var proximityEvent: ProximityEvents = .onDeviceConnecting {
+        didSet {
             
-            if case .onDocumentRequestReceived(let request) = proximityEvent {
-                
+            switch(proximityEvent) {
+                case .onDeviceConnected:
+                    loading = true
+                default:
+                    loading = false
+            }
+        }
+    }
+    
+    @State var loading: Bool = false
+    
+    func viewForEvent() -> AnyView {
+        switch(proximityEvent) {
+            case .onError(let error):
+                if let proximityError = error as? ErrorHandler,
+                   proximityError == .userRejected {
+                    return AnyView(VStack {
+                        HStack {
+                            Text("User Rejected")
+                                .font(.title)
+                                .foregroundStyle(.green)
+                            Image(systemName: "checkmark")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                                .foregroundStyle(.green)
+                        }
+                        .padding(.bottom)
+                        Button("Get another Qr Code") {
+                            startScanning()
+                        }
+                    })
+                } else {
+                    return AnyView(VStack {
+                        HStack {
+                            Text("Error")
+                                .font(.title)
+                                .foregroundStyle(.green)
+                            Image(systemName: "checkmark")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                                .foregroundStyle(.red)
+                        }
+                        .padding(.bottom)
+                        Button("Get another Qr Code") {
+                            startScanning()
+                        }
+                    })
+                }
+                break
+            case .onDocumentRequestReceived(let request):
                 let req:  [String: [String: [String]]] = {
                     var popupRequest : [String: [String: [String]]] = [:]
                     
-                     request?.forEach({
+                    request?.forEach({
                         item in
-                         
-                         var subReq: [String: [String]] = [:]
-                         
-                         item.nameSpaces.keys.forEach({
-                             nameSpace in
-                             subReq[nameSpace] =
-                                 item.nameSpaces[nameSpace]?.keys.map({$0})
-                         })
-                         
-                         popupRequest[item.docType] = subReq
+                        
+                        var subReq: [String: [String]] = [:]
+                        
+                        item.nameSpaces.keys.forEach({
+                            nameSpace in
+                            subReq[nameSpace] =
+                            item.nameSpaces[nameSpace]?.keys.map({$0})
+                        })
+                        
+                        popupRequest[item.docType] = subReq
                     })
                     
                     return popupRequest
@@ -93,8 +88,7 @@ struct QRCodeView: View {
                 }()
                 
                 
-                
-                DeviceRequestAlert(requested: req) {
+                return AnyView(DeviceRequestAlert(requested: req) {
                     allowed, items in
                     
                     let documents = LibIso18013DAOKeyChain().getAllDocuments(state: .issued).compactMap({
@@ -107,50 +101,103 @@ struct QRCodeView: View {
                     do {
                         let deviceResponse = try Proximity.shared.generateDeviceResponse(allowed: allowed, items: items, documents: documents, sessionTranscript: nil)
                         
-                        let dataPresentationResponse = try Proximity.shared.dataPresentation(allowed: allowed, deviceResponse)
+                        try Proximity.shared.dataPresentation(allowed: allowed, deviceResponse)
                         
-                        print(dataPresentationResponse)
                     } catch {
                         print(error)
                     }
-                   
+                    
+                })
+                break
+            case .onDeviceConnected:
+                return AnyView(VStack {
+                    HStack {
+                        Text("Connecting")
+                            .font(.title)
+                            .foregroundStyle(.green)
+                        Image(systemName: "checkmark")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundStyle(.green)
+                    }
+                    .padding(.bottom)
+                })
+            case .onDeviceConnecting:
+                return AnyView(QRCode
+                    .getQrCodeImage(qrCode: qrCode, inputCorrectionLevel: .m)
+                    .resizable()
+                    .frame(width: 200, height: 200))
+            default:
+                return AnyView(VStack {
+                    HStack {
+                        Text("Success")
+                            .font(.title)
+                            .foregroundStyle(.green)
+                        Image(systemName: "checkmark")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundStyle(.green)
+                    }
+                    .padding(.bottom)
+                    Button("Get another Qr Code") {
+                        startScanning()
+                    }
+                })
+                break
+        }
+    }
+    
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                
+                ZStack {
+                    VStack {
+                        Spacer()
+                        viewForEvent()
+                        Spacer()
+                        
+                        if loading {
+                            Color.black.opacity(0.4)
+                                .edgesIgnoringSafeArea(.all)
+                            ProgressView()
+                                .tint(Color.blue)
+                                .scaleEffect(4)
+                        }
+                        
+                    }
                 }
-            }
-            
-            
-            
-        }
-        .onAppear() {
-            startScanning()
-        }
-        .alert(isPresented: Binding<Bool>(
-            get: {
-                if case .onError(let error) = proximityEvent {
-                    if let proximityError = error as? ErrorHandler {
-                        if proximityError == .userRejected {
+                .onAppear() {
+                    startScanning()
+                }
+                .alert(isPresented: Binding<Bool>(
+                    get: {
+                        if case .onError(let error) = proximityEvent {
+                            if let proximityError = error as? ErrorHandler {
+                                if proximityError == .userRejected {
+                                    return false
+                                }
+                            }
+                            return true
+                        }
+                        else {
                             return false
                         }
-                    }
-                    return true
+                        
+                    },
+                    set: { _ in }
+                )) {
+                    Alert(title: Text("Error"), message: Text(({
+                        if case .onError(let error) = proximityEvent {
+                            if let proximityError = error as? ErrorHandler {
+                                return proximityError.localizedDescription
+                            }
+                            return error.localizedDescription
+                        } else {
+                            return "Si è verificato un errore."
+                        }
+                    })()), dismissButton: .default(Text("OK")))
                 }
-                else {
-                    return false
-                }
-                
-            },
-            set: { _ in }
-        )) {
-            Alert(title: Text("Error"), message: Text(({
-                if case .onError(let error) = proximityEvent {
-                    if let proximityError = error as? ErrorHandler {
-                        return proximityError.localizedDescription
-                    }
-                    return error.localizedDescription
-                } else {
-                    return "Si è verificato un errore."
-                }
-            })()), dismissButton: .default(Text("OK")))
-        }
             }
             .padding(.top)
             .navigationTitle("QRCode")
@@ -166,7 +213,9 @@ struct QRCodeView: View {
         
         let trustedCertificates: [Data] = []
         
-        if let qrCode = try? Proximity.shared.start() {
+        try? Proximity.shared.start(trustedCertificates)
+        
+        if let qrCode = try? Proximity.shared.getQrCode() {
             self.qrCode = qrCode
         }
         else {
