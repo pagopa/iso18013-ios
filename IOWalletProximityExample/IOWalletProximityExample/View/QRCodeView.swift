@@ -26,7 +26,27 @@ struct QRCodeView: View {
     
     @State var loading: Bool = false
     
+    func logEvent() -> String {
+        switch(proximityEvent) {
+            case .onDocumentPresentationCompleted:
+                return "onDocumentPresentationCompleted"
+            case .onDeviceConnecting:
+                return "onDeviceConnecting"
+            case .onDeviceConnected:
+                return "onDeviceConnected"
+            case .onDocumentRequestReceived( _):
+                return "onDocumentRequestReceived"
+            case .onDeviceDisconnected:
+                return "onDeviceDisconnected"
+            case .onError( _):
+                return "onError"
+        }
+    }
+    
     func viewForEvent() -> AnyView {
+        //PRINT LOG TO CHECK IF EVENTS ARE CORRECT
+        print(logEvent())
+        
         switch(proximityEvent) {
             case .onError(let error):
                 if let proximityError = error as? ErrorHandler,
