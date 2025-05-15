@@ -12,11 +12,11 @@ struct QRCodeView: View {
     
     @State var qrCode: String = ""
     
-    @State var proximityEvent: ProximityEvents = .onDeviceConnecting {
+    @State var proximityEvent: ProximityEvents? = nil {
         didSet {
-            
+            showQrCode = false
             switch(proximityEvent) {
-                case .onDeviceConnected:
+                case .onDeviceConnected, .onDeviceConnecting:
                     loading = true
                 default:
                     loading = false
@@ -25,6 +25,7 @@ struct QRCodeView: View {
     }
     
     @State var loading: Bool = false
+    @State var showQrCode: Bool = false
     
     func logEvent() -> String {
         switch(proximityEvent) {
@@ -40,12 +41,23 @@ struct QRCodeView: View {
                 return "onDeviceDisconnected"
             case .onError( _):
                 return "onError"
+            default:
+                return "null"
         }
     }
     
     func viewForEvent() -> AnyView {
         //PRINT LOG TO CHECK IF EVENTS ARE CORRECT
         print(logEvent())
+        
+        
+        if (showQrCode) {
+            return AnyView(QRCode
+                .getQrCodeImage(qrCode: qrCode, inputCorrectionLevel: .m)
+                .resizable()
+                .frame(width: 200, height: 200))
+        }
+        
         
         switch(proximityEvent) {
             case .onError(let error):
@@ -132,7 +144,7 @@ struct QRCodeView: View {
             case .onDeviceConnected:
                 return AnyView(VStack {
                     HStack {
-                        Text("Connecting")
+                        Text("Connected")
                             .font(.title)
                             .foregroundStyle(.green)
                         Image(systemName: "checkmark")
@@ -143,10 +155,18 @@ struct QRCodeView: View {
                     .padding(.bottom)
                 })
             case .onDeviceConnecting:
-                return AnyView(QRCode
-                    .getQrCodeImage(qrCode: qrCode, inputCorrectionLevel: .m)
-                    .resizable()
-                    .frame(width: 200, height: 200))
+                return AnyView(VStack {
+                    HStack {
+                        Text("Connecting")
+                            .font(.title)
+                            .foregroundStyle(.green)
+                        Image(systemName: "checkmark")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundStyle(.green)
+                    }
+                    .padding(.bottom)
+                })
             default:
                 return AnyView(VStack {
                     HStack {
@@ -237,9 +257,11 @@ struct QRCodeView: View {
         
         if let qrCode = try? Proximity.shared.getQrCode() {
             self.qrCode = qrCode
+            self.showQrCode = true
         }
         else {
             self.qrCode = ""
+            self.showQrCode = false
         }
     }
     
