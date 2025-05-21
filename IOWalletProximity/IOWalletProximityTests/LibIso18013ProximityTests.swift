@@ -36,7 +36,7 @@ class MockQrEngagementListener: QrEngagementListener {
         
     }
     
-    func didReceiveRequest(deviceRequest: IOWalletProximity.DeviceRequest, sessionEncryption: IOWalletProximity.SessionEncryption, onResponse: @escaping (Bool, IOWalletProximity.DeviceResponse?) -> Void) {
+    func didReceiveRequest(deviceRequest: IOWalletProximity.DeviceRequest, sessionEncryption: IOWalletProximity.SessionEncryption, onResponse: @escaping (Bool, IOWalletProximity.DeviceResponse?, UInt64) -> Void) {
         
     }
     
