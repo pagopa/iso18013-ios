@@ -19,7 +19,7 @@ class MdocHelpers {
     static var errorNoDocumentsDescriptionKey: String { "doctype_not_found" }
     static func getErrorNoDocuments(_ docType: String) -> Error { NSError(domain: "\(MdocBleServer.self)", code: 0, userInfo: ["key": Self.errorNoDocumentsDescriptionKey, "%s": docType]) }
  
-    public static func getSessionDataToSend(sessionEncryption: SessionEncryption?, status: TransferStatus, docToSend: DeviceResponse) -> Result<Data, Error> {
+    public static func getSessionDataToSend(sessionEncryption: SessionEncryption?, status: TransferStatus, docToSend: DeviceResponse, errorStatus: UInt64 = 11) -> Result<Data, Error> {
         do {
             guard var sessionEncryption else {
                 return .failure(ErrorHandler.sessionEncryptionNotInitialized)
@@ -30,7 +30,7 @@ class MdocHelpers {
             let cborToSend = docToSend.toCBOR(options: CBOROptions())
             let clearBytesToSend = cborToSend.encode()
             let cipherData = try sessionEncryption.encrypt(clearBytesToSend)
-            let sd = SessionData(cipher_data: status == .error ? nil : cipherData, status: status == .error ? 11 : 20)
+            let sd = SessionData(cipher_data: status == .error ? nil : cipherData, status: status == .error ? errorStatus : 20)
             return .success(Data(sd.encode(options: CBOROptions())))
         } catch { return .failure(error) }
     }

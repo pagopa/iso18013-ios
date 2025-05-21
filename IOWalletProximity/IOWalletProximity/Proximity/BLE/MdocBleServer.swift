@@ -12,7 +12,7 @@ internal import X509
 protocol MdocTransferDelegate: AnyObject {
     func didChangeStatus(_ newStatus: TransferStatus)
     func didFinishedWithError(_ error: Error)
-    func didReceiveRequest(deviceRequest: DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, DeviceResponse?) -> Void)
+    func didReceiveRequest(deviceRequest: DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, DeviceResponse?, UInt64) -> Void)
 }
 
 class MdocBleServer : @unchecked Sendable {
@@ -162,16 +162,16 @@ class MdocBleServer : @unchecked Sendable {
         }
     }
     
-    public func onUserResponse(_ userApproved: Bool, _ deviceResponse: DeviceResponse?) {
+    public func onUserResponse(_ userApproved: Bool, _ deviceResponse: DeviceResponse?, errorStatus: UInt64) {
         status = .userSelected
         
         if !userApproved {
-            sendError(ErrorHandler.userRejected)
+            sendError(ErrorHandler.userRejected, errorStatus: errorStatus)
             return
         }
         
         guard let deviceResponse = deviceResponse else {
-            sendError(ErrorHandler.noDocumentToReturn)
+            sendError(ErrorHandler.noDocumentToReturn, errorStatus: errorStatus)
             return
         }
         
@@ -186,8 +186,8 @@ class MdocBleServer : @unchecked Sendable {
         }
     }
     
-    func sendError(_ errorToSend: Error?) {
-        let resError = MdocHelpers.getSessionDataToSend(sessionEncryption: sessionEncryption, status: .error, docToSend: DeviceResponse(status: 0))
+    func sendError(_ errorToSend: Error?, errorStatus: UInt64 = 11) {
+        let resError = MdocHelpers.getSessionDataToSend(sessionEncryption: sessionEncryption, status: .error, docToSend: DeviceResponse(status: 0), errorStatus: errorStatus)
         var bytesToSend = try! resError.get()
         
         sendData(bytesToSend, errorToSend)

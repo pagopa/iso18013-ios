@@ -10,7 +10,7 @@ protocol QrEngagementListener: AnyObject {
     // Called when the connection process is starting
     func didChangeStatus(_ newStatus: TransferStatus)
     
-    func didReceiveRequest(deviceRequest: DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, DeviceResponse?) -> Void)
+    func didReceiveRequest(deviceRequest: DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, DeviceResponse?, UInt64) -> Void)
     
     func didFinishedWithError(_ error: any Error)
     
@@ -92,7 +92,7 @@ class LibIso18013Proximity: @unchecked Sendable {
             listener.didFinishedWithError(error)
         }
         
-        func didReceiveRequest(deviceRequest: DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, DeviceResponse?) -> Void) {
+        func didReceiveRequest(deviceRequest: DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, DeviceResponse?, UInt64) -> Void) {
             listener.didReceiveRequest(deviceRequest: deviceRequest, sessionEncryption: sessionEncryption, onResponse: onResponse)
         }
     }
