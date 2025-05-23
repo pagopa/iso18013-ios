@@ -148,7 +148,6 @@ public enum ProximityEvents {
  * Generate DeviceResponse to request for data from the reader.
  *
  * - Parameters:
- *   - allowed: User has allowed the verification process
  *   - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]] as String
  *   - documents: List of documents.
  *   - sessionTranscript: optional CBOR encoded session transcript
@@ -156,7 +155,6 @@ public enum ProximityEvents {
  * - Returns: CBOR-encoded DeviceResponse object as value
  */
 public func generateDeviceResponseFromJson(
-    allowed: Bool,
     items: String?,
     documents: [ProximityDocument]?,
     sessionTranscript: [UInt8]?
@@ -170,7 +168,6 @@ public func generateDeviceResponseFromJson(
  * Generate DeviceResponse to request for data from the reader.
  *
  * - Parameters:
- *   - allowed: User has allowed the verification process
  *   - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
  *   - documents: List of documents.
  *   - sessionTranscript: optional CBOR encoded session transcript
@@ -178,7 +175,6 @@ public func generateDeviceResponseFromJson(
  * - Returns: CBOR-encoded DeviceResponse object as value
  */
 public func generateDeviceResponse(
-    allowed: Bool,
     items: [String: [String: [String: Bool]]]?,
     documents: [ProximityDocument]?,
     sessionTranscript: [UInt8]?
@@ -202,22 +198,13 @@ let documents = LibIso18013DAOKeyChain()
     })
 
 
-let deviceResponseStatus = Proximity.shared
+let deviceResponse = try Proximity.shared
     .generateDeviceResponse(
-        allowed: allowed,
         items: items,
         documents: documents,
         sessionTranscript: nil
-        )
+    )
 
-switch(deviceResponseStatus) {
-    case .success(let deviceResponse):
-        //use deviceResponse
-        print(deviceResponse)
-    default:
-        print(deviceResponseStatus)
-        //generateDeviceResponse failed for some reasons
-}
 ```
 
 #### Proximity.shared.dataPresentation
@@ -225,13 +212,49 @@ switch(deviceResponseStatus) {
 ```swift
 //  Responds to a request for data from the reader.
 //  - Parameters:
-//      - allowed: User has allowed the verification process
 //      - deviceResponse: Device Response cbor-encoded (result of Proximity.shared.generateDeviceResponse)
 
 let deviceResponse: [UInt8] = /*result of generateDeviceResponse*/
 
-Proximity.shared.dataPresentation(allowed: allowed, deviceResponse)
+Proximity.shared.dataPresentation(deviceResponse)
 ```
+
+
+#### Proximity.shared.errorPresentation
+```swift
+//  Responds to a request for data from the reader with error.
+//  - Parameters:
+//      - error: SessionDataStatus
+let error: SessionDataStatus = .sessionTermination
+
+Proximity.shared.errorPresentation(error)
+```
+
+#### SessionDataStatus
+
+```swift
+public enum SessionDataStatus : UInt64 {
+    
+/*
+
+ **Table 20 — SessionData status codes**
+ __________________________________________________________________________
+ | Status code | Description               | Action required                 |
+ --------------------------------------------------------------------------
+ |     10      | Error: session encryption | The session shall be terminated.|
+ |     11      | Error: CBOR decoding      | The session shall be terminated.|
+ |     20      | Session termination       | The session shall be terminated.|
+ --------------------------------------------------------------------------
+     
+ */
+    
+    case errorSessionEncryption = 10
+    case errorCborDecoding = 11
+    case sessionTermination = 20
+    
+}
+```
+
 
 #### ProximityError
 
@@ -291,7 +314,6 @@ let items: [String: [String: [String: Bool]]] = [:] //items should contain all t
 var documents: [ProximityDocument] = []
 
 let deviceResponseStatus = Proximity.shared.generateDeviceResponse(
-    allowed: true,
     items: items,
     documents: documents,
     sessionTranscript: sessionTranscript

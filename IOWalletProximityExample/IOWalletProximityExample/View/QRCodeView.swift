@@ -131,9 +131,15 @@ struct QRCodeView: View {
                     })
                     
                     do {
-                        let deviceResponse = try Proximity.shared.generateDeviceResponse(allowed: allowed, items: items, documents: documents, sessionTranscript: nil)
+                        if (allowed) {
+                            let deviceResponse = try Proximity.shared.generateDeviceResponse(items: items, documents: documents, sessionTranscript: nil)
+                            
+                            try Proximity.shared.dataPresentation( deviceResponse)
+                        }
+                        else {
+                            try Proximity.shared.errorPresentation(.errorCborDecoding)
+                        }
                         
-                        try Proximity.shared.dataPresentation(allowed: allowed, deviceResponse)
                         
                     } catch {
                         print(error)

@@ -26,6 +26,26 @@ public enum ProximityError : Error, CustomStringConvertible {
     }
 }
 
+public enum SessionDataStatus : UInt64 {
+    
+    /*
+     **Table 20 — SessionData status codes**
+     __________________________________________________________________________
+     | Status code | Description               | Action required                 |
+     --------------------------------------------------------------------------
+     |     10      | Error: session encryption | The session shall be terminated.|
+     |     11      | Error: CBOR decoding      | The session shall be terminated.|
+     |     20      | Session termination       | The session shall be terminated.|
+     --------------------------------------------------------------------------
+     
+     */
+    
+    case errorSessionEncryption = 10
+    case errorCborDecoding = 11
+    case sessionTermination = 20
+    
+}
+
 public enum ProximityEvents {
     //The device is done sending documents
     case onDocumentPresentationCompleted
@@ -92,11 +112,10 @@ public class Proximity: @unchecked Sendable {
     
     
     
-    //  Responds to a request for data from the reader.
+    //  Responds to a request for data from the reader with deviceResponse.
     //  - Parameters:
-    //      - allowed: User has allowed the verification process
     //      - deviceResponse: deviceResponse as cbor encoded
-    public func dataPresentation(allowed: Bool, _ deviceResponse: [UInt8]) throws {
+    public func dataPresentation(_ deviceResponse: [UInt8]) throws {
         guard let proximityListener = self.proximityListener else {
             throw ProximityError.nullObject(objectName: "proximityListener")
         }
@@ -106,7 +125,18 @@ public class Proximity: @unchecked Sendable {
         }
         
         
-        proximityListener.onResponse?(allowed, deviceResponse)
+        proximityListener.onResponse?(true, deviceResponse, SessionDataStatus.sessionTermination.rawValue)
+    }
+    
+    //  Responds to a request for data from the reader with error.
+    //  - Parameters:
+    //      - error: SessionDataStatus
+    public func errorPresentation(_ error: SessionDataStatus) throws {
+        guard let proximityListener = self.proximityListener else {
+            throw ProximityError.nullObject(objectName: "proximityListener")
+        }
+        
+        proximityListener.onResponse?(false, nil, error.rawValue)
     }
     
     
@@ -158,15 +188,13 @@ public class Proximity: @unchecked Sendable {
      * Generate DeviceResponse to request for data from the reader.
      *
      * - Parameters:
-     *   - allowed: User has allowed the verification process
      *   - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]] as String
      *   - documents: List of documents.
      *   - sessionTranscript: optional CBOR encoded session transcript
      *
      * - Returns: A CBOR-encoded DeviceResponse object
      */
-    public func generateDeviceResponseFromJson(allowed: Bool,
-                                                         items: String?,
+    public func generateDeviceResponseFromJson(items: String?,
                                                documents: [ProximityDocument]?,
                                                          sessionTranscript: [UInt8]?) throws -> [UInt8] {
         var decodedItems: [String: [String: [String: Bool]]]? = nil
@@ -178,22 +206,20 @@ public class Proximity: @unchecked Sendable {
             }
         }
         
-        return try generateDeviceResponse(allowed: allowed, items: decodedItems, documents: documents, sessionTranscript: sessionTranscript)
+        return try generateDeviceResponse(items: decodedItems, documents: documents, sessionTranscript: sessionTranscript)
     }
     
     /**
      * Generate DeviceResponse to request for data from the reader.
      *
      * - Parameters:
-     *   - allowed: User has allowed the verification process
      *   - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
      *   - documents: List of documents.
      *   - sessionTranscript: optional CBOR encoded session transcript
      *
      * - Returns: A CBOR-encoded DeviceResponse object
      */
-    public func generateDeviceResponse(allowed: Bool,
-                                       items: [String: [String: [String: Bool]]]?,
+    public func generateDeviceResponse(items: [String: [String: [String: Bool]]]?,
                                                documents: [ProximityDocument]?,
                                                sessionTranscript: [UInt8]?) throws -> [UInt8] {
        
@@ -207,12 +233,11 @@ public class Proximity: @unchecked Sendable {
         })
         
         
-        return try generateDeviceResponseCBOR(allowed: allowed, items: items, documents: documentsWithKeys, sessionTranscript: sessionTranscript)
+        return try generateDeviceResponseCBOR(items: items, documents: documentsWithKeys, sessionTranscript: sessionTranscript)
     }
     
     
     private func generateDeviceResponseCBOR(
-        allowed: Bool,
         items: [String: [String: [String: Bool]]]?,
         documents: [String: ([UInt8], CoseKeyPrivate)]?,
         sessionTranscript: [UInt8]? = nil
@@ -227,17 +252,16 @@ public class Proximity: @unchecked Sendable {
             transcript = nil
         }
         
-        let deviceResponse = try generateDeviceResponse(allowed: allowed, items: items, documents: documents, sessionTranscript: transcript)
+        let deviceResponse = try generateDeviceResponse(items: items, documents: documents, sessionTranscript: transcript)
         
         return deviceResponse.encode(options: CBOROptions())
     }
     
     
     
-    private func generateDeviceResponse(allowed: Bool,
-                                         items: [String: [String: [String: Bool]]]?,
-                                         documents: [String: ([UInt8], CoseKeyPrivate)]?,
-                                         sessionTranscript: SessionTranscript?) throws -> DeviceResponse {
+    private func generateDeviceResponse(items: [String: [String: [String: Bool]]]?,
+                                        documents: [String: ([UInt8], CoseKeyPrivate)]?,
+                                        sessionTranscript: SessionTranscript?) throws -> DeviceResponse {
         
         var requestedDocuments = [Document]()
         var docErrors = [[String: UInt64]]()
@@ -542,7 +566,7 @@ public class Proximity: @unchecked Sendable {
     class ProximityListener : QrEngagementListener {
         
         var proximity: Proximity
-        var onResponse: ((Bool, DeviceResponse?) -> Void)?
+        var onResponse: ((Bool, DeviceResponse?, UInt64) -> Void)?
         var sessionEncryption: SessionEncryption?
         
         
@@ -566,7 +590,7 @@ public class Proximity: @unchecked Sendable {
             }
         }
         
-        func didReceiveRequest(deviceRequest: DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, DeviceResponse?) -> Void) {
+        func didReceiveRequest(deviceRequest: DeviceRequest, sessionEncryption: SessionEncryption, onResponse: @escaping (Bool, DeviceResponse?, UInt64) -> Void) {
             self.sessionEncryption = sessionEncryption
             self.onResponse = onResponse
             

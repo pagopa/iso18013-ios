@@ -100,7 +100,7 @@ final class LibIso18013DAOTests: XCTestCase {
         
         
         
-        guard let deviceResponseRaw = try? Proximity.shared.generateDeviceResponse(allowed: true, items: items, documents: documents, sessionTranscript: sessionTranscript) else {
+        guard let deviceResponseRaw = try? Proximity.shared.generateDeviceResponse(items: items, documents: documents, sessionTranscript: sessionTranscript) else {
             XCTFail("deviceResponse must be valid")
             return
         }
