@@ -166,7 +166,7 @@ class MdocBleServer : @unchecked Sendable {
         status = .userSelected
         
         if !userApproved {
-            sendError(ErrorHandler.userRejected, errorStatus: errorStatus)
+            sendError(nil, errorStatus: errorStatus)
             return
         }
         
