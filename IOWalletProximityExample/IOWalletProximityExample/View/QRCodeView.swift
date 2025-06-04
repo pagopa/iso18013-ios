@@ -83,8 +83,8 @@ struct QRCodeView: View {
                         HStack {
                             Text("Error")
                                 .font(.title)
-                                .foregroundStyle(.green)
-                            Image(systemName: "checkmark")
+                                .foregroundStyle(.red)
+                            Image(systemName: "multiply")
                                 .resizable()
                                 .frame(width: 24, height: 24)
                                 .foregroundStyle(.red)
@@ -237,6 +237,9 @@ struct QRCodeView: View {
                         if case .onError(let error) = proximityEvent {
                             if let proximityError = error as? ErrorHandler {
                                 return proximityError.localizedDescription
+                            }
+                            if let proximityError = error as? ProximityError {
+                                return proximityError.description
                             }
                             return error.localizedDescription
                         } else {

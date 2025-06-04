@@ -304,5 +304,13 @@ class MdocBleDelegate : NSObject, CBPeripheralManagerDelegate {
     public func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
         let mdocCbc = MdocServiceCharacteristic(uuid: characteristic.uuid)
         print("Remote central \(central.identifier) disconnected for \(mdocCbc?.rawValue ?? "") characteristic")
+        
+        if (server.status != .disconnected)  {
+            if (server.status == .error) {
+                return
+            }
+            
+            server.error = ProximityError.disconnectedWithoutProperSessionTermination
+        }
     }
 }
