@@ -11,6 +11,7 @@ public enum ProximityError : Error, CustomStringConvertible {
     case nullObject(objectName: String)
     case decodingFailed(objectName: String)
     case error(error: Error)
+    case disconnectedWithoutProperSessionTermination
     
     public var description: String {
         switch(self) {
@@ -22,6 +23,9 @@ public enum ProximityError : Error, CustomStringConvertible {
                 
             case .error(let error):
                 return error.localizedDescription
+            
+            case .disconnectedWithoutProperSessionTermination:
+                return "Disconnected without proper Session Termination (END_REQUEST)"
         }
     }
 }
