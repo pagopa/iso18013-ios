@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: set-xcode-version
-        run: sudo xcode-select -s '/Applications/Xcode_16.2.app/Contents/Developer'
+        run: sudo xcode-select -s '/Applications/Xcode_16.4.0.app/Contents/Developer'
         shell: bash
 
       - uses: ruby/setup-ruby@dffc446db9ba5a0c4446edb5bca1c5c473a806c5 # v1.235.0
@@ -45,7 +45,7 @@ jobs:
           xcodebuild test \
             -project IOWalletProximity/IOWalletProximity.xcodeproj \
             -scheme IOWalletProximity \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0.1' \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.5' \
             -resultBundlePath ${{ env.RESULT_BUNDLE }}
 
       - name: Convert XCResult → JUnit XML
