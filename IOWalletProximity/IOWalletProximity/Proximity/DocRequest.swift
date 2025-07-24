@@ -45,7 +45,25 @@ extension DocRequest: CBOREncodable {
 extension DocRequest {
     public var readerCertificate: Data? {
         guard let ra = readerAuth else { return nil }
-        guard let cert = ra.iaca.last else { return nil }
+        //MARK: FIRST CERTIFICATE SHOULD BE CORRECT BUT IF MULTIPLE CERTS ARE PASSED WE ARE LOOKING FOR LEAF OF CHAIN
+        guard let cert = ra.iaca.first else { return nil }
         return Data(cert)
+    }
+    
+    public var readerCertificateChain: [SecCertificate]? {
+        guard let ra = readerAuth else { return nil }
+        
+        let certs = ra.iaca
+       
+        if (certs.isEmpty) {
+            return nil
+        }
+        
+        return certs.compactMap({
+            cert in
+            print(Data(cert).base64EncodedString())
+            return SecCertificateCreateWithData(nil, Data(cert) as CFData)
+        })
+        
     }
 }

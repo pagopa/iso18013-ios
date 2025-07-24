@@ -64,29 +64,29 @@ class MdocTransferHelpers {
         } catch { return .failure(error) }
     }
     
-    public static func isDeviceRequestDocumentValid(docR: DocRequest, iaca: [SecCertificate], sessionEncryption: SessionEncryption) -> Bool {
+    public static func isDeviceRequestDocumentValid(docR: DocRequest, iaca: [[SecCertificate]], sessionEncryption: SessionEncryption) -> (isValidSignature: Bool, isValidCertificateChain: Bool, message: String?) {
         let mdocAuth = MdocReaderAuthentication(transcript: sessionEncryption.transcript)
         if let readerAuthRawCBOR = docR.readerAuthRawCBOR,
            let certData = docR.readerCertificate,
            let x509 = try? X509.Certificate(derEncoded: [UInt8](certData)),
-           let (isValidSignature, reasonFailure) = try? mdocAuth.validateReaderAuth(readerAuthCBOR: readerAuthRawCBOR, readerAuthCertificate: certData, itemsRequestRawData: docR.itemsRequestRawData!, rootCerts: iaca) {
+           let (isValidSignature, isValidCertificateChain, reasonFailure) = try? mdocAuth.validateReaderAuth(readerAuthCBOR: readerAuthRawCBOR, readerAuthCertificate: certData, itemsRequestRawData: docR.itemsRequestRawData!, readerAuthCertificateChain: docR.readerCertificateChain, rootCerts: iaca) {
             if let reasonFailure {
                 //Certificate root authentication failed
-                return false
+                return (isValidSignature, isValidCertificateChain, reasonFailure)
             }
-            return isValidSignature
+            return (isValidSignature, isValidCertificateChain, reasonFailure)
         }
-        return false
+        return (false, false, nil)
     }
     
     
-    public static func isDeviceRequestValid(deviceRequest: DeviceRequest, iaca: [SecCertificate], sessionEncryption: SessionEncryption) -> Bool {
+    public static func isDeviceRequestValid(deviceRequest: DeviceRequest, iaca: [[SecCertificate]], sessionEncryption: SessionEncryption) -> Bool {
         if let docR = deviceRequest.docRequests.first {
             let mdocAuth = MdocReaderAuthentication(transcript: sessionEncryption.transcript)
             if let readerAuthRawCBOR = docR.readerAuthRawCBOR,
                let certData = docR.readerCertificate,
                let x509 = try? X509.Certificate(derEncoded: [UInt8](certData)),
-               let (isValidSignature, reasonFailure) = try? mdocAuth.validateReaderAuth(readerAuthCBOR: readerAuthRawCBOR, readerAuthCertificate: certData, itemsRequestRawData: docR.itemsRequestRawData!, rootCerts: iaca) {
+               let (isValidSignature, isValidCertificateChain, reasonFailure) = try? mdocAuth.validateReaderAuth(readerAuthCBOR: readerAuthRawCBOR, readerAuthCertificate: certData, itemsRequestRawData: docR.itemsRequestRawData!, readerAuthCertificateChain: docR.readerCertificateChain, rootCerts: iaca) {
                 if let reasonFailure {
                     //Certificate root authentication failed
                     return false
