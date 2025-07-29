@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3419AC302E1EB8A7006BB139 /* CertTrustTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419AC2F2E1EB89B006BB139 /* CertTrustTests.swift */; };
+		3496F8702E2A314F0014A567 /* CertificateChainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3496F86F2E2A314F0014A567 /* CertificateChainHelper.swift */; };
 		3A1E53532CD8E1E4005F5704 /* DeviceSignedItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E534F2CD8E1E4005F5704 /* DeviceSignedItems.swift */; };
 		3A1E53542CD8E1E4005F5704 /* DeviceNameSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53502CD8E1E4005F5704 /* DeviceNameSpaces.swift */; };
 		3A1E53552CD8E1E4005F5704 /* DeviceSigned.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53512CD8E1E4005F5704 /* DeviceSigned.swift */; };
@@ -124,8 +126,8 @@
 		3DA71A8A2D8C573700EC35EF /* SessionTranscriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA71A892D8C573000EC35EF /* SessionTranscriptTests.swift */; };
 		3DC072092D7F3BA1003C35A2 /* iOS13HKDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC072082D7F3BA1003C35A2 /* iOS13HKDF.swift */; };
 		3DCFB9C92D7894E7001050C3 /* Proximity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCFB9C82D7894E4001050C3 /* Proximity.swift */; };
-		3DEB51BC2DC0B92000CC80BB /* DeviceRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEB51BB2DC0B91B00CC80BB /* DeviceRequestTests.swift */; };
 		3DE097F62DA7D4D3005C83FD /* ProximityDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE097F52DA7D4CB005C83FD /* ProximityDocumentTests.swift */; };
+		3DEB51BC2DC0B92000CC80BB /* DeviceRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DEB51BB2DC0B91B00CC80BB /* DeviceRequestTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +141,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3419AC2F2E1EB89B006BB139 /* CertTrustTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertTrustTests.swift; sourceTree = "<group>"; };
+		3496F86F2E2A314F0014A567 /* CertificateChainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateChainHelper.swift; sourceTree = "<group>"; };
 		3A1E534E2CD8E1E4005F5704 /* DeviceAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAuth.swift; sourceTree = "<group>"; };
 		3A1E534F2CD8E1E4005F5704 /* DeviceSignedItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSignedItems.swift; sourceTree = "<group>"; };
 		3A1E53502CD8E1E4005F5704 /* DeviceNameSpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceNameSpaces.swift; sourceTree = "<group>"; };
@@ -253,8 +257,8 @@
 		3DA71A892D8C573000EC35EF /* SessionTranscriptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTranscriptTests.swift; sourceTree = "<group>"; };
 		3DC072082D7F3BA1003C35A2 /* iOS13HKDF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS13HKDF.swift; sourceTree = "<group>"; };
 		3DCFB9C82D7894E4001050C3 /* Proximity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proximity.swift; sourceTree = "<group>"; };
-		3DEB51BB2DC0B91B00CC80BB /* DeviceRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRequestTests.swift; sourceTree = "<group>"; };
 		3DE097F52DA7D4CB005C83FD /* ProximityDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProximityDocumentTests.swift; sourceTree = "<group>"; };
+		3DEB51BB2DC0B91B00CC80BB /* DeviceRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRequestTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -329,6 +333,7 @@
 		3A1E53832CD8E33D005F5704 /* Security */ = {
 			isa = PBXGroup;
 			children = (
+				3496F86F2E2A314F0014A567 /* CertificateChainHelper.swift */,
 				3DC072082D7F3BA1003C35A2 /* iOS13HKDF.swift */,
 				3A1E536E2CD8E33D005F5704 /* DeviceAuthentication.swift */,
 				3A1E536F2CD8E33D005F5704 /* MdocAuthentication.swift */,
@@ -468,6 +473,7 @@
 		3D14E64A2CAD8C0E00E15A46 /* IOWalletProximityTests */ = {
 			isa = PBXGroup;
 			children = (
+				3419AC2F2E1EB89B006BB139 /* CertTrustTests.swift */,
 				3ADB29002CC255550087018A /* LibIso18013ProximityTests.swift */,
 				3ADB28FB2CC2507A0087018A /* ModelTests */,
 				3ADB28FA2CC250710087018A /* ExtensionTests */,
@@ -800,6 +806,7 @@
 				3D14E6C62CAFD31900E15A46 /* SecCertificate+.swift in Sources */,
 				3A1E539F2CD8E34A005F5704 /* RequestDataElements.swift in Sources */,
 				3A1E53A02CD8E34A005F5704 /* RequestNameSpaces.swift in Sources */,
+				3496F8702E2A314F0014A567 /* CertificateChainHelper.swift in Sources */,
 				3A1E53A12CD8E34A005F5704 /* TransferStatus.swift in Sources */,
 				3A1E53A22CD8E34A005F5704 /* ItemsRequest.swift in Sources */,
 				3A1E53A32CD8E34A005F5704 /* DocRequest.swift in Sources */,
@@ -826,6 +833,7 @@
 				3A652A922CAEA49A00B0D6E4 /* CBOREncodableTests.swift in Sources */,
 				3D179CB02CB9074A0061DFDC /* DocumentTestData.swift in Sources */,
 				3D14E64B2CAD8C0E00E15A46 /* libIso18013Tests.swift in Sources */,
+				3419AC302E1EB8A7006BB139 /* CertTrustTests.swift in Sources */,
 				3D14E6EA2CB42CAA00E15A46 /* CoseTests.swift in Sources */,
 				3ADB28F42CC106920087018A /* DeviceEngagementTests.swift in Sources */,
 				3ACBEA042CD2920F00701457 /* NameValueTests.swift in Sources */,

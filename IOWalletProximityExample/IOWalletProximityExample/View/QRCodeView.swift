@@ -97,6 +97,8 @@ struct QRCodeView: View {
                 }
                 break
             case .onDocumentRequestReceived(let request):
+            var isAuthenticated: Bool = true
+            
                 let req:  [String: [String: [String]]] = {
                     var popupRequest : [String: [String: [String]]] = [:]
                     
@@ -112,6 +114,8 @@ struct QRCodeView: View {
                         })
                         
                         popupRequest[item.docType] = subReq
+                        
+                        isAuthenticated = isAuthenticated && item.isAuthenticated
                     })
                     
                     return popupRequest
@@ -120,7 +124,7 @@ struct QRCodeView: View {
                 }()
                 
                 
-                return AnyView(DeviceRequestAlert(requested: req) {
+            return AnyView(DeviceRequestAlert(isAuthenticated: isAuthenticated, requested: req) {
                     allowed, items in
                     
                     let documents = LibIso18013DAOKeyChain().getAllDocuments(state: .issued).compactMap({
@@ -260,7 +264,12 @@ struct QRCodeView: View {
             self.proximityEvent = event
         }
         
-        let trustedCertificates: [Data] = []
+        let trustedCertificates: [[Data]] = [
+            [
+                //https://pre.ta.wallet.ipzs.it/pki/ta.cer
+                Data(base64Encoded: "MIIDQzCCAuigAwIBAgIGAZc6+XlDMAoGCCqGSM49BAMCMIGzMQswCQYDVQQGEwJJVDEOMAwGA1UECAwFTGF6aW8xDTALBgNVBAcMBFJvbWExMTAvBgNVBAoMKElzdGl0dXRvIFBvbGlncmFmaWNvIGUgWmVjY2EgZGVsbG8gU3RhdG8xCzAJBgNVBAsMAklUMR4wHAYDVQQDDBVwcmUudGEud2FsbGV0LmlwenMuaXQxJTAjBgkqhkiG9w0BCQEWFnByb3RvY29sbG9AcGVjLmlwenMuaXQwHhcNMjUwNjA0MTI0NTE3WhcNMzAwNjAzMTI0NTE3WjCBszELMAkGA1UEBhMCSVQxDjAMBgNVBAgMBUxhemlvMQ0wCwYDVQQHDARSb21hMTEwLwYDVQQKDChJc3RpdHV0byBQb2xpZ3JhZmljbyBlIFplY2NhIGRlbGxvIFN0YXRvMQswCQYDVQQLDAJJVDEeMBwGA1UEAwwVcHJlLnRhLndhbGxldC5pcHpzLml0MSUwIwYJKoZIhvcNAQkBFhZwcm90b2NvbGxvQHBlYy5pcHpzLml0MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaE0xyhd3e9LDT7uwHOclL5H3389gwiCwFhI3KOvidn0glBIHYxqH+4Z9VTMYWG5L8cwC9AaJUCNGu2dp5ZiiTKOB5TCB4jAdBgNVHQ4EFgQU81CDcYxAqV3ptM8iKbJ06r9wxBkwHwYDVR0jBBgwFoAU81CDcYxAqV3ptM8iKbJ06r9wxBkwDwYDVR0TAQH/BAUwAwEB/zBEBggrBgEFBQcBAQQ4MDYwNAYIKwYBBQUHMAKGKGh0dHBzOi8vcHJlLnRhLndhbGxldC5pcHpzLml0L3BraS90YS5jZXIwDgYDVR0PAQH/BAQDAgEGMDkGA1UdHwQyMDAwLqAsoCqGKGh0dHBzOi8vcHJlLnRhLndhbGxldC5pcHpzLml0L3BraS90YS5jcmwwCgYIKoZIzj0EAwIDSQAwRgIhAOsQYzR+eGf4je63VGHqkpmkBbfyOre+mfIdHHowWWR/AiEA58xBNb5UW5uMB+tQur8fq24RD5MmRHLYS6bDgIYmluw=")!
+            ]
+        ]
         
         try? Proximity.shared.start(trustedCertificates)
         
