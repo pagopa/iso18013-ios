@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DeviceRequestAlert : View {
-    
+    var isAuthenticated: Bool = false
     var requested: [String: [String: [String]]]?
     
     @State private var allowed: [String: [String: [String: Bool]]]?
@@ -23,6 +23,14 @@ struct DeviceRequestAlert : View {
             
             Color.black.opacity(0.5).edgesIgnoringSafeArea(.all)
             ScrollView(.vertical) {
+                VStack {
+                    Text("isAuthenticated: \(isAuthenticated)").foregroundStyle(isAuthenticated ? Color.green : Color.red)
+                }
+                .padding(32)
+                .background(Color.white)
+                .cornerRadius(12)
+                .frame(alignment: .center)
+                .padding(.horizontal, 12)
                 VStack {
                     ForEach(keys, id: \.self) {
                         key in

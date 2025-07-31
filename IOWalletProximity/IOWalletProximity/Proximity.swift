@@ -82,16 +82,18 @@ public class Proximity: @unchecked Sendable {
     public var proximityHandler: ((ProximityEvents) -> Void)?
     
     private var proximityListener: ProximityListener?
-    private var trustedCertificates: [SecCertificate] = []
+    private var trustedCertificates: [[SecCertificate]] = []
     
     
     //  Initialize the BLE manager, set the necessary listeners. Start the BLE
     //  - Parameters:
     //      - trustedCertificates: list of trusted certificates to verify reader validity
-    public func start(_ trustedCertificates: [Data]? = nil) throws {
+    public func start(_ trustedCertificates: [[Data]]? = nil) throws {
         
         self.trustedCertificates = trustedCertificates?.compactMap {
-            SecCertificateCreateWithData(nil, $0 as CFData)
+            $0.compactMap {
+                SecCertificateCreateWithData(nil, $0 as CFData)
+            }
         } ?? []
         
         let _proximity = ProximityListener(proximity: self)
@@ -385,16 +387,29 @@ public class Proximity: @unchecked Sendable {
         item.docRequests.forEach({
             request in
             
-            let isAuthenticated: Bool
+            let isSignatureValid: Bool
+            let isValidCertificateChain: Bool
+            let authenticationMessage: String?
             
             if let sessionEncryption = proximityListener?.sessionEncryption {
-                let iaca: [SecCertificate] = trustedCertificates
+                let iaca: [[SecCertificate]] = trustedCertificates
                 
-                isAuthenticated = MdocTransferHelpers.isDeviceRequestDocumentValid(docR: request, iaca: iaca, sessionEncryption: sessionEncryption)
+                (isSignatureValid, isValidCertificateChain, authenticationMessage) = MdocTransferHelpers.isDeviceRequestDocumentValid(docR: request, iaca: iaca, sessionEncryption: sessionEncryption)
             }
             else {
-                isAuthenticated = false
+                isSignatureValid = false
+                isValidCertificateChain = false
+                authenticationMessage = nil
             }
+            
+            print("isSignatureValid: \(isSignatureValid)")
+            print("isValidCertificateChain: \(isValidCertificateChain)")
+            
+            if let authenticationMessage {
+                print(authenticationMessage)
+            }
+            
+            let isAuthenticated = isSignatureValid && isValidCertificateChain
             
             requestedDocuments.append((docType: request.itemsRequest.docType, nameSpaces: getRequestedItems(request: request), isAuthenticated: isAuthenticated))
         })
@@ -567,7 +582,7 @@ public class Proximity: @unchecked Sendable {
             }
         }
     
-    class ProximityListener : QrEngagementListener {
+    class ProximityListener : @preconcurrency QrEngagementListener {
         
         var proximity: Proximity
         var onResponse: ((Bool, DeviceResponse?, UInt64) -> Void)?
