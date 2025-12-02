@@ -37,14 +37,88 @@ final class LibIso18013DAOTests: XCTestCase {
         }
     }
     
-    func testGenerateDeviceResponse() {
+    func testGenerateEmptyDeviceResponse() {
         
-        guard let documentData = Data(base64Encoded: DocumentTestData.issuerSignedDocument1)?.bytes else {
+        guard let documentData: [UInt8] = Data(base64Encoded: DocumentTestData.issuerSignedDocument1)?.bytes else {
             XCTFail("document data must be valid")
             return
         }
         
-        guard let deviceKeyRaw = Data(base64Encoded: DocumentTestData.devicePrivateKey)?.bytes else {
+        guard let deviceKeyRaw: [UInt8] = Data(base64Encoded: DocumentTestData.devicePrivateKey)?.bytes else {
+            XCTFail("device key must be valid")
+            return
+        }
+        
+        guard let document = ProximityDocument(docType: DocType.euPid.rawValue, issuerSigned: documentData, deviceKeyRaw: deviceKeyRaw) else {
+            XCTFail("document must be valid")
+            return
+        }
+        
+        let documents: [ProximityDocument] = [
+            document
+        ]
+        
+        
+        let items: [String: [String: [String: Bool]]] = [
+            "eu.europa.ec.eudi.pid.1": [
+                :
+            ]
+        ]
+        
+       let sessionTranscript = Proximity.shared.generateOID4VPSessionTranscriptCBOR(clientId: "clientId", responseUri: "responseUri", authorizationRequestNonce: "authorizationRequestNonce", mdocGeneratedNonce: "mdocNonce")
+        
+        guard let deviceResponseRaw = try? Proximity.shared.generateDeviceResponse(items: items, documents: documents, sessionTranscript: sessionTranscript) else {
+            XCTFail("deviceResponse must be valid")
+            return
+        }
+        
+        print(Data(deviceResponseRaw).base64EncodedString())
+        
+        guard let deviceResponse = DeviceResponse(data: deviceResponseRaw) else {
+            XCTFail("deviceResponse must be valid")
+            return
+        }
+        
+        let deviceResponseItems = deviceResponse.documents?.map({
+            doc in
+            return doc.issuerSigned.issuerNameSpaces?.nameSpaces.map({
+                key, value in
+                return value.map({$0.elementIdentifier})
+            })
+        }).reduce([], {
+            return $0 + ($1 ?? [])
+        }).reduce([], {
+            return $0 + $1
+        }) ?? []
+        
+        let deviceResponseErrorItems = deviceResponse.documents?.map({
+            doc in
+            return doc.errors?.errors.map({
+                key, value in
+                return value.map({$0.key})
+            })
+        }).reduce([], {
+            return $0 + ($1 ?? [])
+        }).reduce([], {
+            return $0 + $1
+        }) ?? []
+        
+        //ensure each requested item is contained in deviceResponse valid items or error items
+        items.reduce([], { $0 + $1.value.reduce([], { $0 + $1.value.map({$0.key}) })})
+            .forEach({
+                item in
+                XCTAssert(deviceResponseItems.contains(item) || deviceResponseErrorItems.contains(item))
+        })
+    }
+    
+    func testGenerateDeviceResponse() {
+        
+        guard let documentData: [UInt8] = Data(base64Encoded: DocumentTestData.issuerSignedDocument1)?.bytes else {
+            XCTFail("document data must be valid")
+            return
+        }
+        
+        guard let deviceKeyRaw: [UInt8] = Data(base64Encoded: DocumentTestData.devicePrivateKey)?.bytes else {
             XCTFail("device key must be valid")
             return
         }
