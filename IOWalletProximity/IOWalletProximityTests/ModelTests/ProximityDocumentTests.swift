@@ -16,12 +16,12 @@ class ProimityDocumentTests: XCTestCase {
  
     func testConstructorWithDeviceKeyRaw() {
         
-        guard let documentData = Data(base64Encoded: DocumentTestData.issuerSignedDocument1)?.bytes else {
+        guard let documentData: [UInt8] = Data(base64Encoded: DocumentTestData.issuerSignedDocument1)?.bytes else {
             XCTFail("document data must be valid")
             return
         }
         
-        guard let deviceKeyRaw = Data(base64Encoded: DocumentTestData.devicePrivateKey)?.bytes else {
+        guard let deviceKeyRaw: [UInt8] = Data(base64Encoded: DocumentTestData.devicePrivateKey)?.bytes else {
             XCTFail("device key must be valid")
             return
         }
@@ -37,9 +37,9 @@ class ProimityDocumentTests: XCTestCase {
     
     func testConstructorWithNotValidIssuerSigned() {
         //DocumentTestData.issuerSignedDocument1 is stored as base64. It can't be converted to bytes like this.
-        let documentData = Data(DocumentTestData.issuerSignedDocument1.utf8).bytes
+        let documentData: [UInt8] = Data(DocumentTestData.issuerSignedDocument1.utf8).bytes
         
-        guard let deviceKeyRaw = Data(base64Encoded: DocumentTestData.devicePrivateKey)?.bytes else {
+        guard let deviceKeyRaw: [UInt8] = Data(base64Encoded: DocumentTestData.devicePrivateKey)?.bytes else {
             XCTFail("device key must be valid")
             return
         }

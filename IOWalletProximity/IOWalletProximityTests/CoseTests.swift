@@ -14,7 +14,7 @@ final class CoseTests: XCTestCase {
     
     func testCoseKeyExchange() {
         
-        let salt = "TEST_SALT".data(using: .utf8)!.bytes
+        let salt: [UInt8] = "TEST_SALT".data(using: .utf8)!.bytes
         let info = "TEST_INFO".data(using: .utf8)!
         
         
