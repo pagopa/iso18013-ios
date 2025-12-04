@@ -5,6 +5,10 @@
 //  Created by Martina D'urso on 16/10/24.
 //
 
+internal import SwiftCBOR
+import Foundation
+import CoreBluetooth
+
 // Protocol defining a listener for QR engagement events
 protocol QrEngagementListener: AnyObject {
     // Called when the connection process is starting
@@ -37,6 +41,47 @@ class LibIso18013Proximity: @unchecked Sendable {
     public func stop() {
         bleServer?.stop()
     }
+    
+    private var _nfc: AnyObject?
+    
+    // Start nfc
+    @available(iOS 17.4, *)
+    public func startNfc() async throws -> Bool {
+        do {
+            guard let deviceEngagement = self.bleServer?.deviceEngagement else {
+                return false
+            }
+            
+            let nfc: NFCEngagement = NFCEngagement(
+                deviceEngagement.deviceRetrievalMethods ?? [],
+                deviceEngagement: deviceEngagement.encode(options: CBOROptions()))
+            
+            _nfc = nfc
+            
+            bleServer?.handOver = nfc.handOver
+            
+            let success = try await nfc.start()
+            return success
+            
+        }
+        catch {
+            throw ProximityError.error(error: error)
+        }
+        return false
+    }
+    
+    // Stop nfc
+    @available(iOS 17.4, *)
+    public func stopNfc() async throws -> Bool {
+        guard let nfc = _nfc as? NFCEngagement else {
+            return false
+        }
+        
+        try await nfc.stop()
+        
+        return true
+    }
+    
     
     // Generates and returns the QR code payload
     public func getQrCodePayload() throws -> String {

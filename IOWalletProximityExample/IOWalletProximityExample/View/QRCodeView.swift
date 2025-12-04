@@ -27,6 +27,8 @@ struct QRCodeView: View {
     @State var loading: Bool = false
     @State var showQrCode: Bool = false
     
+    @State var engagementMode: EngagementViewState = EngagementViewState.start
+    
     func logEvent() -> String {
         switch(proximityEvent) {
             case .onDocumentPresentationCompleted:
@@ -52,10 +54,83 @@ struct QRCodeView: View {
         
         
         if (showQrCode) {
-            return AnyView(QRCode
-                .getQrCodeImage(qrCode: qrCode, inputCorrectionLevel: .m)
-                .resizable()
-                .frame(width: 200, height: 200))
+            if engagementMode == .start {
+                return AnyView(
+                    VStack {
+                        Button(action: {
+                            if let qrCode = try? Proximity.shared.getQrCode() {
+                                self.qrCode = qrCode
+                                self.showQrCode = true
+                            }
+                            else {
+                                self.qrCode = ""
+                                self.showQrCode = false
+                            }
+                            engagementMode = .qrCode
+                        }, label: {
+                            Text("QRCode").frame(width: 200, height: 200)
+                        }).frame(width: 200, height: 200)
+                            .buttonStyle(.borderedProminent)
+                                .tint(Color.blue)
+                        Divider()
+                            .padding(.top, 8)
+                        Button(action: {
+                            engagementMode = .nfc
+                        }, label: {
+                            Text("NFC").frame(width: 200, height: 200)
+                        })
+                            .buttonStyle(.borderedProminent)
+                                .tint(Color.green)
+                    })
+            } else if engagementMode == .qrCode {
+                return AnyView(
+                    VStack {
+                        QRCode
+                            .getQrCodeImage(qrCode: qrCode, inputCorrectionLevel: .m)
+                            .resizable()
+                            .frame(width: 200, height: 200)
+                        Button(action: {
+                            engagementMode = .start
+                        }, label: {
+                            Text("BACK")
+                        }).buttonStyle(.borderedProminent)
+                            .tint(Color.red)
+                    })
+            } else if engagementMode == .nfc {
+                return AnyView(
+                    VStack {
+                        Button(action: {
+                            Task {
+                                try? await Proximity.shared.startNfc()
+                            }
+                            
+                        }, label: {
+                            Text("START NFC").frame(width: 200, height: 200)
+                        })
+                        .buttonStyle(.borderedProminent)
+                        .tint(Color.green)
+                        
+                        Button(action: {
+                            Task {
+                                try? await Proximity.shared.stopNfc()
+                            }
+                            
+                        }, label: {
+                            Text("STOP NFC").frame(width: 100, height: 100)
+                        })
+                        .buttonStyle(.borderedProminent)
+                        .tint(Color.purple)
+                        
+                        Button(action: {
+                            engagementMode = .start
+                        }, label: {
+                            Text("BACK")
+                        }).buttonStyle(.borderedProminent)
+                            .tint(Color.red)
+                    })
+            }
+            
+            
         }
         
         
@@ -74,7 +149,7 @@ struct QRCodeView: View {
                                 .foregroundStyle(.green)
                         }
                         .padding(.bottom)
-                        Button("Get another Qr Code") {
+                        Button("BACK") {
                             startScanning()
                         }
                     })
@@ -90,7 +165,7 @@ struct QRCodeView: View {
                                 .foregroundStyle(.red)
                         }
                         .padding(.bottom)
-                        Button("Get another Qr Code") {
+                        Button("BACK") {
                             startScanning()
                         }
                     })
@@ -189,7 +264,7 @@ struct QRCodeView: View {
                             .foregroundStyle(.green)
                     }
                     .padding(.bottom)
-                    Button("Get another Qr Code") {
+                    Button("BACK") {
                         startScanning()
                     }
                 })
@@ -253,7 +328,7 @@ struct QRCodeView: View {
                 }
             }
             .padding(.top)
-            .navigationTitle("QRCode")
+            .navigationTitle("Engagement")
         }
     }
     
@@ -273,6 +348,8 @@ struct QRCodeView: View {
         
         try? Proximity.shared.start(trustedCertificates)
         
+        engagementMode = .start
+        
         if let qrCode = try? Proximity.shared.getQrCode() {
             self.qrCode = qrCode
             self.showQrCode = true
@@ -289,4 +366,10 @@ struct QRCodeView_Previews: PreviewProvider {
     static var previews: some View {
         QRCodeView()
     }
+}
+
+enum EngagementViewState {
+    case start
+    case qrCode
+    case nfc
 }
