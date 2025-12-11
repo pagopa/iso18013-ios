@@ -155,21 +155,21 @@ public class Proximity: @unchecked Sendable {
     *   - clientId: Authorization Request 'client_id'
     *   - responseUri: Authorization Request 'response_uri'
     *   - authorizationRequestNonce: Authorization Request 'nonce'
-    *   - mdocGeneratedNonce: cryptographically random number with sufficient entropy
-    *
+    *   - jwkThumbprint: The JWK SHA-256 Thumbprint (base64url-encoded) when using 
+    *                     direct_post.jwt response mode, otherwise nil
     * - Returns: A CBOR-encoded SessionTranscript object
     */
     public func generateOID4VPSessionTranscriptCBOR(
         clientId: String,
         responseUri: String,
         authorizationRequestNonce: String,
-        mdocGeneratedNonce: String
+        jwkThumbprint: String?
     ) -> [UInt8] {
         return generateOID4VPSessionTranscript(
             clientId: clientId,
             responseUri: responseUri,
             authorizationRequestNonce: authorizationRequestNonce,
-            mdocGeneratedNonce: mdocGeneratedNonce
+            jwkThumbprint: jwkThumbprint
         ).encode(options: CBOROptions())
     }
     
@@ -178,14 +178,14 @@ public class Proximity: @unchecked Sendable {
         clientId: String,
         responseUri: String,
         authorizationRequestNonce: String,
-        mdocGeneratedNonce: String
+        jwkThumbprint: String?
     ) -> SessionTranscript {
         return SessionTranscript(
             handOver: OID4VPHandover(
                 clientId: clientId,
                 responseUri: responseUri,
                 authorizationRequestNonce: authorizationRequestNonce,
-                mdocGeneratedNonce: mdocGeneratedNonce
+                jwkThumbprint: jwkThumbprint
             ).toCBOR(options: CBOROptions())
         )
     }

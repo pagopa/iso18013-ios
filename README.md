@@ -282,7 +282,8 @@ public enum ProximityError {
     *   - clientId: Authorization Request 'client_id'
     *   - responseUri: Authorization Request 'response_uri'
     *   - authorizationRequestNonce: Authorization Request 'nonce'
-    *   - mdocGeneratedNonce: cryptographically random number with sufficient entropy
+    *   - jwkThumbprint: The JWK SHA-256 Thumbprint (base64url-encoded) when using 
+    *                     direct_post.jwt response mode, otherwise nil
     *
     * - Returns: A CBOR-encoded SessionTranscript object
 */
@@ -290,22 +291,22 @@ public func generateOID4VPSessionTranscriptCBOR(
     clientId: String,
     responseUri: String,
     authorizationRequestNonce: String,
-    mdocGeneratedNonce: String
+    jwkThumbprint: String?
 ) -> [UInt8]
 ```
 
 #### Example
 
 ```swift
-let mdocGeneratedNonce: String = /*generate cryptographically random number with sufficient entropy*/
+let jwkThumbprint: String? = /* JWK thumbprint for direct_post.jwt, or nil for direct_post */
 
-let openId4VpRequest = /*retrive openId4VpRequest using mdocGeneratedNonce*/
+let openId4VpRequest = /*retrive openId4VpRequest*/
 
 let sessionTranscript = Proximity.shared.generateOID4VPSessionTranscriptCBOR(
     clientId: openId4VpRequest.client_id,
     responseUri: openId4VpRequest.response_uri,
     authorizationRequestNonce: openId4VpRequest.nonce,
-    mdocGeneratedNonce: mdocGeneratedNonce
+    jwkThumbprint: jwkThumbprint
 )
 //Map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
 let items: [String: [String: [String: Bool]]] = [:] //items should contain all the items received in the openId4VpRequest.

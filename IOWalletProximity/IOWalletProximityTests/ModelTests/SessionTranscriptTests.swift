@@ -16,15 +16,15 @@ class SessionTranscriptTests: XCTestCase {
         let clientId = "RANDOM CLIENT ID"
         let responseUri = "RANDOM URI"
         let authorizationRequestNonce = "AUTH NONCE"
-        let mdocNonce = "MDOC NONCE"
+        let jwkThumbprint = "JWK thumbprint"
         
-        let generatedOid4vpSessionTranscript = "g/b2g1gghjCGDo4W3FVIjOeOe5C71ZEiI1XyJOXon2VoA2s7TexYIMKUSNBIvZ/iE9JHfBT1RFa8XdQJDiqkuxFKWdPTiLGmakFVVEggTk9OQ0U="
+        let generatedOid4vpSessionTranscript = "g/b2gnFPcGVuSUQ0VlBIYW5kb3ZlclggCRfhg/rggKdSDEm4LKN59PF2I/aPseQugYG3S0KBcsQ="
         
         let oid4vpSessionTranscript = Proximity().generateOID4VPSessionTranscriptCBOR(
             clientId: clientId,
             responseUri: responseUri,
             authorizationRequestNonce: authorizationRequestNonce,
-            mdocGeneratedNonce: mdocNonce
+            jwkThumbprint: jwkThumbprint
         )
         
         XCTAssertEqual(Data(oid4vpSessionTranscript).base64EncodedString(), generatedOid4vpSessionTranscript)
@@ -36,11 +36,11 @@ class SessionTranscriptTests: XCTestCase {
             return
         }
         
-        guard case .utf8String(let decodedAuthorizationRequestNonce) = handOver[2] else {
-            XCTFail("failed to decode authorizationRequestNonce")
+        guard case .utf8String(let openID4VPHandover) = handOver[0] else {
+            XCTFail("failed to decode openID4VPHandover")
             return
         }
         
-        XCTAssertEqual(decodedAuthorizationRequestNonce, authorizationRequestNonce)
+        XCTAssertEqual(openID4VPHandover, "OpenID4VPHandover")
     }
 }
