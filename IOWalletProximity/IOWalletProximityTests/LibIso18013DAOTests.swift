@@ -65,7 +65,7 @@ final class LibIso18013DAOTests: XCTestCase {
             ]
         ]
         
-       let sessionTranscript = Proximity.shared.generateOID4VPSessionTranscriptCBOR(clientId: "clientId", responseUri: "responseUri", authorizationRequestNonce: "authorizationRequestNonce", mdocGeneratedNonce: "mdocNonce")
+       let sessionTranscript = Proximity.shared.generateOID4VPSessionTranscriptCBOR(clientId: "clientId", responseUri: "responseUri", authorizationRequestNonce: "authorizationRequestNonce", jwkThumbprint: "jwkThumbprint")
         
         guard let deviceResponseRaw = try? Proximity.shared.generateDeviceResponse(items: items, documents: documents, sessionTranscript: sessionTranscript) else {
             XCTFail("deviceResponse must be valid")
@@ -170,7 +170,7 @@ final class LibIso18013DAOTests: XCTestCase {
             ]
         ]
         
-       let sessionTranscript = Proximity.shared.generateOID4VPSessionTranscriptCBOR(clientId: "clientId", responseUri: "responseUri", authorizationRequestNonce: "authorizationRequestNonce", mdocGeneratedNonce: "mdocNonce")
+       let sessionTranscript = Proximity.shared.generateOID4VPSessionTranscriptCBOR(clientId: "clientId", responseUri: "responseUri", authorizationRequestNonce: "authorizationRequestNonce", jwkThumbprint: "jwkThumbprint")
         
         
         

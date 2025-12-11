@@ -12,35 +12,41 @@ struct OID4VPHandover : CBOREncodable {
     let clientId: String
     let responseUri: String
     let authorizationRequestNonce: String
-    let mdocGeneratedNonce: String
-    
-    func toCBOR(options: SwiftCBOR.CBOROptions) -> SwiftCBOR.CBOR {
-        let encodedClientId = CBOR(arrayLiteral:
+    let jwkThumbprint: String?
+
+    func toCBOR(options: CBOROptions) -> CBOR {
+        // Encode jwkThumbprint or null
+        let jwkThumbprintCBOR: CBOR = {
+            if let thumb = jwkThumbprint {
+                return .byteString(Array(thumb.utf8))   
+            } else {
+                return .null                            
+            }
+        }()
+
+        // OpenID4VPHandoverInfo
+        let handoverInfoCBOR = CBOR(arrayLiteral:
             .utf8String(clientId),
-            .utf8String(mdocGeneratedNonce)
-        ).encode()
-        
-        let encodedResponseUri = CBOR(arrayLiteral:
-            .utf8String(responseUri),
-            .utf8String(mdocGeneratedNonce)
-        ).encode()
-        
-        let clientIdChecksum = calcSHA256Hash(encodedClientId)
-        let responseUriChecksum = calcSHA256Hash(encodedResponseUri)
-        
+            .utf8String(authorizationRequestNonce),
+            jwkThumbprintCBOR,
+            .utf8String(responseUri)
+        )
+
+        let handoverInfoBytes = handoverInfoCBOR.encode()
+
+        // OpenID4VPHandoverInfoHash
+        let infoHash = calcSHA256Hash(handoverInfoBytes)
+
         return CBOR(arrayLiteral:
-            .byteString(clientIdChecksum),
-            .byteString(responseUriChecksum),
-            .utf8String(authorizationRequestNonce)
+            .utf8String("OpenID4VPHandover"),
+            .byteString(infoHash)
         )
     }
-    
-    func calcSHA256Hash( _ data: [UInt8] ) -> [UInt8] {
-        var sha256 = SHA256()
-        sha256.update(data: data)
-        let hash = sha256.finalize()
-        
-        return Array(hash)
+
+    private func calcSHA256Hash(_ data: [UInt8]) -> [UInt8] {
+        var sha = SHA256()
+        sha.update(data: data)
+        return Array(sha.finalize())
     }
-    
 }
+

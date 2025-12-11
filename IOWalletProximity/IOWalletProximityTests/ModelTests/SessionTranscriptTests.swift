@@ -16,7 +16,7 @@ class SessionTranscriptTests: XCTestCase {
         let clientId = "RANDOM CLIENT ID"
         let responseUri = "RANDOM URI"
         let authorizationRequestNonce = "AUTH NONCE"
-        let mdocNonce = "MDOC NONCE"
+        let jwkThumbprint = "JWK thumbprint"
         
         let generatedOid4vpSessionTranscript = "g/b2g1gghjCGDo4W3FVIjOeOe5C71ZEiI1XyJOXon2VoA2s7TexYIMKUSNBIvZ/iE9JHfBT1RFa8XdQJDiqkuxFKWdPTiLGmakFVVEggTk9OQ0U="
         
@@ -24,7 +24,7 @@ class SessionTranscriptTests: XCTestCase {
             clientId: clientId,
             responseUri: responseUri,
             authorizationRequestNonce: authorizationRequestNonce,
-            mdocGeneratedNonce: mdocNonce
+            jwkThumbprint: jwkThumbprint
         )
         
         XCTAssertEqual(Data(oid4vpSessionTranscript).base64EncodedString(), generatedOid4vpSessionTranscript)
