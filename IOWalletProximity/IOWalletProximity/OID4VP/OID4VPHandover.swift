@@ -17,8 +17,8 @@ struct OID4VPHandover : CBOREncodable {
     func toCBOR(options: CBOROptions) -> CBOR {
         // Encode jwkThumbprint or null
         let jwkThumbprintCBOR: CBOR = {
-            if let thumb = jwkThumbprint {
-                return .byteString(Array(thumb.utf8))   
+            if let thumb = jwkThumbprint, let decoded = Data(base64URLEncoded: thumb) {
+                return .byteString(Array(decoded))
             } else {
                 return .null                            
             }
@@ -49,4 +49,3 @@ struct OID4VPHandover : CBOREncodable {
         return Array(sha.finalize())
     }
 }
-

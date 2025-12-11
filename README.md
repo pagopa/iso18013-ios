@@ -282,7 +282,8 @@ public enum ProximityError {
     *   - clientId: Authorization Request 'client_id'
     *   - responseUri: Authorization Request 'response_uri'
     *   - authorizationRequestNonce: Authorization Request 'nonce'
-    *   - jwkThumbprint:  the JWK SHA-256 Thumbprint if direct_post.jwt, otherwise is null
+    *   - jwkThumbprint: The JWK SHA-256 Thumbprint (base64url-encoded) when using 
+    *                     direct_post.jwt response mode, otherwise nil
     *
     * - Returns: A CBOR-encoded SessionTranscript object
 */
@@ -297,7 +298,7 @@ public func generateOID4VPSessionTranscriptCBOR(
 #### Example
 
 ```swift
-let jwkThumbprint: String = /*nonce: the value of the nonce request parameter*/
+let jwkThumbprint: String? = /* JWK thumbprint for direct_post.jwt, or nil for direct_post */
 
 let openId4VpRequest = /*retrive openId4VpRequest*/
 

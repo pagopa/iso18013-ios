@@ -36,11 +36,11 @@ class SessionTranscriptTests: XCTestCase {
             return
         }
         
-        guard case .utf8String(let decodedAuthorizationRequestNonce) = handOver[2] else {
-            XCTFail("failed to decode authorizationRequestNonce")
+        guard case .utf8String(let openID4VPHandover) = handOver[0] else {
+            XCTFail("failed to decode openID4VPHandover")
             return
         }
         
-        XCTAssertEqual(decodedAuthorizationRequestNonce, authorizationRequestNonce)
+        XCTAssertEqual(openID4VPHandover, "OpenID4VPHandover")
     }
 }
