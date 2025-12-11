@@ -9,6 +9,21 @@ import Foundation
 
 // Extension to convert Data into an array of UInt8 (bytes)
 extension Data {
+
+    /// Initializes Data from a base64-url encoded string.
+    ///
+    /// https://tools.ietf.org/html/rfc4648#page-7
+    ///
+    /// - parameter string: The base64-url encoded string.
+    /// - returns: Data if decoding succeeds, nil otherwise.
+    public init?(base64URLEncoded string: String) {
+        let base64 = string
+            .replacingOccurrences(of: "-", with: "+")
+            .replacingOccurrences(of: "_", with: "/")
+        let paddedLength = (4 - base64.count % 4) % 4
+        let padded = base64 + String(repeating: "=", count: paddedLength)
+        self.init(base64Encoded: padded)
+    }
     
     public var bytes: Array<UInt8> {
         return Array(self)
