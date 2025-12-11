@@ -18,7 +18,7 @@ class SessionTranscriptTests: XCTestCase {
         let authorizationRequestNonce = "AUTH NONCE"
         let jwkThumbprint = "JWK thumbprint"
         
-        let generatedOid4vpSessionTranscript = "g/b2g1gghjCGDo4W3FVIjOeOe5C71ZEiI1XyJOXon2VoA2s7TexYIMKUSNBIvZ/iE9JHfBT1RFa8XdQJDiqkuxFKWdPTiLGmakFVVEggTk9OQ0U="
+        let generatedOid4vpSessionTranscript = "g/b2gnFPcGVuSUQ0VlBIYW5kb3ZlclggCRfhg/rggKdSDEm4LKN59PF2I/aPseQugYG3S0KBcsQ="
         
         let oid4vpSessionTranscript = Proximity().generateOID4VPSessionTranscriptCBOR(
             clientId: clientId,
