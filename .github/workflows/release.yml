@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
 
       - name: Set up Xcode
-        run: sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
+        run: sudo xcode-select -s '/Applications/Xcode_16.4.0.app/Contents/Developer'
 
       - name: Extract tag version
         id: get_version

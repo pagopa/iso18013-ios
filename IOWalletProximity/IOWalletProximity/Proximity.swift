@@ -523,30 +523,25 @@ public class Proximity: @unchecked Sendable {
         deviceKey: CoseKeyPrivate,
         sessionTranscript: SessionTranscript) -> Document? {
             
-            
             let (nsItemsToAdd, errors) = getRequestedValues(request: request, issuerSigned: issuerSigned)
             
-            if nsItemsToAdd.count > 0 {
-                let issuerAuthToAdd = issuerSigned.issuerAuth
-                let issToAdd = IssuerSigned(issuerNameSpaces: IssuerNameSpaces(nameSpaces: nsItemsToAdd),
-                                            issuerAuth: issuerAuthToAdd)
-                var devSignedToAdd: DeviceSigned? = nil
-                
-                guard let devAuth = try? MdocAuthentication.getDeviceAuthForTransferSignature(transcript: sessionTranscript, docType: issuerSigned.issuerAuth!.mobileSecurityObject.docType, privateKey: deviceKey) else {
-                    return nil
-                }
-                
-                devSignedToAdd = DeviceSigned(deviceAuth: devAuth)
-                
-                let docToAdd = Document(docType: issuerSigned.issuerAuth!.mobileSecurityObject.docType,
-                                        issuerSigned: issToAdd,
-                                        deviceSigned: devSignedToAdd,
-                                        errors: errors)
-                
-                return docToAdd
-            } else {
+            let issuerAuthToAdd = issuerSigned.issuerAuth
+            let issToAdd = IssuerSigned(issuerNameSpaces: IssuerNameSpaces(nameSpaces: nsItemsToAdd),
+                                        issuerAuth: issuerAuthToAdd)
+            var devSignedToAdd: DeviceSigned? = nil
+            
+            guard let devAuth = try? MdocAuthentication.getDeviceAuthForTransferSignature(transcript: sessionTranscript, docType: issuerSigned.issuerAuth!.mobileSecurityObject.docType, privateKey: deviceKey) else {
                 return nil
             }
+            
+            devSignedToAdd = DeviceSigned(deviceAuth: devAuth)
+            
+            let docToAdd = Document(docType: issuerSigned.issuerAuth!.mobileSecurityObject.docType,
+                                    issuerSigned: issToAdd,
+                                    deviceSigned: devSignedToAdd,
+                                    errors: errors)
+            
+            return docToAdd
         }
     
     
