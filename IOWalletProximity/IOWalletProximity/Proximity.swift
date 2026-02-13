@@ -81,6 +81,12 @@ public class Proximity: @unchecked Sendable {
     
     public var proximityHandler: ((ProximityEvents) -> Void)?
     
+    public var nfcHandler: ((ProximityNfcEvents) -> Void)? {
+        didSet {
+            LibIso18013Proximity.shared.nfcHandler = nfcHandler
+        }
+    }
+    
     private var proximityListener: ProximityListener?
     private var trustedCertificates: [[SecCertificate]] = []
     
@@ -118,6 +124,7 @@ public class Proximity: @unchecked Sendable {
     
     
     public func startNfc() async throws -> Bool {
+        print("startNfc")
         if #available(iOS 17.4, *) {
             return try await LibIso18013Proximity.shared.startNfc()
         } else {
@@ -127,6 +134,7 @@ public class Proximity: @unchecked Sendable {
     }
     
     public func stopNfc() async throws -> Bool {
+        print("stopNfc")
         if #available(iOS 17.4, *) {
             return try await LibIso18013Proximity.shared.stopNfc()
         } else {

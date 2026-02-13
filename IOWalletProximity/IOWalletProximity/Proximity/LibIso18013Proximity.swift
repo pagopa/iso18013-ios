@@ -44,6 +44,8 @@ class LibIso18013Proximity: @unchecked Sendable {
     
     private var _nfc: AnyObject?
     
+    public var nfcHandler: ((ProximityNfcEvents) -> Void)?
+    
     // Start nfc
     @available(iOS 17.4, *)
     public func startNfc() async throws -> Bool {
@@ -56,11 +58,22 @@ class LibIso18013Proximity: @unchecked Sendable {
                 deviceEngagement.deviceRetrievalMethods ?? [],
                 deviceEngagement: deviceEngagement.encode(options: CBOROptions()))
             
+            nfc.nfcHandler = self.nfcHandler
+            
             _nfc = nfc
             
             bleServer?.handOver = nfc.handOver
             
             let success = try await nfc.start()
+            
+            if (success) {
+                nfcHandler?(.onStart)
+            }
+            else {
+                nfcHandler?(.onStop)
+            }
+            
+            
             return success
             
         }

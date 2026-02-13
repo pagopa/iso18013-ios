@@ -8,8 +8,30 @@ import CoreNFC
 internal import SwiftCBOR
 
 
+public enum ProximityNfcEvents {
+    //The device is ready to present nfc document
+    case onStart
+    
+    //The device has stopped presenting nfc
+    case onStop
+    
+}
+
 @available(iOS 17.4, *)
 class NFCEngagement : @unchecked Sendable, NFCCardEmulatorDelegate {
+    
+    public var nfcHandler: ((ProximityNfcEvents) -> Void)?
+    
+    func emulationStatusChanged(_ event: CardSession.Event) {
+        switch(event) {
+        case .sessionInvalidated(let reason):
+            nfcHandler?(.onStop)
+            break
+        default:
+            break
+        }
+    }
+    
     
     private var ndef: [UInt8]
     private lazy var cardEmulator: NFCCardEmulator = NFCCardEmulator(delegate: self)

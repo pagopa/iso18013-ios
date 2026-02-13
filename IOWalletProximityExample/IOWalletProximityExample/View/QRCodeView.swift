@@ -24,10 +24,40 @@ struct QRCodeView: View {
         }
     }
     
+    //The intent assertion expires if any of the following occur:
+    //The intent assertion object deinitializes -> occurs when Proximity.shared.stopNfc() is called
+    
+    //15 seconds elapse after the intent assertion initialized
+    let nfcHLESessionTimeRemaining = 15
+    
+    //After the intent assertion expires, your app will need to wait 15 seconds before acquiring a new intent assertion.
+    let nfcHLESessionCoolDownTimeRemaining = 15
+    
+    @State var nfcEvent: ProximityNfcEvents? = nil {
+        didSet {
+            switch(nfcEvent) {
+            case .onStart:
+                presentingNfc = true
+                timeRemaining = nfcHLESessionTimeRemaining
+            case .onStop:
+                presentingNfc = false
+                timeRemaining = nfcHLESessionCoolDownTimeRemaining
+            default:
+                break
+            }
+        }
+    }
+    
+    @State var presentingNfc: Bool = false
+    
     @State var loading: Bool = false
     @State var showQrCode: Bool = false
     
     @State var engagementMode: EngagementViewState = EngagementViewState.start
+    
+    @State private var timeRemaining = 0
+    
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func logEvent() -> String {
         switch(proximityEvent) {
@@ -97,37 +127,65 @@ struct QRCodeView: View {
                             .tint(Color.red)
                     })
             } else if engagementMode == .nfc {
-                return AnyView(
-                    VStack {
-                        Button(action: {
-                            Task {
-                                try? await Proximity.shared.startNfc()
+                
+                if (presentingNfc) {
+                    return AnyView(
+                        VStack {
+                            Text("Session remaining time:\n \(timeRemaining)")
+                                .font(.largeTitle)
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 5)
+                                .background(.black.opacity(0.75))
+                                .clipShape(.capsule)
+                                .multilineTextAlignment(.center)
+                            Button(action: {
+                                Task {
+                                    try? await Proximity.shared.stopNfc()
+                                }
+                                
+                            }, label: {
+                                Text("STOP NFC").frame(width: 100, height: 100)
+                            })
+                            .buttonStyle(.borderedProminent)
+                            .tint(Color.purple)
+                        }
+                    )
+                }
+                else {
+                    return AnyView(
+                        VStack {
+                            if (timeRemaining > 0) {
+                                Text("HLE cooldown time:\n \(timeRemaining)")
+                                    .font(.largeTitle)
+                                    .foregroundStyle(.white)
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 5)
+                                    .background(.black.opacity(0.75))
+                                    .clipShape(.capsule)
+                                    .multilineTextAlignment(.center)
                             }
                             
-                        }, label: {
-                            Text("START NFC").frame(width: 200, height: 200)
-                        })
-                        .buttonStyle(.borderedProminent)
-                        .tint(Color.green)
-                        
-                        Button(action: {
-                            Task {
-                                try? await Proximity.shared.stopNfc()
-                            }
+                            Button(action: {
+                                Task {
+                                    try? await Proximity.shared.startNfc()
+                                }
+                                
+                            }, label: {
+                                Text("START NFC").frame(width: 200, height: 200)
+                            })
+                            .buttonStyle(.borderedProminent)
+                            .tint(Color.green)
+                            .disabled(timeRemaining > 0)
                             
-                        }, label: {
-                            Text("STOP NFC").frame(width: 100, height: 100)
+                            Button(action: {
+                                engagementMode = .start
+                            }, label: {
+                                Text("BACK")
+                            }).buttonStyle(.borderedProminent)
+                                .tint(Color.red)
                         })
-                        .buttonStyle(.borderedProminent)
-                        .tint(Color.purple)
-                        
-                        Button(action: {
-                            engagementMode = .start
-                        }, label: {
-                            Text("BACK")
-                        }).buttonStyle(.borderedProminent)
-                            .tint(Color.red)
-                    })
+                }
             }
             
             
@@ -279,7 +337,20 @@ struct QRCodeView: View {
                 ZStack {
                     VStack {
                         Spacer()
-                        viewForEvent()
+                        viewForEvent().onReceive(timer) {
+                                time in
+                                if timeRemaining > 0 {
+                                    timeRemaining -= 1
+                                    if (presentingNfc) {
+                                        if (timeRemaining == 0) {
+                                            Task {
+                                                try? await Proximity.shared.stopNfc()
+                                            }
+                                        }
+                                    }
+
+                                }
+                        }
                         Spacer()
                         
                         if loading {
@@ -337,6 +408,11 @@ struct QRCodeView: View {
         Proximity.shared.proximityHandler = {
             event in
             self.proximityEvent = event
+        }
+        
+        Proximity.shared.nfcHandler = {
+            event in
+            self.nfcEvent = event
         }
         
         let trustedCertificates: [[Data]] = [

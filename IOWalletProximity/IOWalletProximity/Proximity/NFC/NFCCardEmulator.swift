@@ -42,6 +42,8 @@ class NFCCardEmulator : @unchecked Sendable {
     func stop() async throws {
         await cardSession?.stopEmulation(status: .success)
         cardSession?.invalidate()
+        cardSession = nil
+        presentmentIntent = nil
     }
     
     func start() async throws -> Bool {
@@ -53,32 +55,37 @@ class NFCCardEmulator : @unchecked Sendable {
             return false
         }
         
-        Task {
-            
-            
-            
-            
-            // Hold a presentment intent assertion reference to prevent the
-            // default contactless app from launching. In a real app, monitor
-            // presentmentIntent.isValid to ensure the assertion remains active.
-            var presentmentIntent: NFCPresentmentIntentAssertion?
-            
-            
-            let cardSession: CardSession
+        var presentmentIntent: NFCPresentmentIntentAssertion?
+        
+        let cardSession: CardSession
+        
             do {
                 presentmentIntent = try await NFCPresentmentIntentAssertion.acquire()
-                cardSession = try await CardSession()
-                
             } catch {
+                print("NFCPresentmentIntentAssertion.acquire() error: \(error)")
                 /// Handle failure to acquire NFC presentment intent assertion or
                 /// card session.
-                return
+                return false
             }
+        
+        
+        do {
+            cardSession = try await CardSession()
             
-            
+        } catch {
+            print("CardSession() error: \(error)")
+            /// Handle failure to acquire NFC presentment intent assertion or
+            /// card session.
+            return false
+        }
+        
+        self.cardSession = cardSession
+        self.presentmentIntent = presentmentIntent
+        
+        Task {
             // Iterate over events as the card session produces them.
             for try await event in cardSession.eventStream {
-                print(event)
+                delegate.emulationStatusChanged(event)
                 
                 switch event {
                 case .sessionStarted:
@@ -131,4 +138,5 @@ class NFCCardEmulator : @unchecked Sendable {
 @available(iOS 17.4, *)
 protocol NFCCardEmulatorDelegate : Sendable {
     func processAPDU(_ cardSession: CardSession, _ apduRequest: APDURequest) -> APDUResponse
+    func emulationStatusChanged(_ event: CardSession.Event)
 }
