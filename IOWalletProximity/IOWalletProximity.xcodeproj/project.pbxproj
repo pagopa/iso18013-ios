@@ -8,6 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		3419AC302E1EB8A7006BB139 /* CertTrustTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419AC2F2E1EB89B006BB139 /* CertTrustTests.swift */; };
+		34741A6E2EE09864005521AB /* NFCNDEFMessage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34741A682EE09864005521AB /* NFCNDEFMessage+.swift */; };
+		34741A6F2EE09864005521AB /* NFCNDEFPayload+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34741A692EE09864005521AB /* NFCNDEFPayload+.swift */; };
+		34741A702EE09864005521AB /* NfcUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34741A6A2EE09864005521AB /* NfcUtils.swift */; };
+		34741A742EE098FC005521AB /* UInt16+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34741A732EE098F8005521AB /* UInt16+.swift */; };
+		34741A772EE0997E005521AB /* DeviceRetrievalMethod+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34741A762EE0997C005521AB /* DeviceRetrievalMethod+.swift */; };
+		34741A7F2EE17C37005521AB /* NFCNDEFCardFileSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34741A7E2EE17C37005521AB /* NFCNDEFCardFileSystem.swift */; };
+		34741A812EE17C45005521AB /* NFCNDEFFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34741A802EE17C45005521AB /* NFCNDEFFile.swift */; };
+		34741A832EE17DFA005521AB /* NFCCardEmulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34741A822EE17DFA005521AB /* NFCCardEmulator.swift */; };
+		3485BDBD2ECB106D00843EF2 /* APDUHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485BDB32ECB106D00843EF2 /* APDUHead.swift */; };
+		3485BDBE2ECB106D00843EF2 /* HexDump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485BDB92ECB106D00843EF2 /* HexDump.swift */; };
+		3485BDBF2ECB106D00843EF2 /* Data++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485BDB82ECB106D00843EF2 /* Data++.swift */; };
+		3485BDC02ECB106D00843EF2 /* APDURequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485BDB42ECB106D00843EF2 /* APDURequest.swift */; };
+		3485BDC12ECB106D00843EF2 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485BDBB2ECB106D00843EF2 /* Utils.swift */; };
+		3485BDC22ECB106D00843EF2 /* NFCEngagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485BDBA2ECB106D00843EF2 /* NFCEngagement.swift */; };
+		3485BDC32ECB106D00843EF2 /* APDUResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485BDB52ECB106D00843EF2 /* APDUResponse.swift */; };
+		3485BDC42ECB106D00843EF2 /* APDUStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485BDB62ECB106D00843EF2 /* APDUStatus.swift */; };
+		3485BDC52ECB106D00843EF2 /* Array<UInt8>+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485BDB72ECB106D00843EF2 /* Array<UInt8>+.swift */; };
 		3496F8702E2A314F0014A567 /* CertificateChainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3496F86F2E2A314F0014A567 /* CertificateChainHelper.swift */; };
 		3A1E53532CD8E1E4005F5704 /* DeviceSignedItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E534F2CD8E1E4005F5704 /* DeviceSignedItems.swift */; };
 		3A1E53542CD8E1E4005F5704 /* DeviceNameSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E53502CD8E1E4005F5704 /* DeviceNameSpaces.swift */; };
@@ -142,6 +159,23 @@
 
 /* Begin PBXFileReference section */
 		3419AC2F2E1EB89B006BB139 /* CertTrustTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertTrustTests.swift; sourceTree = "<group>"; };
+		34741A682EE09864005521AB /* NFCNDEFMessage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NFCNDEFMessage+.swift"; sourceTree = "<group>"; };
+		34741A692EE09864005521AB /* NFCNDEFPayload+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NFCNDEFPayload+.swift"; sourceTree = "<group>"; };
+		34741A6A2EE09864005521AB /* NfcUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NfcUtils.swift; sourceTree = "<group>"; };
+		34741A732EE098F8005521AB /* UInt16+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt16+.swift"; sourceTree = "<group>"; };
+		34741A762EE0997C005521AB /* DeviceRetrievalMethod+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeviceRetrievalMethod+.swift"; sourceTree = "<group>"; };
+		34741A7E2EE17C37005521AB /* NFCNDEFCardFileSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFCNDEFCardFileSystem.swift; sourceTree = "<group>"; };
+		34741A802EE17C45005521AB /* NFCNDEFFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFCNDEFFile.swift; sourceTree = "<group>"; };
+		34741A822EE17DFA005521AB /* NFCCardEmulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFCCardEmulator.swift; sourceTree = "<group>"; };
+		3485BDB32ECB106D00843EF2 /* APDUHead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APDUHead.swift; sourceTree = "<group>"; };
+		3485BDB42ECB106D00843EF2 /* APDURequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APDURequest.swift; sourceTree = "<group>"; };
+		3485BDB52ECB106D00843EF2 /* APDUResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APDUResponse.swift; sourceTree = "<group>"; };
+		3485BDB62ECB106D00843EF2 /* APDUStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APDUStatus.swift; sourceTree = "<group>"; };
+		3485BDB72ECB106D00843EF2 /* Array<UInt8>+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array<UInt8>+.swift"; sourceTree = "<group>"; };
+		3485BDB82ECB106D00843EF2 /* Data++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data++.swift"; sourceTree = "<group>"; };
+		3485BDB92ECB106D00843EF2 /* HexDump.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexDump.swift; sourceTree = "<group>"; };
+		3485BDBA2ECB106D00843EF2 /* NFCEngagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFCEngagement.swift; sourceTree = "<group>"; };
+		3485BDBB2ECB106D00843EF2 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		3496F86F2E2A314F0014A567 /* CertificateChainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateChainHelper.swift; sourceTree = "<group>"; };
 		3A1E534E2CD8E1E4005F5704 /* DeviceAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceAuth.swift; sourceTree = "<group>"; };
 		3A1E534F2CD8E1E4005F5704 /* DeviceSignedItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSignedItems.swift; sourceTree = "<group>"; };
@@ -261,6 +295,14 @@
 		3DEB51BB2DC0B91B00CC80BB /* DeviceRequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceRequestTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		34C94AD72EDDF514007ECCD6 /* NfcUtils */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = NfcUtils;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		3D14E5392CABE5C100E15A46 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -284,6 +326,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		34741A712EE09888005521AB /* APDU */ = {
+			isa = PBXGroup;
+			children = (
+				3485BDB32ECB106D00843EF2 /* APDUHead.swift */,
+				3485BDB42ECB106D00843EF2 /* APDURequest.swift */,
+				3485BDB52ECB106D00843EF2 /* APDUResponse.swift */,
+				3485BDB62ECB106D00843EF2 /* APDUStatus.swift */,
+			);
+			path = APDU;
+			sourceTree = "<group>";
+		};
+		34741A722EE098CB005521AB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3485BDB82ECB106D00843EF2 /* Data++.swift */,
+				3485BDB72ECB106D00843EF2 /* Array<UInt8>+.swift */,
+				34741A762EE0997C005521AB /* DeviceRetrievalMethod+.swift */,
+				34741A732EE098F8005521AB /* UInt16+.swift */,
+				34741A692EE09864005521AB /* NFCNDEFPayload+.swift */,
+				34741A682EE09864005521AB /* NFCNDEFMessage+.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3485BDB22ECB105F00843EF2 /* NFC */ = {
+			isa = PBXGroup;
+			children = (
+				34741A822EE17DFA005521AB /* NFCCardEmulator.swift */,
+				34741A802EE17C45005521AB /* NFCNDEFFile.swift */,
+				34741A7E2EE17C37005521AB /* NFCNDEFCardFileSystem.swift */,
+				34741A6A2EE09864005521AB /* NfcUtils.swift */,
+				34741A722EE098CB005521AB /* Extensions */,
+				34741A712EE09888005521AB /* APDU */,
+				34C94AD72EDDF514007ECCD6 /* NfcUtils */,
+				3485BDBB2ECB106D00843EF2 /* Utils.swift */,
+				3485BDB92ECB106D00843EF2 /* HexDump.swift */,
+				3485BDBA2ECB106D00843EF2 /* NFCEngagement.swift */,
+			);
+			path = NFC;
+			sourceTree = "<group>";
+		};
 		3A1E53522CD8E1E4005F5704 /* DeviceSigned */ = {
 			isa = PBXGroup;
 			children = (
@@ -384,6 +467,7 @@
 		3A868B572CBFC2DF00B35976 /* Proximity */ = {
 			isa = PBXGroup;
 			children = (
+				3485BDB22ECB105F00843EF2 /* NFC */,
 				3A868B582CBFC32100B35976 /* LibIso18013Proximity.swift */,
 				3A1E539A2CD8E34A005F5704 /* TransferStatus.swift */,
 				3A1E539B2CD8E34A005F5704 /* RequestDataElements.swift */,
@@ -627,6 +711,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				34C94AD72EDDF514007ECCD6 /* NfcUtils */,
+			);
 			name = IOWalletProximity;
 			packageProductDependencies = (
 				3D14E6542CAD8CE700E15A46 /* SwiftCBOR */,
@@ -727,6 +814,15 @@
 			files = (
 				3D14E69F2CAE998200E15A46 /* CoseTag.swift in Sources */,
 				3D14E6502CAD8C5600E15A46 /* MdocDataType.swift in Sources */,
+				3485BDBD2ECB106D00843EF2 /* APDUHead.swift in Sources */,
+				3485BDBE2ECB106D00843EF2 /* HexDump.swift in Sources */,
+				3485BDBF2ECB106D00843EF2 /* Data++.swift in Sources */,
+				3485BDC02ECB106D00843EF2 /* APDURequest.swift in Sources */,
+				3485BDC12ECB106D00843EF2 /* Utils.swift in Sources */,
+				3485BDC22ECB106D00843EF2 /* NFCEngagement.swift in Sources */,
+				3485BDC32ECB106D00843EF2 /* APDUResponse.swift in Sources */,
+				3485BDC42ECB106D00843EF2 /* APDUStatus.swift in Sources */,
+				3485BDC52ECB106D00843EF2 /* Array<UInt8>+.swift in Sources */,
 				3D14E6632CAD8F1200E15A46 /* CBOREncodable.swift in Sources */,
 				3D14E64E2CAD8C3B00E15A46 /* NameValue.swift in Sources */,
 				3D14E6962CAE98F300E15A46 /* MobileSecurityObject.swift in Sources */,
@@ -754,11 +850,16 @@
 				3D14E6A92CAE9AE600E15A46 /* ValidityInfo.swift in Sources */,
 				3D14E69A2CAE993500E15A46 /* ValueDigests.swift in Sources */,
 				3A1E536A2CD8E336005F5704 /* BleTransferMode.swift in Sources */,
+				34741A812EE17C45005521AB /* NFCNDEFFile.swift in Sources */,
 				3A1E536B2CD8E336005F5704 /* MdocServiceCharacteristic.swift in Sources */,
 				3A1E536C2CD8E336005F5704 /* MdocBleServer.swift in Sources */,
 				3A1E536D2CD8E336005F5704 /* MdocTransferHelpers.swift in Sources */,
 				3DC072092D7F3BA1003C35A2 /* iOS13HKDF.swift in Sources */,
 				3A868AFC2CBE948100B35976 /* CoseKeyExchange.swift in Sources */,
+				34741A6E2EE09864005521AB /* NFCNDEFMessage+.swift in Sources */,
+				34741A7F2EE17C37005521AB /* NFCNDEFCardFileSystem.swift in Sources */,
+				34741A6F2EE09864005521AB /* NFCNDEFPayload+.swift in Sources */,
+				34741A702EE09864005521AB /* NfcUtils.swift in Sources */,
 				3A868B132CBE9B7700B35976 /* UInt32+.swift in Sources */,
 				3A1E53532CD8E1E4005F5704 /* DeviceSignedItems.swift in Sources */,
 				3A1E53542CD8E1E4005F5704 /* DeviceNameSpaces.swift in Sources */,
@@ -795,11 +896,13 @@
 				3A1E53952CD8E33D005F5704 /* SecurityHelpers.swift in Sources */,
 				3A1E53962CD8E33D005F5704 /* SessionRole.swift in Sources */,
 				3A1E53972CD8E33D005F5704 /* CRLDistributions.swift in Sources */,
+				34741A772EE0997E005521AB /* DeviceRetrievalMethod+.swift in Sources */,
 				3D14E69C2CAE995000E15A46 /* DigestIDs.swift in Sources */,
 				3D179CBC2CB95EEB0061DFDC /* LibIso18013DAOKeyChain.swift in Sources */,
 				3D14E66C2CAD903500E15A46 /* Data+.swift in Sources */,
 				3D14E6522CAD8C9900E15A46 /* Document.swift in Sources */,
 				3A405EF12CAFDACC0069998C /* DeviceResponse.swift in Sources */,
+				34741A742EE098FC005521AB /* UInt16+.swift in Sources */,
 				3D14E6A12CAE99D100E15A46 /* ECCurveName.swift in Sources */,
 				3D14E6A32CAE99DC00E15A46 /* ECCurveType.swift in Sources */,
 				3D14E67A2CAD929300E15A46 /* CBOR+.swift in Sources */,
@@ -811,6 +914,7 @@
 				3A1E53A22CD8E34A005F5704 /* ItemsRequest.swift in Sources */,
 				3A1E53A32CD8E34A005F5704 /* DocRequest.swift in Sources */,
 				3D179CB52CB924DA0061DFDC /* LibIso18013DAOMemory.swift in Sources */,
+				34741A832EE17DFA005521AB /* NFCCardEmulator.swift in Sources */,
 				3D14E6AF2CAEA56C00E15A46 /* IssuerAuth.swift in Sources */,
 				3D14E6612CAD8EB800E15A46 /* CBORDecodable.swift in Sources */,
 				3AEC7E7C2CB58B8700606D7E /* ErrorHandler.swift in Sources */,

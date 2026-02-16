@@ -61,7 +61,9 @@ class MdocTransferHelpers {
             }
             
             return .success((sessionEncryption: sessionEncryption, deviceRequest: deviceRequest))
-        } catch { return .failure(error) }
+        } catch {
+            return .failure(error)
+        }
     }
     
     public static func isDeviceRequestDocumentValid(docR: DocRequest, iaca: [[SecCertificate]], sessionEncryption: SessionEncryption) -> (isValidSignature: Bool, isValidCertificateChain: Bool, message: String?) {

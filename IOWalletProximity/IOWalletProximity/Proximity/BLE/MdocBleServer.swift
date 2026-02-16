@@ -41,6 +41,8 @@ class MdocBleServer : @unchecked Sendable {
     var numBlocks: Int = 0
     var subscribeCount: Int = 0
     
+    var handOver: CBOR = BleTransferMode.QRHandover
+    
     var initSuccess: Bool = false
     
     public var advertising: Bool = false
@@ -58,7 +60,7 @@ class MdocBleServer : @unchecked Sendable {
         if newValue == .requestReceived {
             peripheralManager.stopAdvertising()
             
-            let deviceResponse = MdocTransferHelpers.decodeRequest(deviceEngagement: deviceEngagement, requestData: readBuffer, dauthMethod: dauthMethod, readerKeyRawData: nil, handOver: BleTransferMode.QRHandover)
+            let deviceResponse = MdocTransferHelpers.decodeRequest(deviceEngagement: deviceEngagement, requestData: readBuffer, dauthMethod: dauthMethod, readerKeyRawData: nil, handOver: handOver)
             
             switch(deviceResponse) {
                 case .success(let result):
