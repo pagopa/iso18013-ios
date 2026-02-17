@@ -66,7 +66,7 @@ jobs:
       # This will deploy the SDK to CocoaPods and generate the xcframework
       - name: Deploy on CocoaPods
         env:
-          # 1. Run this to register a session: `pod trunk register ioapptech@pagopa.it 'PagoPA S.p.A.'`
+          # 1. Run this to register a session: `pod trunk register iowallettech@pagopa.it 'PagoPA S.p.A.'`
           # 2. Confirm the email link.
           # 3. Run this to get the token: `pod trunk me --verbose`
           # 4. Extract the Authentication token from the output and save it in the GitHub secrets as COCOAPODS_TRUNK_TOKEN
