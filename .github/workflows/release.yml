@@ -1,6 +1,12 @@
-name: Build and Release Proximity
+name: Build, Release and Deploy IOWalletProximity
 
 on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release"
+        required: true
+        default: "0.0.0"
   push:
     tags:
       - "*.*.*" # Trigger for every tag x.y.z
@@ -14,19 +20,23 @@ jobs:
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
 
       - name: Set up Xcode
-        run: sudo xcode-select -s '/Applications/Xcode_16.4.0.app/Contents/Developer'
+        run: sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
 
       - name: Extract tag version
         id: get_version
         run: |
-          # Extract tag removing "refs/tags/"
-          echo "version=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            # Extract tag removing "refs/tags/"
+            echo "version=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Update podspec version
         run: |
-          NEW_VERSION="${{ steps.get_version.outputs.version }}"
-          echo "Updating podspec version to ${NEW_VERSION}"
-          sed -i '' "s/spec.version\s*=\s*\".*\"/spec.version      = \"${NEW_VERSION}\"/" IOWalletProximity.podspec
+          VERSION="${{ steps.get_version.outputs.version }}"
+          echo "Updating podspec version to ${VERSION}"
+          sed -i '' "s/s.version\s*=\s*\".*\"/s.version      = \"${VERSION}\"/" IOWalletProximity.podspec
 
       - name: Build XCFramework
         run: |
@@ -40,23 +50,28 @@ jobs:
           cd .archives
           zip -r "IOWalletProximity-${VERSION}.xcframework.zip" IOWalletProximity.xcframework LICENSE
 
-      - name: Create GitHub Release
-        id: create_release
-        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
-        with:
-          tag_name: ${{ github.ref }}
-          name: Release ${{ steps.get_version.outputs.version }}
-          body: |
-            Automated release for IOWalletProximity version ${{ steps.get_version.outputs.version }}.
+      - name: Create GitHub Release and Upload Asset
+        run: |
+          VERSION="${{ steps.get_version.outputs.version }}"                  
+          gh release create $VERSION --latest --generate-notes          
+          gh release upload $VERSION ".archives/IOWalletProximity-${VERSION}.xcframework.zip" --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1
+      - name: setup-ruby
+        uses: ruby/setup-ruby@e34163cd15f4bb403dcd72d98e295997e6a55798 #v1.238.0
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: .archives/IOWalletProximity-${{ steps.get_version.outputs.version }}.xcframework.zip
-          asset_name: IOWalletProximity-${{ steps.get_version.outputs.version }}.xcframework.zip
-          asset_content_type: application/zip
+          bundler-cache: true
+
+      # This will deploy the SDK to CocoaPods and generate the xcframework
+      - name: Deploy on CocoaPods
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 1. Run this to register a session: `pod trunk register ioapptech@pagopa.it 'PagoPA S.p.A.'`
+          # 2. Confirm the email link.
+          # 3. Run this to get the token: `pod trunk me --verbose`
+          # 4. Extract the Authentication token from the output and save it in the GitHub secrets as COCOAPODS_TRUNK_TOKEN
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        run: |
+          VERSION="${{ steps.get_version.outputs.version }}"
+          bundle exec pod trunk push IOWalletProximity.podspec --allow-warnings --verbose
+          echo "CocoaPods deployment completed for version ${VERSION}"
