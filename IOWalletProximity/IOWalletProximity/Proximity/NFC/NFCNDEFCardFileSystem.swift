@@ -15,6 +15,10 @@ class NFCNDEFCardFileSystem {
     
     private var _selected: NFCNDEFFile?
     
+    var selectedId: String? {
+        return _selected?.id
+    }
+    
     func select(id: String) -> APDUStatus {
         
         print("selecting \(id)")
@@ -32,22 +36,26 @@ class NFCNDEFCardFileSystem {
         return .success
     }
     
-    func read(offset: Int, len: Int) -> (APDUStatus, [UInt8]?) {
+    func read(offset: Int, len: Int) -> (APDUStatus, [UInt8]?, Bool) {
         guard let selected = _selected else {
-            return (.fileNotFound, nil)
+            return (.fileNotFound, nil, true)
         }
         
         print("reading \(offset) to \(offset + len) from \(selected.id)")
         
         let value: ArraySlice<UInt8>
         
+        let isLastRead: Bool
+        
         if offset + len > selected.value.count {
             value = selected.value[offset..<selected.value.count]
+            isLastRead = true
         }
         else {
             value = selected.value[offset..<offset + len]
+            isLastRead = offset + len == selected.value.count
         }
         
-        return (.success, [UInt8](value))
+        return (.success, [UInt8](value), isLastRead)
     }
 }

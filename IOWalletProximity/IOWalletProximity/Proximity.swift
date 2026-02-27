@@ -12,6 +12,9 @@ public enum ProximityError : Error, CustomStringConvertible {
     case decodingFailed(objectName: String)
     case error(error: Error)
     case disconnectedWithoutProperSessionTermination
+    case nfcCooldownNotExpired
+    case nfcAlreadyStarted
+    case nfcFailedToStart
     
     public var description: String {
         switch(self) {
@@ -26,6 +29,13 @@ public enum ProximityError : Error, CustomStringConvertible {
             
             case .disconnectedWithoutProperSessionTermination:
                 return "Disconnected without proper Session Termination (END_REQUEST)"
+        
+        case .nfcCooldownNotExpired:
+            return "NFC HCE Cooldown not expired"
+        case .nfcAlreadyStarted:
+            return "NFC HCE Already started"
+        case .nfcFailedToStart:
+            return "NFC HCE Failed to start"
         }
     }
 }
@@ -75,7 +85,8 @@ public enum ProximityEvents {
     
 }
 
-public class Proximity: @unchecked Sendable {
+//@available(*, deprecated, message: "Use ISO18013")
+class Proximity: @unchecked Sendable {
     
     public static let shared: Proximity = Proximity()
     
@@ -111,9 +122,9 @@ public class Proximity: @unchecked Sendable {
     
     //  Generate the QRCode string
     //  - Returns: A string containing the DeviceEngagement data necessary to start the verification process
-    public func getQrCode() throws -> String {
+    public func getQrCode(deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isNfcLateEngagement: Bool = false, allowNfcEngagement: Bool = false) throws -> String {
         do {
-            let qrCode = try LibIso18013Proximity.shared.getQrCodePayload()
+            let qrCode = try LibIso18013Proximity.shared.getQrCodePayload(deviceRetrivalMethods, isNfcLateEngagement: isNfcLateEngagement, allowNfcEngagement: allowNfcEngagement)
             
             return qrCode
         }
@@ -123,10 +134,10 @@ public class Proximity: @unchecked Sendable {
     }
     
     
-    public func startNfc() async throws -> Bool {
-        print("startNfc")
+    public func startNfc(_ deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isLateNfc: Bool) async throws -> Bool {
         if #available(iOS 17.4, *) {
-            return try await LibIso18013Proximity.shared.startNfc()
+            
+            return try await LibIso18013Proximity.shared.startNfcEngagement(deviceRetrivalMethods, isLateNfc: isLateNfc)
         } else {
             // Fallback on earlier versions
         }

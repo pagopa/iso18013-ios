@@ -17,6 +17,9 @@ internal import SwiftCBOR
     
     // QR retrieval method
     case qr
+     
+     case nfc(maxLenCommand: UInt64, maxLenResponse: UInt64)
+     
     // BLE retrieval method with server/client mode and UUID
     case ble(isBleServer: Bool, uuid: String)
     
@@ -47,6 +50,12 @@ extension DeviceRetrievalMethod: CBOREncodable {
             case .qr:
                 // Append type and version for QR method
                 Self.appendTypeAndVersion(&cborArr, type: 0)
+            
+        case .nfc(let maxLenCommand, let maxLenResponse):
+                   Self.appendTypeAndVersion(&cborArr, type: 1)
+                   let options: CBOR = [0: .unsignedInt(maxLenCommand), 1: .unsignedInt(maxLenResponse)]
+                   cborArr.append(options)
+            
             case .ble(let isBleServer, let uuid):
                 // Append type and version for BLE method
                 Self.appendTypeAndVersion(&cborArr, type: 2)
@@ -77,6 +86,11 @@ extension DeviceRetrievalMethod: CBORDecodable {
             case 0:
                 // Initialize as QR method
                 self = .qr
+        case 1:
+                   guard case let .map(options) = arr[2] else { return nil }
+                   guard case let .unsignedInt(mlc) = options[0], case let .unsignedInt(mlr) = options[1]  else {
+                   return nil }
+                   self = .nfc(maxLenCommand: mlc, maxLenResponse: mlr)
             case 2:
                 // Extract the BLE-specific options from the CBOR map
                 guard case let .map(options) = arr[2] else { return nil }

@@ -15,14 +15,18 @@ class NFCCardEmulator : @unchecked Sendable {
         self.delegate = delegate
     }
     
-    private func processAPDU(_ cardSession: CardSession, _ capdu: Data) -> Data {
+    func setMessage(message: String) {
+        cardSession?.alertMessage = message
+    }
+    
+    private func processAPDU(_ cardSession: CardSession, _ capdu: Data) async -> Data {
         if let apduRequest = APDURequest(apdu: [UInt8](capdu)) {
             
             print(apduRequest)
             print(apduRequest.debugDescription)
             
             
-            let apduResponse = delegate.processAPDU(cardSession, apduRequest)
+            let apduResponse = await delegate.processAPDU(cardSession, apduRequest)
             
             
             print(apduResponse)
@@ -40,10 +44,15 @@ class NFCCardEmulator : @unchecked Sendable {
     var presentmentIntent: NFCPresentmentIntentAssertion?
     
     func stop() async throws {
-        await cardSession?.stopEmulation(status: .success)
-        cardSession?.invalidate()
-        cardSession = nil
-        presentmentIntent = nil
+        print(cardSession)
+        
+        await try Task.sleep(for: .seconds(4))
+    
+        await self.cardSession?.stopEmulation(status: .success)
+        self.cardSession?.invalidate()
+        self.cardSession = nil
+        self.presentmentIntent = nil
+        
     }
     
     func start() async throws -> Bool {
@@ -105,7 +114,7 @@ class NFCCardEmulator : @unchecked Sendable {
                     do {
                         //cardSession.alertMessage = cardAPDU.payload.hexEncodedString()
                         /// Call handler to process received input and produce a response.
-                        let responseAPDU = processAPDU(cardSession, cardAPDU.payload)
+                        let responseAPDU = await processAPDU(cardSession, cardAPDU.payload)
                         
                         try await cardAPDU.respond(response: responseAPDU)
                     } catch {
@@ -137,6 +146,6 @@ class NFCCardEmulator : @unchecked Sendable {
 
 @available(iOS 17.4, *)
 protocol NFCCardEmulatorDelegate : Sendable {
-    func processAPDU(_ cardSession: CardSession, _ apduRequest: APDURequest) -> APDUResponse
+    func processAPDU(_ cardSession: CardSession, _ apduRequest: APDURequest) async -> APDUResponse
     func emulationStatusChanged(_ event: CardSession.Event)
 }

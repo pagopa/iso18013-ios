@@ -70,4 +70,6 @@ enum APDUInstruction : UInt8 {
     case GENERAL_AUTHENTICATE = 0x86
     case READ_BINARY1 = 0xB1
     
+    case ENVELOPE = 0xC3
+    
 }

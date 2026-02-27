@@ -27,6 +27,15 @@ le: \(le.hexEncodedString)
     var data: [UInt8]
     var le: [UInt8]
     
+    var expectedResponseLenght: Int? {
+        if !le.isEmpty {
+            return Int(le.hexEncodedString, radix: 16)
+        }
+        else {
+            return nil
+        }
+    }
+    
     init(head: APDUHead, data: [UInt8] = [], le: [UInt8] = []) {
         self.head = head
         self.data = data

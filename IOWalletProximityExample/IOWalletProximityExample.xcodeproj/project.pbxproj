@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3466C2982F50521B005146D4 /* ISO18013View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3466C2972F505215005146D4 /* ISO18013View.swift */; };
 		3A042F252CB6C0B00035FF8E /* MainContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A042F242CB6C0AD0035FF8E /* MainContentView.swift */; };
-		3A042F272CB6CB990035FF8E /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A042F262CB6CB900035FF8E /* QRCodeView.swift */; };
 		3A042F292CB6CDD20035FF8E /* QRCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A042F282CB6CDCC0035FF8E /* QRCodeTests.swift */; };
 		3A84D58E2CB3D3270017D76E /* InfoBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84D5872CB3D3270017D76E /* InfoBoxView.swift */; };
 		3A84D5902CB3D3270017D76E /* libIso18013_exampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84D58C2CB3D3270017D76E /* libIso18013_exampleApp.swift */; };
@@ -50,8 +50,8 @@
 /* Begin PBXFileReference section */
 		105E95DF666335A927668DCB /* Pods_IOWalletProximityExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOWalletProximityExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		295D2C40696474BC034ED41A /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig"; sourceTree = "<group>"; };
+		3466C2972F505215005146D4 /* ISO18013View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO18013View.swift; sourceTree = "<group>"; };
 		3A042F242CB6C0AD0035FF8E /* MainContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentView.swift; sourceTree = "<group>"; };
-		3A042F262CB6CB900035FF8E /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		3A042F282CB6CDCC0035FF8E /* QRCodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeTests.swift; sourceTree = "<group>"; };
 		3A84D5852CB3D3270017D76E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3A84D5872CB3D3270017D76E /* InfoBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBoxView.swift; sourceTree = "<group>"; };
@@ -204,8 +204,8 @@
 		3D14E76A2CB53B0500E15A46 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3466C2972F505215005146D4 /* ISO18013View.swift */,
 				3A042F242CB6C0AD0035FF8E /* MainContentView.swift */,
-				3A042F262CB6CB900035FF8E /* QRCodeView.swift */,
 				3D179CBD2CB96B560061DFDC /* DocumentDAOView.swift */,
 			);
 			path = View;
@@ -505,11 +505,11 @@
 				3A84D58E2CB3D3270017D76E /* InfoBoxView.swift in Sources */,
 				3AB5CFB52CDE086400E7A75F /* DeviceRequestAlert.swift in Sources */,
 				3AEC7E0A2CB40F8100606D7E /* ManageNameSpaces.swift in Sources */,
-				3A042F272CB6CB990035FF8E /* QRCodeView.swift in Sources */,
 				3A868AC12CBE64C700B35976 /* QRCode.swift in Sources */,
 				3AEC7E052CB3E00600606D7E /* CustomButton.swift in Sources */,
 				3DC072202D809673003C35A2 /* Documents.swift in Sources */,
 				3D179CBE2CB96B5C0061DFDC /* DocumentDAOView.swift in Sources */,
+				3466C2982F50521B005146D4 /* ISO18013View.swift in Sources */,
 				3A84D5902CB3D3270017D76E /* libIso18013_exampleApp.swift in Sources */,
 				3AEC7E082CB40EEE00606D7E /* Data+Image.swift in Sources */,
 				3A042F252CB6C0B00035FF8E /* MainContentView.swift in Sources */,
