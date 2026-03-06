@@ -408,7 +408,7 @@ extension ISO118013View : ISO18013Delegate {
             break
         case .dataTransferStarted(let args):
             self.loading = true
-            if (args.engagementMethod == .nfc || args.retrivalMethod == .nfc && nfc) {
+            if (args.retrivalMethod == .nfc && nfc) {
                 completeDataTransferWithoutUserActions(deviceRequest: args.request)
             }
             else {

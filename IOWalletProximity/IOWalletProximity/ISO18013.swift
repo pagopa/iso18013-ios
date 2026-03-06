@@ -156,19 +156,30 @@ public class ISO18013 : @unchecked Sendable {
     }
     
     private func triggerEvent(_ event: ISO18013Event) {
-        
-        switch(event) {
-        case .dataTransferStarted(_):
-            delegate?.onEvent(event: event)
-        case .dataTransferStopped:
-            Task {
+        Task {
+            switch(event) {
+            case .dataTransferStarted(let request):
+                
+                if request.engagementMethod == .nfc && request.retrivalMethod != .nfc {
+                    print("engagement with nfc, retrival with ble, stopping nfc")
+                    try? await Proximity.shared.stopNfc()
+                   
+                    await try Task.sleep(nanoseconds: 2000000000)
+                }
+                
+                delegate?.onEvent(event: event)
+            case .dataTransferStopped:
                 let _ = try? await Proximity.shared.stopNfc()
                 delegate?.onEvent(event: event)
+                
+                break
+            case .error(_):
+                stop()
+                delegate?.onEvent(event: event)
+            default:
+                delegate?.onEvent(event: event)
+                break
             }
-            break
-        default:
-            delegate?.onEvent(event: event)
-            break
         }
         
     }
@@ -304,24 +315,25 @@ public class ISO18013 : @unchecked Sendable {
             }
             do {
                 
-                var nfcEngagement = true
+                var nfcEngagement = false
                 if !isLate {
                     if engagementModes.contains(where: {
                         engagementMode in
-                        if case .qrCode = engagementMode {
+                        if case .nfc = engagementMode {
                             return true
                         }
                         return false
                     }) {
-                        nfcEngagement = false
+                        nfcEngagement = true
                     }
                 }
                 
                 if (!nfcEngagement) {
+                    print("no nfc engagement")
                     return
                 }
                 print(isLate)
-                let success = try await Proximity.shared.startNfc(retrivalMethods, isLateNfc: false)
+                let success = try await Proximity.shared.startNfc(retrivalMethods, isLateNfc: false, allowEngagement: nfcEngagement)
                 if !success {
                     throw ProximityError.nfcFailedToStart
                 }

@@ -50,6 +50,7 @@ class LibIso18013Proximity: @unchecked Sendable {
     
     public var nfcHandler: ((ProximityNfcEvents) -> Void)?
     
+    private var retrivalMethodsStarted: Bool = false
     
     @available(iOS 17.4, *)
     public func startNfcDataTransfer(_ allowEngagement: Bool = false) async throws -> Bool {
@@ -115,7 +116,7 @@ class LibIso18013Proximity: @unchecked Sendable {
     
     // Start nfc
     @available(iOS 17.4, *)
-    public func startNfcEngagement(_ deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isLateNfc: Bool) async throws -> Bool {
+    public func startNfcEngagement(_ deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isLateNfc: Bool, allowEngagement: Bool) async throws -> Bool {
         print("startNfcEngagement")
         do {
         
@@ -178,7 +179,7 @@ class LibIso18013Proximity: @unchecked Sendable {
         print("stopNfc")
         
         deviceEngagement = nil
-        
+        retrivalMethodsStarted = false
         guard let nfc = _nfc as? NFCDataTransfer else {
             return false
         }
@@ -208,6 +209,13 @@ class LibIso18013Proximity: @unchecked Sendable {
     private func startRetrivalMethods(_ deviceRetrivalMethods: [ISO18013DataTransferMode], _ allowEngagement: Bool, isNfcLateEngagement: Bool = false) {
         
         print("startRetrivalMethods allowEngagement: \(allowEngagement) isLate: \(isNfcLateEngagement)")
+        
+        if retrivalMethodsStarted {
+            print("retrivalMethods already started")
+            return
+        }
+        
+        retrivalMethodsStarted = true
         
         deviceRetrivalMethods.forEach({
             retrivalMethod in

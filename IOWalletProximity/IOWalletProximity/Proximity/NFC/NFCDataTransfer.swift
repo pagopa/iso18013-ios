@@ -30,6 +30,7 @@ class NFCDataTransfer : @unchecked Sendable, NFCCardEmulatorDelegate {
     public var nfcHandler: ((ProximityNfcEvents) -> Void)?
     
     func emulationStatusChanged(_ event: CardSession.Event) {
+        print(event)
         switch(event) {
         case .sessionInvalidated(let reason):
             nfcHandler?(.onStop)
@@ -276,8 +277,10 @@ class NFCDataTransfer : @unchecked Sendable, NFCCardEmulatorDelegate {
             
             messageToSend = response
             
-            if (response.count > 65279) {
-                let chunk = messageToSend![0..<65279]
+            let max = Int(_deviceEngagement.nfc_maxLenResponse ?? 65279)
+            
+            if (response.count > max) {
+                let chunk = messageToSend![0..<max]
                 messageToSendIndex += chunk.count
                 return APDUResponse([UInt8](chunk), .bytesStillAvailable(0xFF), extended: true)
             }

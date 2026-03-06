@@ -46,7 +46,7 @@ class NFCCardEmulator : @unchecked Sendable {
     func stop() async throws {
         print(cardSession)
         
-        await try Task.sleep(for: .seconds(4))
+        await try Task.sleep(for: .seconds(2))
     
         await self.cardSession?.stopEmulation(status: .success)
         self.cardSession?.invalidate()
@@ -98,34 +98,35 @@ class NFCCardEmulator : @unchecked Sendable {
                 
                 switch event {
                 case .sessionStarted:
-                    cardSession.alertMessage = String(localized: "Communicating with card reader.")
+                    //try await cardSession.startEmulation()
                     break
                     
                 case .readerDetected:
-                    /// Start card emulation on first detection of an external reader.
-                    try await cardSession.startEmulation()
+                    if await !cardSession.isEmulationInProgress {
+                        /// Start card emulation on first detection of an external reader.
+                        try await cardSession.startEmulation()
+                    }
+                    break
                     
                 case .readerDeselected:
-                    /// Stop emulation on first notification of RF link loss.
-                    await cardSession.stopEmulation(status: .success)
-                    cardSession.invalidate()
+                    //stopping emulation here can be buggy with some readers
+                    break
                     
                 case .received(let cardAPDU):
+                    
                     do {
-                        //cardSession.alertMessage = cardAPDU.payload.hexEncodedString()
-                        /// Call handler to process received input and produce a response.
                         let responseAPDU = await processAPDU(cardSession, cardAPDU.payload)
-                        
-                        try await cardAPDU.respond(response: responseAPDU)
-                    } catch {
+                        try await handleResponse(cardAPDU: cardAPDU, responseAPDU: responseAPDU)
+                    }
+                    catch {
                         print(error)
-                        /// Handle the error from respond(response:). If the error is
-                        /// CardSession.Error.transmissionError, then retry by calling
-                        /// CardSession.APDU.respond(response:) again.
+                        throw error
                     }
                     
+                    
+                    
                 case .sessionInvalidated(reason: _):
-                    cardSession.alertMessage = String(localized: "Ending communication with card reader.")
+                    //cardSession.alertMessage = String(localized: "Ending communication with card reader.")
                     /// Handle the reason for session invalidation.
                     await cardSession.stopEmulation(status: .success)
                     break
@@ -140,6 +141,30 @@ class NFCCardEmulator : @unchecked Sendable {
         
         
         return true
+    }
+    
+    private func handleResponse(cardAPDU: CardSession.APDU, responseAPDU: Data, _ counter: Int = 0) async throws {
+        if counter > 10 {
+            throw CardSession.Error.transmissionError
+        }
+        
+        do {
+            /// Call handler to process received input and produce a response.
+            try await cardAPDU.respond(response: responseAPDU)
+        } catch {
+            print(error)
+            
+            if let cardError = error as? CardSession.Error {
+                switch(cardError) {
+                case .transmissionError:
+                    return try await handleResponse(cardAPDU: cardAPDU, responseAPDU: responseAPDU, counter + 1)
+                default:
+                    break
+                }
+            }
+            
+            throw error
+        }
     }
     
 }
