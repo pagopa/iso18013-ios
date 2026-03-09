@@ -23,7 +23,7 @@ ISO18013.shared.start(
 )
 ```
 
-See [ISO18013.swift](IOWalletProximity/IOWalletProximity/ISO18013.swift#L1) for implementation and [ISO118013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L190) for usage in code.
+See [ISO18013.swift](IOWalletProximity/IOWalletProximity/ISO18013.swift#L1) for implementation and [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L190) for usage in code.
 
 #### 2. **Event-Driven Architecture**
 
@@ -52,7 +52,7 @@ public enum ISO18013EngagementMode : Sendable {
 }
 ```
 
-See [ISO118013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L12) for configuration toggles demonstrating both modes.
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L12) for configuration toggles demonstrating both modes.
 
 #### 4. **Data Transfer Modes**
 
@@ -86,7 +86,7 @@ ISO18013.shared.start(
 - `delegate`: Handler implementing `ISO18013Delegate` protocol to receive events
 - `isNfcLateEngagement`: Allows NFC initialization after engagement phase starts
 
-See [ISO118013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L164) for complete startup example with certificate configuration.
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L164) for complete startup example with certificate configuration.
 
 ### NFC Session Management
 
@@ -104,7 +104,7 @@ public static let nfcHLESessionCoolDownTimeRemaining: TimeInterval = 15
 - **Session Duration**: 15 seconds for active NFC HCE
 - **Cool-down Period**: 15 seconds mandatory wait before re-establishing NFC
 
-See [ISO118013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L65) for timer management implementation.
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L65) for timer management implementation.
 
 ## Event Handling
 
@@ -118,7 +118,7 @@ public protocol ISO18013Delegate {
 }
 ```
 
-See [ISO118013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L409) for complete delegate implementation showing all event cases.
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L409) for complete delegate implementation showing all event cases.
 
 ### Event Handling Example
 
@@ -163,7 +163,7 @@ public struct ISO18013DataTransferArgs: Sendable {
 
 The `request` structure indicates which document types and data fields are being requested.
 
-See [ISO118013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L361) for parsing request data.
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L361) for parsing request data.
 
 ### Response Generation
 
@@ -174,7 +174,7 @@ let deviceResponse = try ISO18013.shared.generateDeviceResponse(
     items: [String: [String: [String: Bool]]]?,
     documents: [ProximityDocument]?,
     sessionTranscript: [UInt8]?
-) -> [UInt8]
+) -> throws [UInt8]
 ```
 
 Generates CBOR-encoded response with selected document fields.
@@ -186,7 +186,7 @@ let deviceResponse = try ISO18013.shared.generateDeviceResponseFromJson(
     items: String?,
     documents: [ProximityDocument]?,
     sessionTranscript: [UInt8]?
-) -> [UInt8]
+) -> throws [UInt8]
 ```
 
 Same as above but accepts JSON string for `items` parameter.
@@ -197,7 +197,7 @@ Same as above but accepts JSON string for `items` parameter.
 try ISO18013.shared.dataPresentation(deviceResponse)
 ```
 
-See [ISO118013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L365) for complete response handling.
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L365) for complete response handling.
 
 ### Error Response
 
@@ -223,7 +223,7 @@ try ISO18013.shared.lateNfcInitialization()
 
 Useful for conserving battery or controlling when NFC becomes available.
 
-See [ISO118013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L249) for UI implementation.
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L249) for UI implementation.
 
 ### NFC HCE Custom Message
 
@@ -234,7 +234,7 @@ Set custom message displayed in native NFC interface:
 ISO18013.shared.setNfcHceMessage(message: String)
 ```
 
-See [ISO118013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L415) for usage.
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L415) for usage.
 
 ### OID4VP Integration
 
@@ -284,7 +284,7 @@ ISO18013.shared.start(
 )
 ```
 
-See [ISO118013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L178) for preset button.
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L178) for preset button.
 
 ### Scenario 2: QR Code + NFC Data Transfer
 
@@ -329,7 +329,7 @@ Common error scenarios:
 - CBOR encoding/decoding errors during response generation
 - Certificate verification failures
 
-See [ISO118013View.swift](ISO118013View.swift#L420) for error handling in the UI layer.
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L420) for error handling in the UI layer.
 
 ## Data Structure
 
@@ -369,7 +369,7 @@ Encoded as CBOR for transmission.
 - [ ] Call `ISO18013.shared.stop()` for cleanup
 - [ ] Test with real verifier applications
 
-See [ISO118013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift) for complete integration example.
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift) for complete integration example.
 
 ## Best Practices
 
@@ -386,4 +386,4 @@ See [ISO118013View.swift](IOWalletProximityExample/IOWalletProximityExample/View
 - [ISO 18013-5 Standard](https://www.iso.org/standard/69084.html) - mDOC specification
 - [ISO 18013-7](https://www.iso.org/standard/80601.html) - OID4VP integration
 - Main Implementation: [ISO18013.swift](IOWalletProximity/IOWalletProximity/ISO18013.swift)
-- Example Usage: [ISO118013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift)
+- Example Usage: [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift)

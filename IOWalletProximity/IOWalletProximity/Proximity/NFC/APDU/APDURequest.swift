@@ -27,7 +27,7 @@ le: \(le.hexEncodedString)
     var data: [UInt8]
     var le: [UInt8]
     
-    var expectedResponseLenght: Int? {
+    var expectedResponseLength: Int? {
         if !le.isEmpty {
             return Int(le.hexEncodedString, radix: 16)
         }

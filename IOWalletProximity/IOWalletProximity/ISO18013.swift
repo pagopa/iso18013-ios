@@ -5,6 +5,7 @@
 //  Created by antoniocaparello on 26/02/26.
 //
 import Foundation
+import CoreNFC
 
 public enum ISO18013Event: Sendable {
     case qrCode(String)
@@ -67,7 +68,7 @@ public protocol ISO18013Delegate {
 public class ISO18013 : @unchecked Sendable {
     
     //The intent assertion expires if any of the following occur:
-    //The intent assertion object deinitializes -> occurs when Proximity.shared.stopNfc() is called
+    //The intent assertion object deinitializes -> occurs when ISO18013.shared.stopNfc() is called
     //15 seconds elapse after the intent assertion initialized
     public static let nfcHLESessionTimeRemaining: TimeInterval = 15
     
@@ -137,22 +138,22 @@ public class ISO18013 : @unchecked Sendable {
         if engagementModes.first(where: {
             engagementMode in
             if case .nfc = engagementMode {
-                return isNfcLateEngagement
+                return true
             }
             return false
         }) == nil {
             if retrivalMethods.first(where: {
                 retrivalMethod in
                 if case .nfc = retrivalMethod {
-                    return isNfcLateEngagement
+                    return true
                 }
                 return false
             }) == nil {
-                throw ProximityError.nfcAlreadyStarted
+                throw ProximityError.nfcFailedToStart
             }
         }
+            _initializeNfcEngagement(isLate: true)
         
-        _initializeNfcEngagement(isLate: true)
     }
     
     private func triggerEvent(_ event: ISO18013Event) {
@@ -236,6 +237,9 @@ public class ISO18013 : @unchecked Sendable {
             nfcEngagement = true
             triggerEvent(.nfcEngagementStarted)
             break
+        case .onEngagementWithDisabledEngagement:
+            triggerEvent(.error(ProximityError.nfcEngagementWihtEngagementDisabled))
+            break
         default:
             break
         }
@@ -291,10 +295,16 @@ public class ISO18013 : @unchecked Sendable {
     }
     
     private func _initializeNfcEngagement(isLate: Bool) {
+        
+        if !isNfcHostCardEmulationSupported() {
+            triggerEvent(.error(ProximityError.nfcNotSupported))
+            return;
+        }
+        
         Task {
             let nfcStartTime = self.nfcStartTime
             let nfcCoolDownTime = self.nfcCoolDownTime
-            if nfcStartTime != nil {
+            if let nfcStartTime {
                 //nfc started
                 if let nfcCoolDownTime {
                     //nfc stopped
@@ -309,8 +319,14 @@ public class ISO18013 : @unchecked Sendable {
                     }
                 }
                 else {
-                    triggerEvent(.error(ProximityError.nfcAlreadyStarted))
-                    return
+                    if nfcStartTime.distance(to: Date()) > ISO18013.nfcHLESessionTimeRemaining {
+                        //ok can reset
+                        self.nfcStartTime = nil
+                    }
+                    else {
+                        triggerEvent(.error(ProximityError.nfcAlreadyStarted))
+                        return
+                    }
                 }
             }
             do {
@@ -328,12 +344,12 @@ public class ISO18013 : @unchecked Sendable {
                     }
                 }
                 
-                if (!nfcEngagement) {
+                if (!nfcEngagement && !isLate) {
                     print("no nfc engagement")
                     return
                 }
                 print(isLate)
-                let success = try await Proximity.shared.startNfc(retrivalMethods, isLateNfc: false, allowEngagement: nfcEngagement)
+                let success = try await Proximity.shared.startNfc(retrivalMethods, isLateNfc: isLate, allowEngagement: nfcEngagement)
                 if !success {
                     throw ProximityError.nfcFailedToStart
                 }
@@ -362,7 +378,7 @@ extension ISO18013 {
     public func generateDeviceResponse(items: [String: [String: [String: Bool]]]?,
                                                documents: [ProximityDocument]?,
                                        sessionTranscript: [UInt8]?) throws -> [UInt8] {
-        return try Proximity.shared.generateDeviceResponse(items: items, documents: documents, sessionTranscript: nil)
+        return try Proximity.shared.generateDeviceResponse(items: items, documents: documents, sessionTranscript: sessionTranscript)
     }
     
     //  Responds to a request for data from the reader with deviceResponse.
@@ -401,6 +417,17 @@ extension ISO18013 {
         Proximity.shared.isBleEnabled()
     }
     
+    
+    //  Retrives state of NFC HCE
+    //  - Returns: A Bool indicating if NFC HLE is supported
+    public func isNfcHostCardEmulationSupported() -> Bool {
+        if #available(iOS 17.4, *) {
+            return CardSession.isSupported
+        } else {
+            return false
+        }
+    }
+    
     /**
      * Generate session transcript with OID4VPHandover
      * This method is used for ISO 18013-7 OID4VP flow.
@@ -432,7 +459,7 @@ extension ISO18013DataTransferMode {
     internal var  retrivalMethod : DeviceRetrievalMethod {
         switch(self) {
         case .nfc:
-            return .nfc(maxLenCommand: 65279, maxLenResponse: 65279)
+            return .nfc(maxLenCommand: UInt64(UInt16.max) - 1, maxLenResponse: UInt64(UInt16.max) - 1)
         case .ble:
             return .ble(isBleServer: true, uuid: DeviceRetrievalMethod.getRandomBleUuid())
         }

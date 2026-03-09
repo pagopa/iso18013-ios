@@ -23,7 +23,7 @@ struct MainContentView: View {
                 VStack {
                     switch selectedView {
                         case .engagementView:
-                            ISO118013View()
+                            ISO18013View()
                         case .none:
                             Text("Seleziona una vista dal menu")
                                 .padding()

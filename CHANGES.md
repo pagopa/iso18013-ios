@@ -74,7 +74,7 @@ This is broader than the simple `start()` shown in `README_OLD.md` and reflects 
 - OID4VP session transcript generation
 - `stop()` cleanup behavior
 
-## New or more explicit in README1
+## New or more explicit in README
 
 - Full `ISO18013Event` set (including NFC lifecycle events)
 - `ISO18013DataTransferArgs` request container

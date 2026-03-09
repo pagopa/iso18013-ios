@@ -46,13 +46,27 @@ class NFCCardEmulator : @unchecked Sendable {
     func stop() async throws {
         print(cardSession)
         
-        await try Task.sleep(for: .seconds(2))
+        // Only delay and stop if there is an active card session.
+        guard let activeSession = self.cardSession else {
+            // Nothing to stop; clear any presentment intent without delaying.
+            self.presentmentIntent = nil
+            return
+        }
+        
+        await try Task.sleep(for: .seconds(3))
     
-        await self.cardSession?.stopEmulation(status: .success)
-        self.cardSession?.invalidate()
+        await activeSession.stopEmulation(status: .success)
+        activeSession.invalidate()
         self.cardSession = nil
         self.presentmentIntent = nil
         
+    }
+    
+    deinit {
+        print("deinit card emulator")
+        self.cardSession?.invalidate()
+        self.cardSession = nil
+        self.presentmentIntent = nil
     }
     
     func start() async throws -> Bool {

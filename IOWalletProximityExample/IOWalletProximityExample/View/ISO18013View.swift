@@ -8,7 +8,7 @@
 import SwiftUI
 import IOWalletProximity
 
-struct ISO118013View: View {
+struct ISO18013View: View {
     
     @State var nfcEngagement: Bool =  true
     @State var qrCodeEngagement: Bool =  true
@@ -241,7 +241,7 @@ struct ISO118013View: View {
                     .resizable()
                     .frame(width: 200, height: 200)
             }
-            if nfcEngagementLate {
+            if nfcDataTransfer || nfcEngagement {
                 Button(action: {
                     do {
                         try ISO18013.shared.lateNfcInitialization()
@@ -336,7 +336,12 @@ struct ISO118013View: View {
             time in
             if timeRemaining > 0 {
                 timeRemaining -= 1
+                if (nfc && timeRemaining == 0) {
+                    ISO18013.shared.stop()
+                }
             }
+            
+            
         }
         .sheet(isPresented: .init(get: {
             return dataTransferArgs != nil
@@ -381,7 +386,7 @@ struct ISO118013View: View {
     }
 }
 
-extension ISO118013View : ISO18013Delegate {
+extension ISO18013View : ISO18013Delegate {
     func onEvent(event: ISO18013Event) {
         print(event)
         

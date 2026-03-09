@@ -210,9 +210,18 @@ class LibIso18013Proximity: @unchecked Sendable {
         
         print("startRetrivalMethods allowEngagement: \(allowEngagement) isLate: \(isNfcLateEngagement)")
         
+        var isFirstTime = true
+        
         if retrivalMethodsStarted {
+            isFirstTime = false
             print("retrivalMethods already started")
-            return
+            
+            if !isNfcLateEngagement {
+                print("retrivalMethods already started and !isNfcLateEngagement")
+                return
+            }
+            
+           
         }
         
         retrivalMethodsStarted = true
@@ -220,12 +229,13 @@ class LibIso18013Proximity: @unchecked Sendable {
         deviceRetrivalMethods.forEach({
             retrivalMethod in
             do {
+                print(retrivalMethod)
                 switch(retrivalMethod) {
                 case .ble:
-                    try initBleServer()
+                    try? initBleServer()
                     break
                 case .nfc:
-                    if !isNfcLateEngagement {
+                    if !isNfcLateEngagement || !isFirstTime || (isNfcLateEngagement && isFirstTime){
                         if #available(iOS 17.4, *) {
                             Task {
                                 try await startNfcDataTransfer(allowEngagement)

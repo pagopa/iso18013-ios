@@ -20,6 +20,8 @@ public enum ProximityNfcEvents {
     //The device has stopped presenting nfc
     case onStop
     
+    case onEngagementWithDisabledEngagement
+    
 }
 
 @available(iOS 17.4, *)
@@ -50,7 +52,13 @@ class NFCDataTransfer : @unchecked Sendable, NFCCardEmulatorDelegate {
     
     public var sessionEncryption: SessionEncryption?
     
+    private let dataTransferAID = "a0000002480400"
+    private let engagementAID = "d2760000850101"
+    
+    private var allowEngagement: Bool = true
+    
     init(_ deviceEngagement: DeviceEngagement, allowEngagement: Bool = true) {
+        self.allowEngagement = allowEngagement
         let ndef = NfcUtils().createNdefMessageHandoverSelect(methods: deviceEngagement.deviceRetrievalMethods ?? [], encodedDeviceEngagement: Data(deviceEngagement.encode(options: CBOROptions()))).bytes
         
         _deviceEngagement = deviceEngagement
@@ -59,10 +67,10 @@ class NFCDataTransfer : @unchecked Sendable, NFCCardEmulatorDelegate {
         
         var card = NFCNDEFCardFileSystem(root: NFCNDEFFile(id: ""))
         
-        card.root.addChild(NFCNDEFFile(id: "a0000002480400", value: []))
+        card.root.addChild(NFCNDEFFile(id: dataTransferAID, value: []))
         
         if allowEngagement {
-            card.root.addChild(NFCNDEFFile(id: "d2760000850101",
+            card.root.addChild(NFCNDEFFile(id: engagementAID,
                                            children: [
                                             //CAPABILITY_CONTAINER_FILE
                                             NFCNDEFFile(id: "e103", value: [
@@ -121,8 +129,13 @@ class NFCDataTransfer : @unchecked Sendable, NFCCardEmulatorDelegate {
             
             let status = nfcRoot.select(id: id)
             
-            if (status == .success && id == "d2760000850101") {
-                self.nfcHandler?(.onEngagementStart)
+            if (id == engagementAID) {
+                if (status == .success) {
+                    self.nfcHandler?(.onEngagementStart)
+                }
+                else {
+                    self.nfcHandler?(.onEngagementWithDisabledEngagement)
+                }
             }
             
             apduResponse = APDUResponse([], status, extended: false)
@@ -145,9 +158,12 @@ class NFCDataTransfer : @unchecked Sendable, NFCCardEmulatorDelegate {
             
         case .GET_RESPONSE:
             
-            var response: [UInt8] = messageToSend!
+            guard let response = messageToSend else {
+                return APDUResponse([], .conditionsOfUseNotSatisfied, extended: false)
+            }
             
-            let expectedMessageLen = apduRequest.expectedResponseLenght ?? 0
+            
+            let expectedMessageLen = apduRequest.expectedResponseLength ?? 0
             
             var newMessageToSendIndex = messageToSendIndex + expectedMessageLen
             
@@ -164,7 +180,15 @@ class NFCDataTransfer : @unchecked Sendable, NFCCardEmulatorDelegate {
                 apduResponse = APDUResponse([UInt8](chunk), .success, extended: true)
             }
             else {
-                apduResponse = APDUResponse([UInt8](chunk), .bytesStillAvailable(UInt8(newMessageToSendIndex - messageToSendIndex)), extended: true)
+                var stillAvailableBytes: UInt8 = 0xFF - 1
+                let stillAvailable = response.count - (messageToSendIndex - expectedMessageLen)
+                if stillAvailable < stillAvailableBytes {
+                    stillAvailableBytes = UInt8(stillAvailable)
+                }
+                
+                
+                apduResponse = APDUResponse([UInt8](chunk), .bytesStillAvailable(stillAvailableBytes), extended: true)
+                
             }
             break
             
@@ -268,7 +292,7 @@ class NFCDataTransfer : @unchecked Sendable, NFCCardEmulatorDelegate {
                 })
             } catch {
                 let resError = MdocHelpers.getSessionDataToSend(sessionEncryption: self.sessionEncryption, status: .error, docToSend: DeviceResponse(status: 0), errorStatus: errorStatusOut)
-                var bytesToSend = try! resError.get()
+                var bytesToSend = (try? resError.get()) ?? Data()
                 sessionData = bytesToSend
             }
             
@@ -278,11 +302,11 @@ class NFCDataTransfer : @unchecked Sendable, NFCCardEmulatorDelegate {
             messageToSend = response
             
             let max = Int(_deviceEngagement.nfc_maxLenResponse ?? 65279)
-            
+            print(max)
             if (response.count > max) {
                 let chunk = messageToSend![0..<max]
                 messageToSendIndex += chunk.count
-                return APDUResponse([UInt8](chunk), .bytesStillAvailable(0xFF), extended: true)
+                return APDUResponse([UInt8](chunk), .bytesStillAvailable(0xFF - 1), extended: true)
             }
             else {
                 self.transferDelegate.didChangeStatus(.responseSent)
@@ -302,9 +326,15 @@ class NFCDataTransfer : @unchecked Sendable, NFCCardEmulatorDelegate {
     
     private func extractFromDo53(encapsulatedData: Data) -> Data? {
         
-        let tag = encapsulatedData.first!
+        guard let tag = encapsulatedData.first else {
+            return nil
+        }
         
         if tag != 0x53 {
+            return nil
+        }
+        
+        if encapsulatedData.count < 2 {
             return nil
         }
         
@@ -316,13 +346,22 @@ class NFCDataTransfer : @unchecked Sendable, NFCCardEmulatorDelegate {
         case 0x80:
             return nil
         case 0x81:
+            if encapsulatedData.count < 3 {
+                return nil
+            }
             newLength = Int(encapsulatedData[2])
             offset += 1
         case 0x82:
+            if encapsulatedData.count < 4 {
+                return nil
+            }
             let value: UInt16 = UInt16(encapsulatedData[2]) << 8 | UInt16(encapsulatedData[3])
             newLength = Int(value)
             offset += 2
         case 0x83:
+            if encapsulatedData.count < 5 {
+                return nil
+            }
             let dimension = encapsulatedData[2]
             let value: UInt16 = UInt16(encapsulatedData[3]) << 8 | UInt16(encapsulatedData[4])
             newLength = Int(dimension) * 0x10000 + Int(value)

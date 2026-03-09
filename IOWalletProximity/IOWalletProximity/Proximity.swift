@@ -13,8 +13,10 @@ public enum ProximityError : Error, CustomStringConvertible {
     case error(error: Error)
     case disconnectedWithoutProperSessionTermination
     case nfcCooldownNotExpired
+    case nfcNotSupported
     case nfcAlreadyStarted
     case nfcFailedToStart
+    case nfcEngagementWihtEngagementDisabled
     
     public var description: String {
         switch(self) {
@@ -36,6 +38,10 @@ public enum ProximityError : Error, CustomStringConvertible {
             return "NFC HCE Already started"
         case .nfcFailedToStart:
             return "NFC HCE Failed to start"
+        case .nfcNotSupported:
+            return "NFC HCE Not supported"
+        case .nfcEngagementWihtEngagementDisabled:
+            return "Performing NFC Engagement with disabled engagement"
         }
     }
 }
