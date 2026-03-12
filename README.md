@@ -1,291 +1,246 @@
-# IOWalletProximity - ISO 18013 iOS Library
+# ISO 18013 iOS Library Documentation
 
 ## Overview
 
-IOWalletProximity is an iOS library that implements the ISO 18013 standard for mobile driving licenses (mDL) and digital identity documents. This library is part of the Italian Digital Identity Wallet implementation, providing native iOS support for secure document verification and presentation through proximity protocols.
+The ISO18013 library is a comprehensive Swift framework for implementing ISO 18013-5 (Mobile Driver's License - mDOC) functionality on iOS devices. It enables wallet applications to act as credential holders, supporting proximity-based data presentation through QR codes, NFC, and BLE technologies.
 
-## Features
+## Core Architecture
 
-- **ISO 18013-5 Compliance**: Full implementation of the ISO 18013-5 standard for mobile driving licenses
-- **Secure Document Transfer**: Secure transfer of identity documents via BLE (Bluetooth Low Energy)
-- **QR Code Engagement**: Generation and processing of QR codes for establishing secure connections
-- **Selective Disclosure**: Support for selective disclosure of personal data attributes
-- **CBOR Encoding**: Compact Binary Object Representation for efficient data exchange
-- **Document Authentication**: Cryptographic verification of document authenticity
-- **OID4VP Support**: Implementation of OpenID for Verifiable Presentations (ISO 18013-7)
+### Main Components
 
-## Requirements
+The library is built around a few key components working together to manage the mDOC presentation flow:
 
-- iOS 13.0+
-- Swift 5.0+
-- Xcode 12.0+
-
-## Installation
-
-### CocoaPods
-
-Add the following to your `Podfile`:
-
-```ruby
-pod 'IOWalletProximity', '~> 0.0.6'
-```
-
-Then run:
-
-```bash
-pod install
-```
-
-## Usage
-
-### Initialize the Proximity Service
+#### 1. **ISO18013 Singleton**
+The main entry point for the library. Manages the entire lifecycle of engagement and data transfer.
 
 ```swift
-import IOWalletProximity
+ISO18013.shared.start(
+    trustedCertificates,
+    engagementModes: [.qrCode],
+    retrivalMethods: [.ble],
+    delegate: self,
+    isNfcLateEngagement: false
+)
+```
 
-// Start the proximity service
-try Proximity.shared.start()
+See [ISO18013.swift](IOWalletProximity/IOWalletProximity/ISO18013.swift#L1) for implementation and [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L190) for usage in code.
 
-let qrCode = try Proximity.shared.getQrCode()
+#### 2. **Event-Driven Architecture**
 
-print(qrCode)
+The library uses an event-based system to communicate state changes to the application:
 
-//  Stops the BLE manager and closes connections.
-Proximity.shared.stop()
+**ISO18013Event** - Represents different states during the mDOC presentation:
+- `.qrCode(String)` - QR code for engagement is ready
+- `.bleConnecting` - Establishing BLE connection with verifier
+- `.bleConnected` - BLE connection established
+- `.nfcStarted` - NFC Host Card Emulation started
+- `.nfcStopped` - NFC HCE stopped
+- `.nfcEngagementStarted` - NFC engagement phase begun
+- `.nfcEngagementDone` - NFC engagement completed
+- `.dataTransferStarted(ISO18013DataTransferArgs)` - Verifier requesting document data
+- `.dataTransferStopped` - Data transfer complete
+- `.error(Error)` - An error occurred
 
+#### 3. **Engagement Modes**
 
-// Listen for proximity events
-Proximity.shared.proximityHandler = { event in
-    switch event {
-        //The device is done sending documents
-        case onDocumentPresentationCompleted:
-        break
-    
-        //The device is connecting to the verifier app
-        case onDeviceConnecting:
-        break
-    
-        //The device has connected to the verifier app
-        case onDeviceConnected:
-        break
-    
-        //The device has received a new request from the verifier app
-        case onDocumentRequestReceived(request: [
-            (docType: String,
-            nameSpaces: [String: [String: Bool]],
-            isAuthenticated: Bool)
-        ]?):
-        break
-    
-        //The device has received the termination flag from the verifier app
-        case onDeviceDisconnected:
-        break
-    
-        //An error occurred
-        case onError(error: Error):
+Defines how the holder and verifier establish initial contact:
+
+```swift
+public enum ISO18013EngagementMode : Sendable {
+    case qrCode  // QR code engagement
+    case nfc     // NFC Host Card Emulation engagement
+}
+```
+
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L12) for configuration toggles demonstrating both modes.
+
+#### 4. **Data Transfer Modes**
+
+Specifies the communication method after engagement:
+
+```swift
+public enum ISO18013DataTransferMode : Sendable {
+    case ble  // Bluetooth Low Energy
+    case nfc  // NFC
+}
+```
+
+## Initialization & Configuration
+
+### Basic Startup
+
+```swift
+ISO18013.shared.start(
+    trustedCertificates: [[Data]]?,
+    engagementModes: [ISO18013EngagementMode],
+    retrivalMethods: [ISO18013DataTransferMode],
+    delegate: ISO18013Delegate,
+    isNfcLateEngagement: Bool
+)
+```
+
+**Parameters:**
+- `trustedCertificates`: Optional list of trusted certificates to verify reader/verifier validity (X.509 format)
+- `engagementModes`: How initial contact is established (QR, NFC)
+- `retrivalMethods`: How data is transferred (BLE, NFC)
+- `delegate`: Handler implementing `ISO18013Delegate` protocol to receive events
+- `isNfcLateEngagement`: Allows NFC initialization after engagement phase starts
+
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L164) for complete startup example with certificate configuration.
+
+### NFC Session Management
+
+```
+NFC Host Card Emulation is supported only on iOS 17.4+
+```
+
+The library enforces NFC session time constraints:
+
+```swift
+public static let nfcHLESessionTimeRemaining: TimeInterval = 15
+public static let nfcHLESessionCoolDownTimeRemaining: TimeInterval = 15
+```
+
+- **Session Duration**: 15 seconds for active NFC HCE
+- **Cool-down Period**: 15 seconds mandatory wait before re-establishing NFC
+
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L65) for timer management implementation.
+
+## Event Handling
+
+### Delegate Protocol
+
+Implement `ISO18013Delegate` to handle library events:
+
+```swift
+public protocol ISO18013Delegate {
+    func onEvent(event: ISO18013Event)
+}
+```
+
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L409) for complete delegate implementation showing all event cases.
+
+### Event Handling Example
+
+```swift
+func onEvent(event: ISO18013Event) {
+    switch(event) {
+    case .qrCode(let qrCode):
+        // Display QR code for engagement
+        displayQRCode(qrCode)
+    case .bleConnecting:
+        // Show connecting indicator
+        showLoadingState()
+    case .dataTransferStarted(let args):
+        // Verifier requesting data
+        handleDataRequest(args)
+    case .error(let error):
+        // Handle error appropriately
+        showError(error)
+    default:
         break
     }
 }
 ```
 
-#### ProximityDocument
+## Data Transfer Flow
+
+### Request Handling
+
+When a verifier requests document data, the library emits `.dataTransferStarted` with:
 
 ```swift
-//  ProximityDocument is a class to store docType, issuerSigned and deviceKey.
-//  It can be initialized in various ways. The difference is the source of the deviceKey
-
-//  This constructor allows to initialize the object with a COSEKey CBOR encoded deviceKey
-public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeyRaw: [UInt8])
-
-//  This constructor allows to initialize the object with a SecKey deviceKey
-public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeySecKey: SecKey)
-
-//  This constructor allows to initialize the object with a String representing the SecKey in the keychain
-public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeyTag: String)
-```
-
-#### Proximity.shared.proximityHandler
-
-```swift
-//  In order to listen for proximity events set this handler
-
-
-public enum ProximityEvents {
-    //The device is done sending documents
-    case onDocumentPresentationCompleted
-    
-    //The device is connecting to the verifier app
-    case onDeviceConnecting
-    
-    //The device has connected to the verifier app
-    case onDeviceConnected
-    
-    //The device has received a new request from the verifier app
-    case onDocumentRequestReceived(request: [
+public struct ISO18013DataTransferArgs: Sendable {
+    public let engagementMethod: ISO18013EngagementMode
+    public let retrivalMethod: ISO18013DataTransferMode
+    public let request: [
         (docType: String,
          nameSpaces: [String: [String: Bool]],
          isAuthenticated: Bool)
-    ]?)
-    
-    //The device has received the termination flag from the verifier app
-    case onDeviceDisconnected
-    
-    //An error occurred
-    case onError(error: Error)
-    
-}
-
- Proximity.shared.proximityHandler = {
-    event in
-    print(event)
+    ]?
 }
 ```
 
-#### Proximity.shared.generateDeviceResponseFromJson
+The `request` structure indicates which document types and data fields are being requested.
+
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L361) for parsing request data.
+
+### Response Generation
+
+#### Generate Device Response
 
 ```swift
-/**
- * Generate DeviceResponse to request for data from the reader.
- *
- * - Parameters:
- *   - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]] as String
- *   - documents: List of documents.
- *   - sessionTranscript: optional CBOR encoded session transcript
- *
- * - Returns: CBOR-encoded DeviceResponse object as value
- */
-public func generateDeviceResponseFromJson(
-    items: String?,
-    documents: [ProximityDocument]?,
-    sessionTranscript: [UInt8]?
-) throws -> [UInt8]
-```
-
-#### Proximity.shared.generateDeviceResponse
-
-```swift
-/**
- * Generate DeviceResponse to request for data from the reader.
- *
- * - Parameters:
- *   - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
- *   - documents: List of documents.
- *   - sessionTranscript: optional CBOR encoded session transcript
- *
- * - Returns: CBOR-encoded DeviceResponse object as value
- */
-public func generateDeviceResponse(
+let deviceResponse = try ISO18013.shared.generateDeviceResponse(
     items: [String: [String: [String: Bool]]]?,
     documents: [ProximityDocument]?,
     sessionTranscript: [UInt8]?
-) throws -> [UInt8]
+) -> throws [UInt8]
 ```
 
+Generates CBOR-encoded response with selected document fields.
+
+#### JSON Alternative
+
 ```swift
-let items: [String: [String: [String: Bool]]] = [:]
-
-let documents = LibIso18013DAOKeyChain()
-    .getAllDocuments(state: .issued)
-    .compactMap({
-        if let issuerSigned = $0.issuerSigned {
-            return ProximityDocument(
-                docType: $0.docType,
-                issuerSigned: issuerSigned,
-                deviceKeyRaw: $0.deviceKeyData
-            )
-        }
-        return nil
-    })
-
-
-let deviceResponse = try Proximity.shared
-    .generateDeviceResponse(
-        items: items,
-        documents: documents,
-        sessionTranscript: nil
-    )
-
+let deviceResponse = try ISO18013.shared.generateDeviceResponseFromJson(
+    items: String?,
+    documents: [ProximityDocument]?,
+    sessionTranscript: [UInt8]?
+) -> throws [UInt8]
 ```
 
-#### Proximity.shared.dataPresentation
+Same as above but accepts JSON string for `items` parameter.
+
+#### Send Response
 
 ```swift
-//  Responds to a request for data from the reader.
-//  - Parameters:
-//      - deviceResponse: Device Response cbor-encoded (result of Proximity.shared.generateDeviceResponse)
-
-let deviceResponse: [UInt8] = /*result of generateDeviceResponse*/
-
-Proximity.shared.dataPresentation(deviceResponse)
+try ISO18013.shared.dataPresentation(deviceResponse)
 ```
 
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L365) for complete response handling.
 
-#### Proximity.shared.errorPresentation
+### Error Response
+
 ```swift
-//  Responds to a request for data from the reader with error.
-//  - Parameters:
-//      - error: SessionDataStatus
-let error: SessionDataStatus = .sessionTermination
-
-Proximity.shared.errorPresentation(error)
+try ISO18013.shared.errorPresentation(SessionDataStatus)
 ```
 
-#### SessionDataStatus
+Sends error response instead of data when request cannot be fulfilled.
+
+## Advanced Features
+
+### Late NFC Initialization
+
+For scenarios where NFC should only be activated after engagement begins:
 
 ```swift
-public enum SessionDataStatus : UInt64 {
-    
-/*
+// Start with isNfcLateEngagement: true
+ISO18013.shared.start(..., isNfcLateEngagement: true)
 
- **Table 20 — SessionData status codes**
- __________________________________________________________________________
- | Status code | Description               | Action required                 |
- --------------------------------------------------------------------------
- |     10      | Error: session encryption | The session shall be terminated.|
- |     11      | Error: CBOR decoding      | The session shall be terminated.|
- |     20      | Session termination       | The session shall be terminated.|
- --------------------------------------------------------------------------
-     
- */
-    
-    case errorSessionEncryption = 10
-    case errorCborDecoding = 11
-    case sessionTermination = 20
-    
-}
+// Later, after engagement phase starts:
+try ISO18013.shared.lateNfcInitialization()
 ```
 
+Useful for conserving battery or controlling when NFC becomes available.
 
-#### ProximityError
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L249) for UI implementation.
+
+### NFC HCE Custom Message
+
+Set custom message displayed in native NFC interface:
 
 ```swift
-
-//  Possible response errors of various methods
-
-public enum ProximityError {
-    case nullObject(objectName: String)
-    case decodingFailed(objectName: String)
-    case error(error: Error)
-}
+@available(iOS 17.4, *)
+ISO18013.shared.setNfcHceMessage(message: String)
 ```
 
-### ISO18013-7 Remote Presentation (OpenID4VP)
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L415) for usage.
 
-#### Proximity.shared.generateOID4VPSessionTranscriptCBOR
+### OID4VP Integration
+
+Support for ISO 18013-7 OAuth-based flow:
 
 ```swift
-/**
-    * Generate session transcript with OID4VPHandover
-    * This method is used for ISO 18013-7 OID4VP flow.
-    *
-    * - Parameters:
-    *   - clientId: Authorization Request 'client_id'
-    *   - responseUri: Authorization Request 'response_uri'
-    *   - authorizationRequestNonce: Authorization Request 'nonce'
-    *   - mdocGeneratedNonce: cryptographically random number with sufficient entropy
-    *
-    * - Returns: A CBOR-encoded SessionTranscript object
-*/
 public func generateOID4VPSessionTranscriptCBOR(
     clientId: String,
     responseUri: String,
@@ -294,100 +249,141 @@ public func generateOID4VPSessionTranscriptCBOR(
 ) -> [UInt8]
 ```
 
-#### Example
+Generates CBOR-encoded session transcript for OpenID4VP authorization flows.
+
+## Utility Methods
+
+### Check BLE Status
 
 ```swift
-let mdocGeneratedNonce: String = /*generate cryptographically random number with sufficient entropy*/
+let bleEnabled = ISO18013.shared.isBleEnabled() -> Bool
+```
 
-let openId4VpRequest = /*retrive openId4VpRequest using mdocGeneratedNonce*/
+Verify if Bluetooth is enabled before offering BLE engagement.
 
-let sessionTranscript = Proximity.shared.generateOID4VPSessionTranscriptCBOR(
-    clientId: openId4VpRequest.client_id,
-    responseUri: openId4VpRequest.response_uri,
-    authorizationRequestNonce: openId4VpRequest.nonce,
-    mdocGeneratedNonce: mdocGeneratedNonce
+### Shutdown
+
+```swift
+ISO18013.shared.stop()
+```
+
+Stops all engagement mechanisms (BLE manager, NFC HCE) and closes connections.
+
+## Configuration Scenarios
+
+### Scenario 1: QR Code + BLE
+
+Simplest flow for platforms without NFC:
+
+```swift
+ISO18013.shared.start(
+    engagementModes: [.qrCode],
+    retrivalMethods: [.ble],
+    delegate: self,
+    isNfcLateEngagement: false
 )
-//Map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
-let items: [String: [String: [String: Bool]]] = [:] //items should contain all the items received in the openId4VpRequest.
+```
 
-//List of ProximityDocument
-var documents: [ProximityDocument] = []
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L178) for preset button.
 
-let deviceResponseStatus = Proximity.shared.generateDeviceResponse(
-    items: items,
-    documents: documents,
-    sessionTranscript: sessionTranscript
+### Scenario 2: QR Code + NFC Data Transfer
+
+QR for engagement, but data over NFC:
+
+```swift
+ISO18013.shared.start(
+    engagementModes: [.qrCode],
+    retrivalMethods: [.nfc],
+    delegate: self,
+    isNfcLateEngagement: false
 )
-
-switch(deviceResponseStatus) {
-    case .success(let deviceResponse):
-        //send deviceResponse to OpenID4VP backend
-        print(deviceResponse)
-    default:
-        print(deviceResponseStatus)
-        //generateDeviceResponse failed for some reasons
-}
-
 ```
 
-## Running Tests
+### Scenario 3: NFC with Late Initialization
 
-You can run the IOWalletProximity unit tests following these steps:
+NFC for both engagement and data, but enable NFC only on demand:
 
-### From Xcode
-
-1. Open the project `IOWalletProximity/IOWalletProximity.xcodeproj` in Xcode
-2. Select the `IOWalletProximity` scheme
-3. Press ⌘+U or go to Product > Test
-
-### From Terminal
-
-You can run the tests from the command line with the following command:
-
-```bash
-xcodebuild test \
-  -project IOWalletProximity/IOWalletProximity.xcodeproj \
-  -scheme IOWalletProximity \
-  -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
-  -enableCodeCoverage YES
+```swift
+ISO18013.shared.start(
+    engagementModes: [.nfc],
+    retrivalMethods: [.nfc],
+    delegate: self,
+    isNfcLateEngagement: true
+)
 ```
 
-To generate a test results bundle, you can add the `-resultBundlePath` parameter:
+Later, activate NFC when needed:
 
-```bash
-xcodebuild test \
-  -project IOWalletProximity/IOWalletProximity.xcodeproj \
-  -scheme IOWalletProximity \
-  -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
-  -resultBundlePath TestResults.xcresult \
-  -enableCodeCoverage YES
+```swift
+try ISO18013.shared.lateNfcInitialization()
 ```
 
-## Example Application
+## Error Handling
 
-The repository includes an example application (`IOWalletProximityExample`) demonstrating how to use the library to:
+The library throws errors as events (`.error(Error)`) and through exceptions:
 
-- Create and store digital documents
-- Present documents via BLE
-- Generate QR codes for verification
-- Handle document requests with user consent
+Common error scenarios:
+- `ProximityError.nfcAlreadyStarted` - NFC already active
+- `ProximityError.nfcCooldownNotExpired` - 15-second cool-down not elapsed
+- `ProximityError.nfcFailedToStart` - NFC initialization failed
+- CBOR encoding/decoding errors during response generation
+- Certificate verification failures
 
-In order to run the example application we suggesting using [bundler](https://bundler.io/) to manage ruby dependencies and [rbenv](https://github.com/rbenv/rbenv) to manage ruby versions:
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L420) for error handling in the UI layer.
 
-```bash
-gem install bundler
-bundle install
-cd IOWalletProximityExample
-bundler exec pod update
-# Open IOWalletProximityExample\IOWalletProximityExample.xcworkspace using Xcode.
+## Data Structure
+
+### Document Request
+
+When data is requested, the structure is:
+
+```
+docType: String (e.g., "org.iso.18013.5.1.mDL")
+nameSpaces: Dictionary
+    key: namespace (e.g., "org.iso.18013.5.1")
+    value: Dictionary
+        key: element identifier (e.g., "family_name", "birth_date")
+        value: Boolean (whether field is requested)
+isAuthenticated: Boolean (whether reader is authenticated)
 ```
 
-## Architecture
+### Document Response
 
-The library consists of several key components:
+Response structure mirrors request but with actual data values:
 
-- **Proximity**: Main interface for handling document presentation
-- **DeviceEngagement**: Handles the connection establishment process
-- **SessionEncryption**: Manages secure encrypted sessions
-- **Document**: Represents identity documents with issuer-signed data
-- **MdocBleServer**: Manages BLE server for secure proximity connections
+```swift
+[String: [String: [String: Any]]]
+```
+
+Encoded as CBOR for transmission.
+
+## Integration Checklist
+
+- [ ] Obtain trusted certificates for reader verification
+- [ ] Choose engagement mode(s) and data transfer mode(s)
+- [ ] Implement `ISO18013Delegate` protocol
+- [ ] Load documents (with issuerSigned and deviceKey data)
+- [ ] Call `ISO18013.shared.start()` with configuration
+- [ ] Handle events in delegate methods
+- [ ] Generate and send `dataPresentation` responses
+- [ ] Call `ISO18013.shared.stop()` for cleanup
+- [ ] Test with real verifier applications
+
+See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift) for complete integration example.
+
+## Best Practices
+
+1. **Certificate Management**: Keep trusted certificates updated and validate against revocation lists
+2. **NFC Session Timing**: Respect the 15-second session and 15-second cool-down windows
+3. **Error Recovery**: Implement retry logic for transient failures like NFC cool-down
+4. **User Feedback**: Show clear UI indicators for different engagement modes (QR scanner vs. NFC)
+5. **Document Validation**: Verify document authenticity before responding to requests
+6. **User Consent**: Always get explicit user approval before sharing document data
+7. **Memory Management**: Properly stop all engagement mechanisms when done
+
+## References
+
+- [ISO 18013-5 Standard](https://www.iso.org/standard/69084.html) - mDOC specification
+- [ISO 18013-7](https://www.iso.org/standard/80601.html) - OID4VP integration
+- Main Implementation: [ISO18013.swift](IOWalletProximity/IOWalletProximity/ISO18013.swift)
+- Example Usage: [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift)

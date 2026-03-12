@@ -9,21 +9,21 @@ import SwiftUI
 
 enum SelectedView {
     case none
-    case qrCodeView
+    case engagementView
     case documentsView
 }
 
 struct MainContentView: View {
     @State private var isMenuOpen: Bool = false
-    @State private var selectedView: SelectedView = .qrCodeView
+    @State private var selectedView: SelectedView = .engagementView
     
     var body: some View {
         ZStack {
             NavigationView {
                 VStack {
                     switch selectedView {
-                        case .qrCodeView:
-                            QRCodeView()
+                        case .engagementView:
+                            ISO18013View()
                         case .none:
                             Text("Seleziona una vista dal menu")
                                 .padding()
@@ -68,10 +68,10 @@ struct SideMenu: View {
                 VStack(alignment: .leading, spacing: 0) {
                 
                     Button(action: {
-                        selectedView = .qrCodeView
+                        selectedView = .engagementView
                         isMenuOpen = false
                     }) {
-                        rowView(isSelected: selectedView == .qrCodeView, imageName: "house", title: "QRCode")
+                        rowView(isSelected: selectedView == .engagementView, imageName: "house", title: "QRCode")
                     }
                     Button(action: {
                         selectedView = .documentsView

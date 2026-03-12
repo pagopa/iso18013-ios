@@ -30,4 +30,8 @@ class NFCNDEFFile {
         self._value = value
         self._children = children
     }
+    
+    func addChild(_ child: NFCNDEFFile) {
+        _children.append(child)
+    }
 }

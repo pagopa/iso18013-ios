@@ -20,9 +20,12 @@ protocol QrEngagementListener: AnyObject {
     
 }
 
+
 class LibIso18013Proximity: @unchecked Sendable {
     // Property to hold device engagement information
     var deviceEngagement: DeviceEngagement?
+    
+    var _deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc]
     
     var bleServer: MdocBleServer?
     var bleDelegate: MdocTransferDelegate?
@@ -39,6 +42,7 @@ class LibIso18013Proximity: @unchecked Sendable {
     }
     
     public func stop() {
+        deviceEngagement = nil
         bleServer?.stop()
     }
     
@@ -46,23 +50,107 @@ class LibIso18013Proximity: @unchecked Sendable {
     
     public var nfcHandler: ((ProximityNfcEvents) -> Void)?
     
-    // Start nfc
+    private var retrivalMethodsStarted: Bool = false
+    
     @available(iOS 17.4, *)
-    public func startNfc() async throws -> Bool {
+    public func startNfcDataTransfer(_ allowEngagement: Bool = false) async throws -> Bool {
+        print("startNfcDataTransfer allowEngagement: \(allowEngagement)")
         do {
-            guard let deviceEngagement = self.bleServer?.deviceEngagement else {
+            guard let deviceEngagement = self.deviceEngagement else {
                 return false
             }
             
-            let nfc: NFCEngagement = NFCEngagement(
-                deviceEngagement.deviceRetrievalMethods ?? [],
-                deviceEngagement: deviceEngagement.encode(options: CBOROptions()))
+            guard let listener = listener else {
+                throw ErrorHandler.unexpected_error
+            }
             
-            nfc.nfcHandler = self.nfcHandler
+            let nfc: NFCDataTransfer = NFCDataTransfer(
+                deviceEngagement,
+            allowEngagement: allowEngagement)
+            
+            nfc.transferDelegate = BleDelegate(listener: listener)
+            
+            nfc.nfcHandler = {
+                status in
+                
+                if (status == .onEngagementDone) {
+                    print("onEngagementDone")
+                    self.bleServer?.handOver = nfc.handOver!
+                }
+                
+                self.nfcHandler?(status)
+            }
             
             _nfc = nfc
             
-            bleServer?.handOver = nfc.handOver
+           
+            
+            let success = try await nfc.start()
+            
+            if (success) {
+                nfcHandler?(.onStart)
+            }
+            else {
+                nfcHandler?(.onStop)
+            }
+            
+            
+            return success
+            
+        }
+        catch {
+            throw ProximityError.error(error: error)
+        }
+        return false
+    }
+    
+    @available(iOS 17.4, *)
+    public func setNfcHceMessage(message: String) {
+        guard let nfc = _nfc as? NFCDataTransfer else {
+            return
+        }
+        
+        nfc.setMessage(message: message)
+    }
+    
+    
+    // Start nfc
+    @available(iOS 17.4, *)
+    public func startNfcEngagement(_ deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isLateNfc: Bool, allowEngagement: Bool) async throws -> Bool {
+        print("startNfcEngagement")
+        do {
+        
+            try initDeviceEngagement(deviceRetrivalMethods)
+            
+            try startRetrivalMethods(deviceRetrivalMethods, true, isNfcLateEngagement: isLateNfc)
+            
+            
+            
+            if deviceRetrivalMethods.contains(.nfc) {
+                return true
+            }
+            
+            guard let deviceEngagement = self.deviceEngagement else {
+                return false
+            }
+            
+            let nfc: NFCDataTransfer = NFCDataTransfer(
+                deviceEngagement)
+            
+            nfc.nfcHandler = {
+                status in
+                
+                if (status == .onEngagementDone) {
+                    self.bleServer?.handOver = nfc.handOver!
+                }
+                
+                self.nfcHandler?(status)
+            }
+            
+            
+            _nfc = nfc
+            
+            //bleServer?.handOver = nfc.handOver
             
             let success = try await nfc.start()
             
@@ -84,9 +172,15 @@ class LibIso18013Proximity: @unchecked Sendable {
     }
     
     // Stop nfc
+    
+    
     @available(iOS 17.4, *)
     public func stopNfc() async throws -> Bool {
-        guard let nfc = _nfc as? NFCEngagement else {
+        print("stopNfc")
+        
+        deviceEngagement = nil
+        retrivalMethodsStarted = false
+        guard let nfc = _nfc as? NFCDataTransfer else {
             return false
         }
         
@@ -97,21 +191,98 @@ class LibIso18013Proximity: @unchecked Sendable {
     
     
     // Generates and returns the QR code payload
-    public func getQrCodePayload() throws -> String {
+    public func getQrCodePayload(_ deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isNfcLateEngagement: Bool = false, allowNfcEngagement: Bool = false) throws -> String {
         
-        guard let deviceEngagementBuilder = try? DeviceEngagementBuilder(pk: LibIso18013Utils.shared.createSecurePrivateKey()) else {
-            throw ErrorHandler.unexpected_error
-        }
+        try initDeviceEngagement(deviceRetrivalMethods)
         
-        // Initialize device engagement with required parameters
-        deviceEngagement = deviceEngagementBuilder.setDeviceRetrievalMethods([
-            .ble(isBleServer: true, uuid: DeviceRetrievalMethod.getRandomBleUuid())
-        ]).build()
+        try startRetrivalMethods(deviceRetrivalMethods, allowNfcEngagement, isNfcLateEngagement: isNfcLateEngagement)
         
         // Try to get the QR code payload from device engagement, throw an error if it is not available
         guard let qrCodePayload = deviceEngagement?.getQrCodePayload() else {
             throw ErrorHandler.qrCodePayloadNotFound
         }
+        
+        // Return the generated QR code payload
+        return qrCodePayload
+    }
+    
+    private func startRetrivalMethods(_ deviceRetrivalMethods: [ISO18013DataTransferMode], _ allowEngagement: Bool, isNfcLateEngagement: Bool = false) {
+        
+        print("startRetrivalMethods allowEngagement: \(allowEngagement) isLate: \(isNfcLateEngagement)")
+        
+        var isFirstTime = true
+        
+        if retrivalMethodsStarted {
+            isFirstTime = false
+            print("retrivalMethods already started")
+            
+            if !isNfcLateEngagement {
+                print("retrivalMethods already started and !isNfcLateEngagement")
+                return
+            }
+            
+           
+        }
+        
+        retrivalMethodsStarted = true
+        
+        deviceRetrivalMethods.forEach({
+            retrivalMethod in
+            do {
+                print(retrivalMethod)
+                switch(retrivalMethod) {
+                case .ble:
+                    try? initBleServer()
+                    break
+                case .nfc:
+                    if !isNfcLateEngagement || !isFirstTime || (isNfcLateEngagement && isFirstTime){
+                        if #available(iOS 17.4, *) {
+                            Task {
+                                try await startNfcDataTransfer(allowEngagement)
+                            }
+                        } else {
+                            // No NFC supported
+                        }
+                    }
+                    break
+                default:
+                    break
+                }
+            }
+            catch {
+                print(error)
+            }
+        })
+        
+        
+        
+        _deviceRetrivalMethods = deviceRetrivalMethods
+    }
+    
+    private func initDeviceEngagement(_ deviceRetrivalMethods: [ISO18013DataTransferMode]) throws {
+        print("initDeviceEngagement")
+        
+        if (deviceEngagement != nil) {
+            return
+        }
+        
+        guard let deviceEngagementBuilder = try? DeviceEngagementBuilder(pk: LibIso18013Utils.shared.createSecurePrivateKey()) else {
+            throw ErrorHandler.unexpected_error
+        }
+        
+        let retrivalMethods: [DeviceRetrievalMethod] = deviceRetrivalMethods.map({
+            $0.retrivalMethod
+        })
+        
+        // Initialize device engagement with required parameters
+        deviceEngagement = deviceEngagementBuilder.setDeviceRetrievalMethods(retrivalMethods).build()
+        
+        
+        
+        
+    }
+    
+    private func initBleServer() throws {
         
         guard let listener = listener else {
             throw ErrorHandler.unexpected_error
@@ -130,10 +301,8 @@ class LibIso18013Proximity: @unchecked Sendable {
         server.status = .initialized
         
         server.start()
-        
-        // Return the generated QR code payload
-        return qrCodePayload
     }
+    
     
     class BleDelegate : MdocTransferDelegate {
         var listener: QrEngagementListener

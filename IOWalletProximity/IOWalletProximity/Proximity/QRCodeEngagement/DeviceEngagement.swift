@@ -113,6 +113,24 @@ struct DeviceEngagement {
         }
         return nil
     }
+    
+    // Returns the nfc maxLenCommand, if available
+    public var nfc_maxLenCommand: UInt64? {
+        guard let deviceRetrievalMethods else { return nil }
+        for case let .nfc(maxLen, _) in deviceRetrievalMethods {
+            return maxLen
+        }
+        return nil
+    }
+    
+    // Returns the nfc maxLenResponse, if available
+    public var nfc_maxLenResponse: UInt64? {
+        guard let deviceRetrievalMethods else { return nil }
+        for case let .nfc(_, maxLen) in deviceRetrievalMethods {
+            return maxLen
+        }
+        return nil
+    }
 }
 
 

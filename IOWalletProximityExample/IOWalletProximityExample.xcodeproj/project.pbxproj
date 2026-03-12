@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041AC1F8D73653679629EBC1 /* Pods_IOWalletProximityExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6150E627341878F9DA66D65A /* Pods_IOWalletProximityExample.framework */; };
+		3466C2982F50521B005146D4 /* ISO18013View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3466C2972F505215005146D4 /* ISO18013View.swift */; };
 		3A042F252CB6C0B00035FF8E /* MainContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A042F242CB6C0AD0035FF8E /* MainContentView.swift */; };
-		3A042F272CB6CB990035FF8E /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A042F262CB6CB900035FF8E /* QRCodeView.swift */; };
 		3A042F292CB6CDD20035FF8E /* QRCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A042F282CB6CDCC0035FF8E /* QRCodeTests.swift */; };
 		3A84D58E2CB3D3270017D76E /* InfoBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84D5872CB3D3270017D76E /* InfoBoxView.swift */; };
 		3A84D5902CB3D3270017D76E /* libIso18013_exampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84D58C2CB3D3270017D76E /* libIso18013_exampleApp.swift */; };
@@ -25,9 +26,8 @@
 		3AEC7E0A2CB40F8100606D7E /* ManageNameSpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC7E092CB40F7300606D7E /* ManageNameSpaces.swift */; };
 		3D179CBE2CB96B5C0061DFDC /* DocumentDAOView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D179CBD2CB96B560061DFDC /* DocumentDAOView.swift */; };
 		3DC072202D809673003C35A2 /* Documents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC0721F2D809670003C35A2 /* Documents.swift */; };
-		6E724FF09144F288E352F84C /* Pods_IOWalletProximityExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 875BEB094914F2F2386131C5 /* Pods_IOWalletProximityExampleTests.framework */; };
-		A2E19F7FF71CF97C6C04C626 /* Pods_IOWalletProximityExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105E95DF666335A927668DCB /* Pods_IOWalletProximityExample.framework */; };
-		E25F65EF769AE73B539055E5 /* Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC91DE1251F8D9C010B5B28C /* Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework */; };
+		61BDF735A169FA1AD6330F7E /* Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA067F8523D1A2C1F24F05A /* Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework */; };
+		B43788B5CA37310A1BDAD309 /* Pods_IOWalletProximityExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E06E4B34A509891B5881E4C /* Pods_IOWalletProximityExampleTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,10 +48,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		105E95DF666335A927668DCB /* Pods_IOWalletProximityExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOWalletProximityExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		295D2C40696474BC034ED41A /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig"; sourceTree = "<group>"; };
+		0AA067F8523D1A2C1F24F05A /* Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		10F1303680AE04834F000570 /* Pods-IOWalletProximityExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExample.release.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExample/Pods-IOWalletProximityExample.release.xcconfig"; sourceTree = "<group>"; };
+		26E03538D29AE080CE042A83 /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.debug.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		3466C2972F505215005146D4 /* ISO18013View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO18013View.swift; sourceTree = "<group>"; };
 		3A042F242CB6C0AD0035FF8E /* MainContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentView.swift; sourceTree = "<group>"; };
-		3A042F262CB6CB900035FF8E /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		3A042F282CB6CDCC0035FF8E /* QRCodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeTests.swift; sourceTree = "<group>"; };
 		3A84D5852CB3D3270017D76E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3A84D5872CB3D3270017D76E /* InfoBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBoxView.swift; sourceTree = "<group>"; };
@@ -72,13 +73,12 @@
 		3AEC7E092CB40F7300606D7E /* ManageNameSpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageNameSpaces.swift; sourceTree = "<group>"; };
 		3D179CBD2CB96B560061DFDC /* DocumentDAOView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentDAOView.swift; sourceTree = "<group>"; };
 		3DC0721F2D809670003C35A2 /* Documents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Documents.swift; sourceTree = "<group>"; };
-		875BEB094914F2F2386131C5 /* Pods_IOWalletProximityExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOWalletProximityExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9213E11CC9C4BDAE69E48531 /* Pods-IOWalletProximityExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExampleTests.release.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExampleTests/Pods-IOWalletProximityExampleTests.release.xcconfig"; sourceTree = "<group>"; };
-		9B1575D734B4751539639147 /* Pods-IOWalletProximityExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExample.debug.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExample/Pods-IOWalletProximityExample.debug.xcconfig"; sourceTree = "<group>"; };
-		9C39DA357085EE1CF78057AF /* Pods-IOWalletProximityExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExampleTests/Pods-IOWalletProximityExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
-		AC2D7C5C078C0A17604F3E5B /* Pods-IOWalletProximityExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExample.release.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExample/Pods-IOWalletProximityExample.release.xcconfig"; sourceTree = "<group>"; };
-		C06401327E734B6A7145A415 /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.debug.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		FC91DE1251F8D9C010B5B28C /* Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E06E4B34A509891B5881E4C /* Pods_IOWalletProximityExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOWalletProximityExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6150E627341878F9DA66D65A /* Pods_IOWalletProximityExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOWalletProximityExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9ACA399408C7515904E03DD3 /* Pods-IOWalletProximityExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExampleTests/Pods-IOWalletProximityExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A7A0F7203D84D6FC482E2286 /* Pods-IOWalletProximityExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExample.debug.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExample/Pods-IOWalletProximityExample.debug.xcconfig"; sourceTree = "<group>"; };
+		B8F3A7C288A7DF1EDADE2775 /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig"; sourceTree = "<group>"; };
+		DEEF1FC98C055C594665877D /* Pods-IOWalletProximityExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOWalletProximityExampleTests.release.xcconfig"; path = "Target Support Files/Pods-IOWalletProximityExampleTests/Pods-IOWalletProximityExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A2E19F7FF71CF97C6C04C626 /* Pods_IOWalletProximityExample.framework in Frameworks */,
+				041AC1F8D73653679629EBC1 /* Pods_IOWalletProximityExample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,7 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E724FF09144F288E352F84C /* Pods_IOWalletProximityExampleTests.framework in Frameworks */,
+				B43788B5CA37310A1BDAD309 /* Pods_IOWalletProximityExampleTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,7 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E25F65EF769AE73B539055E5 /* Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework in Frameworks */,
+				61BDF735A169FA1AD6330F7E /* Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,7 +169,7 @@
 				3A84D5982CB3D32E0017D76E /* IOWalletProximityExampleUITests */,
 				3AC6964C2CB2FF1200871580 /* Products */,
 				6E9CC8B6DC06E71A45D478E0 /* Pods */,
-				536D8224781C688D24EC5BF4 /* Frameworks */,
+				534F2871AB103DB0F2D06A14 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -204,19 +204,19 @@
 		3D14E76A2CB53B0500E15A46 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3466C2972F505215005146D4 /* ISO18013View.swift */,
 				3A042F242CB6C0AD0035FF8E /* MainContentView.swift */,
-				3A042F262CB6CB900035FF8E /* QRCodeView.swift */,
 				3D179CBD2CB96B560061DFDC /* DocumentDAOView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		536D8224781C688D24EC5BF4 /* Frameworks */ = {
+		534F2871AB103DB0F2D06A14 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				105E95DF666335A927668DCB /* Pods_IOWalletProximityExample.framework */,
-				FC91DE1251F8D9C010B5B28C /* Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework */,
-				875BEB094914F2F2386131C5 /* Pods_IOWalletProximityExampleTests.framework */,
+				6150E627341878F9DA66D65A /* Pods_IOWalletProximityExample.framework */,
+				0AA067F8523D1A2C1F24F05A /* Pods_IOWalletProximityExample_IOWalletProximityExampleUITests.framework */,
+				4E06E4B34A509891B5881E4C /* Pods_IOWalletProximityExampleTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -224,12 +224,12 @@
 		6E9CC8B6DC06E71A45D478E0 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9B1575D734B4751539639147 /* Pods-IOWalletProximityExample.debug.xcconfig */,
-				AC2D7C5C078C0A17604F3E5B /* Pods-IOWalletProximityExample.release.xcconfig */,
-				C06401327E734B6A7145A415 /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.debug.xcconfig */,
-				295D2C40696474BC034ED41A /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig */,
-				9C39DA357085EE1CF78057AF /* Pods-IOWalletProximityExampleTests.debug.xcconfig */,
-				9213E11CC9C4BDAE69E48531 /* Pods-IOWalletProximityExampleTests.release.xcconfig */,
+				A7A0F7203D84D6FC482E2286 /* Pods-IOWalletProximityExample.debug.xcconfig */,
+				10F1303680AE04834F000570 /* Pods-IOWalletProximityExample.release.xcconfig */,
+				26E03538D29AE080CE042A83 /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.debug.xcconfig */,
+				B8F3A7C288A7DF1EDADE2775 /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig */,
+				9ACA399408C7515904E03DD3 /* Pods-IOWalletProximityExampleTests.debug.xcconfig */,
+				DEEF1FC98C055C594665877D /* Pods-IOWalletProximityExampleTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -241,11 +241,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3AC696702CB2FF1300871580 /* Build configuration list for PBXNativeTarget "IOWalletProximityExample" */;
 			buildPhases = (
-				3CBAC827522AC6559441888D /* [CP] Check Pods Manifest.lock */,
+				A5941E90B9D7C8FEFE2EDA5F /* [CP] Check Pods Manifest.lock */,
 				3AC696472CB2FF1200871580 /* Sources */,
 				3AC696482CB2FF1200871580 /* Frameworks */,
 				3AC696492CB2FF1200871580 /* Resources */,
-				4E2B4CD4FE3827F8FBAC8A10 /* [CP] Copy Pods Resources */,
+				47D0062C069B33567AC60AC4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -260,11 +260,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3AC696732CB2FF1300871580 /* Build configuration list for PBXNativeTarget "IOWalletProximityExampleTests" */;
 			buildPhases = (
-				2678B72DEB3496B6C085EFBC /* [CP] Check Pods Manifest.lock */,
+				1DB36A130A8D8ADFC3DFAC56 /* [CP] Check Pods Manifest.lock */,
 				3AC696582CB2FF1300871580 /* Sources */,
 				3AC696592CB2FF1300871580 /* Frameworks */,
 				3AC6965A2CB2FF1300871580 /* Resources */,
-				86F0DC1F7901842F4E374392 /* [CP] Copy Pods Resources */,
+				B7F41F557B51C03EAA41FA50 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -280,11 +280,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3AC696762CB2FF1300871580 /* Build configuration list for PBXNativeTarget "IOWalletProximityExampleUITests" */;
 			buildPhases = (
-				DB1856D1E31B84B25F29AC93 /* [CP] Check Pods Manifest.lock */,
+				360A990F7172F604B365D8A7 /* [CP] Check Pods Manifest.lock */,
 				3AC696622CB2FF1300871580 /* Sources */,
 				3AC696632CB2FF1300871580 /* Frameworks */,
 				3AC696642CB2FF1300871580 /* Resources */,
-				6F86CCFBDC08668F0BED2476 /* [CP] Copy Pods Resources */,
+				80DC14EF3CD19CD0129C355E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -366,7 +366,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2678B72DEB3496B6C085EFBC /* [CP] Check Pods Manifest.lock */ = {
+		1DB36A130A8D8ADFC3DFAC56 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -388,92 +388,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3CBAC827522AC6559441888D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-IOWalletProximityExample-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4E2B4CD4FE3827F8FBAC8A10 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample/Pods-IOWalletProximityExample-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample/Pods-IOWalletProximityExample-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample/Pods-IOWalletProximityExample-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6F86CCFBDC08668F0BED2476 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		86F0DC1F7901842F4E374392 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExampleTests/Pods-IOWalletProximityExampleTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExampleTests/Pods-IOWalletProximityExampleTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExampleTests/Pods-IOWalletProximityExampleTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DB1856D1E31B84B25F29AC93 /* [CP] Check Pods Manifest.lock */ = {
+		360A990F7172F604B365D8A7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -495,6 +410,79 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		47D0062C069B33567AC60AC4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample/Pods-IOWalletProximityExample-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample/Pods-IOWalletProximityExample-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample/Pods-IOWalletProximityExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		80DC14EF3CD19CD0129C355E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests/Pods-IOWalletProximityExample-IOWalletProximityExampleUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A5941E90B9D7C8FEFE2EDA5F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-IOWalletProximityExample-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B7F41F557B51C03EAA41FA50 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExampleTests/Pods-IOWalletProximityExampleTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExampleTests/Pods-IOWalletProximityExampleTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IOWalletProximityExampleTests/Pods-IOWalletProximityExampleTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -505,11 +493,11 @@
 				3A84D58E2CB3D3270017D76E /* InfoBoxView.swift in Sources */,
 				3AB5CFB52CDE086400E7A75F /* DeviceRequestAlert.swift in Sources */,
 				3AEC7E0A2CB40F8100606D7E /* ManageNameSpaces.swift in Sources */,
-				3A042F272CB6CB990035FF8E /* QRCodeView.swift in Sources */,
 				3A868AC12CBE64C700B35976 /* QRCode.swift in Sources */,
 				3AEC7E052CB3E00600606D7E /* CustomButton.swift in Sources */,
 				3DC072202D809673003C35A2 /* Documents.swift in Sources */,
 				3D179CBE2CB96B5C0061DFDC /* DocumentDAOView.swift in Sources */,
+				3466C2982F50521B005146D4 /* ISO18013View.swift in Sources */,
 				3A84D5902CB3D3270017D76E /* libIso18013_exampleApp.swift in Sources */,
 				3AEC7E082CB40EEE00606D7E /* Data+Image.swift in Sources */,
 				3A042F252CB6C0B00035FF8E /* MainContentView.swift in Sources */,
@@ -669,13 +657,13 @@
 		};
 		3AC696712CB2FF1300871580 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B1575D734B4751539639147 /* Pods-IOWalletProximityExample.debug.xcconfig */;
+			baseConfigurationReference = A7A0F7203D84D6FC482E2286 /* Pods-IOWalletProximityExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = IOWalletProximityExample/IOWalletProximityExample.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2000001;
 				DEVELOPMENT_ASSET_PATHS = "\"IOWalletProximityExample/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = M2X5YQ4BJ7;
@@ -697,12 +685,13 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = it.pagopa.app.io.proximity;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development it.pagopa.app.io.proximity";
 				SDKROOT = auto;
+				SOURCE_PACKAGES_CHECKOUTS_DIR = "${PROJECT_DERIVED_DATA_DIR}/SourcePackages/checkouts";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -714,13 +703,13 @@
 		};
 		3AC696722CB2FF1300871580 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AC2D7C5C078C0A17604F3E5B /* Pods-IOWalletProximityExample.release.xcconfig */;
+			baseConfigurationReference = 10F1303680AE04834F000570 /* Pods-IOWalletProximityExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = IOWalletProximityExample/IOWalletProximityExample.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2000001;
 				DEVELOPMENT_ASSET_PATHS = "\"IOWalletProximityExample/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = M2X5YQ4BJ7;
@@ -742,12 +731,13 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = it.pagopa.app.io.proximity;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development it.pagopa.app.io.proximity";
 				SDKROOT = auto;
+				SOURCE_PACKAGES_CHECKOUTS_DIR = "${PROJECT_DERIVED_DATA_DIR}/SourcePackages/checkouts";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -759,7 +749,7 @@
 		};
 		3AC696742CB2FF1300871580 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9C39DA357085EE1CF78057AF /* Pods-IOWalletProximityExampleTests.debug.xcconfig */;
+			baseConfigurationReference = 9ACA399408C7515904E03DD3 /* Pods-IOWalletProximityExampleTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -784,7 +774,7 @@
 		};
 		3AC696752CB2FF1300871580 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9213E11CC9C4BDAE69E48531 /* Pods-IOWalletProximityExampleTests.release.xcconfig */;
+			baseConfigurationReference = DEEF1FC98C055C594665877D /* Pods-IOWalletProximityExampleTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -809,7 +799,7 @@
 		};
 		3AC696772CB2FF1300871580 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C06401327E734B6A7145A415 /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.debug.xcconfig */;
+			baseConfigurationReference = 26E03538D29AE080CE042A83 /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -833,7 +823,7 @@
 		};
 		3AC696782CB2FF1300871580 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 295D2C40696474BC034ED41A /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig */;
+			baseConfigurationReference = B8F3A7C288A7DF1EDADE2775 /* Pods-IOWalletProximityExample-IOWalletProximityExampleUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

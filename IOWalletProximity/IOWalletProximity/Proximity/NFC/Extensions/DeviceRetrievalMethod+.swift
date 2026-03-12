@@ -18,8 +18,73 @@ extension DeviceRetrievalMethod {
             return nil
         case .ble(let isBleServer, let uuid):
             return toNdefRecordBLE(isBleServer, uuid, auxiliaryReferences, isForHandoverSelect)
+        case .nfc(let maxLenCommand,let maxLenResponse):
+            return toNdefRecordNFC(maxLenCommand: maxLenCommand, maxLenResponse: maxLenResponse, auxiliaryReferences: auxiliaryReferences)
         }
         
+    }
+    
+    private func toNdefRecordNFC(maxLenCommand: UInt64, maxLenResponse: UInt64, auxiliaryReferences: [String]) -> (NFCNDEFPayload, Data)? {
+                
+        let carrierDataReference = "nfc".data(using: .ascii)?.bytes ?? []
+        
+        /**
+            * The external type for NFC data transfer.
+            *
+            * Reference: ISO/IEC 18013-5:2021 clause 8.2.2.2.
+            */
+          let EXTERNAL_TYPE_ISO_18013_5_NFC = "iso.org:18013:nfc"
+        
+        //Defined in ISO 18013-5 8.2.2.2 Alternative Carrier Record for device retrieval using NFC
+         let DATA_TYPE_MAXIMUM_COMMAND_DATA_LENGTH: UInt8 = 0x01
+         let DATA_TYPE_MAXIMUM_RESPONSE_DATA_LENGTH: UInt8 = 0x02
+        
+        var oob = Data()
+        
+        oob.append(0x01)           // Version
+        
+        oob.appendEncodedInt(dataType: DATA_TYPE_MAXIMUM_COMMAND_DATA_LENGTH, value: Int(maxLenCommand))
+        oob.appendEncodedInt(dataType: DATA_TYPE_MAXIMUM_RESPONSE_DATA_LENGTH, value: Int(maxLenResponse))
+        
+        // This is defined by ISO 18013-5 8.2.2.2 Alternative Carrier Record for device
+        // retrieval using NFC.
+        //
+        
+        // -------------------------------------------
+        // Build Carrier Configuration Record (NFC EXTERNAL MEDIA)
+        // -------------------------------------------
+        let ccr = NFCNDEFPayload(
+            format: .nfcExternal,
+            type: EXTERNAL_TYPE_ISO_18013_5_NFC.data(using: .utf8)!,
+            identifier: Data(carrierDataReference),
+            payload: oob
+        )
+        
+        // From NFC Forum Connection Handover v1.5 section 7.1 Alternative Carrier Record
+        //
+        
+        // -------------------------------------------
+        // Build Alternative Carrier Record Payload
+        // -------------------------------------------
+        
+        var acrPayload = Data()
+        
+        // CPS = Active
+        acrPayload.append(0x01)
+        
+        // Carrier data reference = "0"
+        acrPayload.append(UInt8(carrierDataReference.count))
+        acrPayload.append(contentsOf: carrierDataReference)
+        
+        // Auxiliary references
+        acrPayload.append(UInt8(auxiliaryReferences.count))
+        for aux in auxiliaryReferences {
+            let ref = aux.data(using: .utf8)!
+            acrPayload.append(UInt8(ref.count))
+            acrPayload.append(ref)
+        }
+        
+        return (ccr, acrPayload)
     }
     
     private func toNdefRecordBLE(
@@ -117,7 +182,33 @@ extension DeviceRetrievalMethod {
         // BLE expects full 16-byte UUID LE (LSB first)
         return Data(Data(bytes: &uuidBytes, count: 16).reversed())
     }
+    
+    
+    
 }
 
+extension Data {
+    mutating func appendEncodedInt(dataType: UInt8, value: Int) {
+            if (value < 0x100) {
+                self.append(0x02) // Length
+                self.append(dataType)
+                self.append(UInt8(value))
+            } else if (value < 0x10000) {
+                self.append(0x03) // Length
+                self.append(dataType)
+                self.appendUInt16(UInt16(value))
+            } else {
+                self.append(0x04) // Length
+                self.append(dataType)
+                self.append(UInt8(value / 0x10000))
+                self.appendUInt16(UInt16(value & 0xFFFF))
+            }
+        }
+    
+    mutating func appendUInt16(_ value: UInt16) {
+        self.append(UInt8(value >> 8))
+        self.append(UInt8(value & 0xFF))
+    }
+}
 
 

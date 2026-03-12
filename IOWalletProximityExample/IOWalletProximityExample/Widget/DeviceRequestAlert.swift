@@ -17,14 +17,14 @@ struct DeviceRequestAlert : View {
     
     var body: some View {
         
-        let keys = requested?.keys.map({$0}) ?? []
+        let keys = (requested?.keys.map({$0}) ?? []).sorted()
         
         return  ZStack(alignment: Alignment(horizontal: .center, vertical: .center)) {
             
             Color.black.opacity(0.5).edgesIgnoringSafeArea(.all)
             ScrollView(.vertical) {
                 VStack {
-                    Text("isAuthenticated: \(isAuthenticated)").foregroundStyle(isAuthenticated ? Color.green : Color.red)
+                    Text("isAuthenticated: \(isAuthenticated ? "yes" : "no")").foregroundStyle(isAuthenticated ? Color.green : Color.red)
                 }
                 .padding(32)
                 .background(Color.white)
@@ -41,7 +41,7 @@ struct DeviceRequestAlert : View {
                         
                         let map = requested?[key] ?? [:]
                         
-                        let mapKeys = map.keys.map({$0})
+                        let mapKeys = map.keys.map({$0}).sorted()
                         
                         ForEach(mapKeys, id: \.self) {
                             mapKey in
