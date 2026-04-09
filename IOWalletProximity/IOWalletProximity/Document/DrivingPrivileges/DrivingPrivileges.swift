@@ -14,11 +14,11 @@ internal import SwiftCBOR
 }
 
 extension DrivingPrivileges: CBORDecodable {
-  public init?(cbor: CBOR) {
+  public init?(cbor: CBOR) throws {
     guard case let .array(drivingPrivileges) = cbor else {
       return nil
     }
-    self.drivingPrivileges = drivingPrivileges.compactMap(DrivingPrivilege.init(cbor:))
+    self.drivingPrivileges = try drivingPrivileges.compactMap(DrivingPrivilege.init(cbor:))
   }
 }
 

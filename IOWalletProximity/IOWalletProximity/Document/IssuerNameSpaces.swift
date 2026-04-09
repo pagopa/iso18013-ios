@@ -20,13 +20,13 @@ internal import OrderedCollections
 }
 
 extension IssuerNameSpaces: CBORDecodable {
-  public init?(cbor: CBOR) {
+  public init?(cbor: CBOR) throws {
     
     guard case let .map(cborMap) = cbor else {
       return nil
     }
     
-    let nameSpaces = cborMap.reduce(into: [String: [IssuerSignedItem]](), {
+    let nameSpaces = try cborMap.reduce(into: [String: [IssuerSignedItem]](), {
       result, keyPair in
       
       guard case let .utf8String(nameSpace) = keyPair.key,
@@ -34,11 +34,11 @@ extension IssuerNameSpaces: CBORDecodable {
         return
       }
       
-      let items = cborItems.compactMap { cborItem -> IssuerSignedItem? in
+      let items = try cborItems.compactMap { cborItem -> IssuerSignedItem? in
         guard case let .tagged(itemTag, itemDataCbor) = cborItem,
               itemTag == .encodedCBORDataItem,
               case let .byteString(issuerSignedItemData) = itemDataCbor,
-              let issuerSignedItem = IssuerSignedItem(data: issuerSignedItemData) else {
+              let issuerSignedItem = try IssuerSignedItem(data: issuerSignedItemData) else {
           return nil
         }
         return issuerSignedItem

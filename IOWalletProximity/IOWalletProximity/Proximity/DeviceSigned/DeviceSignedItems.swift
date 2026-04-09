@@ -14,7 +14,7 @@ internal import SwiftCBOR
 }
 
 extension DeviceSignedItems: CBORDecodable {
-	public init?(cbor: CBOR) {
+	public init?(cbor: CBOR) throws {
 		guard case let .map(m) = cbor else { return nil }
 		let dsiPairs = m.compactMap { (k: CBOR, v: CBOR) -> (String, CBOR)?  in
 			guard case .utf8String(let dei) = k else { return nil }

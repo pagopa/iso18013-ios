@@ -170,7 +170,7 @@ class LibIso18013Utils : LibIso18013UtilsProtocol, @unchecked Sendable {
     // - Throws: An error if decoding fails
     // - Returns: A Document object if decoding succeeds
     public func decodeDocument(data: Data) throws -> Document {
-        guard let document = Document(data: [UInt8](data)) else {
+        guard let document = try Document(data: [UInt8](data)) else {
             throw ErrorHandler.documentDecodingFailedError
         }
         return document

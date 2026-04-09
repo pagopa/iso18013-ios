@@ -59,7 +59,7 @@ class DrivingPrivilegeCodeTests: XCTestCase {
             .utf8String("sign"): .utf8String("+"),
             .utf8String("value"): .utf8String("Allowed")
         ])
-        let drivingPrivilegeCode = DrivingPrivilegeCode(cbor: cbor)
+        let drivingPrivilegeCode = try? DrivingPrivilegeCode(cbor: cbor)
         
         XCTAssertNotNil(drivingPrivilegeCode)
         XCTAssertEqual(drivingPrivilegeCode?.code, "B")
@@ -71,7 +71,7 @@ class DrivingPrivilegeCodeTests: XCTestCase {
         let cbor: CBOR = .map([
             .utf8String("code"): .utf8String("B")
         ])
-        let drivingPrivilegeCode = DrivingPrivilegeCode(cbor: cbor)
+        let drivingPrivilegeCode = try? DrivingPrivilegeCode(cbor: cbor)
         
         XCTAssertNotNil(drivingPrivilegeCode)
         XCTAssertEqual(drivingPrivilegeCode?.code, "B")
@@ -81,7 +81,7 @@ class DrivingPrivilegeCodeTests: XCTestCase {
     
     func testCBORDecodingInvalidData() {
         let cbor: CBOR = .unsignedInt(123) // Invalid type for a DrivingPrivilegeCode
-        let drivingPrivilegeCode = DrivingPrivilegeCode(cbor: cbor)
+        let drivingPrivilegeCode = try? DrivingPrivilegeCode(cbor: cbor)
         
         XCTAssertNil(drivingPrivilegeCode, "DrivingPrivilegeCode should be nil for invalid CBOR data")
     }

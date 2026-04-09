@@ -14,7 +14,7 @@ internal import SwiftCBOR
 class DeviceRequestTests: XCTestCase {
     func testDeviceRequestToJson() {
         
-        guard let deviceRequest = DeviceRequest(data: AnnexdTestData.d411.bytes) else {
+        guard let deviceRequest = try? DeviceRequest(data: AnnexdTestData.d411.bytes) else {
             XCTFail("failed to decode deviceRequest")
             return
         }

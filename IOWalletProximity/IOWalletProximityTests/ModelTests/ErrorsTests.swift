@@ -21,7 +21,7 @@ class ErrorsTests: XCTestCase {
         let errors = Errors(errors: originalErrors)
         
         let encodedCBOR = errors.toCBOR(options: CBOROptions())
-        guard let decodedErrors = Errors(cbor: encodedCBOR) else {
+        guard let decodedErrors = try? Errors(cbor: encodedCBOR) else {
             XCTFail("Failed to decode CBOR into Errors")
             return
         }
@@ -32,7 +32,7 @@ class ErrorsTests: XCTestCase {
     func testErrors_WhenCBORIsInvalid_ShouldReturnNil() {
         let invalidCBOR: CBOR = .array([.utf8String("Invalid"), .unsignedInt(123)])
         
-        let errors = Errors(cbor: invalidCBOR)
+        let errors = try? Errors(cbor: invalidCBOR)
         
         XCTAssertNil(errors, "Expected nil for invalid CBOR, but got an Errors instance")
     }
@@ -40,7 +40,7 @@ class ErrorsTests: XCTestCase {
     func testErrors_WhenEmptyCBORMap_ShouldReturnNil() {
         let emptyCBOR: CBOR = .map([:])
         
-        let errors = Errors(cbor: emptyCBOR)
+        let errors = try? Errors(cbor: emptyCBOR)
         
         XCTAssertNil(errors, "Expected nil for empty CBOR map, but got an Errors instance")
     }

@@ -24,7 +24,7 @@ internal import OrderedCollections
 }
 
 extension DrivingPrivilege: CBORDecodable {
-  public init?(cbor: CBOR) {
+  public init?(cbor: CBOR) throws {
     guard case let .utf8String(vehicleCategory) = cbor[.utf8String(CodingKeys.vehicleCategoryCode.rawValue)] else {
       return nil
     }
@@ -40,7 +40,7 @@ extension DrivingPrivilege: CBORDecodable {
       self.expiryDate = nil
     }
     if case let .array(codes) = cbor[.utf8String(CodingKeys.codes.rawValue)] {
-      self.codes = codes.compactMap(DrivingPrivilegeCode.init(cbor:))
+      self.codes = try codes.compactMap(DrivingPrivilegeCode.init(cbor:))
     } else {
       self.codes = nil
     }

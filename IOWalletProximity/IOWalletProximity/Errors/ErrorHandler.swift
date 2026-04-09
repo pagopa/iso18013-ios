@@ -53,6 +53,8 @@ public enum ErrorHandler: Error {
                 return "QRCODE_PAYLOAD_NOT_FOUND"
             case .unexpected_error:
                 return "GENERIC_ERROR"
+        case .digestIdOutOfRange:
+            return "DIGEST_ID_OUT_OF_RANGE"
                 
         }
     }
@@ -82,5 +84,7 @@ public enum ErrorHandler: Error {
     case deviceEngagementMissing
     case readerKeyMissing
     case qrCodePayloadNotFound
+    
+    case digestIdOutOfRange
     
 }

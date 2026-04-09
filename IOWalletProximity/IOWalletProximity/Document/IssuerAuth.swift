@@ -34,13 +34,13 @@ struct IssuerAuth {
 // Encoded as `Cose` ( COSE Sign1). The payload is the MSO
 extension IssuerAuth: CBORDecodable {
   
-  public init?(cbor: CBOR) {
+  public init?(cbor: CBOR) throws {
     guard let cose = Cose(type: .sign1, cbor: cbor) else {
       return nil
     }
     
     guard case let .byteString(mobileSecurityObjectRawData) = cose.payload,
-          let mobileSecurityObject = MobileSecurityObject(data: mobileSecurityObjectRawData),
+          let mobileSecurityObject = try MobileSecurityObject(data: mobileSecurityObjectRawData),
           let verifyAlgorithm = cose.verifyAlgorithm else {
       return nil
     }

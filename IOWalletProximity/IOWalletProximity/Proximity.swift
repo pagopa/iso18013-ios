@@ -169,7 +169,7 @@ class Proximity: @unchecked Sendable {
             throw ProximityError.nullObject(objectName: "proximityListener")
         }
         
-        guard let deviceResponse = DeviceResponse(data: deviceResponse) else {
+        guard let deviceResponse = try DeviceResponse(data: deviceResponse) else {
             throw ProximityError.decodingFailed(objectName: "deviceResponse")
         }
         
@@ -295,7 +295,7 @@ class Proximity: @unchecked Sendable {
         let transcript: SessionTranscript?
         
         if let sessionTranscript = sessionTranscript {
-            transcript = SessionTranscript.init(data: sessionTranscript)
+            transcript = try SessionTranscript.init(data: sessionTranscript)
         }
         else {
             transcript = nil
@@ -336,7 +336,7 @@ class Proximity: @unchecked Sendable {
             throw ProximityError.nullObject(objectName: "documents")
         }
         
-        items.keys.forEach({
+        try items.keys.forEach({
             documentType in
             
             guard let issuerSignedWithKey = documents[documentType] else {
@@ -346,7 +346,7 @@ class Proximity: @unchecked Sendable {
             let deviceKey = issuerSignedWithKey.1
             let issuerSignedData = issuerSignedWithKey.0
             
-            guard let issuerSigned = IssuerSigned(data: issuerSignedData) else {
+            guard let issuerSigned = try IssuerSigned(data: issuerSignedData) else {
                 return
             }
             

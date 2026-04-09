@@ -30,7 +30,7 @@ internal import OrderedCollections
 }
 
 extension ValidityInfo: CBORDecodable {
-  public init?(cbor: CBOR) {
+  public init?(cbor: CBOR) throws {
     
     guard case let .map(cborMap) = cbor else {
       return nil

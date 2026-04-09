@@ -32,7 +32,7 @@ extension DocumentError: CBORDecodable {
     
     // Initializes a DocumentError from a CBOR object
     // - Parameter cbor: A CBOR object representing the error mapping
-    public init?(cbor: CBOR) {
+    public init?(cbor: CBOR) throws {
         // Ensure the CBOR object is a map (key-value structure)
         guard case let .map(cborMap) = cbor else { return nil }
         

@@ -74,7 +74,7 @@ final class LibIso18013DAOTests: XCTestCase {
         
         print(Data(deviceResponseRaw).base64EncodedString())
         
-        guard let deviceResponse = DeviceResponse(data: deviceResponseRaw) else {
+        guard let deviceResponse = try? DeviceResponse(data: deviceResponseRaw) else {
             XCTFail("deviceResponse must be valid")
             return
         }
@@ -179,7 +179,7 @@ final class LibIso18013DAOTests: XCTestCase {
             return
         }
         
-        guard let deviceResponse = DeviceResponse(data: deviceResponseRaw) else {
+        guard let deviceResponse = try? DeviceResponse(data: deviceResponseRaw) else {
             XCTFail("deviceResponse must be valid")
             return
         }

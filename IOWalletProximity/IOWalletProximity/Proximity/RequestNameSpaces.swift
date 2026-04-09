@@ -17,7 +17,7 @@ internal import OrderedCollections
 
  
 extension RequestNameSpaces: CBORDecodable {
-	public init?(cbor: CBOR) {
+	public init?(cbor: CBOR) throws {
   		guard case let .map(e) = cbor else { return nil }
 		let dePairs = e.compactMap { (k: CBOR, v: CBOR) -> (String, RequestDataElements)?  in
 			guard case .utf8String(let ns) = k else { return nil }

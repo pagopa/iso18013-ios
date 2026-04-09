@@ -23,7 +23,7 @@ struct DeviceAuth {
 }
 
 extension DeviceAuth: CBORDecodable {
-	public init?(cbor: CBOR) {
+	public init?(cbor: CBOR) throws {
 		guard case let .map(m) = cbor else { return nil }
 		if let cs = m[Keys.deviceSignature] {
 			if let ds = Cose(type: .sign1, cbor: cs) { coseMacOrSignature = ds } else { return nil }

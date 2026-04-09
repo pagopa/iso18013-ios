@@ -25,7 +25,7 @@ class DeviceResponseTests: XCTestCase {
             .utf8String("status"): .unsignedInt(200)
         ])
         
-        let deviceResponse = DeviceResponse(cbor: cbor)
+        let deviceResponse = try? DeviceResponse(cbor: cbor)
         XCTAssertNil(deviceResponse, "DeviceResponse dovrebbe essere nil quando il CBOR contiene un tipo non valido.")
     }
     

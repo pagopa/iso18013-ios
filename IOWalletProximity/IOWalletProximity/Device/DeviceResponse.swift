@@ -48,7 +48,7 @@ extension DeviceResponse: CBORDecodable {
     
     // Initializes a DeviceResponse instance from a CBOR object
     // - Parameter cbor: A CBOR object that contains the data for the response
-    public init?(cbor: CBOR) {
+    public init?(cbor: CBOR) throws {
         
         // Ensure the CBOR object is a map (key-value structure)
         guard case .map(let cd) = cbor else { return nil }
@@ -59,7 +59,7 @@ extension DeviceResponse: CBORDecodable {
         
         // Extract the documents array, if present, and decode each document
         if case let .array(ar) = cd[Keys.documents] {
-            let ds = ar.compactMap { Document(cbor: $0) } // Map the CBOR array to Document instances
+            let ds = try ar.compactMap { try Document(cbor: $0) } // Map the CBOR array to Document instances
             documents = ds.count > 0 ? ds : nil           // Assign documents if there are any
         } else {
             documents = nil
@@ -67,7 +67,7 @@ extension DeviceResponse: CBORDecodable {
         
         // Extract the document errors array, if present, and decode each document error
         if case let .array(are) = cd[Keys.documentErrors] {
-            let de = are.compactMap { DocumentError(cbor: $0) } // Map the CBOR array to DocumentError instances
+            let de = try are.compactMap { try DocumentError(cbor: $0) } // Map the CBOR array to DocumentError instances
             documentErrors = de.count > 0 ? de : nil            // Assign documentErrors if there are any
         } else {
             documentErrors = nil

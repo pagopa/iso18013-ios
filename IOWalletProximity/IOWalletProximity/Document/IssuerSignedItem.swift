@@ -26,19 +26,27 @@ internal import OrderedCollections
 }
 
 extension IssuerSignedItem: CBORDecodable {
-  public init?(data: [UInt8]) {
+  public init?(data: [UInt8]) throws {
     guard let cbor = try? CBOR.decode(data) else { return nil }
-    self.init(cbor: cbor)
+    try self.init(cbor: cbor)
     rawData = data
   }
   
-  public init?(cbor: CBOR) {
+  public init?(cbor: CBOR) throws {
     guard case .map(let cborMap) = cbor else {
       return nil
     }
     guard case .unsignedInt(let digestID) = cborMap[Keys.digestID] else {
       return nil
     }
+      
+      //SHOULD THROW ERROR?
+      if !(digestID < (Int32.max - 1)) {
+         //MARK: The value shall be smaller than 2^31. (ISO18013-5 page 60)
+          throw ErrorHandler.digestIdOutOfRange
+      }
+      
+      
     self.digestID = digestID
     guard case .byteString(let random) = cborMap[Keys.random] else {
       return nil

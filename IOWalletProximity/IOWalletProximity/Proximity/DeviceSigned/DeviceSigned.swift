@@ -28,11 +28,11 @@ struct DeviceSigned {
 }
 
 extension DeviceSigned: CBORDecodable {
-	public init?(cbor: CBOR) {
+	public init?(cbor: CBOR) throws {
 		guard case let .map(m) = cbor else { return nil }
-		guard case let .tagged(t, cdns) = m[Keys.nameSpaces], t == .encodedCBORDataItem, case let .byteString(bs) = cdns, let dns = DeviceNameSpaces(data: bs) else { return nil }
+		guard case let .tagged(t, cdns) = m[Keys.nameSpaces], t == .encodedCBORDataItem, case let .byteString(bs) = cdns, let dns = try DeviceNameSpaces(data: bs) else { return nil }
 		nameSpaces = dns
-		guard let cdu = m[Keys.deviceAuth], let du = DeviceAuth(cbor: cdu) else { return nil }
+		guard let cdu = m[Keys.deviceAuth], let du = try DeviceAuth(cbor: cdu) else { return nil }
 		deviceAuth = du
 		nameSpacesRawData = bs
 	}

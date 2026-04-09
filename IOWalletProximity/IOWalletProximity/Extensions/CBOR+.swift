@@ -299,7 +299,7 @@ extension CBOR {
      func getTypedValue<T>() -> T? {
         // Special case for DrivingPrivileges type
         if T.self == DrivingPrivileges.self {
-            return DrivingPrivileges(cbor: self) as? T
+            return try? DrivingPrivileges(cbor: self) as? T
         }
         // Handle tagged values such as date strings
         else if case let .tagged(tag, cbor) = self {
@@ -340,7 +340,7 @@ extension CBOR {
     
     func decodeTagged<T: CBORDecodable>(_ t: T.Type = T.self) -> T? {
         guard case let CBOR.tagged(tag, cborEncoded) = self, tag == .encodedCBORDataItem, case let .byteString(bytes) = cborEncoded else {  return nil }
-        return .init(data: bytes)
+        return try? .init(data: bytes)
     }
     
      func decodeFullDate() -> String? {

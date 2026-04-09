@@ -19,15 +19,15 @@ internal import OrderedCollections
 }
 
 extension ValueDigests: CBORDecodable {
-	public init?(cbor: CBOR) {
+	public init?(cbor: CBOR) throws {
     guard case let .map(cborMap) = cbor else {
       return nil
     }
 		
-    let valueDigests = cborMap.reduce(into: [String: DigestIDs](), {
+    let valueDigests = try cborMap.reduce(into: [String: DigestIDs](), {
       result, keyPair in
       if case .utf8String(let nameSpace) = keyPair.key,
-         let digests = DigestIDs(cbor: keyPair.value) {
+         let digests = try DigestIDs(cbor: keyPair.value) {
         result[nameSpace] = digests
       }
     })

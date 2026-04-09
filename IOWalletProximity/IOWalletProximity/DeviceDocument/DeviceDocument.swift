@@ -55,7 +55,7 @@ extension DeviceDocument : CBOREncodable {
 }
 
 extension DeviceDocument : CBORDecodable {
-    public init?(cbor: SwiftCBOR.CBOR) {
+    public init?(cbor: SwiftCBOR.CBOR) throws {
         guard let stateCBOR = cbor[-1],
               let createdAtCBOR = cbor[-2],
               let deviceKeyCBOR = cbor[-3],
@@ -89,7 +89,7 @@ extension DeviceDocument : CBORDecodable {
         
         
         if case let CBOR.byteString(documentValue) = documentCBOR {
-            guard let document = Document(data: documentValue) else {
+            guard let document = try Document(data: documentValue) else {
                 return nil
             }
             self.documentData = documentValue

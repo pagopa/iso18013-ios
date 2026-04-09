@@ -50,7 +50,7 @@ extension Document: CBORDecodable {
     
     // Initializes a Document from a CBOR object
     // - Parameter cbor: The CBOR object representing the document
-    public init?(cbor: CBOR) {
+    public init?(cbor: CBOR) throws {
         
         // Ensure the CBOR object is a map
         guard case .map(let cborMap) = cbor else {
@@ -65,7 +65,7 @@ extension Document: CBORDecodable {
         
         // Extract the issuer-signed data from the CBOR map
         guard let cborIssuerSigned = cborMap[Keys.issuerSigned],
-              let issuerSigned = IssuerSigned(cbor: cborIssuerSigned) else {
+              let issuerSigned = try IssuerSigned(cbor: cborIssuerSigned) else {
             return nil
         }
         self.issuerSigned = issuerSigned
@@ -76,7 +76,7 @@ extension Document: CBORDecodable {
         //    }
         
         if let cborDeviceSigned = cborMap[Keys.deviceSigned],
-           let deviceSigned = DeviceSigned(cbor: cborDeviceSigned) {
+           let deviceSigned = try DeviceSigned(cbor: cborDeviceSigned) {
             self.deviceSigned = deviceSigned
         } else {
             deviceSigned = nil
@@ -86,7 +86,7 @@ extension Document: CBORDecodable {
         
         // Extract the optional errors from the CBOR map
         if let cborErrors = cborMap[Keys.errors],
-           let errors = Errors(cbor: cborErrors) {
+           let errors = try Errors(cbor: cborErrors) {
             self.errors = errors
         } else {
             self.errors = nil

@@ -39,7 +39,7 @@ struct MobileSecurityObject {
 }
 
 extension MobileSecurityObject: CBORDecodable {
-  public init?(data: [UInt8]) {
+  public init?(data: [UInt8]) throws {
     guard let obj = try? CBOR.decode(data) else {
       return nil
     }
@@ -54,10 +54,10 @@ extension MobileSecurityObject: CBORDecodable {
       return nil
     }
     
-    self.init(cbor: cbor)
+    try self.init(cbor: cbor)
   }
   
-  public init?(cbor: CBOR) {
+  public init?(cbor: CBOR) throws {
     guard case let .map(cborMap) = cbor else {
       return nil
     }
@@ -75,14 +75,14 @@ extension MobileSecurityObject: CBORDecodable {
     self.digestAlgorithm = digestAlgorithm
     
     guard let valueDigestsCbor = cborMap[Keys.valueDigests],
-            let valueDigests = ValueDigests(cbor: valueDigestsCbor) else {
+            let valueDigests = try ValueDigests(cbor: valueDigestsCbor) else {
       return nil
     }
     
     self.valueDigests = valueDigests
     
     guard let deviceKeyInfoCbor = cborMap[Keys.deviceKeyInfo],
-            let deviceKeyInfo = DeviceKeyInfo(cbor: deviceKeyInfoCbor) else {
+            let deviceKeyInfo = try DeviceKeyInfo(cbor: deviceKeyInfoCbor) else {
       return nil
     }
     
@@ -95,7 +95,7 @@ extension MobileSecurityObject: CBORDecodable {
     self.docType = docType
     
     guard let validityInfoCbor = cborMap[Keys.validityInfo],
-            let validityInfo = ValidityInfo(cbor: validityInfoCbor) else {
+            let validityInfo = try ValidityInfo(cbor: validityInfoCbor) else {
       return nil
     }
     
