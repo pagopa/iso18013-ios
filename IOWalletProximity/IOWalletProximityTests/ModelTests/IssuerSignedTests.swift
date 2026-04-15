@@ -20,7 +20,7 @@ class IssuerSignedItemTests: XCTestCase {
     }
     
     func testIssuerSignedItemKo() {
-        let item1 = IssuerSignedItem(digestID: UInt64(Int32.max), random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .utf8String("value1"), rawData: nil)
+        let item1 = IssuerSignedItem(digestID: UInt64(Int32.max) + 1, random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .utf8String("value1"), rawData: nil)
         
         let cborItem1 = item1.toCBOR(options: CBOROptions())
         

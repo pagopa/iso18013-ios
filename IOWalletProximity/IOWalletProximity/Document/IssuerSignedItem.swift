@@ -40,8 +40,7 @@ extension IssuerSignedItem: CBORDecodable {
       return nil
     }
       
-      //SHOULD THROW ERROR?
-      if !(digestID < (Int32.max - 1)) {
+      if !(digestID <= Int32.max) {
          //MARK: The value shall be smaller than 2^31. (ISO18013-5 page 60)
           throw ErrorHandler.digestIdOutOfRange
       }

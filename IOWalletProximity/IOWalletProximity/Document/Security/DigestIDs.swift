@@ -16,7 +16,7 @@ internal import OrderedCollections
   public init(digestIDs: [UInt64 : [UInt8]]) throws {
       
       if !digestIDs.allSatisfy({
-          $0.key < (Int32.max - 1)
+          $0.key <= Int32.max
       }) {
          //MARK: The value shall be smaller than 2^31. (ISO18013-5 page 60)
           throw ErrorHandler.digestIdOutOfRange
@@ -48,7 +48,7 @@ extension DigestIDs: CBORDecodable {
     }
       
       if !digests.allSatisfy({
-          $0.key < (Int32.max - 1)
+          $0.key <= Int32.max
       }) {
          //MARK: The value shall be smaller than 2^31. (ISO18013-5 page 60)
           throw ErrorHandler.digestIdOutOfRange
