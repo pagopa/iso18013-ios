@@ -13,20 +13,43 @@ internal import OrderedCollections
 class IssuerSignedItemTests: XCTestCase {
     
     func testIssuerSignedItemOk() {
-        let item1 = IssuerSignedItem(digestID: UInt64(Int32.max) - 1, random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .utf8String("value1"), rawData: nil)
-        
-        XCTAssertEqual(item1.elementIdentifier, "item1")
-        XCTAssertEqual(item1.elementValue, .utf8String("value1"))
+        do {
+            let item1 = try IssuerSignedItem(digestID: UInt64(Int32.max) - 1, random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .utf8String("value1"), rawData: nil)
+            
+            XCTAssertEqual(item1.elementIdentifier, "item1")
+            XCTAssertEqual(item1.elementValue, .utf8String("value1"))
+        }
+        catch {
+            //should not throw
+            XCTAssert(false)
+        }
     }
     
-    func testIssuerSignedItemKo() {
-        let item1 = IssuerSignedItem(digestID: UInt64(Int32.max) + 1, random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .utf8String("value1"), rawData: nil)
-        
-        let cborItem1 = item1.toCBOR(options: CBOROptions())
+    func testIssuerSignedItemDecodeKo() {
+        let itemWithBiggerDigest = Data(base64Encoded: "pGhkaWdlc3RJRBqAAAAAZnJhbmRvbUIBAnFlbGVtZW50SWRlbnRpZmllcmVpdGVtMWxlbGVtZW50VmFsdWVmdmFsdWUx")!
         
         do {
             //should throw
-            let _ = try IssuerSignedItem(cbor: cborItem1)
+            let _ = try IssuerSignedItem(data: itemWithBiggerDigest.bytes)
+            
+            XCTAssert(false)
+        } catch {
+            if let e = error as? ErrorHandler {
+                XCTAssertEqual(e, .digestIdOutOfRange)
+                return
+            }
+            //should throw exception above
+            XCTAssert(false)
+        }
+        
+    }
+    
+    
+    func testIssuerSignedItemKo() {
+        do {
+            
+            //should throw
+            let _ = try IssuerSignedItem(digestID: UInt64(Int32.max) + 1, random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .utf8String("value1"), rawData: nil)
             
             XCTAssert(false)
         } catch {

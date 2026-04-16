@@ -23,6 +23,20 @@ internal import OrderedCollections
     case elementIdentifier
     case elementValue
   }
+     
+     init(digestID: UInt64, random: [UInt8], elementIdentifier: String, elementValue: CBOR, rawData: [UInt8]? = nil) throws {
+         
+         if !(digestID <= Int32.max) {
+            //MARK: The value shall be smaller than 2^31. (ISO18013-5 page 60)
+             throw ErrorHandler.digestIdOutOfRange
+         }
+         
+         self.digestID = digestID
+         self.random = random
+         self.elementIdentifier = elementIdentifier
+         self.elementValue = elementValue
+         self.rawData = rawData
+     }
 }
 
 extension IssuerSignedItem: CBORDecodable {
