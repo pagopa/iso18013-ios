@@ -29,9 +29,6 @@ struct ISO18013View: View {
     @State var bleConnecting = false
     @State var bleConnected = false
     
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @State private var timeRemaining = 0
-    
     func _retrivalMethods() -> [ISO18013DataTransferMode] {
         var result: [ISO18013DataTransferMode] = []
         
@@ -73,21 +70,6 @@ struct ISO18013View: View {
         }
     }
     
-    func _nfcTimerView() -> some View {
-        VStack {
-            if (timeRemaining > 0) {
-                
-                Text("\(nfc ? "Session" : "Cooldown") remaining time:\n \(timeRemaining)")
-                    .font(.largeTitle)
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 5)
-                    .background(.black.opacity(0.75))
-                    .clipShape(.capsule)
-                    .multilineTextAlignment(.center)
-            }
-        }
-    }
     
     func _configView() -> some View {
         return VStack {
@@ -207,16 +189,8 @@ struct ISO18013View: View {
             })
             .buttonStyle(.borderedProminent)
             .tint(Color.green)
-            .disabled(_nfcCanNotPerformActions)
-            if !nfcEngagementLate {
-                _nfcTimerView()
-            }
         }.padding(.horizontal, 16)
             .padding(.vertical, 16)
-    }
-    
-    var _nfcCanNotPerformActions: Bool {
-        return (nfcEngagement || nfcDataTransfer) ? timeRemaining > 0 : false
     }
     
     func _backToSettings() {
@@ -254,11 +228,6 @@ struct ISO18013View: View {
                         .frame(width: 100, height: 100)
                 }) .buttonStyle(.borderedProminent)
                     .tint(Color.green)
-                    .disabled(_nfcCanNotPerformActions)
-            }
-            
-            if nfcEngagement || nfcDataTransfer {
-                _nfcTimerView()
             }
             
             Button(action: {
@@ -331,17 +300,6 @@ struct ISO18013View: View {
                     
                 }
             }
-        }
-        .onReceive(timer) {
-            time in
-            if timeRemaining > 0 {
-                timeRemaining -= 1
-                if (nfc && timeRemaining == 0) {
-                    ISO18013.shared.stop()
-                }
-            }
-            
-            
         }
         .sheet(isPresented: .init(get: {
             return dataTransferArgs != nil
@@ -426,11 +384,9 @@ extension ISO18013View : ISO18013Delegate {
             break
         case .nfcStarted:
             self.nfc = true
-            self.timeRemaining = Int(ISO18013.nfcHLESessionTimeRemaining)
             break
         case .nfcStopped:
             self.nfc = false
-            self.timeRemaining = Int(ISO18013.nfcHLESessionCoolDownTimeRemaining)
             break
         case .dataTransferStopped:
             self.loading = false
