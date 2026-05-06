@@ -74,8 +74,6 @@ public class ISO18013 : @unchecked Sendable {
     private var retrivalMethods: [ISO18013DataTransferMode] = []
     private var delegate: ISO18013Delegate?
     
-    private var nfcStartTime: Date?
-    private var nfcCoolDownTime: Date?
     private var nfcDataTransfer: Bool = false
     private var nfcEngagement: Bool = false
     
@@ -205,13 +203,11 @@ public class ISO18013 : @unchecked Sendable {
     private func handleNfcEvent(_ event: ProximityNfcEvents) {
         switch(event) {
         case .onStart:
-            nfcStartTime = Date()
             triggerEvent(.nfcStarted)
             nfcDataTransfer = false
             nfcEngagement = false
             break
         case .onStop:
-            nfcCoolDownTime = Date()
             triggerEvent(.nfcStopped)
             nfcDataTransfer = false
             nfcEngagement = false
