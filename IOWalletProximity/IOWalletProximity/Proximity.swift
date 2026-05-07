@@ -12,9 +12,7 @@ public enum ProximityError : Error, CustomStringConvertible {
     case decodingFailed(objectName: String)
     case error(error: Error)
     case disconnectedWithoutProperSessionTermination
-    case nfcCooldownNotExpired
     case nfcNotSupported
-    case nfcAlreadyStarted
     case nfcFailedToStart
     case nfcEngagementWihtEngagementDisabled
     
@@ -31,11 +29,6 @@ public enum ProximityError : Error, CustomStringConvertible {
             
             case .disconnectedWithoutProperSessionTermination:
                 return "Disconnected without proper Session Termination (END_REQUEST)"
-        
-        case .nfcCooldownNotExpired:
-            return "NFC HCE Cooldown not expired"
-        case .nfcAlreadyStarted:
-            return "NFC HCE Already started"
         case .nfcFailedToStart:
             return "NFC HCE Failed to start"
         case .nfcNotSupported:

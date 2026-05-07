@@ -94,18 +94,6 @@ See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/
 NFC Host Card Emulation is supported only on iOS 17.4+
 ```
 
-The library enforces NFC session time constraints:
-
-```swift
-public static let nfcHLESessionTimeRemaining: TimeInterval = 15
-public static let nfcHLESessionCoolDownTimeRemaining: TimeInterval = 15
-```
-
-- **Session Duration**: 15 seconds for active NFC HCE
-- **Cool-down Period**: 15 seconds mandatory wait before re-establishing NFC
-
-See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/ISO18013View.swift#L65) for timer management implementation.
-
 ## Event Handling
 
 ### Delegate Protocol
@@ -323,8 +311,6 @@ try ISO18013.shared.lateNfcInitialization()
 The library throws errors as events (`.error(Error)`) and through exceptions:
 
 Common error scenarios:
-- `ProximityError.nfcAlreadyStarted` - NFC already active
-- `ProximityError.nfcCooldownNotExpired` - 15-second cool-down not elapsed
 - `ProximityError.nfcFailedToStart` - NFC initialization failed
 - CBOR encoding/decoding errors during response generation
 - Certificate verification failures
