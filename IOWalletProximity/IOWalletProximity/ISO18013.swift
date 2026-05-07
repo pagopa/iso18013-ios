@@ -67,16 +67,6 @@ public protocol ISO18013Delegate {
 
 public class ISO18013 : @unchecked Sendable {
     
-    //The intent assertion expires if any of the following occur:
-    //The intent assertion object deinitializes -> occurs when ISO18013.shared.stopNfc() is called
-    //15 seconds elapse after the intent assertion initialized
-    public static let nfcHLESessionTimeRemaining: TimeInterval = 15
-    
-    //After the intent assertion expires, your app will need to wait 15 seconds before acquiring a new intent assertion.
-    public static let nfcHLESessionCoolDownTimeRemaining: TimeInterval = 15
-    
-    
-    
     public static let shared: ISO18013 = ISO18013()
     
     private var isNfcLateEngagement: Bool = false
@@ -84,8 +74,6 @@ public class ISO18013 : @unchecked Sendable {
     private var retrivalMethods: [ISO18013DataTransferMode] = []
     private var delegate: ISO18013Delegate?
     
-    private var nfcStartTime: Date?
-    private var nfcCoolDownTime: Date?
     private var nfcDataTransfer: Bool = false
     private var nfcEngagement: Bool = false
     
@@ -152,7 +140,7 @@ public class ISO18013 : @unchecked Sendable {
                 throw ProximityError.nfcFailedToStart
             }
         }
-            _initializeNfcEngagement(isLate: true)
+            _initializeNfcEngagement(isLate: false)
         
     }
     
@@ -215,13 +203,11 @@ public class ISO18013 : @unchecked Sendable {
     private func handleNfcEvent(_ event: ProximityNfcEvents) {
         switch(event) {
         case .onStart:
-            nfcStartTime = Date()
             triggerEvent(.nfcStarted)
             nfcDataTransfer = false
             nfcEngagement = false
             break
         case .onStop:
-            nfcCoolDownTime = Date()
             triggerEvent(.nfcStopped)
             nfcDataTransfer = false
             nfcEngagement = false
@@ -302,33 +288,6 @@ public class ISO18013 : @unchecked Sendable {
         }
         
         Task {
-            let nfcStartTime = self.nfcStartTime
-            let nfcCoolDownTime = self.nfcCoolDownTime
-            if let nfcStartTime {
-                //nfc started
-                if let nfcCoolDownTime {
-                    //nfc stopped
-                    if nfcCoolDownTime.distance(to: Date()) > ISO18013.nfcHLESessionCoolDownTimeRemaining {
-                        //ok can reset
-                        self.nfcStartTime = nil
-                        self.nfcCoolDownTime = nil
-                    }
-                    else {
-                        triggerEvent(.error(ProximityError.nfcCooldownNotExpired))
-                        return;
-                    }
-                }
-                else {
-                    if nfcStartTime.distance(to: Date()) > ISO18013.nfcHLESessionTimeRemaining {
-                        //ok can reset
-                        self.nfcStartTime = nil
-                    }
-                    else {
-                        triggerEvent(.error(ProximityError.nfcAlreadyStarted))
-                        return
-                    }
-                }
-            }
             do {
                 
                 var nfcEngagement = false
@@ -344,7 +303,7 @@ public class ISO18013 : @unchecked Sendable {
                     }
                 }
                 
-                if (!nfcEngagement && !isLate) {
+                if (!nfcEngagement && isLate) {
                     print("no nfc engagement")
                     return
                 }

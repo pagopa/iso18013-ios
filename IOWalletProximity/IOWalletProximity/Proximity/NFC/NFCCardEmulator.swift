@@ -82,18 +82,10 @@ class NFCCardEmulator : @unchecked Sendable {
         
         let cardSession: CardSession
         
-            do {
-                presentmentIntent = try await NFCPresentmentIntentAssertion.acquire()
-            } catch {
-                print("NFCPresentmentIntentAssertion.acquire() error: \(error)")
-                /// Handle failure to acquire NFC presentment intent assertion or
-                /// card session.
-                return false
-            }
-        
-        
         do {
             cardSession = try await CardSession()
+            
+            try await cardSession.startEmulation()
             
         } catch {
             print("CardSession() error: \(error)")
@@ -105,7 +97,10 @@ class NFCCardEmulator : @unchecked Sendable {
         self.cardSession = cardSession
         self.presentmentIntent = presentmentIntent
         
+        
+        
         Task {
+            
             // Iterate over events as the card session produces them.
             for try await event in cardSession.eventStream {
                 delegate.emulationStatusChanged(event)
