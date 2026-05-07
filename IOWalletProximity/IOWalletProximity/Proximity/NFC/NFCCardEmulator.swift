@@ -82,28 +82,10 @@ class NFCCardEmulator : @unchecked Sendable {
         
         let cardSession: CardSession
         
-        var intent: Bool = false
-        
-//            do {
-//                presentmentIntent = try await NFCPresentmentIntentAssertion.acquire()
-//                intent = true
-//            } catch {
-//                print("NFCPresentmentIntentAssertion.acquire() error: \(error)")
-//                
-//                
-//                
-//                /// Handle failure to acquire NFC presentment intent assertion or
-//                /// card session.
-//                //return false
-//            }
-        
-        
         do {
             cardSession = try await CardSession()
             
-            if !intent {
-                try await cardSession.startEmulation()
-            }
+            try await cardSession.startEmulation()
             
         } catch {
             print("CardSession() error: \(error)")
