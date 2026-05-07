@@ -20,7 +20,7 @@ class DocumentErrorTests: XCTestCase {
         let documentError = DocumentError(documentErrors: originalErrors)
         
         let encodedCBOR = documentError.toCBOR(options: CBOROptions())
-        guard let decodedDocumentError = DocumentError(cbor: encodedCBOR) else {
+        guard let decodedDocumentError = try? DocumentError(cbor: encodedCBOR) else {
             XCTFail("Failed to decode CBOR into DocumentError")
             return
         }
@@ -33,7 +33,7 @@ class DocumentErrorTests: XCTestCase {
     func testDocumentError_CBORIsInvalid() {
         let invalidCBOR: CBOR = .array([.utf8String("Invalid"), .unsignedInt(123)])
         
-        let documentError = DocumentError(cbor: invalidCBOR)
+        let documentError = try? DocumentError(cbor: invalidCBOR)
         
         XCTAssertNil(documentError, "Expected nil for invalid CBOR, but got a DocumentError instance")
     }
@@ -41,7 +41,7 @@ class DocumentErrorTests: XCTestCase {
     func testDocumentError_EmptyCBORMap() {
         let emptyCBOR: CBOR = .map([:])
         
-        let documentError = DocumentError(cbor: emptyCBOR)
+        let documentError = try? DocumentError(cbor: emptyCBOR)
         
         XCTAssertNil(documentError, "Expected nil for empty CBOR map, but got a DocumentError instance")
     }

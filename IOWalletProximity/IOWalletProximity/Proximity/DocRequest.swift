@@ -23,10 +23,10 @@ struct DocRequest {
 }
 
 extension DocRequest: CBORDecodable {
-    public init?(cbor: CBOR) {
+    public init?(cbor: CBOR) throws {
         guard case let .map(m) = cbor else { return nil }
         // item-request-bytes: tagged(24, items request)
-        guard case let .tagged(_, cirb) = m[Keys.itemsRequest], case let .byteString(bs) = cirb, let ir = ItemsRequest(data: bs)  else { return nil }
+        guard case let .tagged(_, cirb) = m[Keys.itemsRequest], case let .byteString(bs) = cirb, let ir = try ItemsRequest(data: bs)  else { return nil }
         itemsRequestRawData = bs; itemsRequest = ir
         if let ra = m[Keys.readerAuth] { readerAuthRawCBOR = ra; readerAuth = ReaderAuth(cbor: ra) } else { readerAuthRawCBOR = nil; readerAuth = nil }
     }

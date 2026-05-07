@@ -23,22 +23,43 @@ internal import OrderedCollections
     case elementIdentifier
     case elementValue
   }
+     
+     init(digestID: UInt64, random: [UInt8], elementIdentifier: String, elementValue: CBOR, rawData: [UInt8]? = nil) throws {
+         
+         if !(digestID <= Int32.max) {
+            //MARK: The value shall be smaller than 2^31. (ISO18013-5 page 60)
+             throw ErrorHandler.digestIdOutOfRange
+         }
+         
+         self.digestID = digestID
+         self.random = random
+         self.elementIdentifier = elementIdentifier
+         self.elementValue = elementValue
+         self.rawData = rawData
+     }
 }
 
 extension IssuerSignedItem: CBORDecodable {
-  public init?(data: [UInt8]) {
+  public init?(data: [UInt8]) throws {
     guard let cbor = try? CBOR.decode(data) else { return nil }
-    self.init(cbor: cbor)
+    try self.init(cbor: cbor)
     rawData = data
   }
   
-  public init?(cbor: CBOR) {
+  public init?(cbor: CBOR) throws {
     guard case .map(let cborMap) = cbor else {
       return nil
     }
     guard case .unsignedInt(let digestID) = cborMap[Keys.digestID] else {
       return nil
     }
+      
+      if !(digestID <= Int32.max) {
+         //MARK: The value shall be smaller than 2^31. (ISO18013-5 page 60)
+          throw ErrorHandler.digestIdOutOfRange
+      }
+      
+      
     self.digestID = digestID
     guard case .byteString(let random) = cborMap[Keys.random] else {
       return nil

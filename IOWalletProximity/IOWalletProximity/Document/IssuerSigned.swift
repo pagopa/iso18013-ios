@@ -34,7 +34,7 @@ extension IssuerSigned: CBORDecodable {
     
     // Initializes IssuerSigned from a CBOR object
     // - Parameter cbor: The CBOR object representing the issuer-signed data
-    public init?(cbor: CBOR) {
+    public init?(cbor: CBOR) throws {
         // Ensure the CBOR object is a map
         guard case let .map(cborMap) = cbor else {
             return nil
@@ -42,13 +42,13 @@ extension IssuerSigned: CBORDecodable {
         
         // Attempt to extract IssuerNameSpaces from the CBOR map
         if let issuerNameSpaceCbor = cborMap[Keys.nameSpaces] {
-            issuerNameSpaces = IssuerNameSpaces(cbor: issuerNameSpaceCbor)
+            issuerNameSpaces = try IssuerNameSpaces(cbor: issuerNameSpaceCbor)
         } else {
             issuerNameSpaces = nil
         }
 
         if let issuerAuthCbor = cborMap[Keys.issuerAuth],
-          let issuerAuth = IssuerAuth(cbor: issuerAuthCbor) {
+          let issuerAuth = try IssuerAuth(cbor: issuerAuthCbor) {
       self.issuerAuth = issuerAuth
     }
     else {

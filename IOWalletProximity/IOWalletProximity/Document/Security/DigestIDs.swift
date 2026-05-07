@@ -13,14 +13,23 @@ internal import OrderedCollections
   public let digestIDs: [UInt64: [UInt8]]
   public subscript(digestID: UInt64) -> [UInt8]? { digestIDs[digestID] }
   
-  public init(digestIDs: [UInt64 : [UInt8]]) {
+  public init(digestIDs: [UInt64 : [UInt8]]) throws {
+      
+      if !digestIDs.allSatisfy({
+          $0.key <= Int32.max
+      }) {
+         //MARK: The value shall be smaller than 2^31. (ISO18013-5 page 60)
+          throw ErrorHandler.digestIdOutOfRange
+            
+      }
+      
     self.digestIDs = digestIDs
   }
   
 }
 
 extension DigestIDs: CBORDecodable {
-  public init?(cbor: CBOR) {
+  public init?(cbor: CBOR) throws {
     
     guard case let .map(cborMap) = cbor else {
       return nil
@@ -37,6 +46,13 @@ extension DigestIDs: CBORDecodable {
     guard digests.count > 0 else  {
       return nil
     }
+      
+      if !digests.allSatisfy({
+          $0.key <= Int32.max
+      }) {
+         //MARK: The value shall be smaller than 2^31. (ISO18013-5 page 60)
+          throw ErrorHandler.digestIdOutOfRange
+      }
     
     self.digestIDs = digests
   }

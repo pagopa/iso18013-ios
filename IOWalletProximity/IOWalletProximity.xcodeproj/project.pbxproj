@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3419AC302E1EB8A7006BB139 /* CertTrustTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3419AC2F2E1EB89B006BB139 /* CertTrustTests.swift */; };
+		345975402F8F89CC005CBA87 /* DigestIDsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3459753F2F8F89C6005CBA87 /* DigestIDsTests.swift */; };
 		3466C29E2F50A4CE005146D4 /* ISO18013.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3466C29D2F50A4CE005146D4 /* ISO18013.swift */; };
 		34741A6E2EE09864005521AB /* NFCNDEFMessage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34741A682EE09864005521AB /* NFCNDEFMessage+.swift */; };
 		34741A6F2EE09864005521AB /* NFCNDEFPayload+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34741A692EE09864005521AB /* NFCNDEFPayload+.swift */; };
@@ -17,6 +18,7 @@
 		34741A7F2EE17C37005521AB /* NFCNDEFCardFileSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34741A7E2EE17C37005521AB /* NFCNDEFCardFileSystem.swift */; };
 		34741A812EE17C45005521AB /* NFCNDEFFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34741A802EE17C45005521AB /* NFCNDEFFile.swift */; };
 		34741A832EE17DFA005521AB /* NFCCardEmulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34741A822EE17DFA005521AB /* NFCCardEmulator.swift */; };
+		3483DCA02F863E880083F963 /* IssuerSignedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3483DC9F2F863E850083F963 /* IssuerSignedTests.swift */; };
 		3485BDBD2ECB106D00843EF2 /* APDUHead.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485BDB32ECB106D00843EF2 /* APDUHead.swift */; };
 		3485BDBE2ECB106D00843EF2 /* HexDump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485BDB92ECB106D00843EF2 /* HexDump.swift */; };
 		3485BDBF2ECB106D00843EF2 /* Data++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3485BDB82ECB106D00843EF2 /* Data++.swift */; };
@@ -160,6 +162,7 @@
 
 /* Begin PBXFileReference section */
 		3419AC2F2E1EB89B006BB139 /* CertTrustTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertTrustTests.swift; sourceTree = "<group>"; };
+		3459753F2F8F89C6005CBA87 /* DigestIDsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigestIDsTests.swift; sourceTree = "<group>"; };
 		3466C29D2F50A4CE005146D4 /* ISO18013.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO18013.swift; sourceTree = "<group>"; };
 		34741A682EE09864005521AB /* NFCNDEFMessage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NFCNDEFMessage+.swift"; sourceTree = "<group>"; };
 		34741A692EE09864005521AB /* NFCNDEFPayload+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NFCNDEFPayload+.swift"; sourceTree = "<group>"; };
@@ -169,6 +172,7 @@
 		34741A7E2EE17C37005521AB /* NFCNDEFCardFileSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFCNDEFCardFileSystem.swift; sourceTree = "<group>"; };
 		34741A802EE17C45005521AB /* NFCNDEFFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFCNDEFFile.swift; sourceTree = "<group>"; };
 		34741A822EE17DFA005521AB /* NFCCardEmulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFCCardEmulator.swift; sourceTree = "<group>"; };
+		3483DC9F2F863E850083F963 /* IssuerSignedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssuerSignedTests.swift; sourceTree = "<group>"; };
 		3485BDB32ECB106D00843EF2 /* APDUHead.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APDUHead.swift; sourceTree = "<group>"; };
 		3485BDB42ECB106D00843EF2 /* APDURequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APDURequest.swift; sourceTree = "<group>"; };
 		3485BDB52ECB106D00843EF2 /* APDUResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APDUResponse.swift; sourceTree = "<group>"; };
@@ -501,6 +505,8 @@
 		3ADB28FB2CC2507A0087018A /* ModelTests */ = {
 			isa = PBXGroup;
 			children = (
+				3459753F2F8F89C6005CBA87 /* DigestIDsTests.swift */,
+				3483DC9F2F863E850083F963 /* IssuerSignedTests.swift */,
 				3DEB51BB2DC0B91B00CC80BB /* DeviceRequestTests.swift */,
 				3DE097F52DA7D4CB005C83FD /* ProximityDocumentTests.swift */,
 				3DA71A892D8C573000EC35EF /* SessionTranscriptTests.swift */,
@@ -951,7 +957,9 @@
 				3A652A2A2CAE9B3400B0D6E4 /* DrivingPrivilegesTests.swift in Sources */,
 				3A652A262CAE97C700B0D6E4 /* DeviceResponseTests.swift in Sources */,
 				3ACBE9FA2CD2898400701457 /* DictionaryExtensionsTests.swift in Sources */,
+				3483DCA02F863E880083F963 /* IssuerSignedTests.swift in Sources */,
 				3DE097F62DA7D4D3005C83FD /* ProximityDocumentTests.swift in Sources */,
+				345975402F8F89CC005CBA87 /* DigestIDsTests.swift in Sources */,
 				3ACBEA002CD28B1B00701457 /* DocumentErrorTests.swift in Sources */,
 				3ADB29032CC2580E0087018A /* UInt32ExtensionsTests.swift in Sources */,
 				3D179CAE2CB82CCA0061DFDC /* LibIso18013DAOTests.swift in Sources */,

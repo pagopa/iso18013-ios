@@ -25,11 +25,11 @@ internal import OrderedCollections
 }
 
 extension ItemsRequest: CBORDecodable {
-    public init?(cbor: CBOR) {
+    public init?(cbor: CBOR) throws {
         guard case let .map(m) = cbor else { return nil }
         guard case let .utf8String(dt) = m[Keys.docType] else { return nil }
         docType = dt
-        guard let cns = m[Keys.nameSpaces], let ns = RequestNameSpaces(cbor: cns)  else { return nil }
+        guard let cns = m[Keys.nameSpaces], let ns = try RequestNameSpaces(cbor: cns)  else { return nil }
         requestNameSpaces = ns
         requestInfo = m[Keys.requestInfo]
     }

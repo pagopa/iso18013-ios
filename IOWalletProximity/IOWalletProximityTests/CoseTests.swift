@@ -123,7 +123,7 @@ final class CoseTests: XCTestCase {
         
         let encodedDeviceKey = deviceKey.encode(options: CBOROptions())
         
-        guard let decodedDeviceKey = CoseKeyPrivate(data: encodedDeviceKey) else {
+        guard let decodedDeviceKey = try? CoseKeyPrivate(data: encodedDeviceKey) else {
             XCTAssert(false)
             return
         }
@@ -157,7 +157,7 @@ final class CoseTests: XCTestCase {
         
         let encodedDeviceKey = deviceKey.encode(options: CBOROptions())
         
-        guard let decodedDeviceKey = CoseKeyPrivate(data: encodedDeviceKey) else {
+        guard let decodedDeviceKey = try? CoseKeyPrivate(data: encodedDeviceKey) else {
             XCTAssert(false)
             return
         }
@@ -246,12 +246,12 @@ final class CoseTests: XCTestCase {
             return
         }
         
-        guard let validPublicKey = CoseKey(data: validPublicKeyData.bytes) else {
+        guard let validPublicKey = try? CoseKey(data: validPublicKeyData.bytes) else {
             XCTAssert(false) //CoseKey CBOR decoding failed
             return
         }
         
-        guard let notValidPublicKey = CoseKey(data: notValidPublicKeyData.bytes) else {
+        guard let notValidPublicKey = try? CoseKey(data: notValidPublicKeyData.bytes) else {
             XCTAssert(false) //CoseKey CBOR decoding failed
             return
         }

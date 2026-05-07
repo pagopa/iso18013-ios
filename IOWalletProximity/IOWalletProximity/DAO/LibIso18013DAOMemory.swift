@@ -88,13 +88,13 @@ class LibIso18013DAOMemory : LibIso18013DAOProtocol {
             throw ErrorHandler.documentMustBeUnsigned
         }
         
-        guard let issuerSigned = IssuerSigned(data: documentData.bytes) else {
+        guard let issuerSigned = try IssuerSigned(data: documentData.bytes) else {
             throw ErrorHandler.documentDecodingFailedError
         }
          
         let document = Document(docType: storedDocument.docType, issuerSigned: issuerSigned)
         
-        let deviceKey = CoseKeyPrivate(data: storedDocument.deviceKeyData)!
+        let deviceKey = try CoseKeyPrivate(data: storedDocument.deviceKeyData)!
         
         guard LibIso18013Utils.shared.isDevicePrivateKeyOfDocument(
             document: document,

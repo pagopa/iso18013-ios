@@ -23,7 +23,7 @@ struct DrivingPrivilegeCode: Codable {
 }
 
 extension DrivingPrivilegeCode: CBORDecodable {
-  public init?(cbor: CBOR) {
+  public init?(cbor: CBOR) throws {
     guard case let .utf8String(code) = cbor[.utf8String(CodingKeys.code.rawValue)] else {
       return nil
     }

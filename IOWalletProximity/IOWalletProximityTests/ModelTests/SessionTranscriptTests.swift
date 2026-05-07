@@ -29,7 +29,7 @@ class SessionTranscriptTests: XCTestCase {
         
         XCTAssertEqual(Data(oid4vpSessionTranscript).base64EncodedString(), generatedOid4vpSessionTranscript)
         
-        let decodedOid4vpSessionTranscript = SessionTranscript(data: oid4vpSessionTranscript)
+        let decodedOid4vpSessionTranscript = try? SessionTranscript(data: oid4vpSessionTranscript)
         
         guard case .array(let handOver) = decodedOid4vpSessionTranscript?.handOver else {
             XCTFail("failed to decode handOver")

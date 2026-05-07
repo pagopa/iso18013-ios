@@ -14,9 +14,9 @@ internal import OrderedCollections
 class IssuerSignedItemArrayTests: XCTestCase {
     
     func testFindItem() {
-        let item1 = IssuerSignedItem(digestID: 1, random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .utf8String("value1"), rawData: nil)
-        let item2 = IssuerSignedItem(digestID: 2, random: [0x03, 0x04], elementIdentifier: "item2", elementValue: .utf8String("value2"), rawData: nil)
-        let items = [item1, item2]
+        let item1 = try? IssuerSignedItem(digestID: 1, random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .utf8String("value1"), rawData: nil)
+        let item2 = try? IssuerSignedItem(digestID: 2, random: [0x03, 0x04], elementIdentifier: "item2", elementValue: .utf8String("value2"), rawData: nil)
+        let items = [item1, item2].compactMap({$0})
         
         let foundItem = items.findItem(name: "item1")
         XCTAssertNotNil(foundItem)
@@ -25,8 +25,8 @@ class IssuerSignedItemArrayTests: XCTestCase {
     }
     
     func testFindItemNotFound() {
-        let item1 = IssuerSignedItem(digestID: 1, random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .utf8String("value1"), rawData: nil)
-        let items = [item1]
+        let item1 = try? IssuerSignedItem(digestID: 1, random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .utf8String("value1"), rawData: nil)
+        let items = [item1].compactMap({$0})
         
         let foundItem = items.findItem(name: "item2")
         XCTAssertNil(foundItem, "Item with identifier 'item2' should not be found")
@@ -37,8 +37,8 @@ class IssuerSignedItemArrayTests: XCTestCase {
             .utf8String("key1"): .utf8String("value1"),
             .utf8String("key2"): .utf8String("value2")
         ]
-        let item = IssuerSignedItem(digestID: 1, random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .map(mapValue), rawData: nil)
-        let items = [item]
+        let item = try? IssuerSignedItem(digestID: 1, random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .map(mapValue), rawData: nil)
+        let items = [item].compactMap({$0})
         
         let foundMap = items.findMap(name: "item1")
         XCTAssertNotNil(foundMap)
@@ -48,8 +48,8 @@ class IssuerSignedItemArrayTests: XCTestCase {
     
     func testFindArray() {
         let arrayValue: [CBOR] = [.utf8String("value1"), .utf8String("value2")]
-        let item = IssuerSignedItem(digestID: 1, random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .array(arrayValue), rawData: nil)
-        let items = [item]
+        let item = try? IssuerSignedItem(digestID: 1, random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .array(arrayValue), rawData: nil)
+        let items = [item].compactMap({$0})
         
         let foundArray = items.findArray(name: "item1")
         XCTAssertNotNil(foundArray)
@@ -59,9 +59,9 @@ class IssuerSignedItemArrayTests: XCTestCase {
     }
     
     func testToJson() {
-        let item1 = IssuerSignedItem(digestID: 1, random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .utf8String("value1"), rawData: nil)
-        let item2 = IssuerSignedItem(digestID: 2, random: [0x03, 0x04], elementIdentifier: "item2", elementValue: .utf8String("value2"), rawData: nil)
-        let items = [item1, item2]
+        let item1 = try? IssuerSignedItem(digestID: 1, random: [0x01, 0x02], elementIdentifier: "item1", elementValue: .utf8String("value1"), rawData: nil)
+        let item2 = try? IssuerSignedItem(digestID: 2, random: [0x03, 0x04], elementIdentifier: "item2", elementValue: .utf8String("value2"), rawData: nil)
+        let items = [item1, item2].compactMap({$0})
         
         let json = items.toJson()
         XCTAssertEqual(json["item1"] as? String, "value1")

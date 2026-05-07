@@ -51,7 +51,7 @@ class MdocHelpers {
                 //Request Data is not Cbor
                 return .failure(ErrorHandler.requestDecodeError)
             }
-            guard var se = SessionEstablishment(cbor: seCbor) else {
+            guard var se = try SessionEstablishment(cbor: seCbor) else {
                 //Request Data cannot be decoded to session establisment
                 return .failure(ErrorHandler.requestDecodeError)
             }
@@ -79,7 +79,7 @@ class MdocHelpers {
                 //Request data cannot be decrypted
                 return .failure(ErrorHandler.requestDecodeError)
             }
-            guard let deviceRequest = DeviceRequest(data: requestData) else {
+            guard let deviceRequest = try DeviceRequest(data: requestData) else {
                 //Decrypted data cannot be decoded
                 return .failure(ErrorHandler.requestDecodeError)
             }

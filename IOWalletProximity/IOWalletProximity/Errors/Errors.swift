@@ -35,7 +35,7 @@ extension Errors: CBORDecodable {
     
     // Initializes Errors from a CBOR object
     // - Parameter cbor: A CBOR object representing the error data
-    public init?(cbor: CBOR) {
+    public init?(cbor: CBOR) throws {
         // Ensure the CBOR object is a map
         guard case let .map(errors) = cbor else {
             return nil

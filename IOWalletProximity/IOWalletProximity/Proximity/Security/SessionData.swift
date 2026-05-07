@@ -27,7 +27,7 @@ internal import OrderedCollections
 }
 
 extension SessionData: CBORDecodable {
-	public init?(cbor: CBOR) {
+	public init?(cbor: CBOR) throws {
         guard case let .map(values) = cbor else {
             return nil
         }

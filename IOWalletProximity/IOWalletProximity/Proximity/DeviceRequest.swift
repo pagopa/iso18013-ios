@@ -24,13 +24,13 @@ internal import OrderedCollections
 }
 
 extension DeviceRequest: CBORDecodable {
-    public init?(cbor: CBOR) {
+    public init?(cbor: CBOR) throws {
         guard case let .map(m) = cbor else { return nil }
         guard case let .utf8String(v) = m[Keys.version] else { return nil }
         version = v
 		if v.count == 0 || v.prefix(1) != "1" { return nil }
         guard case let .array(cdrs) = m[Keys.docRequests] else { return nil }
-        let drs = cdrs.compactMap { DocRequest(cbor: $0) } 
+        let drs = try cdrs.compactMap { try DocRequest(cbor: $0) } 
         guard drs.count > 0 else { return nil }
         docRequests = drs
     }

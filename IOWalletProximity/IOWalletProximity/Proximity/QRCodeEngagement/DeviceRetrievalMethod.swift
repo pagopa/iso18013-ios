@@ -77,7 +77,7 @@ extension DeviceRetrievalMethod: CBOREncodable {
 // Extension to make DeviceRetrievalMethod conform to CBORDecodable
 extension DeviceRetrievalMethod: CBORDecodable {
     // Initializes an instance from a CBOR representation
-    public init?(cbor: CBOR) {
+    public init?(cbor: CBOR) throws {
         // Ensure the CBOR is an array with at least two elements
         guard case let .array(arr) = cbor, arr.count >= 2 else { return nil }
         // Extract the type and version from the array

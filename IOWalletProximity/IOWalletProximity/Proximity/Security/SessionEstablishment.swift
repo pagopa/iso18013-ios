@@ -21,12 +21,12 @@ struct SessionEstablishment {
 	}
 	public var eReaderKey: CoseKey? {
 		if let eReaderKeyRawData {
-			return CoseKey(data: eReaderKeyRawData) } else { return nil }
+			return try? CoseKey(data: eReaderKeyRawData) } else { return nil }
 	}
 }
 
 extension SessionEstablishment: CBORDecodable {
-	public init?(cbor: CBOR) {
+	public init?(cbor: CBOR) throws {
         guard case let .map(m) = cbor else {
             return nil
         }

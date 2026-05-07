@@ -17,7 +17,7 @@ public class ProximityDocument {
     
     //Initialize ProximityDocument with a COSEKey CBOR encoded deviceKey
     public convenience init?(docType: String, issuerSigned: [UInt8], deviceKeyRaw: [UInt8]) {
-        guard let deviceKey = CoseKeyPrivate.init(data: deviceKeyRaw) else {
+        guard let deviceKey = try? CoseKeyPrivate.init(data: deviceKeyRaw) else {
             return nil
         }
         
@@ -61,7 +61,7 @@ public class ProximityDocument {
     }
     
     private static func isIssuerSignedValid(_ issuerSigned: [UInt8]) -> Bool {
-        guard let _ = IssuerSigned(data: issuerSigned) else {
+        guard let _ = try? IssuerSigned(data: issuerSigned) else {
             return false
         }
         

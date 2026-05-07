@@ -27,7 +27,7 @@ struct DeviceKeyInfo {
 }
 
 extension DeviceKeyInfo: CBORDecodable {
-  public init?(cbor: CBOR) {
+  public init?(cbor: CBOR) throws {
     guard case let .map(cborMap) = cbor else {
       return nil
     }

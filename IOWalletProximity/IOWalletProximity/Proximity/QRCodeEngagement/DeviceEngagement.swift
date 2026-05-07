@@ -78,9 +78,9 @@ struct DeviceEngagement {
     }
     
     // Initializes the device engagement from CBOR data
-    public init?(data: [UInt8]) {
+    public init?(data: [UInt8]) throws {
         guard let obj = try? CBOR.decode(data) else { return nil }
-        self.init(cbor: obj)
+        try self.init(cbor: obj)
     }
     
     // Returns the device private key, if available
@@ -161,7 +161,7 @@ extension DeviceEngagement: CBOREncodable {
 // Extension to support CBOR decoding
 extension DeviceEngagement: CBORDecodable {
     // Initializer to create an instance from a CBOR map
-    public init?(cbor: CBOR) {
+    public init?(cbor: CBOR) throws {
         // Ensure the CBOR is a map; return nil if it is not
         guard case let .map(map) = cbor else { return nil }
         
@@ -173,7 +173,7 @@ extension DeviceEngagement: CBORDecodable {
         
         // Extract and initialize device retrieval methods if present
         if let cdrms = map[2], case let .array(drms) = cdrms, drms.count > 0 {
-            deviceRetrievalMethods = drms.compactMap(DeviceRetrievalMethod.init(cbor:))
+            deviceRetrievalMethods = try drms.compactMap(DeviceRetrievalMethod.init(cbor:))
         }
         
         // Set version and security properties
