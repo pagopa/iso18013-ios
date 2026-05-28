@@ -66,21 +66,64 @@ class MdocTransferHelpers {
         }
     }
     
-    public static func isDeviceRequestDocumentValid(docR: DocRequest, iaca: [[SecCertificate]], sessionEncryption: SessionEncryption) -> (isValidSignature: Bool, isValidCertificateChain: Bool, message: String?) {
+    public static func isDeviceRequestDocumentValid(docR: DocRequest, iaca: [[SecCertificate]], sessionEncryption: SessionEncryption) -> (isValidSignature: Bool, isValidCertificateChain: Bool, message: String?, certificateDetails: [String: String]? ) {
         let mdocAuth = MdocReaderAuthentication(transcript: sessionEncryption.transcript)
         if let readerAuthRawCBOR = docR.readerAuthRawCBOR,
            let certData = docR.readerCertificate,
            let x509 = try? X509.Certificate(derEncoded: [UInt8](certData)),
            let (isValidSignature, isValidCertificateChain, reasonFailure) = try? mdocAuth.validateReaderAuth(readerAuthCBOR: readerAuthRawCBOR, readerAuthCertificate: certData, itemsRequestRawData: docR.itemsRequestRawData!, readerAuthCertificateChain: docR.readerCertificateChain, rootCerts: iaca) {
+            
+            let certDetails = distinguishedNameToJsonMap(x509.subject)
+            
+            
             if let reasonFailure {
                 //Certificate root authentication failed
-                return (isValidSignature, isValidCertificateChain, reasonFailure)
+                return (isValidSignature, isValidCertificateChain, reasonFailure, certDetails)
             }
-            return (isValidSignature, isValidCertificateChain, reasonFailure)
+            return (isValidSignature, isValidCertificateChain, reasonFailure, certDetails)
         }
-        return (false, false, nil)
+        return (false, false, nil, nil)
     }
     
+    private static func distinguishedNameToJsonMap(_ dn: DistinguishedName) -> [String: String] {
+        
+        var result: [String: String] = [:]
+        
+        dn.forEach({
+            rel in
+            rel.forEach({
+                att in
+                var attributeKey: String
+                switch att.type {
+                    
+                case .RDNAttributeType.commonName:
+                    attributeKey = "CN"
+                case .RDNAttributeType.countryName:
+                    attributeKey = "C"
+                case .RDNAttributeType.localityName:
+                    attributeKey = "L"
+                case .RDNAttributeType.stateOrProvinceName:
+                    attributeKey = "ST"
+                case .RDNAttributeType.organizationName:
+                    attributeKey = "O"
+                case .RDNAttributeType.organizationalUnitName:
+                    attributeKey = "OU"
+                case .RDNAttributeType.streetAddress:
+                    attributeKey = "STREET"
+                case .NameAttributes.serialNumber:
+                    attributeKey = "SERIALNUMBER"
+                    
+                case let type:
+                    attributeKey = String(describing: type)
+                }
+                
+                result[attributeKey] = att.value.description
+            })
+        })
+        
+        return result
+        
+    }
     
     public static func isDeviceRequestValid(deviceRequest: DeviceRequest, iaca: [[SecCertificate]], sessionEncryption: SessionEncryption) -> Bool {
         if let docR = deviceRequest.docRequests.first {

@@ -44,7 +44,8 @@ public struct ISO18013DataTransferArgs: Sendable {
     public let request: [
         (docType: String,
          nameSpaces: [String: [String: Bool]],
-         isAuthenticated: Bool)
+         isAuthenticated: Bool,
+         certificateData: [String: String]?)
     ]?
 }
 
