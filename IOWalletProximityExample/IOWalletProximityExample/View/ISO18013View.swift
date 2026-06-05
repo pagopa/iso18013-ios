@@ -306,8 +306,8 @@ struct ISO18013View: View {
         }, set: {
             _ in
         })) {
-            let (isAuthenticated, request) = deviceRequestToMap(deviceRequest: dataTransferArgs!.request)
-            DeviceRequestAlert(isAuthenticated: isAuthenticated, requested: request, response: {
+            let (isAuthenticated, request, certDetails) = deviceRequestToMap(deviceRequest: dataTransferArgs!.request)
+            DeviceRequestAlert(isAuthenticated: isAuthenticated, requested: request, certificateData: certDetails, response: {
                 allowed, items in
                 
                 defer {
@@ -400,10 +400,10 @@ extension ISO18013View : ISO18013Delegate {
     private func completeDataTransferWithoutUserActions(deviceRequest: [
         (docType: String,
          nameSpaces: [String: [String: Bool]],
-         isAuthenticated: Bool)]?) {
+         isAuthenticated: Bool, certificateData: [String: String]?)]?) {
              
              
-             let (_, request) = deviceRequestToMap(deviceRequest: deviceRequest)
+             let (_, request, certDetails) = deviceRequestToMap(deviceRequest: deviceRequest)
              
              respondToDeviceRequest(true, items: acceptAllFields(deviceRequestMap: request))
              
@@ -412,9 +412,11 @@ extension ISO18013View : ISO18013Delegate {
     private func deviceRequestToMap(deviceRequest: [
         (docType: String,
          nameSpaces: [String: [String: Bool]],
-         isAuthenticated: Bool)
-    ]?) -> (isAuthenticated: Bool, request: [String: [String: [String]]]) {
+         isAuthenticated: Bool, certificateData: [String: String]?)
+    ]?) -> (isAuthenticated: Bool, request: [String: [String: [String]]], certificateData: [[String: String]?]) {
         var isAuthenticated: Bool = true
+        
+        var listOfCertDetails: [[String: String]?] = []
         
         var deviceRequestMap : [String: [String: [String]]] = [:]
         
@@ -432,9 +434,11 @@ extension ISO18013View : ISO18013Delegate {
             deviceRequestMap[item.docType] = subReq
             
             isAuthenticated = isAuthenticated && item.isAuthenticated
+            
+            listOfCertDetails.append(item.certificateData)
         })
         
-        return (isAuthenticated: isAuthenticated, request: deviceRequestMap)
+        return (isAuthenticated: isAuthenticated, request: deviceRequestMap, certificateData: listOfCertDetails)
     }
     
     private func acceptAllFields(deviceRequestMap: [String: [String: [String]]]?) -> [String: [String: [String: Bool]]]? {

@@ -73,7 +73,8 @@ public enum ProximityEvents {
     case onDocumentRequestReceived(request: [
         (docType: String,
          nameSpaces: [String: [String: Bool]],
-         isAuthenticated: Bool)
+         isAuthenticated: Bool,
+         certificateData: [String: String]?)
     ]?)
     
     //The device has received the termination flag from the verifier app
@@ -408,7 +409,7 @@ class Proximity: @unchecked Sendable {
     
     
     
-    func onRequest(request:  [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool)]) {
+    func onRequest(request:  [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool, certificateData: [String: String]?)]) {
         proximityHandler?(.onDocumentRequestReceived(request: request))
     }
     
@@ -416,9 +417,9 @@ class Proximity: @unchecked Sendable {
         onRequest(request: buildDeviceRequestJson(item: deviceRequest))
     }
     
-    func buildDeviceRequestJson(item: DeviceRequest) -> [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool)] {
+    func buildDeviceRequestJson(item: DeviceRequest) -> [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool, certificateData: [String: String]?)] {
         
-        var requestedDocuments: [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool)] = []
+        var requestedDocuments: [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool, certificateData: [String: String]?)] = []
         
         item.docRequests.forEach({
             request in
@@ -426,16 +427,18 @@ class Proximity: @unchecked Sendable {
             let isSignatureValid: Bool
             let isValidCertificateChain: Bool
             let authenticationMessage: String?
+            let certDetails: [String: String]?
             
             if let sessionEncryption = proximityListener?.sessionEncryption {
                 let iaca: [[SecCertificate]] = trustedCertificates
                 
-                (isSignatureValid, isValidCertificateChain, authenticationMessage) = MdocTransferHelpers.isDeviceRequestDocumentValid(docR: request, iaca: iaca, sessionEncryption: sessionEncryption)
+                (isSignatureValid, isValidCertificateChain, authenticationMessage, certDetails) = MdocTransferHelpers.isDeviceRequestDocumentValid(docR: request, iaca: iaca, sessionEncryption: sessionEncryption)
             }
             else {
                 isSignatureValid = false
                 isValidCertificateChain = false
                 authenticationMessage = nil
+                certDetails = nil
             }
             
             print("isSignatureValid: \(isSignatureValid)")
@@ -447,7 +450,7 @@ class Proximity: @unchecked Sendable {
             
             let isAuthenticated = isSignatureValid && isValidCertificateChain
             
-            requestedDocuments.append((docType: request.itemsRequest.docType, nameSpaces: getRequestedItems(request: request), isAuthenticated: isAuthenticated))
+            requestedDocuments.append((docType: request.itemsRequest.docType, nameSpaces: getRequestedItems(request: request), isAuthenticated: isAuthenticated, certificateData: certDetails))
         })
         
         return requestedDocuments

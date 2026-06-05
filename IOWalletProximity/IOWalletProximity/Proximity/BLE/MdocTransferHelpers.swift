@@ -8,7 +8,7 @@
 internal import X509
 internal import SwiftCBOR
 import Foundation
-
+internal import SwiftASN1
 
 class MdocTransferHelpers {
     /// Decrypt the contents of a data object and return a ``DeviceRequest`` object if the data represents a valid device request. If the data does not represent a valid device request, the function returns nil.
@@ -66,21 +66,103 @@ class MdocTransferHelpers {
         }
     }
     
-    public static func isDeviceRequestDocumentValid(docR: DocRequest, iaca: [[SecCertificate]], sessionEncryption: SessionEncryption) -> (isValidSignature: Bool, isValidCertificateChain: Bool, message: String?) {
+    public static func isDeviceRequestDocumentValid(docR: DocRequest, iaca: [[SecCertificate]], sessionEncryption: SessionEncryption) -> (isValidSignature: Bool, isValidCertificateChain: Bool, message: String?, certificateDetails: [String: String]? ) {
         let mdocAuth = MdocReaderAuthentication(transcript: sessionEncryption.transcript)
         if let readerAuthRawCBOR = docR.readerAuthRawCBOR,
            let certData = docR.readerCertificate,
            let x509 = try? X509.Certificate(derEncoded: [UInt8](certData)),
            let (isValidSignature, isValidCertificateChain, reasonFailure) = try? mdocAuth.validateReaderAuth(readerAuthCBOR: readerAuthRawCBOR, readerAuthCertificate: certData, itemsRequestRawData: docR.itemsRequestRawData!, readerAuthCertificateChain: docR.readerCertificateChain, rootCerts: iaca) {
+            
+            let certDetails = distinguishedNameToJsonMap(x509.issuer)
+            
+            
             if let reasonFailure {
                 //Certificate root authentication failed
-                return (isValidSignature, isValidCertificateChain, reasonFailure)
+                return (isValidSignature, isValidCertificateChain, reasonFailure, certDetails)
             }
-            return (isValidSignature, isValidCertificateChain, reasonFailure)
+            return (isValidSignature, isValidCertificateChain, reasonFailure, certDetails)
         }
-        return (false, false, nil)
+        return (false, false, nil, nil)
     }
     
+    private static func distinguishedNameToJsonMap(_ dn: DistinguishedName) -> [String: String] {
+        
+        var result: [String: String] = [:]
+        
+        dn.forEach({
+            rel in
+            rel.forEach({
+                att in
+                var attributeKey: String
+                var attributeValue: String = att.value.description
+                
+                switch att.type {
+                    
+                case .RDNAttributeType.commonName:
+                    attributeKey = "CN"
+                case .RDNAttributeType.countryName:
+                    attributeKey = "C"
+                case .RDNAttributeType.localityName:
+                    attributeKey = "L"
+                case .RDNAttributeType.stateOrProvinceName:
+                    attributeKey = "ST"
+                case .RDNAttributeType.organizationName:
+                    attributeKey = "O"
+                case .RDNAttributeType.organizationalUnitName:
+                    attributeKey = "OU"
+                case .RDNAttributeType.streetAddress:
+                    attributeKey = "STREET"
+                case .NameAttributes.serialNumber:
+                    attributeKey = "SERIALNUMBER"
+                case .NameAttributes.emailAddress:
+                    attributeKey = "EMAIL"
+                    if let email = parseEmailField(att) {
+                        attributeValue = email
+                    }
+                    
+                case let type:
+                    attributeKey = String(describing: type)
+                }
+                
+                result[attributeKey] = attributeValue
+            })
+        })
+        
+        return result
+        
+    }
+    
+    
+    private static func parseEmailField(_ attribute: RelativeDistinguishedName.Attribute) -> String? {
+        //This is needed as the `RelativeDistinguishedName.Attribute.storage` field is internal. So we serialize and then deserialize manually the field to get the `ASN1Node`
+        do {
+            var serializer = DER.Serializer();
+            try attribute.serialize(into: &serializer);
+            let seq = try DER.parse(serializer.serializedBytes);
+            
+            if case .constructed(let nodes) = seq.content {
+                var iterator = nodes.makeIterator()
+                
+                // Skip the first child (the Object Identifier / OID)
+                _ = iterator.next()
+                
+                // The second child is the exact attribute value node you need
+                if let valueNode = iterator.next() {
+                    
+                    if let asnstr = try? ASN1IA5String(derEncoded: valueNode) {
+                        return String(asnstr)
+                    }
+                    
+                }
+            }
+            
+            
+        } catch {
+           
+        }
+        
+        return nil
+    }
     
     public static func isDeviceRequestValid(deviceRequest: DeviceRequest, iaca: [[SecCertificate]], sessionEncryption: SessionEncryption) -> Bool {
         if let docR = deviceRequest.docRequests.first {

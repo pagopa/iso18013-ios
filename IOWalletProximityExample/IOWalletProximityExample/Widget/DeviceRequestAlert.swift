@@ -11,6 +11,8 @@ struct DeviceRequestAlert : View {
     var isAuthenticated: Bool = false
     var requested: [String: [String: [String]]]?
     
+    var certificateData: [[String: String]?]
+    
     @State private var allowed: [String: [String: [String: Bool]]]?
     
     var response: ((Bool, [String: [String: [String: Bool]]]?) -> Void)?
@@ -25,6 +27,13 @@ struct DeviceRequestAlert : View {
             ScrollView(.vertical) {
                 VStack {
                     Text("isAuthenticated: \(isAuthenticated ? "yes" : "no")").foregroundStyle(isAuthenticated ? Color.green : Color.red)
+                    
+                    ForEach(certificateData.compactMap({$0}), id: \.self) {
+                        detail in
+                        Text("\(detail)").foregroundStyle(isAuthenticated ? Color.green : Color.red)
+                    }
+                    
+                    
                 }
                 .padding(32)
                 .background(Color.white)
@@ -159,7 +168,7 @@ struct DeviceRequestAlert_Previews: PreviewProvider {
         var all: [String: [String: [String: Bool]]]? = [String: [String: [String: Bool]]]()
         
         
-        return DeviceRequestAlert(requested: value) { allowed, values in
+        return DeviceRequestAlert(requested: value, certificateData: [["CN" : "Example"]]) { allowed, values in
             print(allowed, values)
         }
     }
