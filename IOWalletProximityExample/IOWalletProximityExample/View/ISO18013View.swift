@@ -16,6 +16,8 @@ struct ISO18013View: View {
     @State var nfcDataTransfer: Bool =  true
     @State var bleDataTransfer: Bool = true
     
+    @State var startEmulationNow: Bool = false
+    
     @State var qrCode: String? = nil
     @State var loading: Bool = false
     @State var nfc: Bool = false
@@ -88,6 +90,9 @@ struct ISO18013View: View {
             })
             Toggle(isOn: $nfcDataTransfer, label: {
                 Text("NFC Data Transfer")
+            })
+            Toggle(isOn: $startEmulationNow, label: {
+                Text("NFC Start Emulation Now")
             })
             Divider()
             LazyVGrid(
@@ -181,7 +186,8 @@ struct ISO18013View: View {
                     engagementModes: _engagementModes(),
                     retrivalMethods: _retrivalMethods(),
                     delegate: self,
-                    isNfcLateEngagement: nfcEngagementLate)
+                    isNfcLateEngagement: nfcEngagementLate,
+                    startEmulationNow: startEmulationNow)
                 
                 
             }, label: {
@@ -194,16 +200,20 @@ struct ISO18013View: View {
     }
     
     func _backToSettings() {
-        qrCode = nil
-        loading = false
-        nfc = false
-        dataTransferArgs = nil
-        isCompleted = false
-        error = nil
-        isEngaging = false
-        bleConnecting = false
-        bleConnected = false
         ISO18013.shared.stop()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.qrCode = nil
+            self.loading = false
+            self.nfc = false
+            self.dataTransferArgs = nil
+            self.isCompleted = false
+            self.error = nil
+            self.isEngaging = false
+            self.bleConnecting = false
+            self.bleConnected = false
+        }
+        
     }
     
     func _engagementView() -> some View {
@@ -218,7 +228,7 @@ struct ISO18013View: View {
             if nfcDataTransfer || nfcEngagement {
                 Button(action: {
                     do {
-                        try ISO18013.shared.lateNfcInitialization()
+                        try ISO18013.shared.lateNfcInitialization(startEmulationNow: startEmulationNow)
                     }
                     catch {
                         print(error)
@@ -363,6 +373,8 @@ extension ISO18013View : ISO18013Delegate {
             self.error = nil
             self.isCompleted = false
             self.qrCode = qrCode
+            
+            print("got qrcode")
             break
         case .error(let error):
             self.loading = false
