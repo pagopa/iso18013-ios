@@ -484,7 +484,12 @@ class Proximity: @unchecked Sendable {
                     return
                 }
                 
-                var reqElementIdentifiers = reqItems.filter({
+                var reqElementIdentifiers = reqItems.map({
+                    key, value in
+                    return key
+                })
+                
+                var reqElementIdentifiersAllowed = reqItems.filter({
                     key, value in
                     
                     return value
@@ -495,22 +500,22 @@ class Proximity: @unchecked Sendable {
                 
                 
                 guard let items = issuerNs[reqNamespace] else {
-                    nsErrorsToAdd[reqNamespace] = Dictionary(grouping: reqElementIdentifiers,
+                    nsErrorsToAdd[reqNamespace] = Dictionary(grouping: reqElementIdentifiersAllowed,
                                                              by: {$0}).mapValues { _ in 0 }
                     return
                 }
                 
                 var itemsReqSet = Set(reqElementIdentifiers)
-                
+                var itemsReqSetAllowed = Set(reqElementIdentifiersAllowed)
                 
                 let itemsSet = Set(items.map({$0.elementIdentifier}))
-                var itemsToAdd = items.filter({ itemsReqSet.contains($0.elementIdentifier) })
+                var itemsToAdd = items.filter({ itemsReqSetAllowed.contains($0.elementIdentifier) })
                 
                 if itemsToAdd.count > 0 {
                     nsItemsToAdd[reqNamespace] = itemsToAdd
                 }
                 
-                let errorItemsSet = itemsReqSet.subtracting(itemsSet)
+                let errorItemsSet = itemsReqSet.subtracting(Set(itemsToAdd.map({$0.elementIdentifier})))
                 if errorItemsSet.count > 0 {
                     nsErrorsToAdd[reqNamespace] = Dictionary(grouping: errorItemsSet,
                                                              by: { $0 }).mapValues { _ in 0 }
