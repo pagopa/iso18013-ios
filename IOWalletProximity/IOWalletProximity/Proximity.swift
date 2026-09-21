@@ -124,7 +124,7 @@ class Proximity: @unchecked Sendable {
     //  - Returns: A string containing the DeviceEngagement data necessary to start the verification process
     public func getQrCode(deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isNfcLateEngagement: Bool = false, allowNfcEngagement: Bool = false) throws -> String {
         do {
-            let qrCode = try LibIso18013Proximity.shared.getQrCodePayload(deviceRetrivalMethods, isNfcLateEngagement: isNfcLateEngagement, allowNfcEngagement: allowNfcEngagement)
+            let qrCode = try LibIso18013Proximity.shared.getQrCodePayload(deviceRetrivalMethods, isNfcLateEngagement: isNfcLateEngagement, allowNfcEngagement: allowNfcEngagement, startEmulationNow: startEmulationNow)
             
             return qrCode
         }
@@ -137,7 +137,7 @@ class Proximity: @unchecked Sendable {
     public func startNfc(_ deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isLateNfc: Bool, allowEngagement: Bool) async throws -> Bool {
         if #available(iOS 17.4, *) {
             
-            return try await LibIso18013Proximity.shared.startNfcEngagement(deviceRetrivalMethods, isLateNfc: isLateNfc, allowEngagement: allowEngagement)
+            return try await LibIso18013Proximity.shared.startNfcEngagement(deviceRetrivalMethods, isLateNfc: isLateNfc, allowEngagement: allowEngagement, startEmulationNow: startEmulationNow)
         } else {
             // Fallback on earlier versions
         }
@@ -484,7 +484,12 @@ class Proximity: @unchecked Sendable {
                     return
                 }
                 
-                var reqElementIdentifiers = reqItems.filter({
+                var reqElementIdentifiers = reqItems.map({
+                    key, value in
+                    return key
+                })
+                
+                var reqElementIdentifiersAllowed = reqItems.filter({
                     key, value in
                     
                     return value
@@ -495,22 +500,22 @@ class Proximity: @unchecked Sendable {
                 
                 
                 guard let items = issuerNs[reqNamespace] else {
-                    nsErrorsToAdd[reqNamespace] = Dictionary(grouping: reqElementIdentifiers,
+                    nsErrorsToAdd[reqNamespace] = Dictionary(grouping: reqElementIdentifiersAllowed,
                                                              by: {$0}).mapValues { _ in 0 }
                     return
                 }
                 
                 var itemsReqSet = Set(reqElementIdentifiers)
-                
+                var itemsReqSetAllowed = Set(reqElementIdentifiersAllowed)
                 
                 let itemsSet = Set(items.map({$0.elementIdentifier}))
-                var itemsToAdd = items.filter({ itemsReqSet.contains($0.elementIdentifier) })
+                var itemsToAdd = items.filter({ itemsReqSetAllowed.contains($0.elementIdentifier) })
                 
                 if itemsToAdd.count > 0 {
                     nsItemsToAdd[reqNamespace] = itemsToAdd
                 }
                 
-                let errorItemsSet = itemsReqSet.subtracting(itemsSet)
+                let errorItemsSet = itemsReqSet.subtracting(Set(itemsToAdd.map({$0.elementIdentifier})))
                 if errorItemsSet.count > 0 {
                     nsErrorsToAdd[reqNamespace] = Dictionary(grouping: errorItemsSet,
                                                              by: { $0 }).mapValues { _ in 0 }
