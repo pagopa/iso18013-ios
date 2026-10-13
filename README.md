@@ -226,18 +226,18 @@ See [ISO18013View.swift](IOWalletProximityExample/IOWalletProximityExample/View/
 
 ### OID4VP Integration
 
-Support for ISO 18013-7 OAuth-based flow:
+Support for mdoc presentations over OpenID4VP 1.0 without the Digital Credentials API:
 
 ```swift
 public func generateOID4VPSessionTranscriptCBOR(
     clientId: String,
     responseUri: String,
     authorizationRequestNonce: String,
-    mdocGeneratedNonce: String
+    jwkThumbprint: [UInt8]?
 ) -> [UInt8]
 ```
 
-Generates CBOR-encoded session transcript for OpenID4VP authorization flows.
+Generates the CBOR-encoded session transcript with the `OpenID4VPHandover` defined in [OpenID4VP 1.0 Appendix B.2.6.1](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#appendix-B.2.6.1). `jwkThumbprint` is the JWK SHA-256 Thumbprint of the Verifier's key used to encrypt the response (`direct_post.jwt`), or `nil` when the response is not encrypted.
 
 ## Utility Methods
 

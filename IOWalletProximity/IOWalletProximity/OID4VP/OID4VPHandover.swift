@@ -8,30 +8,31 @@
 internal import SwiftCBOR
 internal import Crypto
 
+/**
+ * OpenID4VPHandover defined in OpenID4VP 1.0 Appendix B.2.6.1, used when the request
+ * is not received through the Digital Credentials API:
+ * ```
+ * OpenID4VPHandover = ["OpenID4VPHandover", sha-256(cbor(OpenID4VPHandoverInfo))]
+ * OpenID4VPHandoverInfo = [clientId, nonce, jwkThumbprint / null, responseUri]
+ * ```
+ */
 struct OID4VPHandover : CBOREncodable {
     let clientId: String
     let responseUri: String
     let authorizationRequestNonce: String
-    let mdocGeneratedNonce: String
+    let jwkThumbprint: [UInt8]?
     
     func toCBOR(options: SwiftCBOR.CBOROptions) -> SwiftCBOR.CBOR {
-        let encodedClientId = CBOR(arrayLiteral:
+        let encodedHandoverInfo = CBOR(arrayLiteral:
             .utf8String(clientId),
-            .utf8String(mdocGeneratedNonce)
+            .utf8String(authorizationRequestNonce),
+            jwkThumbprint.map { .byteString($0) } ?? .null,
+            .utf8String(responseUri)
         ).encode()
-        
-        let encodedResponseUri = CBOR(arrayLiteral:
-            .utf8String(responseUri),
-            .utf8String(mdocGeneratedNonce)
-        ).encode()
-        
-        let clientIdChecksum = calcSHA256Hash(encodedClientId)
-        let responseUriChecksum = calcSHA256Hash(encodedResponseUri)
         
         return CBOR(arrayLiteral:
-            .byteString(clientIdChecksum),
-            .byteString(responseUriChecksum),
-            .utf8String(authorizationRequestNonce)
+            .utf8String("OpenID4VPHandover"),
+            .byteString(calcSHA256Hash(encodedHandoverInfo))
         )
     }
     
