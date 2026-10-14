@@ -122,7 +122,7 @@ class Proximity: @unchecked Sendable {
     
     //  Generate the QRCode string
     //  - Returns: A string containing the DeviceEngagement data necessary to start the verification process
-    public func getQrCode(deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isNfcLateEngagement: Bool = false, allowNfcEngagement: Bool = false) throws -> String {
+    public func getQrCode(deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isNfcLateEngagement: Bool = false, allowNfcEngagement: Bool = false, startEmulationNow: Bool) throws -> String {
         do {
             let qrCode = try LibIso18013Proximity.shared.getQrCodePayload(deviceRetrivalMethods, isNfcLateEngagement: isNfcLateEngagement, allowNfcEngagement: allowNfcEngagement)
             
@@ -134,7 +134,7 @@ class Proximity: @unchecked Sendable {
     }
     
     
-    public func startNfc(_ deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isLateNfc: Bool, allowEngagement: Bool) async throws -> Bool {
+    public func startNfc(_ deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isLateNfc: Bool, allowEngagement: Bool, startEmulationNow: Bool) async throws -> Bool {
         if #available(iOS 17.4, *) {
             
             return try await LibIso18013Proximity.shared.startNfcEngagement(deviceRetrivalMethods, isLateNfc: isLateNfc, allowEngagement: allowEngagement)
