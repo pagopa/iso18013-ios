@@ -52,10 +52,20 @@ class LibIso18013Proximity: @unchecked Sendable {
     
     private var retrivalMethodsStarted: Bool = false
     
+    private var _nfcEmulationInProgress: Bool = false
+    
     @available(iOS 17.4, *)
-    public func startNfcDataTransfer(_ allowEngagement: Bool = false) async throws -> Bool {
+    public func startNfcDataTransfer(_ allowEngagement: Bool = false, startEmulationNow: Bool) async throws -> Bool {
         print("startNfcDataTransfer allowEngagement: \(allowEngagement)")
+        
+        print("_nfcEmulationInProgress: \(_nfcEmulationInProgress)")
+        
         do {
+            
+            if _nfcEmulationInProgress {
+                return false
+            }
+            
             guard let deviceEngagement = self.deviceEngagement else {
                 return false
             }
@@ -74,20 +84,35 @@ class LibIso18013Proximity: @unchecked Sendable {
                 status in
                 
                 if (status == .onEngagementDone) {
-                    print("onEngagementDone")
+                    print("nfc: onEngagementDone")
                     self.bleServer?.handOver = nfc.handOver!
                 }
+                
+                if (status == .onStop) {
+                    print("nfc: onStop")
+                    self.retrivalMethodsStarted = false
+                }
+                
+                if (status == .onStart) {
+                    self._nfcEmulationInProgress = true
+                }
+                
+                if (status == .onStop) {
+                    self._nfcEmulationInProgress = false
+                }
+                
                 
                 self.nfcHandler?(status)
             }
             
             _nfc = nfc
             
-           
+            self._nfcEmulationInProgress = true
             
-            let success = try await nfc.start()
+            let success = try await nfc.start(startEmulationNow: startEmulationNow)
             
             if (success) {
+                self._nfcEmulationInProgress = true
                 nfcHandler?(.onStart)
             }
             else {
@@ -116,15 +141,16 @@ class LibIso18013Proximity: @unchecked Sendable {
     
     // Start nfc
     @available(iOS 17.4, *)
-    public func startNfcEngagement(_ deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isLateNfc: Bool, allowEngagement: Bool) async throws -> Bool {
+    public func startNfcEngagement(_ deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isLateNfc: Bool, allowEngagement: Bool, startEmulationNow: Bool) async throws -> Bool {
         print("startNfcEngagement")
+        
+        print("_nfcEmulationInProgress: \(_nfcEmulationInProgress)")
+        
         do {
         
             try initDeviceEngagement(deviceRetrivalMethods)
             
-            try startRetrivalMethods(deviceRetrivalMethods, true, isNfcLateEngagement: isLateNfc)
-            
-            
+            try startRetrivalMethods(deviceRetrivalMethods, true, isNfcLateEngagement: isLateNfc, startEmulationNow: startEmulationNow)
             
             if deviceRetrivalMethods.contains(.nfc) {
                 return true
@@ -140,6 +166,14 @@ class LibIso18013Proximity: @unchecked Sendable {
             nfc.nfcHandler = {
                 status in
                 
+                if (status == .onStart) {
+                    self._nfcEmulationInProgress = true
+                }
+                
+                if (status == .onStop) {
+                    self._nfcEmulationInProgress = false
+                }
+                
                 if (status == .onEngagementDone) {
                     self.bleServer?.handOver = nfc.handOver!
                 }
@@ -152,9 +186,12 @@ class LibIso18013Proximity: @unchecked Sendable {
             
             //bleServer?.handOver = nfc.handOver
             
-            let success = try await nfc.start()
+            self._nfcEmulationInProgress = true
+            
+            let success = try await nfc.start(startEmulationNow: startEmulationNow)
             
             if (success) {
+                self._nfcEmulationInProgress = true
                 nfcHandler?(.onStart)
             }
             else {
@@ -186,16 +223,20 @@ class LibIso18013Proximity: @unchecked Sendable {
         
         try await nfc.stop()
         
+        self._nfc = nil
+        
+        self._nfcEmulationInProgress = false
+        
         return true
     }
     
     
     // Generates and returns the QR code payload
-    public func getQrCodePayload(_ deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isNfcLateEngagement: Bool = false, allowNfcEngagement: Bool = false) throws -> String {
+    public func getQrCodePayload(_ deviceRetrivalMethods: [ISO18013DataTransferMode] = [.ble, .nfc], isNfcLateEngagement: Bool = false, allowNfcEngagement: Bool = false, startEmulationNow: Bool) throws -> String {
         
         try initDeviceEngagement(deviceRetrivalMethods)
         
-        try startRetrivalMethods(deviceRetrivalMethods, allowNfcEngagement, isNfcLateEngagement: isNfcLateEngagement)
+        try startRetrivalMethods(deviceRetrivalMethods, allowNfcEngagement, isNfcLateEngagement: isNfcLateEngagement, startEmulationNow: startEmulationNow)
         
         // Try to get the QR code payload from device engagement, throw an error if it is not available
         guard let qrCodePayload = deviceEngagement?.getQrCodePayload() else {
@@ -206,9 +247,10 @@ class LibIso18013Proximity: @unchecked Sendable {
         return qrCodePayload
     }
     
-    private func startRetrivalMethods(_ deviceRetrivalMethods: [ISO18013DataTransferMode], _ allowEngagement: Bool, isNfcLateEngagement: Bool = false) {
+    private func startRetrivalMethods(_ deviceRetrivalMethods: [ISO18013DataTransferMode], _ allowEngagement: Bool, isNfcLateEngagement: Bool = false, startEmulationNow: Bool) {
         
         print("startRetrivalMethods allowEngagement: \(allowEngagement) isLate: \(isNfcLateEngagement)")
+        print("_nfcEmulationInProgress: \(_nfcEmulationInProgress)")
         
         if retrivalMethodsStarted {
             print("retrivalMethods already started")
@@ -216,7 +258,13 @@ class LibIso18013Proximity: @unchecked Sendable {
             if isNfcLateEngagement {
                 print("retrivalMethods already started and isNfcLateEngagement")
                 return
+            } else {
+                
+                if _nfcEmulationInProgress {
+                    return
+                }
             }
+            
             
            
         }
@@ -235,8 +283,10 @@ class LibIso18013Proximity: @unchecked Sendable {
                     print("isNfcLateEngagement: \(isNfcLateEngagement)")
                     if !isNfcLateEngagement {
                         if #available(iOS 17.4, *) {
+                            self._nfcEmulationInProgress = true
                             Task {
-                                try await startNfcDataTransfer(allowEngagement)
+                                
+                                try await startNfcDataTransfer(allowEngagement, startEmulationNow: startEmulationNow)
                             }
                         } else {
                             // No NFC supported

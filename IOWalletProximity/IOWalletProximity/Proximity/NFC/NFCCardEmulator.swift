@@ -16,6 +16,7 @@ class NFCCardEmulator : @unchecked Sendable {
     }
     
     func setMessage(message: String) {
+        
         cardSession?.alertMessage = message
     }
     
@@ -60,16 +61,21 @@ class NFCCardEmulator : @unchecked Sendable {
         self.cardSession = nil
         self.presentmentIntent = nil
         
+        print("session stopped")
+        
     }
     
+    
     deinit {
+        
         print("deinit card emulator")
         self.cardSession?.invalidate()
         self.cardSession = nil
         self.presentmentIntent = nil
     }
     
-    func start() async throws -> Bool {
+    func start(startEmulationNow: Bool) async throws -> Bool {
+        
         // Proceed only if the current device and system are able and
         // eligible to use CardSession.
         guard NFCReaderSession.readingAvailable,
@@ -80,17 +86,29 @@ class NFCCardEmulator : @unchecked Sendable {
         
         var presentmentIntent: NFCPresentmentIntentAssertion?
         
-        let cardSession: CardSession
+        var cardSession: CardSession?
         
         do {
+            print("STARTING CARD SESSION!")
             cardSession = try await CardSession()
-            
-            try await cardSession.startEmulation()
+            if startEmulationNow {
+                try await cardSession?.startEmulation()
+            }
+            else {
+                presentmentIntent = try await NFCPresentmentIntentAssertion.acquire()
+            }
             
         } catch {
             print("CardSession() error: \(error)")
+            print(cardSession)
+            cardSession?.invalidate()
+            delegate.cardSessionError(error)
             /// Handle failure to acquire NFC presentment intent assertion or
             /// card session.
+            return false
+        }
+        
+        guard let cardSession else {
             return false
         }
         
@@ -182,4 +200,5 @@ class NFCCardEmulator : @unchecked Sendable {
 protocol NFCCardEmulatorDelegate : Sendable {
     func processAPDU(_ cardSession: CardSession, _ apduRequest: APDURequest) async -> APDUResponse
     func emulationStatusChanged(_ event: CardSession.Event)
+    func cardSessionError(_ error: any Error)
 }
