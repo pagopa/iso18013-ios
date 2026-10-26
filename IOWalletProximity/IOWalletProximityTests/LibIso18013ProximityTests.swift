@@ -25,7 +25,7 @@ class LibIso18013ProximityTests: XCTestCase {
         proximityLib.setListener(listener)
         
         XCTAssertNoThrow(try {
-            let payload = try proximityLib.getQrCodePayload()
+            let payload = try proximityLib.getQrCodePayload(startEmulationNow: false)
             XCTAssertFalse(payload.isEmpty, "QR code payload should not be empty")
         }())
     }
