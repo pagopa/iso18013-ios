@@ -393,14 +393,14 @@ extension ISO18013 {
     }
     
     /**
-     * Generate session transcript with OID4VPHandover
-     * This method is used for ISO 18013-7 OID4VP flow.
+     * Generate session transcript with the OpenID4VPHandover of OpenID4VP 1.0 (Appendix B.2.6.1)
+     * This method is used for OpenID4VP flows not using the Digital Credentials API.
      *
      * - Parameters:
-     *   - clientId: Authorization Request 'client_id'
+     *   - clientId: Authorization Request 'client_id', including its prefix
      *   - responseUri: Authorization Request 'response_uri'
      *   - authorizationRequestNonce: Authorization Request 'nonce'
-     *   - mdocGeneratedNonce: cryptographically random number with sufficient entropy
+     *   - jwkThumbprint: JWK SHA-256 Thumbprint (RFC 7638) of the Verifier's key used to encrypt the response, nil when the response is not encrypted
      *
      * - Returns: A CBOR-encoded SessionTranscript object
      */
@@ -408,13 +408,13 @@ extension ISO18013 {
          clientId: String,
          responseUri: String,
          authorizationRequestNonce: String,
-         mdocGeneratedNonce: String
+         jwkThumbprint: [UInt8]?
      ) -> [UInt8] {
          return Proximity.shared.generateOID4VPSessionTranscriptCBOR(
             clientId: clientId,
             responseUri: responseUri,
             authorizationRequestNonce: authorizationRequestNonce,
-            mdocGeneratedNonce: mdocGeneratedNonce
+            jwkThumbprint: jwkThumbprint
          )
      }
 }
