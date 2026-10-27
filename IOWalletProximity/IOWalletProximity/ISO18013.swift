@@ -37,16 +37,31 @@ public enum ISO18013Event: Sendable {
     case dataTransferStopped
 }
 
+// A document requested by the verifier app
+//  - isAuthenticated: whether readerAuth is valid and its certificate chain is trusted
+//  - certificateData: the issuer fields of the reader certificate
+//  - isSignatureValid: whether readerAuth is valid, whether the certificate chain is trusted or not
+//  - readerAuth: the CBOR encoded ReaderAuth (COSE_Sign1), when the request is signed
+//  - readerCertificateChain: the DER encoded x5chain of readerAuth, starting with the leaf
+//  - requestInfo: the CBOR encoded requestInfo of the ItemsRequest, e.g. with the registration certificate
+public typealias ISO18013DocumentRequest = (
+    docType: String,
+    nameSpaces: [String: [String: Bool]],
+    isAuthenticated: Bool,
+    certificateData: [String: String]?,
+    isSignatureValid: Bool,
+    readerAuth: [UInt8]?,
+    readerCertificateChain: [[UInt8]]?,
+    requestInfo: [UInt8]?
+)
+
 // Request from the verifier app
 public struct ISO18013DataTransferArgs: Sendable {
     public let engagementMethod: ISO18013EngagementMode
     public let retrivalMethod: ISO18013DataTransferMode
-    public let request: [
-        (docType: String,
-         nameSpaces: [String: [String: Bool]],
-         isAuthenticated: Bool,
-         certificateData: [String: String]?)
-    ]?
+    public let request: [ISO18013DocumentRequest]?
+    // The CBOR encoded SessionTranscript of the session
+    public let sessionTranscript: [UInt8]?
 }
 
 // Available engagement modes
@@ -180,7 +195,8 @@ public class ISO18013 : @unchecked Sendable {
             triggerEvent(.dataTransferStarted(
                 ISO18013DataTransferArgs(
                     engagementMethod: nfcEngagement ? .nfc : .qrCode,
-                    retrivalMethod: nfcDataTransfer ? .nfc : .ble, request: request)
+                    retrivalMethod: nfcDataTransfer ? .nfc : .ble, request: request,
+                    sessionTranscript: Proximity.shared.sessionTranscript())
             )
             )
             break
@@ -331,14 +347,16 @@ extension ISO18013 {
      * - Parameters:
      *   - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
      *   - documents: List of documents.
+     *   - otherDocuments: optional list of documents in other formats, already presented, e.g. SD-JWT VC
      *   - sessionTranscript: optional CBOR encoded session transcript
      *
      * - Returns: A CBOR-encoded DeviceResponse object
      */
     public func generateDeviceResponse(items: [String: [String: [String: Bool]]]?,
                                                documents: [ProximityDocument]?,
+                                       otherDocuments: [ProximityOtherDocument]? = nil,
                                        sessionTranscript: [UInt8]?) throws -> [UInt8] {
-        return try Proximity.shared.generateDeviceResponse(items: items, documents: documents, sessionTranscript: sessionTranscript)
+        return try Proximity.shared.generateDeviceResponse(items: items, documents: documents, otherDocuments: otherDocuments, sessionTranscript: sessionTranscript)
     }
     
     //  Responds to a request for data from the reader with deviceResponse.
