@@ -7,7 +7,7 @@
 internal import SwiftCBOR
 import Foundation
 
-public enum ProximityError : Error, CustomStringConvertible {
+public enum ProximityError : LocalizedError, CustomStringConvertible {
     case nullObject(objectName: String)
     case decodingFailed(objectName: String)
     case error(error: Error)
@@ -36,6 +36,11 @@ public enum ProximityError : Error, CustomStringConvertible {
         case .nfcEngagementWihtEngagementDisabled:
             return "Performing NFC Engagement with disabled engagement"
         }
+    }
+    
+    // The description is the localizedDescription too, instead of "ProximityError error N"
+    public var errorDescription: String? {
+        return description
     }
 }
 
@@ -70,12 +75,7 @@ public enum ProximityEvents {
     case onDeviceConnected
     
     //The device has received a new request from the verifier app
-    case onDocumentRequestReceived(request: [
-        (docType: String,
-         nameSpaces: [String: [String: Bool]],
-         isAuthenticated: Bool,
-         certificateData: [String: String]?)
-    ]?)
+    case onDocumentRequestReceived(request: [ISO18013DocumentRequest]?)
     
     //The device has received the termination flag from the verifier app
     case onDeviceDisconnected
@@ -258,12 +258,14 @@ class Proximity: @unchecked Sendable {
      * - Parameters:
      *   - items: json of map of [documentType: [nameSpace: [elementIdentifier: allowed]]]
      *   - documents: List of documents.
+     *   - otherDocuments: optional list of documents in other formats, already presented, e.g. SD-JWT VC
      *   - sessionTranscript: optional CBOR encoded session transcript
      *
      * - Returns: A CBOR-encoded DeviceResponse object
      */
     public func generateDeviceResponse(items: [String: [String: [String: Bool]]]?,
                                                documents: [ProximityDocument]?,
+                                               otherDocuments: [ProximityOtherDocument]? = nil,
                                                sessionTranscript: [UInt8]?) throws -> [UInt8] {
        
         
@@ -276,13 +278,14 @@ class Proximity: @unchecked Sendable {
         })
         
         
-        return try generateDeviceResponseCBOR(items: items, documents: documentsWithKeys, sessionTranscript: sessionTranscript)
+        return try generateDeviceResponseCBOR(items: items, documents: documentsWithKeys, otherDocuments: otherDocuments, sessionTranscript: sessionTranscript)
     }
     
     
     private func generateDeviceResponseCBOR(
         items: [String: [String: [String: Bool]]]?,
         documents: [String: ([UInt8], CoseKeyPrivate)]?,
+        otherDocuments: [ProximityOtherDocument]? = nil,
         sessionTranscript: [UInt8]? = nil
     ) throws -> [UInt8] {
         
@@ -295,7 +298,7 @@ class Proximity: @unchecked Sendable {
             transcript = nil
         }
         
-        let deviceResponse = try generateDeviceResponse(items: items, documents: documents, sessionTranscript: transcript)
+        let deviceResponse = try generateDeviceResponse(items: items, documents: documents, otherDocuments: otherDocuments, sessionTranscript: transcript)
         
         return deviceResponse.encode(options: CBOROptions())
     }
@@ -304,6 +307,7 @@ class Proximity: @unchecked Sendable {
     
     private func generateDeviceResponse(items: [String: [String: [String: Bool]]]?,
                                         documents: [String: ([UInt8], CoseKeyPrivate)]?,
+                                        otherDocuments: [ProximityOtherDocument]? = nil,
                                         sessionTranscript: SessionTranscript?) throws -> DeviceResponse {
         
         var requestedDocuments = [Document]()
@@ -364,15 +368,24 @@ class Proximity: @unchecked Sendable {
         
         let documentsToAdd = requestedDocuments.count == 0 ? nil : requestedDocuments
         
-        let deviceResponseToSend = DeviceResponse(version: DeviceResponse.defaultVersion,
-                                                  documents: documentsToAdd,
+        let otherDocumentsToAdd = otherDocuments?.isEmpty == false ? otherDocuments : nil
+        
+        // The version depends on the structures of the response, e.g. 1.1 with otherDocuments
+        let deviceResponseToSend = DeviceResponse(documents: documentsToAdd,
                                                   documentErrors: documentErrors,
+                                                  otherDocuments: otherDocumentsToAdd,
                                                   status: 0)
         
         return deviceResponseToSend
         
     }
     
+    
+    //  Retrieves the SessionTranscript of the current session
+    //  - Returns: The CBOR encoded SessionTranscript, nil when the session is not established
+    public func sessionTranscript() -> [UInt8]? {
+        return proximityListener?.sessionEncryption?.transcript.encode(options: CBOROptions())
+    }
     
     //  Stops the BLE manager and closes connections.
     public func stop() {
@@ -409,7 +422,7 @@ class Proximity: @unchecked Sendable {
     
     
     
-    func onRequest(request:  [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool, certificateData: [String: String]?)]) {
+    func onRequest(request:  [ISO18013DocumentRequest]) {
         proximityHandler?(.onDocumentRequestReceived(request: request))
     }
     
@@ -417,9 +430,9 @@ class Proximity: @unchecked Sendable {
         onRequest(request: buildDeviceRequestJson(item: deviceRequest))
     }
     
-    func buildDeviceRequestJson(item: DeviceRequest) -> [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool, certificateData: [String: String]?)] {
+    func buildDeviceRequestJson(item: DeviceRequest) -> [ISO18013DocumentRequest] {
         
-        var requestedDocuments: [(docType: String, nameSpaces: [String: [String: Bool]], isAuthenticated: Bool, certificateData: [String: String]?)] = []
+        var requestedDocuments: [ISO18013DocumentRequest] = []
         
         item.docRequests.forEach({
             request in
@@ -450,7 +463,16 @@ class Proximity: @unchecked Sendable {
             
             let isAuthenticated = isSignatureValid && isValidCertificateChain
             
-            requestedDocuments.append((docType: request.itemsRequest.docType, nameSpaces: getRequestedItems(request: request), isAuthenticated: isAuthenticated, certificateData: certDetails))
+            requestedDocuments.append((
+                docType: request.itemsRequest.docType,
+                nameSpaces: getRequestedItems(request: request),
+                isAuthenticated: isAuthenticated,
+                certificateData: certDetails,
+                isSignatureValid: isSignatureValid,
+                readerAuth: request.readerAuthRawCBOR?.encode(),
+                readerCertificateChain: request.readerAuth?.iaca,
+                requestInfo: request.itemsRequest.requestInfo?.encode()
+            ))
         })
         
         return requestedDocuments

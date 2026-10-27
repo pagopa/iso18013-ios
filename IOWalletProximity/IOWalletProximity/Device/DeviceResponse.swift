@@ -15,12 +15,18 @@ struct DeviceResponse {
     public static let defaultVersion = "1.0" // The default version if none is specified.
     public let documents: [Document]?
     public let documentErrors: [DocumentError]?
+    // Documents in formats other than mdoc, e.g. SD-JWT VC (ISO/IEC 18013-5 second edition)
+    public let otherDocuments: [ProximityOtherDocument]?
     public let status: UInt64
+    
+    // The version required by the ISO/IEC 18013-5 second edition structures, e.g. otherDocuments
+    static let secondEditionVersion = "1.1"
     
     enum Keys: String {
         case version
         case documents
         case documentErrors
+        case otherDocuments
         case status
     }
     
@@ -29,16 +35,19 @@ struct DeviceResponse {
     //   - version: Optional version of the response. Defaults to `defaultVersion` if nil.
     //   - documents: Optional array of returned documents.
     //   - documentErrors: Optional array of document errors.
+    //   - otherDocuments: Optional array of documents in other formats. When present, the version defaults to 1.1.
     //   - status: The status code of the response.
     public init(
         version: String? = nil,
         documents: [Document]? = nil,
         documentErrors: [DocumentError]? = nil,
+        otherDocuments: [ProximityOtherDocument]? = nil,
         status: UInt64
     ) {
-        self.version = version ?? Self.defaultVersion
+        self.version = version ?? (otherDocuments == nil ? Self.defaultVersion : Self.secondEditionVersion)
         self.documents = documents
         self.documentErrors = documentErrors
+        self.otherDocuments = otherDocuments
         self.status = status
     }
 }
@@ -73,6 +82,18 @@ extension DeviceResponse: CBORDecodable {
             documentErrors = nil
         }
         
+        // Extract the documents in other formats, if present
+        if case let .array(aro) = cd[Keys.otherDocuments] {
+            let od = aro.compactMap { item -> ProximityOtherDocument? in
+                guard case let .utf8String(docFormat) = item[.utf8String(ProximityOtherDocument.Keys.docFormat.rawValue)],
+                      case let .byteString(data) = item[.utf8String(ProximityOtherDocument.Keys.data.rawValue)] else { return nil }
+                return ProximityOtherDocument(docFormat: docFormat, data: data)
+            }
+            otherDocuments = od.count > 0 ? od : nil
+        } else {
+            otherDocuments = nil
+        }
+        
         // Extract the status value from the CBOR map
         guard case .unsignedInt(let st) = cd[Keys.status] else { return nil }
         status = st
@@ -100,6 +121,11 @@ extension DeviceResponse: CBOREncodable {
         // Encode document errors if they exist
         if let de = documentErrors {
             cbor[.utf8String(Keys.documentErrors.rawValue)] = .array(de.map { $0.toCBOR(options: options) })
+        }
+        
+        // Encode documents in other formats if they exist
+        if let od = otherDocuments {
+            cbor[.utf8String(Keys.otherDocuments.rawValue)] = .array(od.map { $0.toCBOR(options: options) })
         }
         
         // Add the status to the CBOR map

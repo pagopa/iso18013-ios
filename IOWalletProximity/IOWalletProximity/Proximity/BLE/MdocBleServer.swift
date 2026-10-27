@@ -312,6 +312,13 @@ class MdocBleDelegate : NSObject, CBPeripheralManagerDelegate {
                 return
             }
             
+            // Readers often end the session by disconnecting once they receive the response,
+            // without the END command (ISO/IEC 18013-5 clause 8.3.3.1.1.7): the session is terminated anyway
+            if (server.status == .responseSent) {
+                server.status = .disconnected
+                return
+            }
+            
             server.error = ProximityError.disconnectedWithoutProperSessionTermination
         }
     }
